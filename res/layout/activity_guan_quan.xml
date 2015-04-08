@@ -1,0 +1,45 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_bg_color"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/rel_tou"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/head" >
+
+        <ImageView
+            android:id="@+id/guan_quan_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="3dip"
+            android:onClick="doclick"
+            android:src="@drawable/back_bg" />
+
+        <TextView
+            android:id="@+id/textview_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:text="居美喵优惠券"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/guan_list_quan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" 
+        android:layout_margin="8dip"
+        android:layout_weight="1"
+        android:divider="@null"
+        android:fadingEdge="none" />
+
+</LinearLayout>

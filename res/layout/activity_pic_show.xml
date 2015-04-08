@@ -1,0 +1,50 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/pic_first"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black" >
+
+        <ImageView
+            android:id="@+id/picshow_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="3dip"
+            android:onClick="doclick"
+            android:src="@drawable/back_bg" />
+        <TextView
+            android:id="@+id/pic_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:layout_toRightOf="@+id/picshow_back"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:layout_marginLeft="5dp"
+            android:visibility="invisible"
+            />
+    </RelativeLayout>
+
+    <com.jifeng.touchgallery.GalleryWidget.GalleryViewPager
+        android:id="@+id/viewer"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+    <WebView
+         android:id="@+id/webview"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:visibility="gone"
+        />
+
+</LinearLayout>

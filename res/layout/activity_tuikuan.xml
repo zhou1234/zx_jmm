@@ -1,0 +1,144 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_bg_color"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/rel_tou"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/head" >
+
+        <ImageView
+            android:id="@+id/tuikuang_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="3dip"
+            android:onClick="doclick"
+            android:src="@drawable/back_bg" />
+
+        <TextView
+            android:id="@+id/textview_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:text="申请退货"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/title_siae" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="5dip"
+        android:layout_weight="1"
+        android:background="@drawable/tuichu_bg"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dip"
+            android:layout_marginTop="20dip"
+            android:text="退款原因(此项必填):"
+            android:textColor="@color/textcolor"
+            android:textSize="16sp" />
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="35dip"
+            android:layout_marginRight="35dip"
+            android:layout_marginTop="15dip"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/tuikuang_btn_yuanying"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_toLeftOf="@+id/img_tuikuanyuanying"
+                android:background="@drawable/tuikuang_yuanying_1"
+                android:gravity="center_vertical|left"
+                android:paddingLeft="10dip"
+                android:text="请选择退款原因"
+                android:textColor="@color/textcolor" />
+
+            <ImageView
+                android:id="@+id/img_tuikuanyuanying"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:onClick="doclick"
+                android:src="@drawable/tuikuang_yuanying_2" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dip"
+            android:layout_marginTop="15dip"
+            android:orientation="horizontal"
+            android:visibility="gone" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" 
+                android:text="退款金额:"
+                android:textColor="@color/textcolor"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tuikuan_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" 
+                android:text="￥123.00"
+                android:textColor="@color/textcolor"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dip"
+            android:layout_marginTop="15dip"
+            android:text="退货说明:"
+            android:textColor="@color/textcolor"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/tuikuang_shuoming"
+            android:layout_width="fill_parent"
+            android:layout_height="150dip"
+            android:layout_margin="15dip"
+            android:background="@drawable/tuikuang_yuanuying_3"
+            android:gravity="top|left"
+            android:paddingLeft="8dip"
+            android:paddingTop="8dip"
+            android:textColor="@color/textcolor"
+            android:textSize="16sp" />
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+            <Button
+                android:id="@+id/tuikuang_ok"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/login_login_bg"
+                android:onClick="doclick"
+                android:text="提交申请"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</LinearLayout>

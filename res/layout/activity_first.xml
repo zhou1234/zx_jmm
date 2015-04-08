@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:id="@+id/rel_top"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/head" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/main_title" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_tab"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rel_top" >
+
+        <com.jifeng.myview.SyncHorizontalScrollView
+            android:id="@+id/mHsv"
+            android:layout_width="fill_parent"
+            android:layout_height="40dip"
+            android:fadingEdge="none"
+            android:background="#ffffff"
+            android:scrollbars="none" >
+
+            <RelativeLayout
+                android:id="@+id/rl_nav"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top" >
+
+                <RadioGroup
+                    android:id="@+id/rg_nav_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="38dip"
+                    android:layout_alignParentTop="true"
+                    android:orientation="horizontal" >
+                </RadioGroup>
+
+                <ImageView
+                    android:id="@+id/iv_nav_indicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="2dip"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/tab_select" />
+            </RelativeLayout>
+        </com.jifeng.myview.SyncHorizontalScrollView>
+
+        <ImageView
+            android:id="@+id/iv_nav_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:paddingBottom="1dip"
+            android:src="@drawable/iv_navagation_scroll_left"
+            android:visibility="gone" >
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/iv_nav_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingBottom="1dip"
+            android:src="@drawable/iv_navagation_scroll_right"
+            android:visibility="gone" >
+        </ImageView>
+    </RelativeLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/mViewPager"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@id/rl_tab"
+        android:layout_gravity="center"
+        android:background="#ffffff"
+        android:flipInterval="30"
+        android:persistentDrawingCache="animation" />
+
+</RelativeLayout>

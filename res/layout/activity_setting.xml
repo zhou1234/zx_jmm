@@ -1,0 +1,255 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_bg_color"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/rel_tou"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/head" >
+
+        <ImageView
+            android:id="@+id/setting_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="3dip"
+            android:onClick="doclick"
+            android:src="@drawable/back_bg" />
+
+        <TextView
+            android:id="@+id/textview_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:text="设置"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/title_siae" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dip"
+        android:background="@drawable/setting_first_bg"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:id="@+id/setting_rel_cleanHuancun"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/myself_click_bg"
+            android:onClick="doclick" >
+
+            <ImageView
+                android:id="@+id/imageView_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="9dip"
+                android:layout_marginLeft="15dip"
+                android:layout_marginTop="9dip"
+                android:layout_toRightOf="@+id/textView_text"
+                android:src="@drawable/myself_youhuiquan"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:id="@+id/imageView_jiantou"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dip"
+                android:src="@drawable/jiantou" />
+
+            <TextView
+                android:id="@+id/textView_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="18dip"
+                android:maxEms="8"
+                android:text="清除缓存"
+                android:textColor="@color/textcolor"
+                android:textSize="16sp" />
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:background="@drawable/logo_xian" />
+
+        <RelativeLayout
+            android:id="@+id/setting_rel_kefudianhua"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/myself_click_bg"
+            android:onClick="doclick" >
+
+            <ImageView
+                android:id="@+id/imageView_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="9dip"
+                android:layout_marginLeft="15dip"
+                android:layout_marginTop="9dip"
+                android:layout_toRightOf="@+id/textView_text"
+                android:src="@drawable/myself_address"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:id="@+id/imageView_jiantou"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dip"
+                android:src="@drawable/jiantou" />
+
+            <TextView
+                android:id="@+id/textView_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="18dip"
+                android:maxEms="8"
+                android:text="客服电话"
+                android:textColor="@color/textcolor"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textView_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="8dip"
+                android:layout_toLeftOf="@+id/imageView_jiantou"
+                android:text="4009696876"
+                android:textColor="@color/tab_select"
+                android:textSize="16sp" />
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:background="@drawable/logo_xian" />
+
+        <RelativeLayout
+            android:id="@+id/setting_rel_banbengengxin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/setting_second_bg"
+            android:onClick="doclick" >
+
+            <ImageView
+                android:id="@+id/imageView_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="9dip"
+                android:layout_marginLeft="15dip"
+                android:layout_marginTop="9dip"
+                android:layout_toRightOf="@+id/textView_text"
+                android:src="@drawable/myself_youhuiquan"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:id="@+id/imageView_jiantou"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dip"
+                android:src="@drawable/jiantou" />
+
+            <TextView
+                android:id="@+id/textView_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="18dip"
+                android:maxEms="8"
+                android:text="版本更新"
+                android:textColor="@color/textcolor"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/setting_banben"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="8dip"
+                android:layout_toLeftOf="@+id/imageView_jiantou"
+                android:text=""
+                android:textColor="@color/textcolor"
+                android:textSize="16sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/setting_rel_yijianfankui"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/myself_click_bg"
+            android:onClick="doclick"
+            android:visibility="gone" >
+
+            <ImageView
+                android:id="@+id/imageView_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="9dip"
+                android:layout_marginLeft="15dip"
+                android:layout_marginTop="9dip"
+                android:layout_toRightOf="@+id/textView_text"
+                android:src="@drawable/myself_save"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:id="@+id/imageView_jiantou"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dip"
+                android:src="@drawable/jiantou" />
+
+            <TextView
+                android:id="@+id/textView_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="18dip"
+                android:maxEms="8"
+                android:text="在线客服"
+                android:textColor="@color/textcolor"
+                android:textSize="16sp" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <!--
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dip"
+        android:background="@drawable/address_item_2"
+        android:orientation="vertical" >
+
+         
+    </LinearLayout>
+    -->
+
+</LinearLayout>

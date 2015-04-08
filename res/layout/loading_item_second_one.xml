@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <com.ab.view.pullview.AbPullToRefreshView
+        android:id="@+id/mPullRefreshView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <ScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <RelativeLayout
+                    android:id="@+id/liner_second"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dip"
+                    android:orientation="horizontal" >
+
+                    <com.jifeng.myview.My_ViewPager
+                        android:id="@+id/pic_viewPager"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_alignParentLeft="true"
+                        android:gravity="fill_horizontal"
+                        android:spacing="1dip" >
+                    </com.jifeng.myview.My_ViewPager>
+
+                    <LinearLayout
+                        android:id="@+id/yuandian"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginBottom="5dip"
+                        android:orientation="horizontal" >
+                    </LinearLayout>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/relative_second"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/liner_second" >
+
+                    <ImageView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dip"
+                        android:src="@drawable/jumeimiao_time" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" >
+
+                    <com.jifeng.myview.My_ListView
+                        android:id="@+id/main_first_list"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_marginTop="5dip"
+                        android:cacheColorHint="#00000000"
+                        android:divider="@drawable/list_divider"
+                        android:dividerHeight="1dip" >
+                    </com.jifeng.myview.My_ListView>
+                </RelativeLayout>
+            </LinearLayout>
+        </ScrollView>
+    </com.ab.view.pullview.AbPullToRefreshView>
+
+    <ImageView
+        android:id="@+id/goodslist_zhiding"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="80dp"
+        android:layout_marginRight="30dp"
+        android:onClick="doclick"
+        android:src="@drawable/zhiding"
+        android:visibility="gone" />
+
+    <RelativeLayout
+        android:id="@+id/rl_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@drawable/bg" >
+
+        <com.jifeng.myview.ProgressImageView
+            android:id="@+id/progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_margin="8dip"
+            android:src="@drawable/progress_round" />
+    </RelativeLayout>
+
+</RelativeLayout>

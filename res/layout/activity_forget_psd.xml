@@ -1,0 +1,144 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_bg_color"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/rel_tou"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/head" >
+
+        <ImageView
+            android:id="@+id/forget_psd_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="3dip"
+            android:onClick="doclick"
+            android:src="@drawable/back_bg" />
+
+        <TextView
+            android:id="@+id/forget_psd_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:text="忘记密码"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/liner_input"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="15dip"
+        android:layout_marginLeft="11dip"
+        android:layout_marginRight="11dip"
+        android:layout_marginTop="25dip"
+        android:background="@drawable/forget_psd_1"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dip"
+            android:layout_weight="1" >
+
+            <EditText
+                android:id="@+id/forget_psd_edt_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/forget_psd_btn_code"
+                android:layout_alignParentLeft="true"
+                android:layout_alignTop="@+id/forget_psd_btn_code"
+                android:layout_toLeftOf="@+id/forget_psd_btn_code"
+                android:background="@null"
+                android:gravity="center_vertical|left"
+                android:hint="请输入您的手机号码"
+                android:inputType="number"
+                android:paddingLeft="5dip" 
+                android:textColor="@color/text_color"
+                android:textColorHint="@color/text_color"
+                android:textSize="15sp" />
+
+            <ImageView
+                android:id="@+id/img_forget"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/querenshouhuo"
+                android:visibility="invisible" />
+
+            <Button
+                android:id="@+id/forget_psd_btn_code"
+                android:layout_width="120dip"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/img_forget"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@+id/img_forget"
+                android:layout_marginRight="3dip"
+                android:background="@drawable/register_get_code_2"
+                android:onClick="doclick"
+                android:src="@drawable/back2"
+                android:text="获取短信验证"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/logo_xian" />
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dip"
+            android:layout_weight="1" >
+
+            <EditText
+                android:id="@+id/forget_psd_edt_code"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/img_forget"
+                android:layout_alignTop="@+id/img_forget"
+                android:background="@null"
+                android:gravity="center_vertical|left"
+                android:hint="请输入短信验证码"
+                android:paddingLeft="5dip"
+                android:password="true" 
+                android:textColor="@color/text_color"
+                android:textColorHint="@color/text_color"
+                android:textSize="15sp" />
+
+            <ImageView
+                android:id="@+id/img_forget"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/querenshouhuo"
+                android:visibility="invisible" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <Button 
+        android:id="@+id/forget_psd_btn_check"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dip"
+        android:layout_marginRight="8dip"
+        android:layout_marginTop="15dip"
+        android:background="@drawable/login_login_bg"
+        android:onClick="doclick"
+        android:text="验证"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
+</LinearLayout>

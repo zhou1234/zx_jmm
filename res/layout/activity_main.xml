@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/main_bg_color" >
+
+        <RelativeLayout
+            android:id="@+id/rel_top"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" 
+            android:background="@drawable/head"
+            >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/main_title" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rel_main_top"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rel_top" >
+
+            <LinearLayout
+                android:id="@+id/main_radio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:orientation="horizontal" >
+
+                <Button
+                    android:id="@+id/radio_button_news"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/main_btn_touming"
+                    android:drawableBottom="@drawable/main_ok_select_ok"
+                    android:text="最新特卖"
+                    android:textColor="@color/tab_select"
+                    android:textSize="16sp" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/main_rel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rel_main_top"
+            android:orientation="vertical"
+            android:visibility="invisible" >
+
+            <ImageView
+                android:id="@+id/img_mao"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dip"
+                android:src="@drawable/shuaxin_mao" />
+
+            <ImageView
+                android:id="@+id/img_wenzi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/img_mao"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/shuaxin_wenzi"
+                android:visibility="invisible" />
+        </LinearLayout>
+        
+            
+        <android.support.v4.view.ViewPager
+            android:id="@+id/my_pager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rel_main_top"
+            android:background="@drawable/transparent" />
+
+        <RelativeLayout
+            android:id="@+id/wifi_rel_bg"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@color/wifi_bg_color"
+            android:visibility="gone" >
+
+            <ImageView
+                android:id="@+id/img_wifi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:onClick="doclick"
+                android:src="@drawable/errorwifi" />
+        </RelativeLayout>
+        <ImageView
+            android:id="@+id/main_zhiding"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/main_zhiding_false"
+            android:layout_alignParentRight="true" 
+            android:layout_marginRight="33dip"
+            android:onClick="doclick"
+            android:visibility="gone"
+            android:src="@drawable/zhiding" />
+        <ImageView
+            android:id="@+id/main_zhiding_false"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true" 
+            android:layout_marginRight="33dip"
+            android:src="@drawable/zhiding" 
+            android:visibility="invisible"/>
+
+    </RelativeLayout>
+
+</FrameLayout>

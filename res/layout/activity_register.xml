@@ -1,0 +1,387 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_bg_color"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/rel_tou"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/head" >
+
+        <ImageView
+            android:id="@+id/register_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="3dip"
+            android:onClick="doclick"
+            android:src="@drawable/back_bg" />
+
+        <TextView
+            android:id="@+id/textview_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:text="注册"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/title_siae" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dip"
+        android:background="@drawable/register_bg_1"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
+
+            <EditText
+                android:id="@+id/register_phone"
+                android:layout_width="fill_parent"
+                android:layout_height="45dip"
+                android:layout_centerVertical="true"
+                android:background="@null"
+                android:hint="请输入您的手机号"
+                android:paddingLeft="10dip"
+                android:inputType="number"
+                android:textColor="@color/textcolor"
+                android:textColorHint="@color/text_edt_color"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/back2"
+                android:visibility="invisible" />
+        </RelativeLayout>
+
+        <!--ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/logo_xian" /-->
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" android:visibility="gone">
+
+            <EditText
+                android:id="@+id/register_code"
+                android:layout_width="fill_parent"
+                android:layout_height="45dip"
+                android:layout_centerVertical="true"
+                android:background="@null"
+                android:hint="输入短信验证码"
+                android:layout_alignParentLeft="true"
+                android:layout_toLeftOf="@+id/register_btn_getcode"
+                android:paddingLeft="10dip"
+                android:textColor="@color/textcolor"
+                
+                android:textColorHint="@color/text_edt_color"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/register_btn_getcode"
+                android:layout_width="120dip"
+                android:layout_height="40dip"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/back2"
+                android:layout_centerVertical="true"
+                android:text="获取短信验证"
+                android:textSize="16sp"
+                android:layout_marginRight="3dip"
+                android:onClick="doclick"
+                android:textColor="@color/white"
+                android:background="@drawable/register_get_code" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/back2"
+                android:visibility="invisible" />
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/logo_xian" />
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
+
+            <EditText
+                android:id="@+id/register_psd_1"
+                android:layout_width="fill_parent"
+                android:layout_height="45dip"
+                android:layout_centerVertical="true"
+                android:background="@null"
+                android:hint="输入密码"
+                android:paddingLeft="10dip"
+                android:password="true"
+                android:textColor="@color/textcolor"
+                android:textColorHint="@color/text_edt_color"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/back2"
+                android:visibility="invisible" />
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/logo_xian" />
+        
+        
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <EditText
+                android:id="@+id/m_code"
+                android:layout_width="220dip"
+                android:layout_height="45dip"
+                android:layout_centerVertical="true"
+                android:background="@null"
+                android:hint="输入验证码"
+                android:paddingLeft="10dip"
+                android:textColor="@color/textcolor"
+                android:textColorHint="@color/text_edt_color"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/img_code"
+                android:layout_width="64dip"
+                android:layout_height="28dip"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dip"
+                android:layout_toLeftOf="@+id/fresh_code"
+                android:layout_marginLeft="120dip" />
+            
+            <ImageView
+                android:id="@+id/fresh_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:onClick="doclick"
+                android:layout_marginRight="10dip"
+                android:src="@drawable/default_ptr_rotate"/>
+        </RelativeLayout>
+        
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/logo_xian" />
+
+      <!--  <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
+
+            <EditText
+                android:id="@+id/register_psd_2"
+                android:layout_width="fill_parent"
+                android:layout_height="45dip"
+                android:layout_centerVertical="true"
+                android:background="@null"
+                android:hint="确认密码"
+                android:password="true"
+                android:paddingLeft="10dip"
+                android:textColor="@color/textcolor"
+                android:textColorHint="@color/text_edt_color"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/back2"
+                android:visibility="invisible" />
+        </RelativeLayout>
+
+        
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/logo_xian" />
+
+         <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:text="生辰日期"
+                android:textColor="@color/text_edt_color"
+                android:textSize="16sp" />
+
+            <EditText
+                android:layout_width="80dip"
+                android:layout_height="45dip"
+                android:layout_centerVertical="true"
+                android:background="@null"
+                android:gravity="center"
+                android:inputType="number"
+                android:maxLength="4"
+                android:paddingLeft="8dip"
+                android:text=""
+                android:textColor="@color/textcolor"
+                android:textColorHint="@color/text_color"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="年"
+                android:textColor="@color/text_edt_color"
+                android:textSize="16sp" />
+
+            <EditText
+                android:layout_width="60dip"
+                android:layout_height="45dip"
+                android:layout_centerVertical="true"
+                android:background="@null"
+                android:gravity="center"
+                android:inputType="number"
+                android:maxLength="2"
+                android:paddingLeft="8dip"
+                android:textColor="@color/textcolor"
+                android:textColorHint="@color/text_color"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="月"
+                android:textColor="@color/text_edt_color"
+                android:textSize="16sp" />
+
+            <EditText
+                android:layout_width="50dip"
+                android:layout_height="45dip"
+                android:layout_centerVertical="true"
+                android:background="@null"
+                android:gravity="center"
+                android:inputType="number"
+                android:maxLength="2"
+                android:paddingLeft="8dip"
+                android:textColor="@color/textcolor"
+                android:textColorHint="@color/text_color"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="日"
+                android:textColor="@color/text_edt_color"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/back2"
+                android:visibility="invisible" />
+        </LinearLayout>
+        -->
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/logo_xian" />
+
+        <!-- <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dip"
+            android:layout_weight="1"
+            android:orientation="horizontal" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:orientation="horizontal" >
+
+                <RadioButton
+                    android:id="@+id/register_woman"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:button="@null"
+                    android:drawableLeft="@drawable/register_select_1"
+                    android:onClick="doclick"
+                    android:text="女士"
+                    android:textColor="@color/text_edt_color"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:orientation="horizontal" >
+
+                <RadioButton
+                    android:id="@+id/register_man"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:button="@null"
+                    android:drawableLeft="@drawable/register_select_1"
+                    android:onClick="doclick"
+                    android:text="男士"
+                    android:textColor="@color/text_edt_color"
+                    android:textSize="16sp" />
+            </LinearLayout>
+        </LinearLayout> -->
+    </LinearLayout>
+
+<!--     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="8dip"
+        android:text="性别选择后不允许更改"
+        android:textColor="@color/text_edt_color"
+        android:textSize="10sp" /> -->
+
+    <Button
+        android:id="@+id/register_btn_ok"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dip"
+        android:layout_marginRight="8dip"
+        android:layout_marginTop="15dip"
+        android:background="@drawable/register_bg"
+        android:onClick="doclick"
+        android:text="注册"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
+</LinearLayout>

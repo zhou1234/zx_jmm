@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+    <color name="textcolor">#363636</color>
+     <color name="text_edt_color">#b9b9b9</color> 
+    <color name="red">#FF0000</color>
+    
+    <color name="halftransparent">#b0000000</color>
+   <!--  <color name="main_bg_color">#fafafa</color> -->
+   <!--  <color name="text_color">#8c827d</color>   -->
+    
+     <color name="text_zhifu_status">#ffba00</color>
+      <color name="text_zhifu_price">#ec6000</color>
+     <color name="text_zhifubao_zhifu">#002014</color>
+    
+    <item name="transparent" type="drawable">#00000000</item> 
+    
+    <!-- 扫码 -->
+    <color name="result_view">#b0000000</color>
+    <color name="viewfinder_mask">#60000000</color>
+    <color name="possible_result_points">#c0ffff00</color>
+
+    <!-- tableBar选中颜色 -->
+    <color name="tab_select">#ff641c</color>
+    <!-- 首页未选中的颜色 -->
+    <color name="main_no_select">#ffbb9c</color>
+    
+    
+    <color name="sliding_menu_item_down">#ff39393b</color>
+    <color name="sliding_menu_item_release">#00000000</color>
+    <color name="sliding_menu_background">#ff2c2c2e</color>
+    <color name="sliding_menu_body_background">#fff5f5f5</color>
+    
+    <!--WheelView 线颜色  -->
+    <color name="province_line_border">#C7C7C7</color>
+    
+    <!-- 首页背景颜色 -->
+     <color name="main_bg_color">#f3f3f3</color>
+     <color name="wifi_bg_color">#e8e8e8</color>
+     
+     <!-- 美喵说产品列表页 -->
+     <color name="goodlist_bg">#303030</color>
+     <!-- 个人主页 -->
+     <color name="myself_head">#e74500</color>
+     
+    
+</resources>

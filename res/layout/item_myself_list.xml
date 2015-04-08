@@ -1,0 +1,59 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="1dip"
+        android:background="@drawable/logo_xian" />
+
+    <RelativeLayout
+        android:id="@+id/rel_myalldindan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/myself_click_bg"
+        android:onClick="doclick" >
+
+        <ImageView
+            android:id="@+id/myself_item_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="9dip"
+            android:layout_marginLeft="15dip"
+            android:layout_marginTop="9dip"
+            android:src="@drawable/myself_allorder" />
+
+        <ImageView
+            android:id="@+id/imageView_jiantou"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dip"
+            android:src="@drawable/jiantou" />
+
+        <TextView
+            android:id="@+id/myself_item_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dip"
+            android:layout_toRightOf="@+id/myself_item_img"
+            android:maxEms="8"
+            android:text="所有订单"
+            android:textColor="@color/textcolor"
+            android:textSize="@dimen/title_siae" />
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="1dip"
+        android:background="@drawable/logo_xian" />
+
+</LinearLayout>

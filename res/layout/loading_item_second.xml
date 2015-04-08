@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:id="@+id/main_second_item"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:id="@+id/liner_second"
+            android:layout_width="match_parent"
+            android:layout_height="120dip"
+            android:orientation="horizontal" >
+
+            <com.jifeng.myview.My_ViewPager
+                android:id="@+id/pic_viewPager"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_alignParentLeft="true"
+                android:background="#55000000"
+                android:gravity="fill_horizontal"
+                android:spacing="1dip" />
+
+            <LinearLayout
+                android:id="@+id/yuandian"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="5dip"
+                android:orientation="horizontal" >
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/liner_second"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" 
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dip" 
+                android:src="@drawable/jumeimiao_time" />
+        </RelativeLayout>
+
+        <com.jifeng.myview.My_ListView
+            android:id="@+id/main_first_list"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginTop="5dip"
+            android:divider="@null" />
+    </LinearLayout>
+
+</FrameLayout>
