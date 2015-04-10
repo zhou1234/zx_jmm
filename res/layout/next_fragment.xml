@@ -10,34 +10,54 @@
         android:layout_height="match_parent"
         android:orientation="vertical" >
 
-        <ScrollView
-            android:id="@+id/scrollView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="none" >
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" >
-
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent" >
-
-                    <com.jifeng.myview.My_ListView
-                        android:id="@+id/main_first_list"
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:layout_marginTop="5dip"
-                        android:cacheColorHint="#00000000"
-                        android:divider="@drawable/list_divider"
-                        android:dividerHeight="1dip" >
-                    </com.jifeng.myview.My_ListView>
-                </RelativeLayout>
-            </LinearLayout>
-        </ScrollView>
+        <ListView
+            android:id="@+id/main_first_list"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:cacheColorHint="#00000000"
+            android:divider="@drawable/list_divider"
+            android:dividerHeight="1dip" >
+        </ListView>
     </com.ab.view.pullview.AbPullToRefreshView>
+
+    <RelativeLayout
+        android:id="@+id/rl_zhiding"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="80dp"
+        android:layout_marginRight="30dp"
+        android:background="@drawable/zhiding_bg"
+        android:visibility="gone" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/tv_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#ffffff"
+                android:textSize="12dp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/xian" />
+
+            <TextView
+                android:id="@+id/tv_cont"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#ffffff"
+                android:textSize="12dp" />
+        </LinearLayout>
+    </RelativeLayout>
 
     <ImageView
         android:id="@+id/goodslist_zhiding"

@@ -186,7 +186,7 @@ public class TabHostActivity extends TabActivity implements
 			button5.setChecked(true);
 			break;
 		default:
-			break;
+			break;   
 		}
 	}
 

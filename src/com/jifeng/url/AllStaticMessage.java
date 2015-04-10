@@ -8,7 +8,8 @@ public class AllStaticMessage {
 
 	// 开发环境启用true，生产版本为false
 	public static final boolean DEVELOPER_MODE = false;
-
+	public static final String authValidate = "2bd6854b72bc11bed0fe";
+	
 	/**
 	 * 微信
 	 */
@@ -103,7 +104,7 @@ public class AllStaticMessage {
 	 * 接口部分
 	 */  
 	public static String URL_GBase = "http://www.jumeimiao.com";// www.jumeimiao.com
-	//public static String URL_GBase = "http://121.40.51.192:8030";
+	//public static String URL_GBase = "http://192.168.2.134:8010";
 	public static String URL_Base = URL_GBase + "/api";
 
 	

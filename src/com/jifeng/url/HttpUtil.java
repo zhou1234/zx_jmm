@@ -180,6 +180,7 @@ public class HttpUtil {
 			// 获取连接
 			DefaultHttpClient client = new DefaultHttpClient();
 			HttpGet get = new HttpGet(path);
+			get.setHeader("authValidate", AllStaticMessage.authValidate);
 			// 执行连接（get请求）
 			// 返回封装类HttpResponse
 			HttpResponse response = client.execute(get);

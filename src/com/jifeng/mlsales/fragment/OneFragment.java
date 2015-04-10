@@ -14,6 +14,7 @@ import com.ab.view.pullview.AbPullToRefreshView.OnHeaderRefreshListener;
 import com.jifeng.adapter.MainAdapter;
 import com.jifeng.mlsales.R;
 import com.jifeng.mlsales.jumeimiao.LoginActivity;
+import com.jifeng.myview.LoadingDialog;
 import com.jifeng.myview.My_ViewPager;
 import com.jifeng.myview.My_ViewPager.OnSingleTouchListener;
 import com.jifeng.tools.MyTools;
@@ -22,7 +23,9 @@ import com.jifeng.url.HttpUtil;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -33,11 +36,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ImageView.ScaleType;
 
@@ -54,13 +58,18 @@ public class OneFragment extends BaseFragment implements
 
 	private ListView mListView;
 	private ImageView goodslist_zhiding;
-	private ScrollView scrollView;
 	private RelativeLayout rl_progress;
 
+	private LoadingDialog dialog;
 	/** 标志位，标志已经初始化完成 */
 	private boolean isPrepared;
 	/** 是否已被加载过一次，第二次就不再去请求数据了 */
 	private boolean mHasLoadedOnce;
+
+	private RelativeLayout rl_zhiding;
+	private TextView tv_number, tv_cont;
+
+	private int cont;
 
 	@SuppressWarnings("deprecation")
 	@Override
@@ -72,6 +81,7 @@ public class OneFragment extends BaseFragment implements
 
 		mData = new ArrayList<JSONObject>();
 
+		dialog = new LoadingDialog(getActivity());
 	}
 
 	@Override
@@ -80,30 +90,75 @@ public class OneFragment extends BaseFragment implements
 
 		View rootView = inflater.inflate(R.layout.loading_item_second_one,
 				container, false);
-
-		RelativeLayout relativeLayout = (RelativeLayout) rootView
-				.findViewById(R.id.liner_second);
-		MyTools.getHight(relativeLayout, width, height, getActivity());
 		mAbPullToRefreshView = (AbPullToRefreshView) rootView
 				.findViewById(R.id.mPullRefreshView);
 		mListView = (ListView) rootView.findViewById(R.id.main_first_list);
 		goodslist_zhiding = (ImageView) rootView
 				.findViewById(R.id.goodslist_zhiding);
-
 		rl_progress = (RelativeLayout) rootView.findViewById(R.id.rl_progress);
-		scrollView = (ScrollView) rootView.findViewById(R.id.scrollView);
+		rl_zhiding = (RelativeLayout) rootView.findViewById(R.id.rl_zhiding);
+		tv_number = (TextView) rootView.findViewById(R.id.tv_number);
+		tv_cont = (TextView) rootView.findViewById(R.id.tv_cont);
+		View view = LayoutInflater.from(getActivity()).inflate(
+				R.layout.sticky_listview_header_item, null);
+
+		RelativeLayout relativeLayout = (RelativeLayout) view
+				.findViewById(R.id.liner_second);
+		MyTools.getHight(relativeLayout, width, height, getActivity());
 
 		mAbPullToRefreshView.setOnHeaderRefreshListener(this);
 		mAbPullToRefreshView.setOnFooterLoadListener(this);
 
 		mListView.setVerticalScrollBarEnabled(false);
+		mListView.setSmoothScrollbarEnabled(true);
 		mListView.setFooterDividersEnabled(false);
-		mListView.setFocusable(false);
+		// //mListView.setFocusable(false);
+		mListView.setOnScrollListener(new PauseOnScrollListener(ImageLoader
+				.getInstance(), true, true));
+		mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
 
-		final My_ViewPager my_ViewPager = (My_ViewPager) rootView
+			@Override
+			public void onScrollStateChanged(AbsListView arg0, int arg1) {
+				switch (arg1) {
+				// 当屏幕停止滑动 SCROLL_STATE_IDLE=0
+				case SCROLL_STATE_IDLE:
+					if (cont >= 10) {
+						rl_zhiding.setVisibility(View.GONE);
+						goodslist_zhiding.setVisibility(View.VISIBLE);
+					} else {
+						goodslist_zhiding.setVisibility(View.GONE);
+						rl_zhiding.setVisibility(View.GONE);
+					}
+					break;
+				// 当屏幕滚动且用户使用的触碰或手指还在屏幕上时为SCROLL_STATE_TOUCH_SCROLL = 1；
+				// 由于用户的操作，屏幕产生惯性滑动时为SCROLL_STATE_FLING = 2
+				case SCROLL_STATE_TOUCH_SCROLL:
+				case SCROLL_STATE_FLING:
+					if (cont >= 10) {
+						rl_zhiding.setVisibility(View.VISIBLE);
+						goodslist_zhiding.setVisibility(View.GONE);
+					} else {
+						goodslist_zhiding.setVisibility(View.GONE);
+						rl_zhiding.setVisibility(View.GONE);
+					}
+					break;
+				}
+			}
+
+			@Override
+			public void onScroll(AbsListView arg0, int arg1, int arg2, int arg3) {
+				tv_number.setText(arg1 + arg2 + "");
+				tv_cont.setText(arg3 + "");
+				cont = arg1;
+			}
+		});
+
+		mListView.addHeaderView(view);
+		final My_ViewPager my_ViewPager = (My_ViewPager) view
 				.findViewById(R.id.pic_viewPager);
-		LinearLayout layout_dian = (LinearLayout) rootView
+		LinearLayout layout_dian = (LinearLayout) view
 				.findViewById(R.id.yuandian);
+
 		getImgUrl(layout_dian, my_ViewPager);
 
 		// getListData(mListView, "0");
@@ -135,10 +190,11 @@ public class OneFragment extends BaseFragment implements
 			@Override
 			public void onSingleTouch() {
 				try {
-					// Log.i("11111", "9999999999999999999999");
 					if (mArray_ad.getJSONObject(my_ViewPager.getCurrentItem())
 							.getString("LinkUrl").contains("Find")) {
+						dialog.loading();
 						AllStaticMessage.Back_to_Find = true;
+						dialog.stop();
 					} else if (mArray_ad
 							.getJSONObject(my_ViewPager.getCurrentItem())
 							.getString("LinkUrl").contains("Reg")) {
@@ -154,10 +210,13 @@ public class OneFragment extends BaseFragment implements
 		});
 		goodslist_zhiding.setOnClickListener(new View.OnClickListener() {
 
+			@SuppressLint("NewApi")
 			@Override
 			public void onClick(View arg0) {
+				mListView.setSelection(0);
+				mListView.smoothScrollBy(0, 1);
 				goodslist_zhiding.setVisibility(View.GONE);
-				scrollView.smoothScrollTo(0, 1);
+				rl_zhiding.setVisibility(View.GONE);
 
 			}
 		});
@@ -167,6 +226,7 @@ public class OneFragment extends BaseFragment implements
 		if (parent != null) {
 			parent.removeView(rootView);
 		}
+
 		return rootView;
 	}
 
@@ -305,7 +365,6 @@ public class OneFragment extends BaseFragment implements
 				}
 
 			} catch (Exception e) {
-				// handler something
 			}
 			// 点击跳转下一页
 			int num = position % mImageViews.length;
@@ -374,7 +433,7 @@ public class OneFragment extends BaseFragment implements
 			@Override
 			public void run() {
 				mAbPullToRefreshView.onFooterLoadFinish();
-				goodslist_zhiding.setVisibility(View.VISIBLE);
+				Toast.makeText(getActivity(), "没有更多了", 0).show();
 			}
 		}, 1200);
 

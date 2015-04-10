@@ -4,19 +4,17 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.ab.image.AbImageLoader;
 import com.jifeng.mlsales.R;
 import com.jifeng.mlsales.jumeimiao.GoodsListActivity;
-import com.jifeng.myview.LoadingDialog;
 import com.jifeng.tools.MyTools;
 import com.jifeng.url.AllStaticMessage;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -25,8 +23,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.AbsListView.OnScrollListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -39,10 +35,7 @@ public class MainAdapter extends BaseAdapter {
 	private MainAppItem appItem;
 	private List<JSONObject> mListData;
 	private int height, width;
-	// ImageLoader imageLoader;
-	// private DisplayImageOptions options;
-	// 图片下载器
-	private AbImageLoader mAbImageLoader = null;
+	private DisplayImageOptions options;
 
 	public MainAdapter(Context context, int height, int width,
 			List<JSONObject> listData, ListView listView) {
@@ -51,15 +44,7 @@ public class MainAdapter extends BaseAdapter {
 		this.width = width;
 		mListData = new ArrayList<JSONObject>();
 		this.mListData = listData;
-		// imageLoader = new ImageLoader(mContext,"长");
-		// Log.i("11111", String.valueOf(height)+"  "+String.valueOf(width));
-		// MyTools.initImageLoader(mContext);
-		// options = MyTools.createOptions(R.drawable.loading_01);
-		mAbImageLoader = AbImageLoader.newInstance(mContext);
-		mAbImageLoader.setLoadingImage(R.drawable.loading_01);
-		mAbImageLoader.setErrorImage(R.drawable.loading_01);
-		mAbImageLoader.setEmptyImage(R.drawable.loading_01);
-		
+		options = MyTools.createOptions(R.drawable.loading_01);
 	}
 
 	@Override
@@ -126,16 +111,9 @@ public class MainAdapter extends BaseAdapter {
 					+ mListData.get(position).getString("ActivityPic")
 							.toString();
 
-			// 设置加载中的View
-			mAbImageLoader.setLoadingView(convertView
-					.findViewById(R.id.progressBar));
 			if (imgurl != null) {
-				// ImageLoader.getInstance().displayImage(imgurl,
-				// appItem.AppImg,
-				// options);
-				// 图片的下载
-				mAbImageLoader.display(appItem.AppImg, imgurl);
-
+				ImageLoader.getInstance().displayImage(imgurl, appItem.AppImg,
+						options);
 			}
 
 			appItem.AppImg.setOnClickListener(new onMainItemClick(appItem,

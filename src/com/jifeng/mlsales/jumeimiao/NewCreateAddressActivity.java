@@ -236,6 +236,7 @@ public class NewCreateAddressActivity extends BaseActivity implements
 			break;
 		case R.id.create_address_ok_2:
 		case R.id.create_address_ok:
+
 			name = mText_Name.getText().toString().trim();
 			phonenum = mText_Phone.getText().toString().trim();
 			detail = mText_Detail.getText().toString().trim();

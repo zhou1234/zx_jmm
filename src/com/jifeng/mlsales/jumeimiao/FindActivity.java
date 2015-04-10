@@ -10,7 +10,6 @@ import com.umeng.analytics.MobclickAgent;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.http.SslError;

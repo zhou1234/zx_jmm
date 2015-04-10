@@ -207,7 +207,7 @@ public class FirstActivity extends FragmentActivity {
 				try {
 					Bundle args = new Bundle();
 					args.putString(ARGUMENTS_TITLE, tabTitle[arg0]);
-					args.putString(ARGUMENTS_ID, mArray.getJSONObject(0)
+					args.putString(ARGUMENTS_ID, mArray.getJSONObject(arg0 - 1)
 							.getString("Id").toString());
 					ft.setArguments(args);
 				} catch (JSONException e) {
@@ -238,14 +238,12 @@ public class FirstActivity extends FragmentActivity {
 						try {
 							if (response.getString("Status").equals("true")) {
 								mArray = response.getJSONArray("Results");
-								tabTitle = new String[mArray.length() + 2];
+								tabTitle = new String[mArray.length()+1];
 								tabTitle[0] = "×îÐÂÌØÂô";
 								for (int i = 0; i < mArray.length(); i++) {
 									tabTitle[i + 1] = mArray.getJSONObject(i)
 											.getString("CateName");
 								}
-								tabTitle[2] = mArray.getJSONObject(0)
-										.getString("CateName");
 								DisplayMetrics dm = new DisplayMetrics();
 								getWindowManager().getDefaultDisplay()
 										.getMetrics(dm);

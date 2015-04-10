@@ -119,41 +119,41 @@ public class GoodsDetailActivity extends Activity {
 		btn_input_car = (Button) findViewById(R.id.btn_inputcar_num);
 		iv_shopping = (ImageView) findViewById(R.id.iv_shopping);
 
-//		WindowManager manager = getWindowManager();
-//		int height = manager.getDefaultDisplay().getHeight();
-//		int width = manager.getDefaultDisplay().getWidth();
-//
-//		set = new AnimationSet(false);
-//		TranslateAnimation translateAnimationX = new TranslateAnimation(0,
-//				-width, 0, -1000);
-//		translateAnimationX.setInterpolator(new LinearInterpolator());
-//		translateAnimationX.setRepeatCount(0);
-//		TranslateAnimation translateAnimationY = new TranslateAnimation(0, 0,
-//				0, 1400);
-//		translateAnimationY.setInterpolator(new AccelerateInterpolator());
-//		translateAnimationY.setRepeatCount(0);
-//		set.addAnimation(translateAnimationY);
-//		set.addAnimation(translateAnimationX);
-//		set.setStartOffset(200);
-//		set.setDuration(1000);
-//		set.setAnimationListener(new AnimationListener() {
-//
-//			@Override
-//			public void onAnimationStart(Animation arg0) {
-//				iv_shopping.setVisibility(View.VISIBLE);
-//			}
-//
-//			@Override
-//			public void onAnimationRepeat(Animation arg0) {
-//
-//			}
-//
-//			@Override
-//			public void onAnimationEnd(Animation arg0) {
-//				iv_shopping.setVisibility(View.GONE);
-//				btn_input_car.setText(String.valueOf(AllStaticMessage.Car_num));
-//			}
-//		});
+		// WindowManager manager = getWindowManager();
+		// int height = manager.getDefaultDisplay().getHeight();
+		// int width = manager.getDefaultDisplay().getWidth();
+		//
+		// set = new AnimationSet(false);
+		// TranslateAnimation translateAnimationX = new TranslateAnimation(0,
+		// -width, 0, -1000);
+		// translateAnimationX.setInterpolator(new LinearInterpolator());
+		// translateAnimationX.setRepeatCount(0);
+		// TranslateAnimation translateAnimationY = new TranslateAnimation(0, 0,
+		// 0, 1400);
+		// translateAnimationY.setInterpolator(new AccelerateInterpolator());
+		// translateAnimationY.setRepeatCount(0);
+		// set.addAnimation(translateAnimationY);
+		// set.addAnimation(translateAnimationX);
+		// set.setStartOffset(200);
+		// set.setDuration(1000);
+		// set.setAnimationListener(new AnimationListener() {
+		//
+		// @Override
+		// public void onAnimationStart(Animation arg0) {
+		// iv_shopping.setVisibility(View.VISIBLE);
+		// }
+		//
+		// @Override
+		// public void onAnimationRepeat(Animation arg0) {
+		//
+		// }
+		//
+		// @Override
+		// public void onAnimationEnd(Animation arg0) {
+		// iv_shopping.setVisibility(View.GONE);
+		// btn_input_car.setText(String.valueOf(AllStaticMessage.Car_num));
+		// }
+		// });
 	}
 
 	// ×¢²áÊÂ¼þ
@@ -527,11 +527,11 @@ public class GoodsDetailActivity extends Activity {
 						try {
 							if (response.getString("Status").equals("true")) {
 								// showCar();
-								//iv_shopping.startAnimation(set);
+								// iv_shopping.startAnimation(set);
 								AllStaticMessage.Car_num++;
 								btn_input_car.setVisibility(View.VISIBLE);
-								 btn_input_car.setText(String
-								 .valueOf(AllStaticMessage.Car_num));
+								btn_input_car.setText(String
+										.valueOf(AllStaticMessage.Car_num));
 								AllStaticMessage.ShoppingCar = true;
 								// Toast.makeText(GoodsDetailActivity.this,
 								// response.getString("Results").toString(),
@@ -586,5 +586,7 @@ public class GoodsDetailActivity extends Activity {
 	protected void onPause() {
 		super.onPause();
 		MobclickAgent.onPause(this);
+
+		
 	}
 }

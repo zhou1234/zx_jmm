@@ -4,6 +4,7 @@ import cn.sharesdk.framework.ShareSDK;
 
 import com.jifeng.mlsales.R;
 import com.jifeng.tools.ApkModify;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.umeng.analytics.MobclickAgent;
 
 import android.app.Activity;
@@ -69,7 +70,8 @@ public class SettingActivity extends Activity {
 			finish();
 			break;
 		case R.id.setting_rel_cleanHuancun:// 清除缓存
-
+			ImageLoader.getInstance().clearDiskCache();
+			ImageLoader.getInstance().clearMemoryCache();
 			break;
 		case R.id.setting_rel_kefudianhua:// 客服电话
 			Intent intent = new Intent();
@@ -77,7 +79,7 @@ public class SettingActivity extends Activity {
 													// 进入拨号界面ACTION_DIAL
 			intent.setData(Uri.parse("tel:4009696876"));
 			startActivity(intent);
-			break;
+			break;   
 		case R.id.setting_rel_yijianfankui:// 意见反馈
 			mIntent = new Intent(SettingActivity.this, AdviceActivity.class);
 			startActivity(mIntent);
