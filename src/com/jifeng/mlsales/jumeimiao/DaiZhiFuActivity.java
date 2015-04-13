@@ -138,8 +138,10 @@ public class DaiZhiFuActivity extends Activity {
 								JSONArray array = response
 										.getJSONArray("Results");
 								// Log.i("11111", array.toString());
-								if(mData!=null){
+								if (mData != null) {
 									mData.clear();
+								} else {
+									mData = new ArrayList<JSONObject>();
 								}
 								if (array.length() > 0) {
 									for (int i = 0; i < array.length(); i++) {

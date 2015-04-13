@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import com.jifeng.mlsales.jumeimiao.TabHostActivity;
 import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;

@@ -687,6 +687,11 @@ public class MainActivity extends Activity {
 									LoginActivity.class);
 							startActivity(intent);
 						}
+//						else if(mArray_ad
+//								.getJSONObject(my_ViewPager.getCurrentItem())
+//								.getString("LinkUrl").contains("Active")){
+//							
+//						}
 					} catch (JSONException e) {
 						e.printStackTrace();
 					}

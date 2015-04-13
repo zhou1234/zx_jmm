@@ -81,7 +81,6 @@ public class SearchActivity extends Activity {
 		listData = new ArrayList<JSONObject>();
 		findView();
 		initData();
-		register();
 		Id = getIntent().getStringExtra("id");
 		Pid = getIntent().getStringExtra("pid");
 		txt_Title.setText(getIntent().getStringExtra("title"));
@@ -96,11 +95,6 @@ public class SearchActivity extends Activity {
 		mDongHua = (ImageView) findViewById(R.id.fenlei_img_wenzi);
 		mLayout = (LinearLayout) findViewById(R.id.fenlei_main_rel);
 		txt_Title = (TextView) findViewById(R.id.fenlei_textview_title);
-	}
-
-	// 注册事件
-	private void register() {
-
 	}
 
 	/*
@@ -150,8 +144,8 @@ public class SearchActivity extends Activity {
 		pullToRefreshGridView.setScrollLoadEnabled(true);
 		gridView = pullToRefreshGridView.getRefreshableView();
 		gridView.setNumColumns(1);
-//		gridView.setVerticalSpacing(8);
-//		gridView.setHorizontalSpacing(8);
+		// gridView.setVerticalSpacing(8);
+		// gridView.setHorizontalSpacing(8);
 	}
 
 	// //xml注册点击事件的实现

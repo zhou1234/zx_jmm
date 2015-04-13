@@ -13,11 +13,11 @@ import com.jifeng.tools.MyTools;
 import com.jifeng.url.AllStaticMessage;
 import com.jifeng.url.HttpUtil;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.umeng.analytics.MobclickAgent;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -49,7 +49,6 @@ public class ClassionActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_classion);
 		dialog = new LoadingDialog(this);
-		initData();
 		findView();
 		register();
 		getData();
@@ -109,13 +108,6 @@ public class ClassionActivity extends Activity {
 		});
 	}
 
-	/*
-	 * 初始化数据
-	 */
-	private void initData() {
-
-	}
-
 	// //xml注册点击事件的实现
 	public void doclick(View view) {
 		switch (view.getId()) {
@@ -138,7 +130,6 @@ public class ClassionActivity extends Activity {
 							.show();
 				}
 			}
-
 			break;
 
 		default:
@@ -147,7 +138,6 @@ public class ClassionActivity extends Activity {
 	}
 
 	private void getData() {
-
 		dialog.loading();
 		String url = AllStaticMessage.URL_FenLei;
 		HttpUtil.get(url, ClassionActivity.this, dialog,
@@ -181,10 +171,11 @@ public class ClassionActivity extends Activity {
 												.toString(), 500).show();
 							}
 						} catch (JSONException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-						dialog.stop();
+						if (dialog != null) {
+							dialog.stop();
+						}
 					}
 
 					@Override
@@ -202,11 +193,12 @@ public class ClassionActivity extends Activity {
 					@Override
 					public void onFailure(int statusCode, Header[] headers,
 							Throwable throwable, JSONObject errorResponse) {
-						// TODO Auto-generated method stub
 						super.onFailure(statusCode, headers, throwable,
 								errorResponse);
 						// 错误返回JSONObject
-						dialog.stop();
+						if (dialog != null) {
+							dialog.stop();
+						}
 					}
 				});
 	}
@@ -215,36 +207,34 @@ public class ClassionActivity extends Activity {
 	private class MyGridViewAdapter extends BaseAdapter {
 		AppItem appItem;
 		JSONArray jsonArray;
+		private DisplayImageOptions options;
 
 		// ImageLoader mImageLoader;
 
 		public MyGridViewAdapter(JSONArray array) {
 			// mImageLoader = new ImageLoader(ClassionActivity.this, "");
 			this.jsonArray = array;
+			options = MyTools.createOptions(R.drawable.img);
 		}
 
 		@Override
 		public int getCount() {
-			// TODO Auto-generated method stub
 			return jsonArray.length();
 		}
 
 		@Override
 		public Object getItem(int position) {
-			// TODO Auto-generated method stub
 			return null;
 		}
 
 		@Override
 		public long getItemId(int position) {
-			// TODO Auto-generated method stub
 			return position;
 		}
 
 		@Override
 		public View getView(final int position, View convertView,
 				ViewGroup parent) {
-			// TODO Auto-generated method stub
 			if (convertView == null) {
 				View v = LayoutInflater.from(ClassionActivity.this).inflate(
 						R.layout.item_classion_gridview, null);
@@ -262,20 +252,16 @@ public class ClassionActivity extends Activity {
 				String urlImg = AllStaticMessage.URL_GBase
 						+ jsonArray.getJSONObject(position).getString("Logo")
 								.toString();
-				if (urlImg.length() > 0) {
-					// mImageLoader.DisplayImage(urlImg, appItem.AppImg);
+				if (urlImg != null) {
 					ImageLoader.getInstance().displayImage(urlImg,
-							appItem.AppImg,
-							MyTools.createOptions(R.drawable.img));
+							appItem.AppImg, options);
 				}
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			convertView.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					// TODO Auto-generated method stub
 					try {
 						Intent intent = new Intent(ClassionActivity.this,
 								FenLeiActivity.class);
@@ -291,7 +277,6 @@ public class ClassionActivity extends Activity {
 						intent.putExtra("search", "");
 						startActivity(intent);
 					} catch (JSONException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}

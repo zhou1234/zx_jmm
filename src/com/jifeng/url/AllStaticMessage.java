@@ -23,9 +23,11 @@ public class AllStaticMessage {
 	public static final String APP_MCH = "1230268701";//1230268701
 
 	// 在线客服
-	public static final String KeFu_key = "vnroth0kr5hqo";
+	//public static final String KeFu_key = "vnroth0kr5hqo";
+	public static final String KeFu_key = "m7ua80gbur0lm";
 	public static String KeFu_Token = "";
-	public static final String KeFu_seviceId = "KEFU1421983315052";
+	//public static final String KeFu_seviceId = "KEFU1421983315052";
+	public static final String KeFu_seviceId ="KEFU1428905067406";
 	/**
 	 * 变量
 	 */
@@ -107,7 +109,6 @@ public class AllStaticMessage {
 	//public static String URL_GBase = "http://192.168.2.134:8010";
 	public static String URL_Base = URL_GBase + "/api";
 
-	
 	
 	// 获取图片验证码
 		public static String URL_GetImgCode = URL_GBase + "/getCode.aspx?code=";

@@ -377,13 +377,16 @@ public class AddressListActivity extends Activity {
 
 				@Override
 				public void onClick(View v) {
-					if (getIntent().getStringExtra("flag").equals("jiesuan")) {
+					if (getIntent() != null) {
+						if (getIntent().getStringExtra("flag")
+								.equals("jiesuan")) {
 
-						AllStaticMessage.JieSuan_Select_Address = true;
-						AllStaticMessage.mJsonObject_select_address = mObjects
-								.get(position);
-						finish();
-
+							AllStaticMessage.JieSuan_Select_Address = true;
+							AllStaticMessage.mJsonObject_select_address = mObjects
+									.get(position);
+							setResult(RESULT_CANCELED);
+							finish();
+						}
 					}
 				}
 			});

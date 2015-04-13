@@ -27,7 +27,6 @@ import com.umeng.analytics.MobclickAgent;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -182,7 +181,7 @@ public class GoodsListActivity extends Activity {
 		mPullScrollView.setScrollLoadEnabled(true);
 		mScrollView = mPullScrollView.getRefreshableView();
 
-		// mScrollView.setVerticalScrollBarEnabled(false);
+		mScrollView.setVerticalScrollBarEnabled(false);
 		View view = LayoutInflater.from(GoodsListActivity.this).inflate(
 				R.layout.item_scrollview_gridview, null);
 		mBtn_YouHui = (Button) view.findViewById(R.id.goodslist_youhui);
@@ -345,7 +344,6 @@ public class GoodsListActivity extends Activity {
 					@Override
 					public void onSuccess(int statusCode, Header[] headers,
 							JSONObject response) {
-						// TODO Auto-generated method stub
 						super.onSuccess(statusCode, headers, response);
 						// 成功返回JSONObject
 						try {
@@ -451,7 +449,6 @@ public class GoodsListActivity extends Activity {
 					@Override
 					public void onSuccess(int statusCode, Header[] headers,
 							JSONObject response) {
-						// TODO Auto-generated method stub
 						super.onSuccess(statusCode, headers, response);
 						// 成功返回JSONObject
 						try {
@@ -491,7 +488,6 @@ public class GoodsListActivity extends Activity {
 							}
 
 						} catch (JSONException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 						mPullScrollView.onPullDownRefreshComplete();
@@ -520,8 +516,10 @@ public class GoodsListActivity extends Activity {
 						super.onFailure(statusCode, headers, throwable,
 								errorResponse);
 						// 错误返回JSONObject
-						mPullScrollView.onPullDownRefreshComplete();
-						mPullScrollView.onPullUpRefreshComplete();
+						if (mPullScrollView != null) {
+							mPullScrollView.onPullDownRefreshComplete();
+							mPullScrollView.onPullUpRefreshComplete();
+						}
 						if (dialog != null) {
 							dialog.stop();
 						}
@@ -531,7 +529,6 @@ public class GoodsListActivity extends Activity {
 
 	@Override
 	protected void onDestroy() {
-		// TODO Auto-generated method stub
 		super.onDestroy();
 
 		setContentView(R.layout.view_null);

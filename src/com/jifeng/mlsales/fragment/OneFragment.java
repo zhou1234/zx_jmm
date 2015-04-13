@@ -99,10 +99,11 @@ public class OneFragment extends BaseFragment implements
 		rl_zhiding = (RelativeLayout) rootView.findViewById(R.id.rl_zhiding);
 		tv_number = (TextView) rootView.findViewById(R.id.tv_number);
 		tv_cont = (TextView) rootView.findViewById(R.id.tv_cont);
-		View view = LayoutInflater.from(getActivity()).inflate(
+
+		View headerView = LayoutInflater.from(getActivity()).inflate(
 				R.layout.sticky_listview_header_item, null);
 
-		RelativeLayout relativeLayout = (RelativeLayout) view
+		RelativeLayout relativeLayout = (RelativeLayout) headerView
 				.findViewById(R.id.liner_second);
 		MyTools.getHight(relativeLayout, width, height, getActivity());
 
@@ -112,7 +113,7 @@ public class OneFragment extends BaseFragment implements
 		mListView.setVerticalScrollBarEnabled(false);
 		mListView.setSmoothScrollbarEnabled(true);
 		mListView.setFooterDividersEnabled(false);
-		// //mListView.setFocusable(false);
+		// mListView.setFocusable(false);
 		mListView.setOnScrollListener(new PauseOnScrollListener(ImageLoader
 				.getInstance(), true, true));
 		mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
@@ -147,16 +148,16 @@ public class OneFragment extends BaseFragment implements
 
 			@Override
 			public void onScroll(AbsListView arg0, int arg1, int arg2, int arg3) {
-				tv_number.setText(arg1 + arg2 + "");
-				tv_cont.setText(arg3 + "");
-				cont = arg1;
+				tv_number.setText(arg1 + arg2 - 1 + "");
+				tv_cont.setText(arg3 - 1 + "");
+				cont = arg1 + arg2;
 			}
 		});
 
-		mListView.addHeaderView(view);
-		final My_ViewPager my_ViewPager = (My_ViewPager) view
+		mListView.addHeaderView(headerView);
+		final My_ViewPager my_ViewPager = (My_ViewPager) headerView
 				.findViewById(R.id.pic_viewPager);
-		LinearLayout layout_dian = (LinearLayout) view
+		LinearLayout layout_dian = (LinearLayout) headerView
 				.findViewById(R.id.yuandian);
 
 		getImgUrl(layout_dian, my_ViewPager);
@@ -222,10 +223,10 @@ public class OneFragment extends BaseFragment implements
 		});
 		isPrepared = true;
 		lazyLoad();
-		ViewGroup parent = (ViewGroup) rootView.getParent();
-		if (parent != null) {
-			parent.removeView(rootView);
-		}
+		// ViewGroup parent = (ViewGroup) rootView.getParent();
+		// if (parent != null) {
+		// parent.removeView(rootView);
+		// }
 
 		return rootView;
 	}
@@ -453,7 +454,6 @@ public class OneFragment extends BaseFragment implements
 	@Override
 	protected void lazyLoad() {
 		if (!isPrepared || !isVisible || mHasLoadedOnce) {
-
 			return;
 		} else {
 			getListData(mListView, "0");

@@ -239,7 +239,7 @@ public class FirstActivity extends FragmentActivity {
 							if (response.getString("Status").equals("true")) {
 								mArray = response.getJSONArray("Results");
 								tabTitle = new String[mArray.length()+1];
-								tabTitle[0] = "最新特卖";
+								tabTitle[0] = "今日特卖";
 								for (int i = 0; i < mArray.length(); i++) {
 									tabTitle[i + 1] = mArray.getJSONObject(i)
 											.getString("CateName");

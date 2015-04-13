@@ -122,7 +122,6 @@ public class FenLeiActivity extends Activity {
 					@Override
 					public void onPullDownToRefresh(
 							PullToRefreshBase<GridView> refreshView) {
-						// TODO Auto-generated method stub
 						// 下拉刷新
 						pageNo = 1;
 						if (listData != null) {
@@ -181,7 +180,6 @@ public class FenLeiActivity extends Activity {
 					@Override
 					public void onSuccess(int statusCode, Header[] headers,
 							JSONObject response) {
-						// TODO Auto-generated method stub
 						super.onSuccess(statusCode, headers, response);
 						// 成功返回JSONObject
 						try {
@@ -194,7 +192,10 @@ public class FenLeiActivity extends Activity {
 								response.getString("totalPage").toString();
 								JSONArray array = response
 										.getJSONArray("Results");
-								if (array.length() > 0) {
+								if (listData == null) {
+									listData = new ArrayList<JSONObject>();
+								}
+								if (array != null && array.length() > 0) {
 									for (int i = 0; i < array.length(); i++) {
 										listData.add(array.getJSONObject(i));
 									}
@@ -215,7 +216,6 @@ public class FenLeiActivity extends Activity {
 												.toString(), 500).show();
 							}
 						} catch (JSONException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 						pullToRefreshGridView.onPullDownRefreshComplete();
@@ -242,7 +242,6 @@ public class FenLeiActivity extends Activity {
 					@Override
 					public void onFailure(int statusCode, Header[] headers,
 							Throwable throwable, JSONObject errorResponse) {
-						// TODO Auto-generated method stub
 						super.onFailure(statusCode, headers, throwable,
 								errorResponse);
 						// 错误返回JSONObject

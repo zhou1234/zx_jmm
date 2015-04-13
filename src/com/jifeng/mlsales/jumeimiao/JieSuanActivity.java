@@ -1,37 +1,23 @@
 package com.jifeng.mlsales.jumeimiao;
 
-import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
-import java.net.Inet4Address;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Random;
 
 import org.apache.http.Header;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.utils.URLEncodedUtils;
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.xmlpull.v1.XmlPullParser;
 
 import cn.sharesdk.framework.ShareSDK;
 
 import com.alipay.sdk.app.PayTask;
 import com.jifeng.mlsales.R;
-import com.jifeng.mlsales.wxapi.MD5;
-import com.jifeng.mlsales.wxapi.Util;
 import com.jifeng.myview.LoadingDialog;
 import com.jifeng.tools.MyTools;
 import com.jifeng.tools.ShrefUtil;
@@ -53,16 +39,11 @@ import com.umeng.analytics.MobclickAgent;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
-import android.util.Log;
-import android.util.Xml;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -111,8 +92,10 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 		setContentView(R.layout.activity_jiesuan);
 		mShrefUtil = new ShrefUtil(this, "data");
 		dialog = new LoadingDialog(this);
+		dialog.loading();
 		mJsonObjects = new ArrayList<JSONObject>();
 		findView();
+		initDatas();
 		aboutWX();
 		tasckActivity = new TasckActivity();
 		tasckActivity.pushActivity(JieSuanActivity.this);
@@ -177,15 +160,13 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 	 * 初始化数据
 	 */
 	private void initData() {
-		if (mShrefUtil.readString("songhuo_address").equals("")) {
-			mLayout_2.setVisibility(View.VISIBLE);
-			mLayout_1.setVisibility(View.GONE);
+		if (AllStaticMessage.mJsonObject_select_address == null) {
+			initDatas();
 		} else {
 			mLayout_1.setVisibility(View.VISIBLE);
 			mLayout_2.setVisibility(View.GONE);
 			try {
-				AllStaticMessage.mJsonObject_select_address = new JSONObject(
-						mShrefUtil.readString("songhuo_address").toString());
+
 				MyTools.setText(mText_Name,
 						AllStaticMessage.mJsonObject_select_address
 								.getString("TrueName"), JieSuanActivity.this);
@@ -210,7 +191,6 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 						.getString("Id");
 				getYunFei(addressId);
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -229,7 +209,6 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 					@Override
 					public void onSuccess(int statusCode, Header[] headers,
 							JSONObject response) {
-						// TODO Auto-generated method stub
 						super.onSuccess(statusCode, headers, response);
 						// 成功返回JSONObject
 						try {
@@ -281,9 +260,9 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 						} catch (JSONException e) {
 							e.printStackTrace();
 						}
-						if (dialog != null) {
-							dialog.stop();
-						}
+						// if (dialog != null) {
+						// dialog.stop();
+						// }
 					}
 
 					@Override
@@ -301,7 +280,6 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 					@Override
 					public void onFailure(int statusCode, Header[] headers,
 							Throwable throwable, JSONObject errorResponse) {
-						// TODO Auto-generated method stub
 						super.onFailure(statusCode, headers, throwable,
 								errorResponse);
 						// 错误返回JSONObject
@@ -350,7 +328,8 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 			mIntent = new Intent(JieSuanActivity.this,
 					AddressListActivity.class);
 			mIntent.putExtra("flag", "jiesuan");
-			startActivity(mIntent);
+			startActivityForResult(mIntent, 0);
+			// startActivity(mIntent);
 			break;
 		case R.id.jiesuan_guan_quan:
 			if (allvalue.equals("")) {
@@ -417,6 +396,15 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 					}
 					mTextView_AllPrice.setText(String.valueOf(value));
 				}
+				break;
+			default:
+				break;
+			}
+		}
+		if (resultCode == RESULT_CANCELED) {
+			switch (requestCode) {
+			case 0:
+				initData();
 				break;
 			default:
 				break;
@@ -494,7 +482,6 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 					@Override
 					public void onSuccess(int statusCode, Header[] headers,
 							JSONObject response) {
-						// TODO Auto-generated method stub
 						super.onSuccess(statusCode, headers, response);
 						// 成功返回JSONObject
 						try {
@@ -567,7 +554,6 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 								}
 							}
 						} catch (JSONException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 						if (dialog != null) {
@@ -590,7 +576,6 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 					@Override
 					public void onFailure(int statusCode, Header[] headers,
 							Throwable throwable, JSONObject errorResponse) {
-						// TODO Auto-generated method stub
 						super.onFailure(statusCode, headers, throwable,
 								errorResponse);
 						// 错误返回JSONObject
@@ -603,7 +588,6 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 
 	// 获取运费
 	private void getYunFei(String addressid) {
-		dialog.loading();
 		String url = AllStaticMessage.URL_YunFei + AllStaticMessage.User_Id
 				+ "&addressId=" + addressid + "&udid="
 				+ MyTools.getAndroidID(JieSuanActivity.this);
@@ -612,7 +596,6 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 					@Override
 					public void onSuccess(int statusCode, Header[] headers,
 							JSONObject response) {
-						// TODO Auto-generated method stub
 						super.onSuccess(statusCode, headers, response);
 						// 成功返回JSONObject
 						try {
@@ -641,7 +624,6 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 												.toString(), 500).show();
 							}
 						} catch (JSONException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 						if (dialog != null) {
@@ -664,7 +646,6 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 					@Override
 					public void onFailure(int statusCode, Header[] headers,
 							Throwable throwable, JSONObject errorResponse) {
-						// TODO Auto-generated method stub
 						super.onFailure(statusCode, headers, throwable,
 								errorResponse);
 						// 错误返回JSONObject
@@ -900,7 +881,6 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 					@Override
 					public void onSuccess(int statusCode, Header[] headers,
 							JSONObject response) {
-						// TODO Auto-generated method stub
 						super.onSuccess(statusCode, headers, response);
 						// 成功返回JSONObject
 						if (dialog != null) {
@@ -922,7 +902,6 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 							api.registerApp(AllStaticMessage.APP_ID);
 							api.sendReq(req);
 						} catch (JSONException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 
@@ -943,7 +922,6 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 					@Override
 					public void onFailure(int statusCode, Header[] headers,
 							Throwable throwable, JSONObject errorResponse) {
-						// TODO Auto-generated method stub
 						super.onFailure(statusCode, headers, throwable,
 								errorResponse);
 						if (dialog != null) {
@@ -956,44 +934,6 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 						JieSuanActivity.this.finish();
 					}
 				});
-
-		// try{
-		// byte[] buf = Util.httpGet(token_url);
-		// if (buf != null && buf.length > 0) {
-		// String content = new String(buf);
-		// JSONObject json = new JSONObject(content);
-		// if(null != json ){//&& 0 == json.getInt("retcode")
-		// PayReq req = new PayReq();
-		// req.appId = AllStaticMessage.APP_ID;
-		// req.partnerId = AllStaticMessage.APP_MCH;
-		// req.prepayId = json.getString("prepayid");
-		// req.nonceStr = json.getString("noncestr");
-		// req.timeStamp = json.getString("timestamp");
-		// req.packageValue = json.getString("package");
-		// req.sign = json.getString("sign");
-		// req.extData = "app data"; // optional
-		// // Toast.makeText(JieSuanActivity.this, "正常调起支付", 200).show();
-		// // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
-		// api.registerApp(AllStaticMessage.APP_ID);
-		// api.sendReq(req);
-		// //api.handleIntent(getIntent(), this);
-		//
-		//
-		// }else{
-		// //Log.d("PAY_GET_TOKEN", "返回错误"+json.getString("retmsg"));"error"
-		// Toast.makeText(JieSuanActivity.this, "返回错误"+json.getString("retmsg"),
-		// Toast.LENGTH_SHORT).show();
-		// }
-		// }else{
-		// //Log.d("PAY_GET_TOKEN", "服务器请求错误");
-		// Toast.makeText(JieSuanActivity.this, "服务器请求错误",
-		// Toast.LENGTH_SHORT).show();
-		// }
-		// }catch(Exception e){
-		// //Log.e("TASK_GET_TOKEN", "异常："+e.getMessage());
-		// Toast.makeText(JieSuanActivity.this, "异常："+e.getMessage(),
-		// Toast.LENGTH_SHORT).show();
-		// }
 	}
 
 	@Override
@@ -1005,14 +945,12 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 
 	@Override
 	public void onReq(BaseReq arg0) {
-		// TODO Auto-generated method stub
 		Toast.makeText(JieSuanActivity.this, "异常：" + arg0.openId, 200000)
 				.show();
 	}
 
 	@Override
 	public void onResp(BaseResp arg0) {
-		// TODO Auto-generated method stub
 		Toast.makeText(JieSuanActivity.this,
 				"异常：" + arg0.errCode + arg0.errStr, 200000).show();
 	}
@@ -1020,7 +958,6 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		initDatas();
 		MobclickAgent.onResume(this);
 	}
 

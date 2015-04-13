@@ -128,7 +128,7 @@ public class NextFragment extends BaseFragment implements
 			public void onScroll(AbsListView arg0, int arg1, int arg2, int arg3) {
 				tv_number.setText(arg1 + arg2 + "");
 				tv_cont.setText(arg3 + "");
-				cont = arg1;
+				cont = arg1+arg2;
 			}
 		});
 
@@ -146,10 +146,10 @@ public class NextFragment extends BaseFragment implements
 		});
 		isPrepared = true;
 		lazyLoad();
-		ViewGroup parent = (ViewGroup) rootView.getParent();
-		if (parent != null) {
-			parent.removeView(rootView);
-		}
+//		ViewGroup parent = (ViewGroup) rootView.getParent();
+//		if (parent != null) {
+//			parent.removeView(rootView);
+//		}
 		return rootView;
 	}
 

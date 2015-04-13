@@ -37,7 +37,7 @@ public class MySelfActivity extends Activity {
 	private LoadingDialog dialog;
 	private ImageView myself_rel_daifukuan, myself_rel_daifahuo,
 			myself_rel_daishouhuo;
-	private BadgeView badgeView1, badgeView2,badgeView3;
+	private BadgeView badgeView1, badgeView2, badgeView3;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -75,15 +75,12 @@ public class MySelfActivity extends Activity {
 		myself_rel_daifukuan = (ImageView) findViewById(R.id.myself_rel_daifukuan);
 		myself_rel_daifahuo = (ImageView) findViewById(R.id.myself_rel_daifahuo);
 		myself_rel_daishouhuo = (ImageView) findViewById(R.id.myself_rel_daishouhuo);
-		
-		badgeView1 = new BadgeView(MySelfActivity.this,
-				myself_rel_daifukuan);
+
+		badgeView1 = new BadgeView(MySelfActivity.this, myself_rel_daifukuan);
 		badgeView1.setBadgeMargin(0);
-		badgeView2 = new BadgeView(MySelfActivity.this,
-				myself_rel_daifahuo);
+		badgeView2 = new BadgeView(MySelfActivity.this, myself_rel_daifahuo);
 		badgeView2.setBadgeMargin(0);
-		badgeView3=new BadgeView(MySelfActivity.this,
-				myself_rel_daishouhuo);
+		badgeView3 = new BadgeView(MySelfActivity.this, myself_rel_daishouhuo);
 		badgeView3.setBadgeMargin(0);
 	}
 
@@ -210,7 +207,6 @@ public class MySelfActivity extends Activity {
 					public void onSuccess(int statusCode, Header[] headers,
 							JSONObject response) {
 						super.onSuccess(statusCode, headers, response);
-						// ³É¹¦·µ»ØJSONObject
 						try {
 							AllStaticMessage.KeFu_Token = response.getString(
 									"token").toString();
@@ -291,7 +287,6 @@ public class MySelfActivity extends Activity {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == RESULT_OK) {
 			if (AllStaticMessage.User_NickName == null
@@ -539,6 +534,7 @@ public class MySelfActivity extends Activity {
 					}
 				});
 	}
+
 	private void getData3() {
 		String url = AllStaticMessage.URL_Order_List + AllStaticMessage.User_Id
 				+ "&orderState=3" + "&page=" + "1";

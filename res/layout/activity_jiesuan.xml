@@ -83,6 +83,7 @@
                 <RelativeLayout
                     android:id="@+id/jiesuan_select"
                     android:layout_width="fill_parent"
+                    android:visibility="gone"
                     android:layout_height="100dip" >
 
                     <ImageView
@@ -116,7 +117,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
-                                android:text="林丹月"
                                 android:textColor="@color/textcolor"
                                 android:textSize="16sp" />
 
@@ -126,7 +126,6 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginLeft="8dip"
-                                android:text="13515117955"
                                 android:textColor="@color/textcolor"
                                 android:textSize="16sp" />
                         </LinearLayout>
@@ -139,7 +138,6 @@
                             android:layout_marginRight="8dip"
                             android:layout_weight="1"
                             android:gravity="center|left"
-                            android:text="徐汇区斜土路2669号英雄大厦1004"
                             android:textColor="@color/textcolor"
                             android:textSize="16sp" />
 
@@ -151,6 +149,7 @@
                             android:layout_weight="1"
                             android:gravity="center"
                             android:text="送货时间不限"
+                            android:visibility="gone"
                             android:textColor="@color/text_color"
                             android:textSize="16sp" />
                     </LinearLayout>
@@ -181,6 +180,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dip"
+                    android:visibility="gone"
                     android:background="@drawable/jiesuan_3"
                     android:onClick="doclick" >
 

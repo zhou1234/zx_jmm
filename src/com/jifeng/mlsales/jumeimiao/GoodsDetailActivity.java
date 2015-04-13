@@ -96,16 +96,6 @@ public class GoodsDetailActivity extends Activity {
 		detailUrl = AllStaticMessage.URL_Goods_detail + activityId + "&pid="
 				+ id + "&id=" + spid + "&userId=" + AllStaticMessage.User_Id;
 		shareImg = getIntent().getStringExtra("imgurl").toString();
-		if (MyTools.checkNetWorkStatus(this)) {
-			if (shareImg != null || !shareImg.equals("")) {
-				handler.sendEmptyMessage(0x02);
-			}
-			mWebView.loadUrl(detailUrl);
-			getCarNum();
-		} else {
-			diaFlag = true;
-			mWebView.loadUrl("file:///android_asset/index.html");
-		}
 
 		tasckActivity = new TasckActivity();
 		tasckActivity.pushActivity(GoodsDetailActivity.this);
@@ -324,7 +314,16 @@ public class GoodsDetailActivity extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		getCarNum();
+		if (MyTools.checkNetWorkStatus(this)) {
+			if (shareImg != null || !shareImg.equals("")) {
+				handler.sendEmptyMessage(0x02);
+			}
+			mWebView.loadUrl(detailUrl);
+			getCarNum();
+		} else {
+			diaFlag = true;
+			mWebView.loadUrl("file:///android_asset/index.html");
+		}
 		MobclickAgent.onResume(this);
 	}
 
@@ -587,6 +586,5 @@ public class GoodsDetailActivity extends Activity {
 		super.onPause();
 		MobclickAgent.onPause(this);
 
-		
 	}
 }
