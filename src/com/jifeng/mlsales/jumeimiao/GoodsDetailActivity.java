@@ -20,7 +20,6 @@ import com.umeng.analytics.MobclickAgent;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.http.SslError;
@@ -29,13 +28,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.Animation;
-import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationSet;
-import android.view.animation.LinearInterpolator;
-import android.view.animation.TranslateAnimation;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
@@ -305,7 +298,6 @@ public class GoodsDetailActivity extends Activity {
 							Throwable throwable, JSONObject errorResponse) {
 						super.onFailure(statusCode, headers, throwable,
 								errorResponse);
-						// 错误返回JSONObject
 
 					}
 				});
@@ -380,29 +372,29 @@ public class GoodsDetailActivity extends Activity {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		setContentView(R.layout.view_null);
-		handler = null;
-		tasckActivity.popActivity(GoodsDetailActivity.this);
-		tasckActivity = null;
-		mIntent = null;
-		mWebView.removeAllViews();
-		mWebView.destroy();
-		mWebView = null;
-		mText_title = null;
-		dialog = null;
-		mImage_Car = null;
-		// translateAnimation = null;
-		// scaleAnimation = null;
-		btn_input_car = null;
-		shareTitle = null;
-		shareContent = null;
-		shareUrl = null;
-		shareImg = null;
-		activityId = null;
-		id = null;
-		spid = null;// 活动id 商品id 规格id
-		// this.finish();
-		System.gc();
+//		setContentView(R.layout.view_null);
+//		handler = null;
+//		tasckActivity.popActivity(GoodsDetailActivity.this);
+//		tasckActivity = null;
+//		mIntent = null;
+//		mWebView.removeAllViews();
+//		mWebView.destroy();
+//		mWebView = null;
+//		mText_title = null;
+//		dialog = null;
+//		mImage_Car = null;
+//		// translateAnimation = null;
+//		// scaleAnimation = null;
+//		btn_input_car = null;
+//		shareTitle = null;
+//		shareContent = null;
+//		shareUrl = null;
+//		shareImg = null;
+//		activityId = null;
+//		id = null;
+//		spid = null;// 活动id 商品id 规格id
+//		// this.finish();
+//		System.gc();
 	}
 
 	private void share(String title, String content, String url, String imgurl) {

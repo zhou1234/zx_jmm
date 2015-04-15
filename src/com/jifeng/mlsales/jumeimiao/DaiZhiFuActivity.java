@@ -66,17 +66,18 @@ public class DaiZhiFuActivity extends Activity {
 	@Override
 	protected void onDestroy() {
 		ShareSDK.stopSDK(this);
-		setContentView(R.layout.view_null);
 		super.onDestroy();
-		dialog = null;
-		mText_Title = null;
-		mIntent = null;
-		mGridView = null;
-		mAdapter = null;
-		mData = null;
-		orderState = null;
-		this.finish();
-		System.gc();
+		// setContentView(R.layout.view_null);
+		//
+		// dialog = null;
+		// mText_Title = null;
+		// mIntent = null;
+		// mGridView = null;
+		// mAdapter = null;
+		// mData = null;
+		// orderState = null;
+		// this.finish();
+		// System.gc();
 	}
 
 	// ²éÕÒ¿Ø¼þ

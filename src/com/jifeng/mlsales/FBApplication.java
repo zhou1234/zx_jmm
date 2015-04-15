@@ -31,6 +31,7 @@ public class FBApplication extends Application {
 
 	private UncaughtExceptionHandler restartHandler = new UncaughtExceptionHandler() {
 		public void uncaughtException(Thread thread, Throwable ex) {
+			Log.d("Throwable", ex.toString());
 			restartApp();
 		}
 	};

@@ -78,14 +78,18 @@ public class PicShowActivity extends Activity {
 						public void onPageFinished(WebView view, String url) {
 
 							super.onPageFinished(view, url);
-							dialog.stop();
+							if (dialog != null) {
+								dialog.stop();
+							}
 						}
 
 						@Override
 						public void onPageStarted(WebView view, String url,
 								Bitmap favicon) {
-							dialog.loading();
-							super.onPageStarted(view, url, favicon);
+							if (dialog != null) {
+								dialog.loading();
+								super.onPageStarted(view, url, favicon);
+							}
 						}
 
 						@Override

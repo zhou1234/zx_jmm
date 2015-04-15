@@ -1,7 +1,11 @@
 package com.jifeng.mlsales.jumeimiao;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
+import io.rong.imlib.RongIMClient.UserInfo;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
@@ -190,6 +194,18 @@ public class MySelfActivity extends Activity {
 				// 初始化。
 				RongIM.init(MySelfActivity.this, AllStaticMessage.KeFu_key,
 						R.drawable.icon);
+				// 设置用户信息提供者。
+				RongIM.setGetUserInfoProvider(new RongIM.GetUserInfoProvider() {
+					// App 返回指定的用户信息给 IMKit 界面组件。
+					@Override
+					public RongIMClient.UserInfo getUserInfo(String userId) {
+						// 原则上 App
+						// 应该将用户信息和头像在移动设备上进行缓存，每次获取用户信息的时候，就不用再通过网络获取，提高加载速度，提升用户体验。我们后续将提供用户信息缓存功能，方便您开发。
+						return getUserInfoFromLocalCache(userId); // 由开发者提供此方法。
+					}
+
+				}, false);
+
 				getTaken();
 			}
 
@@ -361,6 +377,12 @@ public class MySelfActivity extends Activity {
 				break;
 			}
 		}
+	}
+
+	private UserInfo getUserInfoFromLocalCache(String userId) {
+		RongIMClient.UserInfo info = new UserInfo(AllStaticMessage.User_Id,
+				AllStaticMessage.User_Name, "");
+		return info;
 	}
 
 	/*

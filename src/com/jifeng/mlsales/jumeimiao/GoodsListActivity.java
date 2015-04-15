@@ -460,7 +460,7 @@ public class GoodsListActivity extends Activity {
 										.toString();
 								JSONArray mArray = response
 										.getJSONArray("Results");
-								if (mArray.length() > 0) {
+								if (mArray != null && mArray.length() > 0) {
 									for (int i = 0; i < mArray.length(); i++) {
 										mListData.add(mArray.getJSONObject(i));
 									}
@@ -475,7 +475,7 @@ public class GoodsListActivity extends Activity {
 														.toString(), width,
 												height);// ,mILoader
 										mGridView.setAdapter(mAdapter);
-									} else {
+									} else if (mAdapter != null) {
 										mAdapter.notifyDataSetChanged();
 									}
 
@@ -531,53 +531,53 @@ public class GoodsListActivity extends Activity {
 	protected void onDestroy() {
 		super.onDestroy();
 
-		setContentView(R.layout.view_null);
+	//	setContentView(R.layout.view_null);
 
 		ImageLoader.getInstance().clearMemoryCache();
 		// ImageLoader.getInstance().clearDiskCache();
 
-		if (handler != null) {
-			handler.removeMessages(0x01);
-			handler.removeMessages(0x02);
-			handler.removeMessages(0x03);
-		}
+//		if (handler != null) {
+//			handler.removeMessages(0x01);
+//			handler.removeMessages(0x02);
+//			handler.removeMessages(0x03);
+//		}
+//
+//		handler = null;
+//
+//		if (dialog != null)
+//			dialog.stop();
 
-		handler = null;
-
-		if (dialog != null)
-			dialog.stop();
-
-		mDateFormat = null;
-		tasckActivity.popActivity(GoodsListActivity.this);
-		tasckActivity = null;
-
-		mIntent = null;
-		mText_title = null;
-		dialog = null;
-		btn_moren = null;
-		btn_news = null;
-		btn_rexiao = null;
-		btn_price = null;
-		mImage_price = null;
-		mPullScrollView = null;
-
-		mDateFormat = null;
-		mAdapter = null;
-
-		mGridView = null;
-		mImageView = null;
-		mBtn_YouHui = null;
-		mText_Time = null;
-		mText_MeiMiaoShuo = null;
-		mText_miao_say = null;
-		mDongHua = null;
-		mLayout = null;
-		mListData.clear();
-		mListData = null;
-		mRelativeLayout_say = null;
-		this.finish();
-
-		System.gc();
+//		mDateFormat = null;
+//		tasckActivity.popActivity(GoodsListActivity.this);
+//		tasckActivity = null;
+//
+//		mIntent = null;
+//		mText_title = null;
+//		dialog = null;
+//		btn_moren = null;
+//		btn_news = null;
+//		btn_rexiao = null;
+//		btn_price = null;
+//		mImage_price = null;
+//		mPullScrollView = null;
+//
+//		mDateFormat = null;
+//		mAdapter = null;
+//
+//		mGridView = null;
+//		mImageView = null;
+//		mBtn_YouHui = null;
+//		mText_Time = null;
+//		mText_MeiMiaoShuo = null;
+//		mText_miao_say = null;
+//		mDongHua = null;
+//		mLayout = null;
+//		mListData.clear();
+//		mListData = null;
+//		mRelativeLayout_say = null;
+//		this.finish();
+//
+//		System.gc();
 	}
 
 	@Override

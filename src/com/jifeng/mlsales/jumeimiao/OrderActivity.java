@@ -57,7 +57,6 @@ public class OrderActivity extends Activity {
 	Handler handler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
-			// TODO Auto-generated method stub
 			super.handleMessage(msg);
 			switch (msg.what) {
 			case 0x01:
@@ -91,17 +90,18 @@ public class OrderActivity extends Activity {
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
 		ShareSDK.stopSDK(this);
-		setContentView(R.layout.view_null);
 		super.onDestroy();
-		mIntent = null;
-		dialog = null;
-		mGridView = null;
-		mAdapter = null;
-		mListData = null;
-		mLayout = null;
-		AllPage = null;
-		this.finish();
-		System.gc();
+		// setContentView(R.layout.view_null);
+		//
+		// mIntent = null;
+		// dialog = null;
+		// mGridView = null;
+		// mAdapter = null;
+		// mListData = null;
+		// mLayout = null;
+		// AllPage = null;
+		// this.finish();
+		// System.gc();
 	}
 
 	// ²éÕÒ¿Ø¼þ
@@ -180,7 +180,7 @@ public class OrderActivity extends Activity {
 											mGridView
 													.setOnScrollListener(autoLoadListener);
 										}
-									} else {
+									} else if (mAdapter != null) {
 										mAdapter.notifyDataSetChanged();
 										mLayout.setVisibility(View.GONE);
 									}
@@ -225,7 +225,9 @@ public class OrderActivity extends Activity {
 						super.onFailure(statusCode, headers, throwable,
 								errorResponse);
 						// ´íÎó·µ»ØJSONObject
-						mLayout.setVisibility(View.GONE);
+						if (mLayout != null) {
+							mLayout.setVisibility(View.GONE);
+						}
 						if (dialog != null) {
 							dialog.stop();
 						}

@@ -185,7 +185,10 @@ public class SearchActivity extends Activity {
 								response.getString("totalPage").toString();
 								JSONArray array = response
 										.getJSONArray("Results");
-								if (array.length() > 0) {
+								if (listData == null) {
+									listData = new ArrayList<JSONObject>();
+								}
+								if (array != null && array.length() > 0) {
 									for (int i = 0; i < array.length(); i++) {
 										listData.add(array.getJSONObject(i));
 									}
@@ -194,7 +197,7 @@ public class SearchActivity extends Activity {
 												listData, SearchActivity.this,
 												Pid, width, height);//
 										gridView.setAdapter(mAdapter);
-									} else {
+									} else if (mAdapter != null) {
 										mAdapter.notifyDataSetChanged();
 									}
 
@@ -266,7 +269,7 @@ public class SearchActivity extends Activity {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		relise();
+		//relise();
 	}
 
 	@Override

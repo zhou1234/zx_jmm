@@ -40,7 +40,7 @@ public class LoginActivity extends Activity {
 	private String userName, userPsd;// 记录登录者的信息
 	private ShrefUtil mShrefUtil;
 	private LoadingDialog dialog;
-	//private boolean first_to_other = false;
+	// private boolean first_to_other = false;
 	@SuppressLint("HandlerLeak")
 	private Handler mHandler = new Handler() {
 		@Override
@@ -70,7 +70,9 @@ public class LoginActivity extends Activity {
 						AllStaticMessage.Address);
 				break;
 			case 0x05:
-				dialog.stop();
+				if (dialog != null) {
+					dialog.stop();
+				}
 				break;
 			default:
 				break;
@@ -85,7 +87,7 @@ public class LoginActivity extends Activity {
 		ShareSDK.initSDK(this);
 
 		setContentView(R.layout.activity_login);
-		dialog=new LoadingDialog(this);
+		dialog = new LoadingDialog(this);
 		mShrefUtil = new ShrefUtil(this, "data");
 		findView();
 	}
@@ -139,11 +141,11 @@ public class LoginActivity extends Activity {
 			break;
 		case R.id.login_img_weixin:// 微信登录0x03
 			dialog.loading();
-			OtherLogin.WeiXin_login(mHandler, 0x03); 
+			OtherLogin.WeiXin_login(mHandler, 0x03);
 			break;
 		case R.id.login_img_qq:// QQ登录0x04
 			dialog.loading();
-			OtherLogin.QQ_login(mHandler, 0x04); 
+			OtherLogin.QQ_login(mHandler, 0x04);
 			break;
 		default:
 			break;
@@ -152,13 +154,12 @@ public class LoginActivity extends Activity {
 
 	@Override
 	protected void onResume() {
-		super.onResume(); 
+		super.onResume();
 		MobclickAgent.onResume(this);
 	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == RESULT_OK) {
 			switch (requestCode) {
@@ -194,7 +195,6 @@ public class LoginActivity extends Activity {
 					@Override
 					public void onSuccess(int statusCode, Header[] headers,
 							JSONObject response) {
-						// TODO Auto-generated method stub
 						super.onSuccess(statusCode, headers, response);
 						// 成功返回JSONObject
 						try {
@@ -212,7 +212,7 @@ public class LoginActivity extends Activity {
 								AllStaticMessage.User_Psd = psd;
 								mShrefUtil.write("user_name", userName);
 								mShrefUtil.write("user_psd", psd);
-								LoginActivity.this.setResult(RESULT_OK);
+								setResult(RESULT_OK);
 								finish();
 							} else {
 								Toast.makeText(
@@ -241,13 +241,12 @@ public class LoginActivity extends Activity {
 					public void onFinish() {
 						super.onFinish();
 						// 请求结束
-						 
+
 					}
 
 					@Override
 					public void onFailure(int statusCode, Header[] headers,
 							Throwable throwable, JSONObject errorResponse) {
-						// TODO Auto-generated method stub
 						super.onFailure(statusCode, headers, throwable,
 								errorResponse);
 						// 错误返回JSONObject
@@ -260,25 +259,24 @@ public class LoginActivity extends Activity {
 
 	@Override
 	protected void onDestroy() {
-		// TODO Auto-generated method stub
 		ShareSDK.stopSDK(this);
 		super.onDestroy();
-		mIntent = null;
-		mText_userName = null;
-		mText_userPsd = null;
-		userName = null;
-		userPsd = null;// 记录登录者的信息
-		mShrefUtil = null;
-		if (dialog != null) {
-			dialog.stop();
-		}
-		dialog = null;
-		mHandler = null;
-		setContentView(R.layout.view_null);
-		this.finish();
-		System.gc();
+//		mIntent = null;
+//		mText_userName = null;
+//		mText_userPsd = null;
+//		userName = null;
+//		userPsd = null;// 记录登录者的信息
+//		mShrefUtil = null;
+//		if (dialog != null) {
+//			dialog.stop();
+//		}
+//		dialog = null;
+//		mHandler = null;
+//		setContentView(R.layout.view_null);
+//		this.finish();
+//		System.gc();
 	}
-	
+
 	@Override
 	protected void onPause() {
 		super.onPause();

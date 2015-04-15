@@ -15,6 +15,7 @@ import com.umeng.analytics.MobclickAgent;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.ExpandableListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;

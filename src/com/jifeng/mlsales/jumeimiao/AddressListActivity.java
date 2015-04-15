@@ -218,9 +218,10 @@ public class AddressListActivity extends Activity {
 										mJsonObjects.remove(i);
 									}
 								}
-								if (mAdapter != null) {
-									mAdapter.notifyDataSetChanged();
-								}
+
+								// if (mAdapter != null) {
+								// mAdapter.notifyDataSetChanged();
+								// }
 								Toast.makeText(
 										AddressListActivity.this,
 										response.getString("Results")

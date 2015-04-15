@@ -121,6 +121,7 @@ public class NewCreateAddressActivity extends BaseActivity implements
 				// }else{
 				// district="";
 				// }
+
 				mBtn_Provice.setText(mCurrentProviceName + " "
 						+ mCurrentCityName + " " + mCurrentDistrictName);
 				// mBtn_City.setText(city);
@@ -265,8 +266,9 @@ public class NewCreateAddressActivity extends BaseActivity implements
 			// .show();
 			// return;
 			// }
-			if (mCurrentProviceName == null || mCurrentProviceName.equals("")) {
-				Toast.makeText(NewCreateAddressActivity.this, "请选择省份", 500)
+			if (mBtn_Provice.getText().toString().trim() == null
+					|| mBtn_Provice.getText().toString().trim().equals("")) {
+				Toast.makeText(NewCreateAddressActivity.this, "请选择所在地区", 500)
 						.show();
 				return;
 			}
@@ -395,6 +397,17 @@ public class NewCreateAddressActivity extends BaseActivity implements
 		mViewDistrict
 				.setViewAdapter(new ArrayWheelAdapter<String>(this, areas));
 		mViewDistrict.setCurrentItem(0);
+		updateDistrict();
+	}
+
+	/**
+	 * 根据当前的区，更新邮编WheelView的信息
+	 */
+	private void updateDistrict() {
+		int pCurrent = mViewDistrict.getCurrentItem();
+		mCurrentDistrictName = mDistrictDatasMap.get(mCurrentCityName)[pCurrent];
+		mCurrentZipCode = mZipcodeDatasMap.get(mCurrentDistrictName);
+
 	}
 
 	@Override

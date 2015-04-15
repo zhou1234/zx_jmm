@@ -160,6 +160,7 @@ public class FenLeiActivity extends Activity {
 	public void doclick(View view) {
 		switch (view.getId()) {
 		case R.id.fenlei_back:// ·µ»Ø
+			//tasckActivity.popActivity(FenLeiActivity.this);
 			finish();
 			break;
 		default:
@@ -192,9 +193,6 @@ public class FenLeiActivity extends Activity {
 								response.getString("totalPage").toString();
 								JSONArray array = response
 										.getJSONArray("Results");
-								if (listData == null) {
-									listData = new ArrayList<JSONObject>();
-								}
 								if (array != null && array.length() > 0) {
 									for (int i = 0; i < array.length(); i++) {
 										listData.add(array.getJSONObject(i));
@@ -204,7 +202,7 @@ public class FenLeiActivity extends Activity {
 												listData, FenLeiActivity.this,
 												Pid, width, height);//
 										gridView.setAdapter(mAdapter);
-									} else {
+									} else if(mAdapter!=null){
 										mAdapter.notifyDataSetChanged();
 									}
 
@@ -266,7 +264,6 @@ public class FenLeiActivity extends Activity {
 		txt_Title = null;
 		pageNo = 1;
 		listData = null;
-		tasckActivity.popActivity(FenLeiActivity.this);
 		tasckActivity = null;
 		System.gc();
 	}
@@ -274,7 +271,7 @@ public class FenLeiActivity extends Activity {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		relise();
+		//relise();
 	}
 
 	@Override
