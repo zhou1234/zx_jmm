@@ -87,27 +87,26 @@ public class OrderDetailActivity extends Activity {
 
 	@Override
 	protected void onDestroy() {
-		// TODO Auto-generated method stub
 		ShareSDK.stopSDK(this);
-		setContentView(R.layout.view_null);
 		super.onDestroy();
-		mIntent = null;
-		dialog = null;
-		mAdapter = null;
-		mListData = null;
-		mAdapter = null;
-		mListView = null;
-		mListData = null;
-		mText = null;
-		mTextId = null;
-		mText_AllPrice = null;
-		mText_JieYuePrice = null;
-		mButton_zhifu = null;
-		mBtn_QuXiao_Order = null;
-		payway = null;
-		allprice = null;
-		this.finish();
-		System.gc();
+		// setContentView(R.layout.view_null);
+		// mIntent = null;
+		// dialog = null;
+		// mAdapter = null;
+		// mListData = null;
+		// mAdapter = null;
+		// mListView = null;
+		// mListData = null;
+		// mText = null;
+		// mTextId = null;
+		// mText_AllPrice = null;
+		// mText_JieYuePrice = null;
+		// mButton_zhifu = null;
+		// mBtn_QuXiao_Order = null;
+		// payway = null;
+		// allprice = null;
+		// this.finish();
+		// System.gc();
 	}
 
 	// xml注册点击事件的实现
@@ -276,7 +275,6 @@ public class OrderDetailActivity extends Activity {
 												.toString(), 500).show();
 							}
 						} catch (JSONException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 						dialog.stop();
@@ -297,7 +295,6 @@ public class OrderDetailActivity extends Activity {
 					@Override
 					public void onFailure(int statusCode, Header[] headers,
 							Throwable throwable, JSONObject errorResponse) {
-						// TODO Auto-generated method stub
 						super.onFailure(statusCode, headers, throwable,
 								errorResponse);
 						// 错误返回JSONObject
@@ -337,7 +334,6 @@ public class OrderDetailActivity extends Activity {
 												.toString(), 500).show();
 							}
 						} catch (JSONException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 						dialog.stop();
@@ -358,7 +354,6 @@ public class OrderDetailActivity extends Activity {
 					@Override
 					public void onFailure(int statusCode, Header[] headers,
 							Throwable throwable, JSONObject errorResponse) {
-						// TODO Auto-generated method stub
 						super.onFailure(statusCode, headers, throwable,
 								errorResponse);
 						// 错误返回JSONObject
@@ -447,24 +442,22 @@ public class OrderDetailActivity extends Activity {
 
 		@Override
 		public int getCount() {
-			// TODO Auto-generated method stub
 			return mData.size();
 		}
 
 		@Override
 		public Object getItem(int position) {
-			// TODO Auto-generated method stub
 			return null;
 		}
 
 		@Override
 		public long getItemId(int position) {
-			// TODO Auto-generated method stub
 			return position;
 		}
 
 		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
+		public View getView(final int position, View convertView,
+				ViewGroup parent) {
 			// TODO Auto-generated method stub
 			if (convertView == null) {
 				View v = LayoutInflater.from(OrderDetailActivity.this).inflate(
@@ -557,10 +550,40 @@ public class OrderDetailActivity extends Activity {
 					break;
 				}
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			// appItem.AppImg
+			convertView.setOnClickListener(new View.OnClickListener() {
+
+				@Override
+				public void onClick(View arg0) {
+					Intent mIntent = new Intent(OrderDetailActivity.this,
+							GoodsDetailActivity.class);
+
+					try {
+						mIntent.putExtra("pid",
+								mData.get(position).getString("ActiveId")
+										.toString());
+
+						mIntent.putExtra("guigeid", mData.get(position)
+								.getString("Pid").toString());
+						mIntent.putExtra("goodsid", mData.get(position)
+								.getString("GoodsId").toString());// 商品id
+						mIntent.putExtra("imgurl", AllStaticMessage.URL_GBase
+								+ "/UsersData/"
+								+ mData.get(position).getString("Account")
+										.toString()
+								+ "/"
+								+ mData.get(position).getString("Img")
+										.toString() + "/5.jpg");
+						startActivity(mIntent);
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+
+				}
+			});
+
 			return convertView;
 		}
 
@@ -619,7 +642,6 @@ public class OrderDetailActivity extends Activity {
 				}
 
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 

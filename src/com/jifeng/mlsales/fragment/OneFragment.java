@@ -13,6 +13,8 @@ import com.ab.view.pullview.AbPullToRefreshView.OnFooterLoadListener;
 import com.ab.view.pullview.AbPullToRefreshView.OnHeaderRefreshListener;
 import com.jifeng.adapter.MainAdapter;
 import com.jifeng.mlsales.R;
+import com.jifeng.mlsales.jumeimiao.GoodsDetailActivity;
+import com.jifeng.mlsales.jumeimiao.GoodsListActivity;
 import com.jifeng.mlsales.jumeimiao.LoginActivity;
 import com.jifeng.myview.LoadingDialog;
 import com.jifeng.myview.My_ViewPager;
@@ -202,7 +204,60 @@ public class OneFragment extends BaseFragment implements
 						Intent intent = new Intent(getActivity(),
 								LoginActivity.class);
 						startActivity(intent);
-					}
+					} else if (mArray_ad
+							.getJSONObject(my_ViewPager.getCurrentItem())
+							.getString("AdType").equals("1")
+							&& mArray_ad
+									.getJSONObject(
+											my_ViewPager.getCurrentItem())
+									.getString("LinkUrl").equals("")) {
+						String activeId = mArray_ad.getJSONObject(
+								my_ViewPager.getCurrentItem()).getString(
+								"Account");
+						Intent intent = new Intent(getActivity(),
+								GoodsListActivity.class);
+						intent.putExtra("active", "1");
+						intent.putExtra("activeId", activeId);
+						startActivity(intent);
+					} 
+//					else if (mArray_ad
+//							.getJSONObject(my_ViewPager.getCurrentItem())
+//							.getString("AdType").equals("3")
+//							&& mArray_ad
+//									.getJSONObject(
+//											my_ViewPager.getCurrentItem())
+//									.getString("LinkUrl").equals("")) {
+//						Intent intent = new Intent(getActivity(),
+//								GoodsDetailActivity.class);
+//						intent.putExtra(
+//								"pid",
+//								mArray_ad
+//										.getJSONObject(
+//												my_ViewPager.getCurrentItem())
+//										.getString("Account").toString());// 活动id
+//
+//						intent.putExtra(
+//								"guigeid",
+//								mArray_ad
+//										.getJSONObject(
+//												my_ViewPager.getCurrentItem())
+//										.getString("Id").toString());// 规格
+//						intent.putExtra(
+//								"goodsid",
+//								mArray_ad
+//										.getJSONObject(
+//												my_ViewPager.getCurrentItem())
+//										.getString("GoodsId").toString());// 商品id
+//						intent.putExtra(
+//								"imgurl",
+//								AllStaticMessage.URL_GBase
+//										+ mArray_ad
+//												.getJSONObject(
+//														my_ViewPager
+//																.getCurrentItem())
+//												.getString("ImgUrl").toString());
+//						startActivity(intent);
+//					}
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}

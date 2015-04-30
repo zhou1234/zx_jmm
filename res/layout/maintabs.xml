@@ -43,6 +43,7 @@
                 style="@style/main_tab_bottom"
                 android:drawableTop="@drawable/tab_second_1"
                 android:text="分类"
+                android:visibility="gone"
                 android:textColor="@color/text_color" />
 
             <RadioButton

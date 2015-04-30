@@ -31,20 +31,20 @@
             android:text="订单详情"
             android:textColor="@android:color/white"
             android:textSize="16sp" />
+
         <Button
             android:id="@+id/orderdetail_btn_quxiao_order"
-             android:layout_width="wrap_content"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="3dip"
             android:background="@drawable/orderdetail_quxiao"
-            android:text="取消订单"
             android:onClick="doclick"
+            android:text="取消订单"
             android:textColor="@color/white"
             android:textSize="15sp"
-            android:visibility="invisible"
-            /> 
+            android:visibility="invisible" />
     </RelativeLayout>
 
     <ScrollView
@@ -57,13 +57,13 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
+            android:background="#ffffff"
             android:orientation="vertical" >
 
             <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="120dip"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="8dip"
-                android:background="@drawable/myself_thread_bg"
                 android:orientation="vertical" >
 
                 <LinearLayout
@@ -165,10 +165,15 @@
 
             <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="150dip"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="8dip"
-                android:background="@drawable/myself_thread_bg"
                 android:orientation="vertical" >
+
+                <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dip"
+                    android:background="@drawable/logo_xian" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -235,7 +240,7 @@
 
                 <LinearLayout
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginTop="8dip"
                     android:orientation="horizontal" >
 
@@ -263,8 +268,8 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dip"
-                    android:orientation="horizontal" 
-                    android:visibility="gone">
+                    android:orientation="horizontal"
+                    android:visibility="gone" >
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -289,8 +294,13 @@
                 android:layout_width="fill_parent"
                 android:layout_height="134dip"
                 android:layout_marginTop="8dip"
-                android:background="@drawable/myself_thread_bg"
                 android:orientation="vertical" >
+
+                <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dip"
+                    android:background="@drawable/logo_xian" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -380,13 +390,18 @@
                 </LinearLayout>
             </LinearLayout>
 
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dip"
+                android:background="@drawable/logo_xian" />
+
             <com.jifeng.myview.My_ListView
                 android:id="@+id/orderdetail_list"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dip"
-                android:background="@drawable/myself_thread_bg" 
-                android:divider="@null"/>
+                android:background="@drawable/myself_thread_bg"
+                android:divider="@null" />
         </LinearLayout>
     </ScrollView>
 
@@ -435,8 +450,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dip"
-                android:orientation="horizontal" 
-                android:visibility="gone">
+                android:orientation="horizontal"
+                android:visibility="gone" >
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -465,8 +480,8 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="8dip"
             android:background="@drawable/orderdetail_lijizhifu"
-            android:text="立即支付"
             android:onClick="doclick"
+            android:text="立即支付"
             android:textColor="@color/white"
             android:textSize="15sp" />
     </RelativeLayout>

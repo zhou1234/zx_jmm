@@ -30,22 +30,19 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 public class MyGoodsListAdapter1 extends BaseAdapter {
 	GoodsListAppItem1 appItem;
 	List<JSONObject> mListData;
-	// ImageLoader imageLoader;
 	Context mContext;
 	String pid;
 	int width, hight;
 	DisplayImageOptions options;
 
 	public MyGoodsListAdapter1(List<JSONObject> listData, Context context,
-			String id, int width, int hight) {// , ImageLoader imageLoader
+			String id, int width, int hight) {
 		this.mContext = context;
-		// this.imageLoader = imageLoader;
 		mListData = new ArrayList<JSONObject>();
 		this.mListData = listData;
 		this.pid = id;
 		this.width = width;
 		this.hight = hight;
-		// MyTools.initImageLoader(mContext);
 		options = MyTools.createOptions(R.drawable.img);
 	}
 
@@ -99,7 +96,7 @@ public class MyGoodsListAdapter1 extends BaseAdapter {
 				// 特卖价
 				appItem.AppText_price_now.setText("￥"
 						+ mListData.get(position).getString("SellPrice")
-								.toString());
+						  		.toString());
 				num = mListData.get(position).getString("SellPrice").toString();
 			} else {
 				// 普通价
@@ -129,15 +126,9 @@ public class MyGoodsListAdapter1 extends BaseAdapter {
 					+ "/"
 					+ mListData.get(position).getString("SkuNo").toString()
 					+ "/5.jpg".trim();
-			// imageLoader.DisplayImage(imgurl, appItem.AppImg);
-			// } catch (OutOfMemoryError e) {
-
-			// }
 			ImageLoader.getInstance().displayImage(imgurl, appItem.AppImg,
 					options);
 
-			// MyTools.downImg(imgurl, appItem.AppImg);
-			// appItem.AppImg.setImageDrawable(mContext.getResources().getDrawable(R.drawable.img));
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}

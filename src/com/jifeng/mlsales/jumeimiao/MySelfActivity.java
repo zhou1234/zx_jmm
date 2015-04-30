@@ -25,6 +25,7 @@ import com.umeng.analytics.MobclickAgent;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -210,6 +211,13 @@ public class MySelfActivity extends Activity {
 			}
 
 			break;
+		case R.id.setting_rel_kefudianhua:// 客服电话
+			Intent intent = new Intent();
+			intent.setAction(Intent.ACTION_CALL); // 直接拨号ACTION_CALL
+													// 进入拨号界面ACTION_DIAL
+			intent.setData(Uri.parse("tel:4009696876"));
+			startActivity(intent);
+			break;   
 		default:
 			break;
 		}
@@ -407,7 +415,6 @@ public class MySelfActivity extends Activity {
 
 	@Override
 	protected void onDestroy() {
-		// TODO Auto-generated method stub
 		ShareSDK.stopSDK(this);
 		super.onDestroy();
 		mIntent = null;
@@ -490,7 +497,6 @@ public class MySelfActivity extends Activity {
 					@Override
 					public void onFailure(int statusCode, Header[] headers,
 							Throwable throwable, JSONObject errorResponse) {
-						// TODO Auto-generated method stub
 						super.onFailure(statusCode, headers, throwable,
 								errorResponse);
 						// 错误返回JSONObject
@@ -509,7 +515,6 @@ public class MySelfActivity extends Activity {
 					@Override
 					public void onSuccess(int statusCode, Header[] headers,
 							JSONObject response) {
-						// TODO Auto-generated method stub
 						super.onSuccess(statusCode, headers, response);
 						// 成功返回JSONObject
 						try {
@@ -546,7 +551,6 @@ public class MySelfActivity extends Activity {
 					@Override
 					public void onFailure(int statusCode, Header[] headers,
 							Throwable throwable, JSONObject errorResponse) {
-						// TODO Auto-generated method stub
 						super.onFailure(statusCode, headers, throwable,
 								errorResponse);
 						// 错误返回JSONObject

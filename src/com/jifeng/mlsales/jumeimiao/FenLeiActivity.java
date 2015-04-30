@@ -200,7 +200,7 @@ public class FenLeiActivity extends Activity {
 									if (mAdapter == null) {
 										mAdapter = new MyGoodsListAdapter(
 												listData, FenLeiActivity.this,
-												Pid, width, height);//
+												Pid, width, height);
 										gridView.setAdapter(mAdapter);
 									} else if(mAdapter!=null){
 										mAdapter.notifyDataSetChanged();

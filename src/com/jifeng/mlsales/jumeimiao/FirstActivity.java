@@ -16,8 +16,10 @@ import com.jifeng.myview.SyncHorizontalScrollView;
 import com.jifeng.url.AllStaticMessage;
 import com.jifeng.url.HttpUtil;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import android.app.Application;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -30,6 +32,7 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.TranslateAnimation;
@@ -180,6 +183,16 @@ public class FirstActivity extends FragmentActivity {
 		mViewPager = (ViewPager) findViewById(R.id.mViewPager);
 
 		mViewPager.setOffscreenPageLimit(3);
+
+		findViewById(R.id.iv_class).setOnClickListener(
+				new View.OnClickListener() {
+
+					@Override
+					public void onClick(View arg0) {
+						startActivity(new Intent(FirstActivity.this,
+								ClassActivity.class));
+					}
+				});
 	}
 
 	@Override
@@ -238,7 +251,7 @@ public class FirstActivity extends FragmentActivity {
 						try {
 							if (response.getString("Status").equals("true")) {
 								mArray = response.getJSONArray("Results");
-								tabTitle = new String[mArray.length()+1];
+								tabTitle = new String[mArray.length() + 1];
 								tabTitle[0] = "ΩÒ»’Ãÿ¬Ù";
 								for (int i = 0; i < mArray.length(); i++) {
 									tabTitle[i + 1] = mArray.getJSONObject(i)
@@ -323,5 +336,12 @@ public class FirstActivity extends FragmentActivity {
 			return true;
 		}
 		return super.onKeyDown(keyCode, event);
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		ImageLoader.getInstance().clearDiskCache();
+		ImageLoader.getInstance().clearMemoryCache();
 	}
 }

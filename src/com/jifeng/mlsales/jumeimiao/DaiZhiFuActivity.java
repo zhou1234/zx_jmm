@@ -12,6 +12,7 @@ import cn.sharesdk.framework.ShareSDK;
 
 import com.jifeng.mlsales.R;
 import com.jifeng.myview.LoadingDialog;
+import com.jifeng.myview.My_GridView;
 import com.jifeng.tools.MyTools;
 import com.jifeng.url.AllStaticMessage;
 import com.jifeng.url.HttpUtil;
@@ -21,7 +22,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.umeng.analytics.MobclickAgent;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -49,12 +49,15 @@ public class DaiZhiFuActivity extends Activity {
 	private String no = "";
 	private ImageView iv_no;
 	private TextView tv_no;
+	private MyGalleryAdapter gAdapter;
+	private List<JSONObject> mListData;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_daizhifu);
 		dialog = new LoadingDialog(this);
+		mListData = new ArrayList<JSONObject>();
 		dialog.loading();
 		mData = new ArrayList<JSONObject>();
 		initData();
@@ -131,7 +134,6 @@ public class DaiZhiFuActivity extends Activity {
 					@Override
 					public void onSuccess(int statusCode, Header[] headers,
 							JSONObject response) {
-						// TODO Auto-generated method stub
 						super.onSuccess(statusCode, headers, response);
 						// 成功返回JSONObject
 						try {
@@ -206,38 +208,62 @@ public class DaiZhiFuActivity extends Activity {
 		public MyGridViewAdapter(List<JSONObject> listData) {
 			mListData = new ArrayList<JSONObject>();
 			this.mListData = listData;
-			// imageLoader = new ImageLoader(DaiZhiFuActivity.this, "");
-			// MyTools.initImageLoader(DaiZhiFuActivity.this);
 			options = MyTools.createOptions(R.drawable.img);
 		}
 
 		@Override
 		public int getCount() {
-			// TODO Auto-generated method stub
 			return mListData.size();
 		}
 
 		@Override
 		public Object getItem(int position) {
-			// TODO Auto-generated method stub
 			return null;
 		}
 
 		@Override
 		public long getItemId(int position) {
-			// TODO Auto-generated method stub
 			return position;
 		}
 
 		@Override
 		public View getView(final int position, View convertView,
 				ViewGroup parent) {
-			// TODO Auto-generated method stub
 			if (convertView == null) {
 				View v = LayoutInflater.from(DaiZhiFuActivity.this).inflate(
 						R.layout.item_daizhifu_gridview, null);
 
 				appItem = new AppItem();
+
+				// DisplayMetrics dm = new DisplayMetrics();
+				// getWindowManager().getDefaultDisplay().getMetrics(dm);
+				// float density = dm.density;
+				// int gridviewWidth = (int) (1* (110)* density);
+				// int itemWidth = (int) (100 * density);
+				//
+				// // 新建一个GridView
+				// appItem.my_GridView = new My_GridView(DaiZhiFuActivity.this);
+				// // 设置内部子栏目的宽度
+				// appItem.my_GridView.setColumnWidth(itemWidth);
+				// // 设置内部子栏目个数为自动适应
+				// //appItem.my_GridView.setNumColumns(GridView.AUTO_FIT);
+				// // 设置Gravity为Center
+				// // 设置Selector为透明
+				// appItem.my_GridView.setSelector(new ColorDrawable(
+				// Color.TRANSPARENT));
+				// appItem.my_GridView.setStretchMode(GridView.NO_STRETCH);
+				// //appItem.my_GridView.setNumColumns(100);
+				//
+				// appItem.my_GridView.setHorizontalSpacing(10);
+				// LayoutParams layoutParams = new LayoutParams(
+				// gridviewWidth, LayoutParams.WRAP_CONTENT);
+				// // 设置GridView的LayoutParams为子栏目的宽度乘以栏目个数
+				// appItem.my_GridView.setLayoutParams(layoutParams);
+				//
+				// LinearLayout categoryLayout = (LinearLayout)
+				// v.findViewById(R.id.category_layout);
+				// // 将新建的GridView添加到布局中
+				// categoryLayout.addView(appItem.my_GridView);
 				appItem.AppText_time = (TextView) v
 						.findViewById(R.id.item_order_id);
 				appItem.AppText_status = (TextView) v
@@ -278,17 +304,16 @@ public class DaiZhiFuActivity extends Activity {
 						+ mData.get(position).getString("Account").toString()
 						+ "/" + mData.get(position).getString("Img").toString()
 						+ "/5.jpg";
-				// imageLoader.DisplayImage(imgUrl, appItem.AppImg);
+				// getDataImage(mData.get(position).getString("OrderId")
+				// .toString(), appItem);
 				ImageLoader.getInstance().displayImage(imgUrl, appItem.AppImg,
 						options);
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			convertView.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					// TODO Auto-generated method stub
 					try {
 						mIntent = new Intent(DaiZhiFuActivity.this,
 								OrderDetailActivity.class);
@@ -297,11 +322,28 @@ public class DaiZhiFuActivity extends Activity {
 										.toString());
 						startActivity(mIntent);
 					} catch (JSONException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
 			});
+			// appItem.my_GridView
+			// .setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			//
+			// @Override
+			// public void onItemClick(AdapterView<?> arg0, View arg1,
+			// int arg2, long arg3) {
+			// try {
+			// mIntent = new Intent(DaiZhiFuActivity.this,
+			// OrderDetailActivity.class);
+			// mIntent.putExtra("id", mData.get(position)
+			// .getString("OrderId").toString());
+			// startActivity(mIntent);
+			// } catch (JSONException e) {
+			// e.printStackTrace();
+			// }
+			//
+			// }
+			// });
 			return convertView;
 		}
 	}
@@ -312,6 +354,7 @@ public class DaiZhiFuActivity extends Activity {
 		TextView AppText_status;
 		TextView AppText_price;
 		ImageView AppImg, AppImg_zhifu;
+		My_GridView my_GridView;
 	}
 
 	class onItemClick implements OnClickListener {
@@ -325,7 +368,6 @@ public class DaiZhiFuActivity extends Activity {
 
 		@Override
 		public void onClick(View v) {
-			// TODO Auto-generated method stub
 			// 立即支付
 			try {
 				mIntent = new Intent(DaiZhiFuActivity.this, MyPayActivity.class);
@@ -339,9 +381,52 @@ public class DaiZhiFuActivity extends Activity {
 						.toString());
 				startActivity(mIntent);
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		}
+
+	}
+
+	class MyGalleryAdapter extends BaseAdapter {
+		DisplayImageOptions options;
+		List<JSONObject> mListData;
+
+		public MyGalleryAdapter(List<JSONObject> mListData) {
+			options = MyTools.createOptionsOther(R.drawable.img);
+			this.mListData = mListData;
+		}
+
+		@Override
+		public int getCount() {
+			return 1;
+		}
+
+		@Override
+		public Object getItem(int arg0) {
+			return null;
+		}
+
+		@Override
+		public long getItemId(int arg0) {
+			return arg0;
+		}
+
+		@Override
+		public View getView(int arg0, View arg1, ViewGroup arg2) {
+			View view = getLayoutInflater().inflate(
+					R.layout.item_daizhifu_gridview_new_gallery, arg2, false);
+			ImageView v = (ImageView) view.findViewById(R.id.v);
+			try {
+				String imgUrl = AllStaticMessage.URL_GBase + "/UsersData/"
+						+ mListData.get(arg0).getString("Account").toString()
+						+ "/" + mListData.get(arg0).getString("Img").toString()
+						+ "/5.jpg";
+				ImageLoader.getInstance().displayImage(imgUrl, v, options);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+
+			return view;
 		}
 
 	}
@@ -357,5 +442,73 @@ public class DaiZhiFuActivity extends Activity {
 	protected void onPause() {
 		super.onPause();
 		MobclickAgent.onPause(this);
+	}
+
+	private void getDataImage(String orderId, final AppItem appItem) {
+		String url = AllStaticMessage.URL_Order_Deatil
+				+ AllStaticMessage.User_Id + "&orderId=" + orderId;
+		HttpUtil.get(url, DaiZhiFuActivity.this, dialog,
+				new JsonHttpResponseHandler() {
+					@Override
+					public void onSuccess(int statusCode, Header[] headers,
+							JSONObject response) {
+						super.onSuccess(statusCode, headers, response);
+						// 成功返回JSONObject
+						try {
+							if (response.getString("Status").equals("true")) {
+								JSONArray mArray = response
+										.getJSONArray("Results");
+								if (mListData != null) {
+									mListData.clear();
+								}
+								if (mArray.length() > 0) {
+									for (int i = 0; i < mArray.length(); i++) {
+										mListData.add(mArray.getJSONObject(i));
+									}
+									appItem.my_GridView.setNumColumns(mListData
+											.size());
+									// appItem.my_GridView
+									// .setSelector(new ColorDrawable(
+									// Color.TRANSPARENT));
+									gAdapter = new MyGalleryAdapter(mListData);
+									appItem.my_GridView.setAdapter(gAdapter);
+
+								} else {
+									Toast.makeText(
+											DaiZhiFuActivity.this,
+											response.getString("Results")
+													.toString(), 500).show();
+								}
+							}
+						} catch (JSONException e) {
+							e.printStackTrace();
+						}
+
+					}
+
+					@Override
+					public void onStart() {
+						super.onStart();
+						// 请求开始
+					}
+
+					@Override
+					public void onFinish() {
+						super.onFinish();
+						// 请求结束
+					}
+
+					@Override
+					public void onFailure(int statusCode, Header[] headers,
+							Throwable throwable, JSONObject errorResponse) {
+						// TODO Auto-generated method stub
+						super.onFailure(statusCode, headers, throwable,
+								errorResponse);
+						// 错误返回JSONObject
+						if (dialog != null) {
+							dialog.stop();
+						}
+					}
+				});
 	}
 }

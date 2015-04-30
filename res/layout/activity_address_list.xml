@@ -14,7 +14,7 @@
         <ImageView
             android:id="@+id/address_list_back"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="wrap_content"  
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="3dip"
@@ -60,7 +60,7 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical"
-        android:visibility="gone" >
+        android:visibility="visible" >
 
         <ImageView
             android:id="@+id/iv_no"
@@ -78,7 +78,7 @@
             android:layout_width="150dp"
             android:layout_height="30dp"
             android:layout_marginTop="10dp"
-            android:background="@drawable/jiesuan_3"
+            android:background="@drawable/jiesuan_new"
             android:gravity="center"
             android:orientation="vertical" >
 

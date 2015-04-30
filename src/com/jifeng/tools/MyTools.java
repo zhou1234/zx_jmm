@@ -6,7 +6,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -16,27 +15,12 @@ import java.util.regex.Pattern;
 
 import com.jifeng.image.AsyncImageLoader;
 import com.jifeng.image.AsyncImageLoader.ImageCallback;
-import com.jifeng.mlsales.R;
-import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
-import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
-import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
-import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
-import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
-import com.nostra13.universalimageloader.core.decode.BaseImageDecoder;
-import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
-import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
-import com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer;
-import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -46,14 +30,11 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Bitmap.Config;
 import android.graphics.PorterDuff.Mode;
-import android.graphics.drawable.AnimationDrawable;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Environment;
 import android.telephony.TelephonyManager;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebSettings;
@@ -68,6 +49,7 @@ import android.widget.TextView;
 @TargetApi(Build.VERSION_CODES.ECLAIR_MR1)
 public class MyTools {
 	public static AsyncImageLoader image = new AsyncImageLoader();
+
 	/**
 	 * 根据手机的分辨率从 dp 的单位 转成为 px(像素)
 	 */
@@ -75,14 +57,13 @@ public class MyTools {
 		final float scale = context.getResources().getDisplayMetrics().density;
 		return (int) (dpValue * scale + 0.5f);
 	}
-	
-	public static String getRandom()
-	{
+
+	public static String getRandom() {
 		Random random = new Random();
 
-        int str = random.nextInt(9999)%(9999-1000+1) + 1000;
-        
-        return String.valueOf(str) ;
+		int str = random.nextInt(9999) % (9999 - 1000 + 1) + 1000;
+
+		return String.valueOf(str);
 	}
 
 	/**
@@ -107,7 +88,6 @@ public class MyTools {
 				return false;
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
 			return false;
 		}
 		return true;
@@ -117,7 +97,7 @@ public class MyTools {
 	public static boolean isMobileNO(String mobiles) {
 		if (mobiles != null && !mobiles.equals("")) {
 			Pattern p = Pattern
-					.compile("^((13[0-9])|(15[^4,\\D])|(17[0-9])|(18[0-9]))\\d{8}$");//|(14[0-9])
+					.compile("^((13[0-9])|(15[^4,\\D])|(17[0-9])|(18[0-9]))\\d{8}$");// |(14[0-9])
 			Matcher m = p.matcher(mobiles);
 
 			return m.matches();
@@ -275,15 +255,16 @@ public class MyTools {
 	public static String getTime() {
 		SimpleDateFormat formatter = new SimpleDateFormat(
 				"yyyy/MM/dd   HH:mm:ss");
-		Date curDate = new Date(System.currentTimeMillis());// 获取当前时间
+		Date curDate = new Date(System.currentTimeMillis());
 		String str = formatter.format(curDate);
 		return str;
 	}
 
+	@SuppressLint("SimpleDateFormat")
 	public static int creayTime(String endtime, String currenttime) {// String
-																		// endtime,
-																		// String
-																		// currenttime
+		// endtime,
+		// String
+		// currenttime
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		int between = 0;
 		try {
@@ -292,7 +273,6 @@ public class MyTools {
 			between = (int) ((end.getTime() - curret.getTime()) / (1000 * 60 * 60 * 24));
 			return between;
 		} catch (ParseException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		return between;
@@ -383,10 +363,10 @@ public class MyTools {
 		} else if (width == 1600 && height == 2560) {
 			linearParams.height = MyTools.dip2px(mContext, 265);
 			layout.setLayoutParams(linearParams);
-		}else if (width == 1080 && height == 1776) {
+		} else if (width == 1080 && height == 1776) {
 			linearParams.height = MyTools.dip2px(mContext, 135);
 			layout.setLayoutParams(linearParams);
-		}else if (width == 1080 && height == 1812) {
+		} else if (width == 1080 && height == 1812) {
 			linearParams.height = MyTools.dip2px(mContext, 135);
 			layout.setLayoutParams(linearParams);
 		} else if (width == 1080 && height == 1920) {
@@ -410,37 +390,39 @@ public class MyTools {
 	/**
 	 * 得到自定义的progressDialog
 	 */
-//	public static Dialog createLoadingDialog(Context context, String msg) {
-//		LayoutInflater inflater = LayoutInflater.from(context);
-//		View v = inflater.inflate(R.layout.all_dialog, null);// 得到加载view
-//		RelativeLayout layout = (RelativeLayout) v
-//				.findViewById(R.id.dialog_view);// 加载布局
-//		// main.xml中的ImageView
-//		ImageView spaceshipImage = (ImageView) v
-//				.findViewById(R.id.loadingImageView);
-//		TextView tipTextView = (TextView) v.findViewById(R.id.id_tv_loadingmsg);// 提示文字
-//		// 加载动画显示
-//		// Animation hyperspaceJumpAnimation =
-//		// AnimationUtils.loadAnimation(context, R.anim.loading_animation);
-//		// 使用ImageView显示动画
-//		// spaceshipImage.startAnimation(hyperspaceJumpAnimation);
-//
-//		// 轮播图片显示
-//		spaceshipImage.setBackgroundResource(R.anim.progress_round);
-//		AnimationDrawable animationDrawable = (AnimationDrawable) spaceshipImage
-//				.getBackground();
-//		animationDrawable.start();
-//
-//		tipTextView.setText(msg);// 设置加载信息
-//
-//		Dialog loadingDialog = new Dialog(context, R.style.CustomDialog);// 创建自定义样式dialog
-//
-//		// loadingDialog.setCancelable(false);// 不可以用“返回键”取消
-//		loadingDialog.setContentView(layout, new LinearLayout.LayoutParams(
-//				LinearLayout.LayoutParams.WRAP_CONTENT,
-//				LinearLayout.LayoutParams.WRAP_CONTENT));// 设置布局
-//		return loadingDialog;
-//	}
+	// public static Dialog createLoadingDialog(Context context, String msg) {
+	// LayoutInflater inflater = LayoutInflater.from(context);
+	// View v = inflater.inflate(R.layout.all_dialog, null);// 得到加载view
+	// RelativeLayout layout = (RelativeLayout) v
+	// .findViewById(R.id.dialog_view);// 加载布局
+	// // main.xml中的ImageView
+	// ImageView spaceshipImage = (ImageView) v
+	// .findViewById(R.id.loadingImageView);
+	// TextView tipTextView = (TextView)
+	// v.findViewById(R.id.id_tv_loadingmsg);// 提示文字
+	// // 加载动画显示
+	// // Animation hyperspaceJumpAnimation =
+	// // AnimationUtils.loadAnimation(context, R.anim.loading_animation);
+	// // 使用ImageView显示动画
+	// // spaceshipImage.startAnimation(hyperspaceJumpAnimation);
+	//
+	// // 轮播图片显示
+	// spaceshipImage.setBackgroundResource(R.anim.progress_round);
+	// AnimationDrawable animationDrawable = (AnimationDrawable) spaceshipImage
+	// .getBackground();
+	// animationDrawable.start();
+	//
+	// tipTextView.setText(msg);// 设置加载信息
+	//
+	// Dialog loadingDialog = new Dialog(context, R.style.CustomDialog);//
+	// 创建自定义样式dialog
+	//
+	// // loadingDialog.setCancelable(false);// 不可以用“返回键”取消
+	// loadingDialog.setContentView(layout, new LinearLayout.LayoutParams(
+	// LinearLayout.LayoutParams.WRAP_CONTENT,
+	// LinearLayout.LayoutParams.WRAP_CONTENT));// 设置布局
+	// return loadingDialog;
+	// }
 
 	// 动态设置控件高度（正）
 	public static void setHight(RelativeLayout layout, int width, int height,
@@ -460,7 +442,7 @@ public class MyTools {
 			linearParams.height = MyTools.dip2px(mContext, 442);// 平板
 			layout.setLayoutParams(linearParams); // 使设置好的布局参数应用到控件
 		} else if (width == 720 && height == 1280) {
-			linearParams.height = MyTools.dip2px(mContext, 245);//257
+			linearParams.height = MyTools.dip2px(mContext, 245);// 257
 			layout.setLayoutParams(linearParams);
 		} else if (width == 1080 && height == 1812) {
 			linearParams.height = MyTools.dip2px(mContext, 245);
@@ -482,56 +464,79 @@ public class MyTools {
 			layout.setLayoutParams(linearParams);
 		}
 	}
-	
+
 	public static DisplayImageOptions createOptions(int imgId) {
 		@SuppressWarnings("deprecation")
 		DisplayImageOptions options = new DisplayImageOptions.Builder()
-        .showImageOnLoading(imgId)
-        .showImageForEmptyUri(imgId)
-        .showImageOnFail(imgId)
-        .cacheInMemory(true)//设置下载的图片是否缓存在内存中  
-        .cacheOnDisc(true)//设置下载的图片是否缓存在SD卡中  
-        //.considerExifParams(true)  //是否考虑JPEG图像EXIF参数（旋转，翻转）
-        .imageScaleType(ImageScaleType.IN_SAMPLE_INT)
-        /*设置图片以如何的编码方式显示mageScaleType的选择值:
-              EXACTLY :图像将完全按比例缩小的目标大小
-              EXACTLY_STRETCHED:图片会缩放到目标大小完全
-              IN_SAMPLE_INT:图像将被二次采样的整数倍
-              IN_SAMPLE_POWER_OF_2:图片将降低2倍，直到下一减少步骤，使图像更小的目标大小
-              NONE:图片不会调整*/
-        .bitmapConfig(Bitmap.Config.RGB_565)//设置图片的解码类型
-        .delayBeforeLoading(30)//int delayInMillis为你设置的下载前的延迟时间
-        //对图片进行处理
-        .resetViewBeforeLoading(true)//设置图片在下载前是否重置，复位  
-        //.displayer(new RoundedBitmapDisplayer(20))//不推荐用！！！！是否设置为圆角，弧度为多少  
-        //.displayer(new FadeInBitmapDisplayer(100))//是否图片加载好后渐入的动画时间，可能会出现闪动
-        .build();
+				.showImageOnLoading(imgId).showImageForEmptyUri(imgId)
+				.showImageOnFail(imgId).cacheInMemory(true)// 设置下载的图片是否缓存在内存中
+				.cacheOnDisc(false)// 设置下载的图片是否缓存在SD卡中
+				// .considerExifParams(true) //是否考虑JPEG图像EXIF参数（旋转，翻转）
+				.imageScaleType(ImageScaleType.IN_SAMPLE_INT)
+				/*
+				 * 设置图片以如何的编码方式显示mageScaleType的选择值: EXACTLY :图像将完全按比例缩小的目标大小
+				 * EXACTLY_STRETCHED:图片会缩放到目标大小完全 IN_SAMPLE_INT:图像将被二次采样的整数倍
+				 * IN_SAMPLE_POWER_OF_2:图片将降低2倍，直到下一减少步骤，使图像更小的目标大小 NONE:图片不会调整
+				 */
+				.bitmapConfig(Bitmap.Config.RGB_565)// 设置图片的解码类型
+				.delayBeforeLoading(30)// int delayInMillis为你设置的下载前的延迟时间
+				// 对图片进行处理
+				.resetViewBeforeLoading(true)// 设置图片在下载前是否重置，复位
+				// .displayer(new
+				// RoundedBitmapDisplayer(20))//不推荐用！！！！是否设置为圆角，弧度为多少
+				// .displayer(new
+				// FadeInBitmapDisplayer(100))//是否图片加载好后渐入的动画时间，可能会出现闪动
+				.build();
 		return options;
 	}
-	
 
-//	/**
-//	 * Layout动画
-//	 * 
-//	 * @return
-//	 */
-//	public static LayoutAnimationController getAnimationController() {
-//		int duration = 300;
-//		AnimationSet set = new AnimationSet(true);
-//
-//		Animation animation = new AlphaAnimation(0.0f, 1.0f);
-//		animation.setDuration(duration);
-//		set.addAnimation(animation);
-//
-//		animation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f,
-//				Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF,
-//				-1.0f, Animation.RELATIVE_TO_SELF, 0.0f);
-//		animation.setDuration(duration);
-//		set.addAnimation(animation);
-//
-//		LayoutAnimationController controller = new LayoutAnimationController(
-//				set, 0.5f);
-//		controller.setOrder(LayoutAnimationController.ORDER_NORMAL);
-//		return controller;
-//	}
+	public static DisplayImageOptions createOptionsOther(int imgId) {
+		@SuppressWarnings("deprecation")
+		DisplayImageOptions options = new DisplayImageOptions.Builder()
+				.showImageOnLoading(imgId).showImageForEmptyUri(imgId)
+				.showImageOnFail(imgId).cacheInMemory(true)// 设置下载的图片是否缓存在内存中
+				.cacheOnDisc(true)// 设置下载的图片是否缓存在SD卡中
+				// .considerExifParams(true) //是否考虑JPEG图像EXIF参数（旋转，翻转）
+				.imageScaleType(ImageScaleType.IN_SAMPLE_INT)
+				/*
+				 * 设置图片以如何的编码方式显示mageScaleType的选择值: EXACTLY :图像将完全按比例缩小的目标大小
+				 * EXACTLY_STRETCHED:图片会缩放到目标大小完全 IN_SAMPLE_INT:图像将被二次采样的整数倍
+				 * IN_SAMPLE_POWER_OF_2:图片将降低2倍，直到下一减少步骤，使图像更小的目标大小 NONE:图片不会调整
+				 */
+				.bitmapConfig(Bitmap.Config.RGB_565)// 设置图片的解码类型
+				.delayBeforeLoading(30)// int delayInMillis为你设置的下载前的延迟时间
+				// 对图片进行处理
+				.resetViewBeforeLoading(false)// 设置图片在下载前是否重置，复位
+				// .displayer(new
+				// RoundedBitmapDisplayer(20))//不推荐用！！！！是否设置为圆角，弧度为多少
+				// .displayer(new
+				// FadeInBitmapDisplayer(100))//是否图片加载好后渐入的动画时间，可能会出现闪动
+				.build();
+		return options;
+	}
+
+	// /**
+	// * Layout动画
+	// *
+	// * @return
+	// */
+	// public static LayoutAnimationController getAnimationController() {
+	// int duration = 300;
+	// AnimationSet set = new AnimationSet(true);
+	//
+	// Animation animation = new AlphaAnimation(0.0f, 1.0f);
+	// animation.setDuration(duration);
+	// set.addAnimation(animation);
+	//
+	// animation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f,
+	// Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF,
+	// -1.0f, Animation.RELATIVE_TO_SELF, 0.0f);
+	// animation.setDuration(duration);
+	// set.addAnimation(animation);
+	//
+	// LayoutAnimationController controller = new LayoutAnimationController(
+	// set, 0.5f);
+	// controller.setOrder(LayoutAnimationController.ORDER_NORMAL);
+	// return controller;
+	// }
 }

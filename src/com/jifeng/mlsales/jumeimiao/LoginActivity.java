@@ -26,6 +26,8 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -40,6 +42,8 @@ public class LoginActivity extends Activity {
 	private String userName, userPsd;// 记录登录者的信息
 	private ShrefUtil mShrefUtil;
 	private LoadingDialog dialog;
+
+	private SharedPreferences sp;
 	// private boolean first_to_other = false;
 	@SuppressLint("HandlerLeak")
 	private Handler mHandler = new Handler() {
@@ -90,6 +94,7 @@ public class LoginActivity extends Activity {
 		dialog = new LoadingDialog(this);
 		mShrefUtil = new ShrefUtil(this, "data");
 		findView();
+		sp = getSharedPreferences(AllStaticMessage.SPNE, 0);
 	}
 
 	// 查找控件
@@ -181,8 +186,8 @@ public class LoginActivity extends Activity {
 
 	// 登录
 	private void doLogin(final String userName, final String psd,
-			String loginType, String openid, String deviceType, String gender,
-			String nickName, String address) {
+			final String loginType, final String openid, String deviceType,
+			final String gender, final String nickName, final String address) {
 
 		String url = AllStaticMessage.URL_Login + userName + "&password=" + psd
 				+ "&loginType=" + loginType + "&openid=" + openid
@@ -212,6 +217,32 @@ public class LoginActivity extends Activity {
 								AllStaticMessage.User_Psd = psd;
 								mShrefUtil.write("user_name", userName);
 								mShrefUtil.write("user_psd", psd);
+
+								Editor editor = sp.edit();
+								editor.remove(AllStaticMessage.NAME);
+								editor.remove(AllStaticMessage.PSW);
+								editor.remove(AllStaticMessage.TYPE);
+								editor.remove(AllStaticMessage.OPEN_ID);
+								editor.remove(AllStaticMessage.GENDER);
+								editor.remove(AllStaticMessage.NICK_NAME);
+								editor.remove(AllStaticMessage.ADDRESS);
+								editor.commit();
+
+								editor.putString(AllStaticMessage.NAME,
+										userName);
+								editor.putString(AllStaticMessage.PSW, psd);
+								editor.putString(AllStaticMessage.TYPE,
+										loginType);
+								editor.putString(AllStaticMessage.OPEN_ID,
+										openid);
+								editor.putString(AllStaticMessage.GENDER,
+										gender);
+								editor.putString(AllStaticMessage.NICK_NAME,
+										nickName);
+								editor.putString(AllStaticMessage.ADDRESS,
+										address);
+								editor.commit();
+								
 								setResult(RESULT_OK);
 								finish();
 							} else {
@@ -221,7 +252,6 @@ public class LoginActivity extends Activity {
 												.toString(), 500).show();
 							}
 						} catch (JSONException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 						if (dialog != null) {
@@ -261,20 +291,20 @@ public class LoginActivity extends Activity {
 	protected void onDestroy() {
 		ShareSDK.stopSDK(this);
 		super.onDestroy();
-//		mIntent = null;
-//		mText_userName = null;
-//		mText_userPsd = null;
-//		userName = null;
-//		userPsd = null;// 记录登录者的信息
-//		mShrefUtil = null;
-//		if (dialog != null) {
-//			dialog.stop();
-//		}
-//		dialog = null;
-//		mHandler = null;
-//		setContentView(R.layout.view_null);
-//		this.finish();
-//		System.gc();
+		// mIntent = null;
+		// mText_userName = null;
+		// mText_userPsd = null;
+		// userName = null;
+		// userPsd = null;// 记录登录者的信息
+		// mShrefUtil = null;
+		// if (dialog != null) {
+		// dialog.stop();
+		// }
+		// dialog = null;
+		// mHandler = null;
+		// setContentView(R.layout.view_null);
+		// this.finish();
+		// System.gc();
 	}
 
 	@Override

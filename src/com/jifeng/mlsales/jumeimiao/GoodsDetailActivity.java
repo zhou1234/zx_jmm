@@ -155,7 +155,9 @@ public class GoodsDetailActivity extends Activity {
 
 			@Override
 			public void onPageStarted(WebView view, String url, Bitmap favicon) {
-				dialog.loading();
+				if (!GoodsDetailActivity.this.isFinishing()) {
+					dialog.loading();
+				}
 				super.onPageStarted(view, url, favicon);
 			}
 
@@ -372,29 +374,29 @@ public class GoodsDetailActivity extends Activity {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-//		setContentView(R.layout.view_null);
-//		handler = null;
-//		tasckActivity.popActivity(GoodsDetailActivity.this);
-//		tasckActivity = null;
-//		mIntent = null;
-//		mWebView.removeAllViews();
-//		mWebView.destroy();
-//		mWebView = null;
-//		mText_title = null;
-//		dialog = null;
-//		mImage_Car = null;
-//		// translateAnimation = null;
-//		// scaleAnimation = null;
-//		btn_input_car = null;
-//		shareTitle = null;
-//		shareContent = null;
-//		shareUrl = null;
-//		shareImg = null;
-//		activityId = null;
-//		id = null;
-//		spid = null;// 活动id 商品id 规格id
-//		// this.finish();
-//		System.gc();
+		// setContentView(R.layout.view_null);
+		// handler = null;
+		// tasckActivity.popActivity(GoodsDetailActivity.this);
+		// tasckActivity = null;
+		// mIntent = null;
+		// mWebView.removeAllViews();
+		// mWebView.destroy();
+		// mWebView = null;
+		// mText_title = null;
+		// dialog = null;
+		// mImage_Car = null;
+		// // translateAnimation = null;
+		// // scaleAnimation = null;
+		// btn_input_car = null;
+		// shareTitle = null;
+		// shareContent = null;
+		// shareUrl = null;
+		// shareImg = null;
+		// activityId = null;
+		// id = null;
+		// spid = null;// 活动id 商品id 规格id
+		// // this.finish();
+		// System.gc();
 	}
 
 	private void share(String title, String content, String url, String imgurl) {

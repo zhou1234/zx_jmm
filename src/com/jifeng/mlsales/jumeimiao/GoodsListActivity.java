@@ -74,7 +74,6 @@ public class GoodsListActivity extends Activity {
 			super.handleMessage(msg);
 			switch (msg.what) {
 			case 0x01:
-				// Log.i("11111", "1111111111111111111");
 				mDongHua.setVisibility(View.VISIBLE);
 				Animation hyperspaceJumpAnimation = AnimationUtils
 						.loadAnimation(GoodsListActivity.this,
@@ -104,6 +103,8 @@ public class GoodsListActivity extends Activity {
 	ScrollView mScrollView;
 	private ImageView mImg_Zhiding;
 
+	private String id="", youhui="", time="", text="", imgurl="";
+
 	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -117,14 +118,113 @@ public class GoodsListActivity extends Activity {
 		width = manager.getDefaultDisplay().getWidth();
 		height = manager.getDefaultDisplay().getHeight();
 		mListData = new ArrayList<JSONObject>();
-		findView();
-		register();
-		initData();
-		getData(getIntent().getStringExtra("id").toString(), "0",
-				String.valueOf(pageNum));
+		Intent intent = getIntent();
+		if (intent != null) {
+			String active = intent.getStringExtra("active");
+			if (active.equals("0")) {
+				id = intent.getStringExtra("id").toString();
+				youhui = intent.getStringExtra("youhui").toString();
+				time = intent.getStringExtra("time").toString();
+				text = intent.getStringExtra("text").toString();
+				imgurl = intent.getStringExtra("imgurl").toString();
+				findView();
+				register();
+				initData();
+				getData(id, "0", String.valueOf(pageNum));
+			} else {
+				String activeId = intent.getStringExtra("activeId");
+				getActiveDetial(activeId);
+			}
+		}
 
 		tasckActivity = new TasckActivity();
 		tasckActivity.pushActivity(GoodsListActivity.this);
+	}
+
+	private void getActiveDetial(String activeId) {
+		String url = AllStaticMessage.active_url + activeId;
+		HttpUtil.get(url, GoodsListActivity.this, dialog,
+				new JsonHttpResponseHandler() {
+
+					@SuppressLint("ShowToast")
+					@Override
+					public void onSuccess(int statusCode, Header[] headers,
+							JSONObject response) {
+						super.onSuccess(statusCode, headers, response);
+						// 成功返回JSONObject
+						try {
+							if (response.getString("Status").toString()
+									.equals("true")) {
+
+								JSONObject jsonObject = response
+										.getJSONObject("Results");
+								id = jsonObject.getString("Id").toString();
+//								youhui = jsonObject.getString("DesGuide")
+//										.toString();
+								int data = MyTools.creayTime(jsonObject
+										.getString("EndTime").toString(),
+										MyTools.getTime());
+								if (data < 0) {
+									time = "已结束";
+								} else {
+									time = "仅剩" + String.valueOf(data) + "天";
+								}
+								text = jsonObject.getString("MeimiaoSpeak")
+										.toString();
+
+								imgurl = AllStaticMessage.URL_GBase
+										+ jsonObject.getString("ActivityPic")
+												.toString();
+								findView();
+								register();
+								initData();
+								getData(id, "0", String.valueOf(pageNum));
+								
+							} else {
+								Toast.makeText(
+										GoodsListActivity.this,
+										response.getString("Results")
+												.toString(), 500).show();
+							}
+
+						} catch (JSONException e) {
+							e.printStackTrace();
+						}
+						mPullScrollView.onPullDownRefreshComplete();
+						mPullScrollView.onPullUpRefreshComplete();
+						if (dialog != null) {
+							dialog.stop();
+						}
+
+					}
+
+					@Override
+					public void onStart() {
+						super.onStart();
+						// 请求开始
+					}
+
+					@Override
+					public void onFinish() {
+						super.onFinish();
+						// 请求结束
+					}
+
+					@Override
+					public void onFailure(int statusCode, Header[] headers,
+							Throwable throwable, JSONObject errorResponse) {
+						super.onFailure(statusCode, headers, throwable,
+								errorResponse);
+						// 错误返回JSONObject
+						if (mPullScrollView != null) {
+							mPullScrollView.onPullDownRefreshComplete();
+							mPullScrollView.onPullUpRefreshComplete();
+						}
+						if (dialog != null) {
+							dialog.stop();
+						}
+					}
+				});
 	}
 
 	// 查找控件
@@ -163,8 +263,7 @@ public class GoodsListActivity extends Activity {
 						if (mAdapter != null) {
 							mAdapter.notifyDataSetChanged();
 						}
-						getData(getIntent().getStringExtra("id").toString(),
-								loadFlag, "1");
+						getData(id, loadFlag, "1");
 					}
 
 					@Override
@@ -172,8 +271,7 @@ public class GoodsListActivity extends Activity {
 							PullToRefreshBase<ScrollView> refreshView) {
 						pageNum++;
 						mImg_Zhiding.setVisibility(View.VISIBLE);
-						getData(getIntent().getStringExtra("id").toString(),
-								loadFlag, String.valueOf(pageNum));
+						getData(id, loadFlag, String.valueOf(pageNum));
 
 					}
 				});
@@ -190,18 +288,16 @@ public class GoodsListActivity extends Activity {
 				.findViewById(R.id.textView_meimiaoshuo);
 		RelativeLayout relativeLayout = (RelativeLayout) view
 				.findViewById(R.id.lll);
-		if (getIntent().getStringExtra("youhui").toString().equals("")) {
+		if (youhui.equals("")) {
 			relativeLayout.setVisibility(View.INVISIBLE);
 		} else {
-			mBtn_YouHui
-					.setText(getIntent().getStringExtra("youhui").toString());
+			mBtn_YouHui.setText(youhui);
 			relativeLayout.setVisibility(View.VISIBLE);
 		}
 
-		mText_Time.setText(getIntent().getStringExtra("time").toString());
-		mText_MeiMiaoShuo
-				.setText(getIntent().getStringExtra("text").toString());
-		mText_miao_say.setText(getIntent().getStringExtra("text").toString());
+		mText_Time.setText(time);
+		mText_MeiMiaoShuo.setText(text);
+		mText_miao_say.setText(text);
 		mText_MeiMiaoShuo.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -217,8 +313,7 @@ public class GoodsListActivity extends Activity {
 				.findViewById(R.id.menban_miao);
 		MyTools.getHight(mLayout, width, height, GoodsListActivity.this);
 		MyTools.getHight(mLayout_2, width, height, GoodsListActivity.this);
-		ImageLoader.getInstance().displayImage(
-				getIntent().getStringExtra("imgurl").toString(), mImageView);
+		ImageLoader.getInstance().displayImage(imgurl, mImageView);
 		try {
 			mScrollView.smoothScrollTo(0, 20);
 			mScrollView.addView(view);
@@ -296,12 +391,12 @@ public class GoodsListActivity extends Activity {
 				mAdapter.notifyDataSetChanged();
 			}
 			if (oneFlag) {
-				getData(getIntent().getStringExtra("id").toString(), "3", "1");
+				getData(id, "3", "1");
 				loadFlag = "3";
 				oneFlag = false;
 			} else {
 				oneFlag = true;
-				getData(getIntent().getStringExtra("id").toString(), "4", "1");
+				getData(id, "4", "1");
 				loadFlag = "4";
 			}
 			break;
@@ -326,8 +421,7 @@ public class GoodsListActivity extends Activity {
 		if (mAdapter != null) {
 			mAdapter.notifyDataSetChanged();
 		}
-		getData(getIntent().getStringExtra("id").toString(),
-				String.valueOf(num - 1), "1");
+		getData(id, String.valueOf(num - 1), "1");
 		loadFlag = String.valueOf(num - 1);
 	}
 
@@ -470,10 +564,8 @@ public class GoodsListActivity extends Activity {
 										mAdapter = new MyGoodsListAdapter(
 												mListData,
 												GoodsListActivity.this,
-												getIntent()
-														.getStringExtra("id")
-														.toString(), width,
-												height);// ,mILoader
+												GoodsListActivity.this.id,
+												width, height);
 										mGridView.setAdapter(mAdapter);
 									} else if (mAdapter != null) {
 										mAdapter.notifyDataSetChanged();
@@ -531,53 +623,53 @@ public class GoodsListActivity extends Activity {
 	protected void onDestroy() {
 		super.onDestroy();
 
-	//	setContentView(R.layout.view_null);
+		// setContentView(R.layout.view_null);
 
-		ImageLoader.getInstance().clearMemoryCache();
+		// ImageLoader.getInstance().clearMemoryCache();
 		// ImageLoader.getInstance().clearDiskCache();
 
-//		if (handler != null) {
-//			handler.removeMessages(0x01);
-//			handler.removeMessages(0x02);
-//			handler.removeMessages(0x03);
-//		}
-//
-//		handler = null;
-//
-//		if (dialog != null)
-//			dialog.stop();
+		// if (handler != null) {
+		// handler.removeMessages(0x01);
+		// handler.removeMessages(0x02);
+		// handler.removeMessages(0x03);
+		// }
+		//
+		// handler = null;
+		//
+		// if (dialog != null)
+		// dialog.stop();
 
-//		mDateFormat = null;
-//		tasckActivity.popActivity(GoodsListActivity.this);
-//		tasckActivity = null;
-//
-//		mIntent = null;
-//		mText_title = null;
-//		dialog = null;
-//		btn_moren = null;
-//		btn_news = null;
-//		btn_rexiao = null;
-//		btn_price = null;
-//		mImage_price = null;
-//		mPullScrollView = null;
-//
-//		mDateFormat = null;
-//		mAdapter = null;
-//
-//		mGridView = null;
-//		mImageView = null;
-//		mBtn_YouHui = null;
-//		mText_Time = null;
-//		mText_MeiMiaoShuo = null;
-//		mText_miao_say = null;
-//		mDongHua = null;
-//		mLayout = null;
-//		mListData.clear();
-//		mListData = null;
-//		mRelativeLayout_say = null;
-//		this.finish();
-//
-//		System.gc();
+		// mDateFormat = null;
+		// tasckActivity.popActivity(GoodsListActivity.this);
+		// tasckActivity = null;
+		//
+		// mIntent = null;
+		// mText_title = null;
+		// dialog = null;
+		// btn_moren = null;
+		// btn_news = null;
+		// btn_rexiao = null;
+		// btn_price = null;
+		// mImage_price = null;
+		// mPullScrollView = null;
+		//
+		// mDateFormat = null;
+		// mAdapter = null;
+		//
+		// mGridView = null;
+		// mImageView = null;
+		// mBtn_YouHui = null;
+		// mText_Time = null;
+		// mText_MeiMiaoShuo = null;
+		// mText_miao_say = null;
+		// mDongHua = null;
+		// mLayout = null;
+		// mListData.clear();
+		// mListData = null;
+		// mRelativeLayout_say = null;
+		// this.finish();
+		//
+		// System.gc();
 	}
 
 	@Override

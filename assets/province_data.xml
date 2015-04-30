@@ -606,6 +606,12 @@
       <district name="香洲区" zipcode="519000" />
       <district name="其他" zipcode="519000" />
     </city>
+    <city name="中山市">
+      <district name="中山市" zipcode="528400" />
+    </city>
+    <city name="东莞市">
+      <district name="东莞市" zipcode="523000"/>
+    </city>
   </province>
   <province name="广西壮族自治区">
     <city name="百色市">

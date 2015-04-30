@@ -10,11 +10,20 @@
         android:background="@drawable/head" >
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="120dp"
+            android:layout_height="40dp"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:src="@drawable/main_title" />
+
+        <ImageView
+            android:id="@+id/iv_class"
+            android:layout_width="30dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/fen_lei" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -27,8 +36,8 @@
             android:id="@+id/mHsv"
             android:layout_width="fill_parent"
             android:layout_height="40dip"
-            android:fadingEdge="none"
             android:background="#ffffff"
+            android:fadingEdge="none"
             android:scrollbars="none" >
 
             <RelativeLayout

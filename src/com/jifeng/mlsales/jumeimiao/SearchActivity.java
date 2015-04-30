@@ -182,7 +182,6 @@ public class SearchActivity extends Activity {
 										.getWidth();
 								int height = manager.getDefaultDisplay()
 										.getHeight();
-								response.getString("totalPage").toString();
 								JSONArray array = response
 										.getJSONArray("Results");
 								if (listData == null) {

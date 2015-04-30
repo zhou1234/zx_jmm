@@ -259,7 +259,6 @@ public class AddressListActivity extends Activity {
 					@Override
 					public void onFailure(int statusCode, Header[] headers,
 							Throwable throwable, JSONObject errorResponse) {
-						// TODO Auto-generated method stub
 						super.onFailure(statusCode, headers, throwable,
 								errorResponse);
 						// ´íÎó·µ»ØJSONObject
@@ -378,9 +377,9 @@ public class AddressListActivity extends Activity {
 
 				@Override
 				public void onClick(View v) {
-					if (getIntent() != null) {
-						if (getIntent().getStringExtra("flag")
-								.equals("jiesuan")) {
+					Intent intent = getIntent();
+					if (intent != null) {
+						if (intent.getStringExtra("flag").equals("jiesuan")) {
 
 							AllStaticMessage.JieSuan_Select_Address = true;
 							AllStaticMessage.mJsonObject_select_address = mObjects

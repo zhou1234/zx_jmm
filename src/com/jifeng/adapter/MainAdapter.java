@@ -156,7 +156,6 @@ public class MainAdapter extends BaseAdapter {
 			} else {
 				between = (int) ((end.getTime() - curret.getTime()) / (1000 * 60));
 			}
-
 			return between;
 		} catch (ParseException e1) {
 			e1.printStackTrace();
@@ -205,6 +204,7 @@ public class MainAdapter extends BaseAdapter {
 						.toString());
 				mIntent.putExtra("imgurl", AllStaticMessage.URL_GBase
 						+ jsonObject.getString("ActivityPic").toString());
+				mIntent.putExtra("active", "0");
 				mContext.startActivity(mIntent);
 
 			} catch (JSONException e) {

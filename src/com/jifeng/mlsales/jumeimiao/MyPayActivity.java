@@ -144,7 +144,6 @@ public class MyPayActivity extends Activity {
 
 	@Override
 	protected void onDestroy() {
-		// TODO Auto-generated method stub
 		ShareSDK.stopSDK(this);
 		setContentView(R.layout.view_null);
 		super.onDestroy();
@@ -448,7 +447,6 @@ public class MyPayActivity extends Activity {
 		return "sign_type=\"RSA\"";
 	}
 
-	// ////////////////////////////////////////////
 	/**
 	 * 微信操作
 	 */
@@ -476,7 +474,6 @@ public class MyPayActivity extends Activity {
 					@Override
 					public void onSuccess(int statusCode, Header[] headers,
 							JSONObject response) {
-						// TODO Auto-generated method stub
 						super.onSuccess(statusCode, headers, response);
 						// 成功返回JSONObject
 						if (dialog != null) {
@@ -499,7 +496,6 @@ public class MyPayActivity extends Activity {
 							api.sendReq(req);
 							MyPayActivity.this.finish();
 						} catch (JSONException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 					}
@@ -519,7 +515,6 @@ public class MyPayActivity extends Activity {
 					@Override
 					public void onFailure(int statusCode, Header[] headers,
 							Throwable throwable, JSONObject errorResponse) {
-						// TODO Auto-generated method stub
 						super.onFailure(statusCode, headers, throwable,
 								errorResponse);
 						if (dialog != null) {

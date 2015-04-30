@@ -130,6 +130,7 @@ public class ClassionActivity extends Activity {
 							.show();
 				}
 			}
+
 			break;
 
 		default:
@@ -145,7 +146,6 @@ public class ClassionActivity extends Activity {
 					@Override
 					public void onSuccess(int statusCode, Header[] headers,
 							JSONObject response) {
-						// TODO Auto-generated method stub
 						super.onSuccess(statusCode, headers, response);
 						// ³É¹¦·µ»ØJSONObject
 						try {
@@ -209,12 +209,9 @@ public class ClassionActivity extends Activity {
 		JSONArray jsonArray;
 		private DisplayImageOptions options;
 
-		// ImageLoader mImageLoader;
-
 		public MyGridViewAdapter(JSONArray array) {
-			// mImageLoader = new ImageLoader(ClassionActivity.this, "");
 			this.jsonArray = array;
-			options = MyTools.createOptions(R.drawable.img);
+			options = MyTools.createOptionsOther(R.drawable.img);
 		}
 
 		@Override

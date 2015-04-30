@@ -9,6 +9,8 @@ import com.umeng.analytics.MobclickAgent;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -16,12 +18,14 @@ import android.widget.Toast;
 public class SinglePersonActivity extends Activity {
 	private Intent mIntent;
 	private ShrefUtil mShrefUtil;
+	private SharedPreferences sp;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_single_person);
 		mShrefUtil = new ShrefUtil(this, "data");
+		sp = getSharedPreferences(AllStaticMessage.SPNE, 0);
 	}
 
 	@Override
@@ -68,6 +72,16 @@ public class SinglePersonActivity extends Activity {
 			AllStaticMessage.User_Id = "";
 			mShrefUtil.write("user_name", "");
 			mShrefUtil.write("user_psd", "");
+
+			Editor editor = sp.edit();
+			editor.remove(AllStaticMessage.NAME);
+			editor.remove(AllStaticMessage.PSW);
+			editor.remove(AllStaticMessage.TYPE);
+			editor.remove(AllStaticMessage.OPEN_ID);
+			editor.remove(AllStaticMessage.GENDER);
+			editor.remove(AllStaticMessage.NICK_NAME);
+			editor.remove(AllStaticMessage.ADDRESS);
+			editor.commit();
 			finish();
 			break;
 		default:

@@ -56,6 +56,7 @@ public class FBApplication extends Application {
 		// config.diskCacheFileNameGenerator(new Md5FileNameGenerator());
 		config.diskCacheFileNameGenerator(new HashCodeFileNameGenerator());
 		config.diskCacheSize(50 * 1024 * 1024); // 50 MiB
+		config.memoryCacheSize(2 * 1024 * 1024); // 内存缓存的最大值
 		config.diskCacheFileCount(300);
 		config.tasksProcessingOrder(QueueProcessingType.LIFO);
 		// config.writeDebugLogs(); // Remove for release app

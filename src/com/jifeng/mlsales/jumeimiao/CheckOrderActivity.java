@@ -46,7 +46,6 @@ public class CheckOrderActivity extends Activity {
 					@Override
 					public void onSuccess(int statusCode, Header[] headers,
 							JSONObject response) {
-						// TODO Auto-generated method stub
 						super.onSuccess(statusCode, headers, response);
 						// ³É¹¦·µ»ØJSONObject
 						try {

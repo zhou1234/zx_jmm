@@ -1,6 +1,5 @@
 package com.jifeng.mlsales.jumeimiao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import kankan.wheel.widget.OnWheelChangedListener;
@@ -8,7 +7,6 @@ import kankan.wheel.widget.WheelView;
 import kankan.wheel.widget.adapters.ArrayWheelAdapter;
 
 import org.apache.http.Header;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -17,19 +15,13 @@ import cn.sharesdk.framework.ShareSDK;
 import com.jifeng.city.MyListItem;
 import com.jifeng.mlsales.R;
 import com.jifeng.myview.LoadingDialog;
-import com.jifeng.tools.MyTools;
 import com.jifeng.url.AllStaticMessage;
 import com.jifeng.url.HttpUtil;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.umeng.analytics.MobclickAgent;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -37,7 +29,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -327,12 +318,13 @@ public class NewCreateAddressActivity extends BaseActivity implements
 										response.getString("Results")
 												.toString(), 500).show();
 								AllStaticMessage.AddressListFlag = true;
+								setResult(RESULT_CANCELED);
 								finish();
 							} else {
 								Toast.makeText(
 										NewCreateAddressActivity.this,
 										response.getString("Results")
-												.toString(), 500).show();
+					.toString(), 500).show();
 							}
 						} catch (JSONException e) {
 							e.printStackTrace();

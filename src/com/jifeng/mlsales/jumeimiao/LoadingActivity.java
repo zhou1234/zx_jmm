@@ -4,20 +4,17 @@ import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import cn.sharesdk.framework.ShareSDK;
 import com.jifeng.mlsales.R;
 import com.jifeng.myview.LoadingDialog;
 import com.jifeng.tools.ApkModify;
 import com.jifeng.tools.MyTools;
 import com.jifeng.tools.ShrefUtil;
-import com.jifeng.tools.ApkModify.CheckVersionTask;
 import com.jifeng.url.AllStaticMessage;
 import com.jifeng.url.HttpUtil;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -25,7 +22,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.StrictMode;
 
 @TargetApi(Build.VERSION_CODES.GINGERBREAD)
 public class LoadingActivity extends Activity {
@@ -39,7 +35,7 @@ public class LoadingActivity extends Activity {
 			super.handleMessage(msg);
 			switch (msg.what) {
 			case 0x02:
-				onlyOne(); 
+				onlyOne();
 				break;
 			case 0x01:
 				new Handler().postDelayed(new Runnable() {
@@ -51,6 +47,7 @@ public class LoadingActivity extends Activity {
 						finish();
 					}
 				}, 800);
+
 				break;
 			default:
 				break;
@@ -61,31 +58,28 @@ public class LoadingActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-//		StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
-//				.detectDiskReads().detectDiskWrites().detectNetwork() // 这里或者用.detectAll()方法
-//				.penaltyLog().build());
-//		StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
-//				.detectLeakedSqlLiteObjects().penaltyLog().penaltyDeath()
-//				.build());
+		// StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+		// .detectDiskReads().detectDiskWrites().detectNetwork() //
+		// 这里或者用.detectAll()方法
+		// .penaltyLog().build());
+		// StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+		// .detectLeakedSqlLiteObjects().penaltyLog().penaltyDeath()
+		// .build());
 		setContentView(R.layout.activity_loading);
 		dialog = new LoadingDialog(this);
 		mShrefUtil = new ShrefUtil(this, "data");
-		
-		
+
 		if (MyTools.checkNetWorkStatus(LoadingActivity.this)) {
 			ApkModify apkModify = new ApkModify(this, handler);
 			apkModify.new CheckVersionTask().run();
+		} else {
+
 		}
-		else	
-		{
-			
-		}
-		
+
 	}
 
 	@Override
 	protected void onDestroy() {
-		// TODO Auto-generated method stub
 		super.onDestroy();
 	}
 
@@ -108,7 +102,8 @@ public class LoadingActivity extends Activity {
 			if (!AllStaticMessage.User_Name.equals("")) {
 				if (MyTools.checkNetWorkStatus(LoadingActivity.this)) {
 					doLogin(AllStaticMessage.User_Name,
-							AllStaticMessage.User_Psd, "web", "", "", "","", "");
+							AllStaticMessage.User_Psd, "web", "", "", "", "",
+							"");
 				} else {
 					handler.sendEmptyMessage(0x01);
 				}
@@ -143,7 +138,8 @@ public class LoadingActivity extends Activity {
 						super.onSuccess(statusCode, headers, response);
 						// 成功返回JSONObject
 						try {
-							if (response.getString("Status").toString().equals("true")) {
+							if (response.getString("Status").toString()
+									.equals("true")) {
 								AllStaticMessage.Login_Flag = response
 										.getString("auth").toString();
 								AllStaticMessage.User_Id = response.getString(

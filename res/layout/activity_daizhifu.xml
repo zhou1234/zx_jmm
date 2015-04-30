@@ -5,6 +5,8 @@
     android:background="@color/main_bg_color"
     android:orientation="vertical" >
 
+    <!-- android:background="@color/main_bg_color" -->
+
     <RelativeLayout
         android:id="@+id/rel_tou"
         android:layout_width="fill_parent"
@@ -36,7 +38,7 @@
     <GridView
         android:id="@+id/daizhifu_gridview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:numColumns="1"
         android:scrollbars="@null"
         android:verticalSpacing="8dip" >

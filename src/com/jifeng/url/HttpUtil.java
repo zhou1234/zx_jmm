@@ -26,10 +26,7 @@ import com.jifeng.mlsales.R;
 import com.jifeng.tools.MyTools;
 import com.jifeng.tools.ShrefUtil;
 import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.BinaryHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -48,67 +45,6 @@ import android.widget.Toast;
 public class HttpUtil {
 
 	public static ShrefUtil userName;
-
-	/**
-	 * 请求方式：Get
-	 */
-
-	// public static byte[] urlConnGet(String path,Context context) {
-	// InputStream inputStream = null;
-	// byte[] buffer = null;
-	// HttpURLConnection conn = null;
-	// try {
-	// URL url = new URL(path);
-	//
-	// // 通过URL打开连接，获取连接
-	// conn = (HttpURLConnection) url.openConnection();
-	// // 请求方式 GET/POST
-	// // 超时时间(ms),超过时间连接断开
-	// conn.setConnectTimeout(5000);
-	// // conn.setReadTimeout(2000);
-	// conn.setDoInput(true);
-	// conn.setRequestMethod("GET");
-	// conn.setRequestProperty("Content-Type", "text/html");
-	// conn.setRequestProperty("Accept-Charset", "utf-8");
-	// conn.setRequestProperty("contentType", "utf-8");
-	// conn.setRequestProperty("Cookie", Constans.key_name + "=" +
-	// Constans.key_value);
-	// // 通过连接获取数据(InputStream)
-	// inputStream = conn.getInputStream();
-	// if (conn.getResponseCode() == 200) {
-	// buffer = new byte[1024];
-	// ByteArrayOutputStream out = new ByteArrayOutputStream();
-	// int len;
-	// while ((len = inputStream.read(buffer)) != -1) {
-	// out.write(buffer, 0, len);
-	// }
-	// buffer = out.toByteArray();
-	// return buffer;
-	// }
-	// } catch (ConnectTimeoutException e) {// 超时或网络连接出错
-	// // buffer = "咦？数据加载失败了,请检查一下您的网络,重新加载吧".getBytes();
-	// Toast.makeText(context, "咦？数据加载失败了,请检查一下您的网络,重新加载吧", 1000).show();
-	// }catch (MalformedURLException e) {
-	// // TODO Auto-generated catch block
-	// e.printStackTrace();
-	// } catch (IOException e) {
-	// Log.i("123", "url不正确");
-	// e.printStackTrace();
-	// } finally {
-	// try {
-	// if (inputStream != null) {
-	// inputStream.close();
-	// }
-	// if (conn != null) {
-	// conn.disconnect();
-	// }
-	// } catch (IOException e) {
-	// e.printStackTrace();
-	// }
-	// }
-	// return buffer;
-	//
-	// }
 
 	/**
 	 * 采用HttpClient请求方式（GET）
@@ -303,10 +239,8 @@ public class HttpUtil {
 					}
 				}
 			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
@@ -321,73 +255,31 @@ public class HttpUtil {
 
 	}
 
-//	public static void get(Context context, String urlString,
-//			AsyncHttpResponseHandler res) // 用一个完整url获取一个string对象
-//	{
-//		if (MyTools.checkNetWorkStatus(context)) {
-//			client.get(urlString, res);
-//		} else {
-//			Toast.makeText(context, context.getString(R.string.net_error), 500)
-//					.show();
-//		}
-//	}
-//
-//	public static void get(Context context, String urlString,
-//			RequestParams params, AsyncHttpResponseHandler res) // url里面带参数
-//	{
-//		if (MyTools.checkNetWorkStatus(context)) {
-//			client.get(urlString, params, res);
-//		} else {
-//			Toast.makeText(context, context.getString(R.string.net_error), 500)
-//					.show();
-//		}
-//	}
-
-	public static void get(String urlString,Context context, Dialog dialog,
+	public static void get(String urlString, Context context, Dialog dialog,
 			JsonHttpResponseHandler res) // 不带参数，获取json对象或者数组
 	{
 		if (MyTools.checkNetWorkStatus(context)) {
 			client.get(urlString, res);
 		} else {
-			if(dialog!=null && dialog.isShowing()){
+			if (dialog != null && dialog.isShowing()) {
 				dialog.dismiss();
-			} 
+			}
 			Toast.makeText(context, context.getString(R.string.net_error), 500)
 					.show();
 		}
 	}
-	public static void get(String urlString,Context context,
+
+	public static void get(String urlString, Context context,
 			JsonHttpResponseHandler res) // 不带参数，获取json对象或者数组
 	{
 		if (MyTools.checkNetWorkStatus(context)) {
 			client.get(urlString, res);
 		} else {
-			 
+
 			Toast.makeText(context, context.getString(R.string.net_error), 500)
 					.show();
 		}
 	}
-//	public static void get(Context context, String urlString,
-//			RequestParams params, JsonHttpResponseHandler res) // 带参数，获取json对象或者数组
-//	{
-//		if (MyTools.checkNetWorkStatus(context)) {
-//		client.get(urlString, params, res);
-//		} else {
-//			Toast.makeText(context, context.getString(R.string.net_error), 500)
-//					.show();
-//		}
-//	}
-//
-//	public static void get(Context context, String uString,
-//			BinaryHttpResponseHandler bHandler) // 下载数据使用，会返回byte数据
-//	{
-//		if (MyTools.checkNetWorkStatus(context)) {
-//		client.get(uString, bHandler);
-//	} else {
-//		Toast.makeText(context, context.getString(R.string.net_error), 500)
-//				.show();
-//	}
-//	}
 
 	public static AsyncHttpClient getClient() {
 		return client;

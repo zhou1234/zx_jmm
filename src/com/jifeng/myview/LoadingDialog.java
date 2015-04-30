@@ -45,7 +45,7 @@ public class LoadingDialog extends Dialog{
 	 */
 	@Override
 	public void show() {
-		// TODO Auto-generated method stub
+		
 		super.show();
 	}
 

@@ -5,36 +5,33 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.jifeng.mlsales.R;
-import com.jifeng.myview.BadgeView;
 import com.jifeng.myview.LoadingDialog;
 import com.jifeng.tools.MyTools;
+import com.jifeng.tools.ShrefUtil;
 import com.jifeng.tools.TasckActivity;
 import com.jifeng.url.AllStaticMessage;
 import com.jifeng.url.HttpUtil;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.tencent.android.tpush.XGPushClickedResult;
+import com.tencent.android.tpush.XGPushManager;
 import com.umeng.analytics.MobclickAgent;
 
 import android.annotation.SuppressLint;
 import android.app.TabActivity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Color;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.RoundRectShape;
 import android.os.Bundle;
-import android.util.AttributeSet;
-import android.util.TypedValue;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.FrameLayout;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TabHost;
-import android.widget.TextView;
+import android.widget.Toast;
 
 //@TargetApi(Build.VERSION_CODES.GINGERBREAD)
 //@SuppressLint("NewApi")
@@ -44,17 +41,21 @@ public class TabHostActivity extends TabActivity implements
 
 	public TabHost mTabHost;
 	private Intent mAIntent;
-	private Intent mBIntent;
+	// private Intent mBIntent;
 	private Intent mCIntent;
 	private Intent mDIntent;
 	private Intent mEIntent;
 	// private Intent mIntent;
 	RadioButton button;
-	RadioButton button2;
+	// RadioButton button2;
 	RadioButton button3;
 	RadioButton button4;
 	RadioButton button5;
 	private TasckActivity tasckActivity;
+
+	private LoadingDialog dialog;
+	private ShrefUtil mShrefUtil;
+	private SharedPreferences sp;
 
 	@SuppressLint("NewApi")
 	@Override
@@ -69,7 +70,7 @@ public class TabHostActivity extends TabActivity implements
 		// .build());
 		setContentView(R.layout.maintabs);
 		button = (RadioButton) findViewById(R.id.radio_button_xianshi);
-		button2 = (RadioButton) findViewById(R.id.radio_button_fenlei);
+		// button2 = (RadioButton) findViewById(R.id.radio_button_fenlei);
 		button3 = (RadioButton) findViewById(R.id.radio_button_meirifaxian);
 		button4 = (RadioButton) findViewById(R.id.radio_button_shoppingcar);
 		button5 = (RadioButton) findViewById(R.id.radio_button_zhanghu);
@@ -81,6 +82,32 @@ public class TabHostActivity extends TabActivity implements
 		tasckActivity.pushActivity(TabHostActivity.this);
 
 		MobclickAgent.updateOnlineConfig(this);
+
+		dialog = new LoadingDialog(this);
+		mShrefUtil = new ShrefUtil(this, "data");
+		sp = getSharedPreferences(AllStaticMessage.SPNE, 0);
+
+		login();
+
+		Context context = getApplicationContext();
+		XGPushManager.registerPush(context);
+	}
+
+	private void login() {
+		String openid = sp.getString(AllStaticMessage.OPEN_ID, "");
+		String userName = sp.getString(AllStaticMessage.NAME, "");
+		String psd = sp.getString(AllStaticMessage.PSW, "");
+		String loginType = sp.getString(AllStaticMessage.TYPE, "");
+		String gender = sp.getString(AllStaticMessage.GENDER, "");
+		String nickName = sp.getString(AllStaticMessage.NICK_NAME, "");
+		String address = sp.getString(AllStaticMessage.ADDRESS, "");
+
+		if (userName.equals("") && openid.equals("")) {
+
+		} else {
+			doLogin(userName, psd, loginType, openid, "android", gender,
+					nickName, address);
+		}
 	}
 
 	@Override
@@ -89,12 +116,12 @@ public class TabHostActivity extends TabActivity implements
 		if (AllStaticMessage.Back_to_XianShiTm) {
 			AllStaticMessage.Back_to_XianShiTm = false;
 			nextView(mTabHost.getCurrentTab(), 0);
-		} else if (AllStaticMessage.Back_to_ShoppingCar) {
-			AllStaticMessage.Back_to_ShoppingCar = false;
-			nextView(mTabHost.getCurrentTab(), 3);
-		} else if (AllStaticMessage.Back_to_Classion) {
-			AllStaticMessage.Back_to_Classion = false;
-			nextView(mTabHost.getCurrentTab(), 1);
+			// } else if (AllStaticMessage.Back_to_ShoppingCar) {
+			// AllStaticMessage.Back_to_ShoppingCar = false;
+			// nextView(mTabHost.getCurrentTab(), 3);
+			// } else if (AllStaticMessage.Back_to_Classion) {
+			// AllStaticMessage.Back_to_Classion = false;
+			// nextView(mTabHost.getCurrentTab(), 1);
 		} else if (AllStaticMessage.Back_to_Find) {
 			AllStaticMessage.Back_to_Find = false;
 			nextView(mTabHost.getCurrentTab(), 2);
@@ -113,17 +140,16 @@ public class TabHostActivity extends TabActivity implements
 					R.drawable.tab_first_2);
 			button.setCompoundDrawablesWithIntrinsicBounds(null, drawable,
 					null, null);
-
 			break;
-		case 1:
-			button2.setChecked(true);
-			button2.setTextColor(getResources().getColor(R.color.tab_select));
-			Drawable drawable1 = this.getResources().getDrawable(
-					R.drawable.tab_second_2);
-			button2.setCompoundDrawablesWithIntrinsicBounds(null, drawable1,
-					null, null);
-
-			break;
+		// case 1:
+		// button2.setChecked(true);
+		// button2.setTextColor(getResources().getColor(R.color.tab_select));
+		// Drawable drawable1 = this.getResources().getDrawable(
+		// R.drawable.tab_second_2);
+		// button2.setCompoundDrawablesWithIntrinsicBounds(null, drawable1,
+		// null, null);
+		//
+		// break;
 		case 2:
 			button3.setChecked(true);
 			button3.setTextColor(getResources().getColor(R.color.tab_select));
@@ -173,9 +199,9 @@ public class TabHostActivity extends TabActivity implements
 			button.setChecked(true);
 			button.setBackgroundResource(R.drawable.tab_dibu_select_bg_2);
 			break;
-		case 1:
-			button2.setChecked(true);
-			break;
+		// case 1:
+		// button2.setChecked(true);
+		// break;
 		case 2:
 			button3.setChecked(true);
 			break;
@@ -186,13 +212,13 @@ public class TabHostActivity extends TabActivity implements
 			button5.setChecked(true);
 			break;
 		default:
-			break;   
+			break;
 		}
 	}
 
 	private void init() {
 		this.mAIntent = new Intent(this, FirstActivity.class);
-		this.mBIntent = new Intent(this, ClassionActivity.class);
+		// this.mBIntent = new Intent(this, ClassionActivity.class);
 
 		this.mCIntent = new Intent(this, FindActivity.class)
 				.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -203,7 +229,7 @@ public class TabHostActivity extends TabActivity implements
 		this.mEIntent = new Intent(this, MySelfActivity.class);// 清除顶层,实现页面刷新
 
 		button.setOnCheckedChangeListener(this);
-		button2.setOnCheckedChangeListener(this);
+		// button2.setOnCheckedChangeListener(this);
 		button3.setOnCheckedChangeListener(this);
 		button4.setOnCheckedChangeListener(this);
 		button5.setOnCheckedChangeListener(this);
@@ -212,7 +238,6 @@ public class TabHostActivity extends TabActivity implements
 
 	@Override
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-		// TODO Auto-generated method stub
 		if (isChecked) {
 			int currentTab = this.mTabHost.getCurrentTab();
 			// 恢复默认
@@ -228,16 +253,16 @@ public class TabHostActivity extends TabActivity implements
 				setCurrentTabWithAnim(currentTab, 0, "A_TAB");
 				// this.mTabHost.setCurrentTabByTag("A_TAB");
 				break;
-			case R.id.radio_button_fenlei:
-				button2.setTextColor(getResources()
-						.getColor(R.color.tab_select));
-				Drawable drawable2_1 = this.getResources().getDrawable(
-						R.drawable.tab_second_2);
-				button2.setCompoundDrawablesWithIntrinsicBounds(null,
-						drawable2_1, null, null);
-				setCurrentTabWithAnim(currentTab, 1, "B_TAB");
-				// this.mTabHost.setCurrentTabByTag("B_TAB");
-				break;
+			// case R.id.radio_button_fenlei:
+			// button2.setTextColor(getResources()
+			// .getColor(R.color.tab_select));
+			// Drawable drawable2_1 = this.getResources().getDrawable(
+			// R.drawable.tab_second_2);
+			// button2.setCompoundDrawablesWithIntrinsicBounds(null,
+			// drawable2_1, null, null);
+			// setCurrentTabWithAnim(currentTab, 1, "B_TAB");
+			// // this.mTabHost.setCurrentTabByTag("B_TAB");
+			// break;
 			case R.id.radio_button_meirifaxian:
 				button3.setTextColor(getResources()
 						.getColor(R.color.tab_select));
@@ -287,11 +312,12 @@ public class TabHostActivity extends TabActivity implements
 		button.setCompoundDrawablesWithIntrinsicBounds(null, drawable_1, null,
 				null);
 
-		button2.setTextColor(getResources().getColor(R.color.text_color));
-		Drawable drawable2 = this.getResources().getDrawable(
-				R.drawable.tab_second_1);
-		button2.setCompoundDrawablesWithIntrinsicBounds(null, drawable2, null,
-				null);
+		// button2.setTextColor(getResources().getColor(R.color.text_color));
+		// Drawable drawable2 = this.getResources().getDrawable(
+		// R.drawable.tab_second_1);
+		// button2.setCompoundDrawablesWithIntrinsicBounds(null, drawable2,
+		// null,
+		// null);
 
 		button3.setTextColor(getResources().getColor(R.color.text_color));
 		Drawable drawable3 = this.getResources().getDrawable(
@@ -324,8 +350,8 @@ public class TabHostActivity extends TabActivity implements
 		localTabHost.addTab(buildTabSpec("A_TAB", "限时特卖",
 				R.drawable.tab_fifth_2, this.mAIntent));
 
-		localTabHost.addTab(buildTabSpec("B_TAB", "分类",
-				R.drawable.tab_second_1, this.mBIntent));
+		// localTabHost.addTab(buildTabSpec("B_TAB", "分类",
+		// R.drawable.tab_second_1, this.mBIntent));
 
 		localTabHost.addTab(buildTabSpec("C_TAB", "每日发现",
 				R.drawable.tab_thread_1, this.mCIntent));
@@ -365,6 +391,171 @@ public class TabHostActivity extends TabActivity implements
 	@Override
 	protected void onResume() {
 		super.onResume();
+	}
+
+	// 登录
+	private void doLogin(final String userName, final String psd,
+			final String loginType, final String openid, String deviceType,
+			final String gender, final String nickName, final String address) {
+
+		String url = AllStaticMessage.URL_Login + userName + "&password=" + psd
+				+ "&loginType=" + loginType + "&openid=" + openid
+				+ "&deviceType=" + deviceType + "&gender=" + gender
+				+ "&nickName=" + nickName + "&address=" + address + "&udid="
+				+ MyTools.getAndroidID(TabHostActivity.this);
+		// Log.i("11111", url);
+		HttpUtil.get(url, TabHostActivity.this, dialog,
+				new JsonHttpResponseHandler() {
+					@Override
+					public void onSuccess(int statusCode, Header[] headers,
+							JSONObject response) {
+						super.onSuccess(statusCode, headers, response);
+						// 成功返回JSONObject
+						try {
+							if (response.getString("Status").toString()
+									.equals("true")) {
+								AllStaticMessage.Login_Flag = response
+										.getString("auth").toString();
+								AllStaticMessage.User_Id = response.getString(
+										"Id").toString();
+								AllStaticMessage.User_JiFen = response
+										.getString("Score").toString();
+								AllStaticMessage.User_NickName = response
+										.getString("NickName").toString();
+								AllStaticMessage.User_Name = userName;
+								AllStaticMessage.User_Psd = psd;
+								mShrefUtil.write("user_name", userName);
+								mShrefUtil.write("user_psd", psd);
+
+								Editor editor = sp.edit();
+								editor.remove(AllStaticMessage.NAME);
+								editor.remove(AllStaticMessage.PSW);
+								editor.remove(AllStaticMessage.TYPE);
+								editor.remove(AllStaticMessage.OPEN_ID);
+								editor.remove(AllStaticMessage.GENDER);
+								editor.remove(AllStaticMessage.NICK_NAME);
+								editor.remove(AllStaticMessage.ADDRESS);
+								editor.commit();
+
+								editor.putString(AllStaticMessage.NAME,
+										userName);
+								editor.putString(AllStaticMessage.PSW, psd);
+								editor.putString(AllStaticMessage.TYPE,
+										loginType);
+								editor.putString(AllStaticMessage.OPEN_ID,
+										openid);
+								editor.putString(AllStaticMessage.GENDER,
+										gender);
+								editor.putString(AllStaticMessage.NICK_NAME,
+										nickName);
+								editor.putString(AllStaticMessage.ADDRESS,
+										address);
+								editor.commit();
+								getCarNum();
+
+							} else {
+								Toast.makeText(
+										TabHostActivity.this,
+										response.getString("Results")
+												.toString(), 500).show();
+							}
+						} catch (JSONException e) {
+							e.printStackTrace();
+						}
+						if (dialog != null) {
+							dialog.stop();
+						}
+
+					}
+
+					@Override
+					public void onStart() {
+						super.onStart();
+						// 请求开始
+
+					}
+
+					@Override
+					public void onFinish() {
+						super.onFinish();
+						// 请求结束
+
+					}
+
+					@Override
+					public void onFailure(int statusCode, Header[] headers,
+							Throwable throwable, JSONObject errorResponse) {
+						super.onFailure(statusCode, headers, throwable,
+								errorResponse);
+						// 错误返回JSONObject
+						if (dialog != null) {
+							dialog.stop();
+						}
+					}
+				});
+	}
+
+	// 获取购物车商品数量
+	private void getCarNum() {
+		String url = AllStaticMessage.URL_GetShoppingCarNum
+				+ AllStaticMessage.User_Id + "&udid="
+				+ MyTools.getAndroidID(TabHostActivity.this);
+		HttpUtil.get(url, TabHostActivity.this, dialog,
+				new JsonHttpResponseHandler() {
+					@Override
+					public void onSuccess(int statusCode, Header[] headers,
+							JSONObject response) {
+						super.onSuccess(statusCode, headers, response);
+						// 成功返回JSONObject
+						try {
+							if (response.getString("Status").toString()
+									.equals("true")) {
+								AllStaticMessage.Car_num = Integer
+										.parseInt(response.getString("Results")
+												.toString());
+								Drawable drawable4_111 = null;
+								if (AllStaticMessage.Car_num > 0) {
+									AllStaticMessage.ShoppingCar = true;
+									drawable4_111 = TabHostActivity.this
+											.getResources().getDrawable(
+													R.drawable.tab_forth_1_1);
+								} else {
+									AllStaticMessage.ShoppingCar = false;
+									drawable4_111 = TabHostActivity.this
+											.getResources().getDrawable(
+													R.drawable.tab_forth_1);
+								}
+								button4.setCompoundDrawablesWithIntrinsicBounds(
+										null, drawable4_111, null, null);
+							} else {
+								AllStaticMessage.ShoppingCar = false;
+							}
+						} catch (JSONException e) {
+							e.printStackTrace();
+						}
+
+					}
+
+					@Override
+					public void onStart() {
+						super.onStart();
+						// 请求开始
+					}
+
+					@Override
+					public void onFinish() {
+						super.onFinish();
+						// 请求结束
+					}
+
+					@Override
+					public void onFailure(int statusCode, Header[] headers,
+							Throwable throwable, JSONObject errorResponse) {
+						super.onFailure(statusCode, headers, throwable,
+								errorResponse);
+
+					}
+				});
 	}
 
 }
