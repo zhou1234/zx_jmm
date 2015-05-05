@@ -202,8 +202,6 @@ public class AllStaticMessage {
 	 **/
 	// 获取优惠券
 	public static String URL_GetQuan = URL_Base + "/p.ashx?m=getCoupon&a=";// 1&userId=1&cid=1
-																			// 品牌id，用户id
-																			// 优惠券id//a=0
 																			// 领取官方优惠券
 	// 优惠券列表
 	public static String URL_Quan_list = URL_Base

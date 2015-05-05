@@ -38,7 +38,7 @@
 
             <RelativeLayout
                 android:id="@+id/my_rel"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:onClick="doclick" >
@@ -57,9 +57,8 @@
                     android:id="@+id/myself_message"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
                     android:layout_centerInParent="true"
-                    android:gravity="center_vertical|left"
+                    android:gravity="center"
                     android:orientation="vertical"
                     android:visibility="visible" >
 
@@ -75,8 +74,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
+                            android:ellipsize="end"
+                            android:singleLine="true"
                             android:textColor="@color/white"
-                            android:textSize="16sp" />
+                            android:textSize="14sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -91,8 +92,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
+                            android:ellipsize="end"
+                            android:singleLine="true"
                             android:textColor="@color/white"
-                            android:textSize="16sp" />
+                            android:textSize="14sp" />
                     </LinearLayout>
                 </LinearLayout>
             </RelativeLayout>

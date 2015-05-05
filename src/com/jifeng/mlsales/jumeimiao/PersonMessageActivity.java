@@ -35,7 +35,7 @@ public class PersonMessageActivity extends Activity {
 	private TextView mText_Date, mText_Sex;
 	private EditText mEdit_NiCheng;
 	private LoadingDialog dialog;
-	private String nicheng, shengri;
+	private String nicheng="", shengri="";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

@@ -1,8 +1,6 @@
 package com.jifeng.mlsales.jumeimiao;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import org.apache.http.Header;
@@ -20,7 +18,6 @@ import com.jifeng.url.AllStaticMessage;
 import com.jifeng.url.HttpUtil;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
-import android.R.string;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;

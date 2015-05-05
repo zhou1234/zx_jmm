@@ -470,7 +470,7 @@ public class MyTools {
 		DisplayImageOptions options = new DisplayImageOptions.Builder()
 				.showImageOnLoading(imgId).showImageForEmptyUri(imgId)
 				.showImageOnFail(imgId).cacheInMemory(true)// 设置下载的图片是否缓存在内存中
-				.cacheOnDisc(false)// 设置下载的图片是否缓存在SD卡中
+				.cacheOnDisc(true)// 设置下载的图片是否缓存在SD卡中
 				// .considerExifParams(true) //是否考虑JPEG图像EXIF参数（旋转，翻转）
 				.imageScaleType(ImageScaleType.IN_SAMPLE_INT)
 				/*

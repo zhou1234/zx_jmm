@@ -145,25 +145,24 @@ public class SaveActivity extends Activity {
 
 	@Override
 	protected void onDestroy() {
-		// TODO Auto-generated method stub
 		ShareSDK.stopSDK(this);
-		setContentView(R.layout.view_null);
 		super.onDestroy();
-		mGridView_1 = null;
-		mGridView_2 = null;
-		mAdapter = null;
-		mButton_1 = null;
-		mButton_2 = null;
-		dialog = null;
-		adapter = null;
-		mLayout = null;
-		AllPage_goods = null;
-		allPage_brand = null;
-		;
-		mBtn_Bianji = null;
-		handler = null;
-		this.finish();
-		System.gc();
+//		setContentView(R.layout.view_null);
+//		mGridView_1 = null;
+//		mGridView_2 = null;
+//		mAdapter = null;
+//		mButton_1 = null;
+//		mButton_2 = null;
+//		dialog = null;
+//		adapter = null;
+//		mLayout = null;
+//		AllPage_goods = null;
+//		allPage_brand = null;
+//		;
+//		mBtn_Bianji = null;
+//		handler = null;
+//		this.finish();
+//		System.gc();
 	}
 
 	// //xml注册点击事件的实现
@@ -685,7 +684,9 @@ public class SaveActivity extends Activity {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-						dialog.stop();
+						if (dialog != null) {
+							dialog.stop();
+						}
 					}
 
 					@Override
@@ -706,7 +707,9 @@ public class SaveActivity extends Activity {
 						super.onFailure(statusCode, headers, throwable,
 								errorResponse);
 						// 错误返回JSONObject
-						dialog.stop();
+						if (dialog != null) {
+							dialog.stop();
+						}
 					}
 				});
 	}

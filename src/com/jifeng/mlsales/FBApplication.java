@@ -1,15 +1,18 @@
 package com.jifeng.mlsales;
 
 import java.lang.Thread.UncaughtExceptionHandler;
+import java.util.concurrent.ThreadPoolExecutor;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap.Config;
 import android.util.Log;
 
 import com.jifeng.mlsales.jumeimiao.TabHostActivity;
 import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
+import com.nostra13.universalimageloader.cache.memory.impl.UsingFreqLimitedMemoryCache;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
@@ -61,6 +64,7 @@ public class FBApplication extends Application {
 		config.tasksProcessingOrder(QueueProcessingType.LIFO);
 		// config.writeDebugLogs(); // Remove for release app
 		// Initialize ImageLoader with configuration.
+		config.threadPoolSize(3);//线程池内加载的数量
 		ImageLoader.getInstance().init(config.build());
 
 	}

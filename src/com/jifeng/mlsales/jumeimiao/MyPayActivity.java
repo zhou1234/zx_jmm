@@ -145,24 +145,23 @@ public class MyPayActivity extends Activity {
 	@Override
 	protected void onDestroy() {
 		ShareSDK.stopSDK(this);
-		setContentView(R.layout.view_null);
 		super.onDestroy();
-		dialog = null;
-
-		mImage_zhifubao = null;
-		mImage_weixin = null;
-
-		mTextView = null;
-		AllPrice = null;
-		payway = null;
-		orderId = null;
-		mLayout_Faile = null;
-		// mLayout_Success = null;
-		mLayout_second = null;
-		mBtn_zhifu = null;
-
-		this.finish();
-		System.gc();
+//		dialog = null;
+//		setContentView(R.layout.view_null);
+//		mImage_zhifubao = null;
+//		mImage_weixin = null;
+//
+//		mTextView = null;
+//		AllPrice = null;
+//		payway = null;
+//		orderId = null;
+//		mLayout_Faile = null;
+//		// mLayout_Success = null;
+//		mLayout_second = null;
+//		mBtn_zhifu = null;
+//
+//		this.finish();
+//		System.gc();
 	}
 
 	// 查找控件
@@ -191,7 +190,6 @@ public class MyPayActivity extends Activity {
 				AllStaticMessage.MyPayBack = false;
 				tasckActivity.popAllActivityExceptOne(TabHostActivity.class);
 			}
-
 			finish();
 			break;
 		case R.id.mypay_zhifubao_select:
@@ -258,7 +256,7 @@ public class MyPayActivity extends Activity {
 			case SDK_PAY_FLAG: {
 				Result resultObj = new Result((String) msg.obj);
 				String resultStatus = resultObj.resultStatus;
-
+				MyPayActivity.this.finish();
 				// 判断resultStatus 为“9000”则代表支付成功，具体状态码代表含义可参考接口文档
 				if (TextUtils.equals(resultStatus, "9000")) {
 					Toast.makeText(MyPayActivity.this, "支付成功",
@@ -274,6 +272,7 @@ public class MyPayActivity extends Activity {
 						Toast.makeText(MyPayActivity.this, "支付失败",
 								Toast.LENGTH_SHORT).show();
 					}
+
 				}
 				break;
 			}
@@ -313,17 +312,17 @@ public class MyPayActivity extends Activity {
 				// 调用支付接口
 				String result = alipay.pay(payInfo);
 
-				Intent intent = new Intent(MyPayActivity.this,
-						CheckOrderActivity.class);
-				intent.putExtra("orderNum", orderNum);
-				// Log.i("111111", orderNum);
-				// startActivityForResult(intent, 0x01);
-				startActivity(intent);
-				MyPayActivity.this.finish();
-				// Message msg = new Message();
-				// msg.what = SDK_PAY_FLAG;
-				// msg.obj = result;
-				// mHandler.sendMessage(msg);
+				// Intent intent = new Intent(MyPayActivity.this,
+				// CheckOrderActivity.class);
+				// intent.putExtra("orderNum", orderNum);
+				// // Log.i("111111", orderNum);
+				// // startActivityForResult(intent, 0x01);
+				// startActivity(intent);
+				// MyPayActivity.this.finish();
+				Message msg = new Message();
+				msg.what = SDK_PAY_FLAG;
+				msg.obj = result;
+				mHandler.sendMessage(msg);
 			}
 		};
 
