@@ -62,7 +62,7 @@ public class SaveActivity extends Activity {
 	private Button mButton_1, mButton_2;
 	private boolean showFlag = false;
 	// 屏幕的高度
-	int height, width;
+	private int height, width;
 	public List<JSONObject> mListData_1, mListData_2;
 	private LoadingDialog dialog;
 	private boolean firstFlag = true;
@@ -71,14 +71,13 @@ public class SaveActivity extends Activity {
 	private int pagegoods = 1, pagebrand = 1;
 	private String AllPage_goods = "1", allPage_brand = "1";
 	private boolean goodsOrbrand = true;
-	Button mBtn_Bianji;
+	private Button mBtn_Bianji;
 
 	private ImageView iv_no;
 	private TextView tv_no;
-	Handler handler = new Handler() {
+	private Handler handler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
-			// TODO Auto-generated method stub
 			super.handleMessage(msg);
 			switch (msg.what) {
 			case 0x01:
@@ -297,7 +296,6 @@ public class SaveActivity extends Activity {
 									JSONArray mArray_Goods = response
 											.getJSONArray("Results");
 									mListData_1.clear();
-									// Log.i("11111", mArray_Goods.toString());
 									for (int i = 0; i < mArray_Goods.length(); i++) {
 										mListData_1.add(mArray_Goods
 												.getJSONObject(i));
@@ -464,26 +462,22 @@ public class SaveActivity extends Activity {
 
 		@Override
 		public int getCount() {
-			// TODO Auto-generated method stub
 			return mArray.size();
 		}
 
 		@Override
 		public Object getItem(int position) {
-			// TODO Auto-generated method stub
-			return null;
+			return mArray.get(position);
 		}
 
 		@Override
 		public long getItemId(int position) {
-			// TODO Auto-generated method stub
 			return position;
 		}
 
 		@Override
 		public View getView(final int position, View convertView,
 				ViewGroup parent) {
-			// TODO Auto-generated method stub
 			if (convertView == null) {
 				View v = LayoutInflater.from(SaveActivity.this).inflate(
 						R.layout.item_save_gridview, null);
@@ -563,14 +557,12 @@ public class SaveActivity extends Activity {
 						mArray.get(position), position));
 
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			convertView.setOnClickListener(new OnClickListener() {
 
 				@Override
 				public void onClick(View v) {
-					// TODO Auto-generated method stub
 					try {
 						Intent mIntent = new Intent(SaveActivity.this,
 								GoodsDetailActivity.class);
@@ -581,7 +573,6 @@ public class SaveActivity extends Activity {
 								.getString("specId").toString());// 规格
 						mIntent.putExtra("goodsid", mArray.get(position)
 								.getString("goodsId").toString());// 商品id
-						// Log.i("11111",
 						// jsonArray.getJSONObject(position).getString("Id").toString());
 						mIntent.putExtra("imgurl", AllStaticMessage.URL_GBase
 								+ "/UsersData/"
@@ -592,7 +583,6 @@ public class SaveActivity extends Activity {
 										.toString() + "/5.jpg".trim());
 						startActivity(mIntent);
 					} catch (JSONException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -631,7 +621,6 @@ public class SaveActivity extends Activity {
 
 		@Override
 		public void onClick(View view) {
-			// TODO Auto-generated method stub
 			try {
 				delete(object.get("fid").toString(), position);
 			} catch (JSONException e) {
@@ -663,7 +652,6 @@ public class SaveActivity extends Activity {
 					@Override
 					public void onSuccess(int statusCode, Header[] headers,
 							JSONObject response) {
-						// TODO Auto-generated method stub
 						super.onSuccess(statusCode, headers, response);
 						// 成功返回JSONObject
 						try {
@@ -681,7 +669,6 @@ public class SaveActivity extends Activity {
 												.toString(), 500).show();
 							}
 						} catch (JSONException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 						if (dialog != null) {

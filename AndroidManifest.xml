@@ -417,8 +417,6 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-
-        <!-- 重置密码 -->
         <activity
             android:name="com.jifeng.mlsales.jumeimiao.GuanQuanActivity"
             android:configChanges="orientation|keyboardHidden"

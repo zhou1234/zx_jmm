@@ -6,7 +6,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="150dip"
+        android:layout_height="wrap_content"
         android:layout_marginTop="10dip"
         android:background="@drawable/address_item_1" >
 
@@ -18,8 +18,8 @@
             android:layout_alignParentTop="true"
             android:layout_marginRight="25dip"
             android:layout_marginTop="25dip"
-            android:src="@drawable/register_select_2" 
-            android:visibility="invisible"/>
+            android:src="@drawable/register_select_2"
+            android:visibility="invisible" />
 
         <LinearLayout
             android:id="@+id/liner"
@@ -128,5 +128,11 @@
             </RelativeLayout>
         </LinearLayout>
     </RelativeLayout>
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/logo_xian" />
 
 </RelativeLayout>

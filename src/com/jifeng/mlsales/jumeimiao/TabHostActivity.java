@@ -104,7 +104,7 @@ public class TabHostActivity extends TabActivity implements
 
 		if (userName.equals("") && openid.equals("")) {
 
-		} else {
+		} else {   
 			doLogin(userName, psd, loginType, openid, "android", gender,
 					nickName, address);
 		}

@@ -9,7 +9,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -30,6 +29,9 @@ import android.widget.Toast;
 
 import cn.sharesdk.framework.ShareSDK;
 
+import com.ab.view.pullview.AbPullToRefreshView;
+import com.ab.view.pullview.AbPullToRefreshView.OnFooterLoadListener;
+import com.ab.view.pullview.AbPullToRefreshView.OnHeaderRefreshListener;
 import com.jifeng.mlsales.R;
 import com.jifeng.myview.LoadingDialog;
 import com.jifeng.tools.AutoLoadListener;
@@ -42,7 +44,8 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.umeng.analytics.MobclickAgent;
 
-public class OrderActivity extends Activity {
+public class OrderActivity extends Activity implements OnHeaderRefreshListener,
+		OnFooterLoadListener {
 	private Intent mIntent;
 	private GridView mGridView;
 	private MyGridViewAdapter mAdapter;
@@ -52,22 +55,11 @@ public class OrderActivity extends Activity {
 	private int pageno = 1;
 	private String AllPage = "1";
 
+	private AbPullToRefreshView mAbPullToRefreshView = null;
+	private int num = 1;
+
 	private ImageView iv_no;
 	private TextView tv_no;
-	Handler handler = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			super.handleMessage(msg);
-			switch (msg.what) {
-			case 0x01:
-				getData(String.valueOf(pageno));
-				break;
-
-			default:
-				break;
-			}
-		}
-	};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -75,24 +67,19 @@ public class OrderActivity extends Activity {
 		try {
 			setContentView(R.layout.activity_order);
 		} catch (OutOfMemoryError e) {
-			com.nostra13.universalimageloader.core.ImageLoader.getInstance()
-					.clearMemoryCache();
+			ImageLoader.getInstance().clearMemoryCache();
 		}
 		dialog = new LoadingDialog(this);
 		mListData = new ArrayList<JSONObject>();
-
 		findView();
-
-		handler.sendEmptyMessage(0x01);
+		getData();
 	}
 
 	@Override
 	protected void onDestroy() {
-		// TODO Auto-generated method stub
 		ShareSDK.stopSDK(this);
 		super.onDestroy();
 		// setContentView(R.layout.view_null);
-		//
 		// mIntent = null;
 		// dialog = null;
 		// mGridView = null;
@@ -112,6 +99,10 @@ public class OrderActivity extends Activity {
 
 		iv_no = (ImageView) findViewById(R.id.iv_no);
 		tv_no = (TextView) findViewById(R.id.tv_no);
+
+		mAbPullToRefreshView = (AbPullToRefreshView) findViewById(R.id.mPullRefreshView);
+		mAbPullToRefreshView.setOnHeaderRefreshListener(this);
+		mAbPullToRefreshView.setOnFooterLoadListener(this);
 	}
 
 	// //xml注册点击事件的实现
@@ -134,27 +125,31 @@ public class OrderActivity extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		if (AllStaticMessage.OrderFormFlag) {
-			AllStaticMessage.OrderFormFlag = false;
-			if (mListData != null) {
-				mListData.clear();
-			}
-			if (mAdapter != null) {
-				mAdapter.notifyDataSetChanged();
-			}
-			pageno = 1;
-			getData(String.valueOf(pageno));
-		}
+		// if (AllStaticMessage.OrderFormFlag) {
+		// AllStaticMessage.OrderFormFlag = false;
+		// if (mListData != null) {
+		// mListData.clear();
+		// }
+		// if (mAdapter != null) {
+		// mAdapter.notifyDataSetChanged();
+		// }
+		// pageno = 1;
+		// getData();
+		// }
 		MobclickAgent.onResume(this);
 	}
 
 	// 获取订单列表
-	private void getData(String page) {
+	private void getData() {
 		if (mLayout.getVisibility() == View.GONE) {
 			dialog.loading();
 		}
-		String url = AllStaticMessage.URL_Order_List + AllStaticMessage.User_Id
-				+ "&orderState=0" + "&page=" + page;
+		num = 1;
+		// String url = AllStaticMessage.URL_Order_List +
+		// AllStaticMessage.User_Id
+		// + "&orderState=0" + "&page=" + page;
+		String url = AllStaticMessage.URL_Order + AllStaticMessage.User_Id
+				+ "&orderState=0" + "&pageNum=1";
 		HttpUtil.get(url, OrderActivity.this, dialog,
 				new JsonHttpResponseHandler() {
 					@Override
@@ -166,6 +161,9 @@ public class OrderActivity extends Activity {
 							if (response.getString("Status").equals("true")) {
 								JSONArray mArray = response
 										.getJSONArray("Results");
+								if (mListData != null) {
+									mListData.clear();
+								}
 								if (mArray.length() > 0) {
 									for (int i = 0; i < mArray.length(); i++) {
 										mListData.add(mArray.getJSONObject(i));
@@ -173,13 +171,8 @@ public class OrderActivity extends Activity {
 									if (mAdapter == null) {
 										mAdapter = new MyGridViewAdapter(
 												mListData);
+										mGridView.setVisibility(View.VISIBLE);
 										mGridView.setAdapter(mAdapter);
-										AutoLoadListener autoLoadListener = new AutoLoadListener(
-												callBack);
-										if (mListData.size() > 0) {
-											mGridView
-													.setOnScrollListener(autoLoadListener);
-										}
 									} else if (mAdapter != null) {
 										mAdapter.notifyDataSetChanged();
 										mLayout.setVisibility(View.GONE);
@@ -195,7 +188,10 @@ public class OrderActivity extends Activity {
 								mGridView.setVisibility(View.GONE);
 								iv_no.setVisibility(View.VISIBLE);
 								tv_no.setVisibility(View.VISIBLE);
-
+								Toast.makeText(
+										OrderActivity.this,
+										response.getString("Results")
+												.toString(), 500).show();
 							}
 						} catch (JSONException e) {
 							e.printStackTrace();
@@ -235,27 +231,91 @@ public class OrderActivity extends Activity {
 				});
 	}
 
-	AutoLoadCallBack callBack = new AutoLoadCallBack() {
-		public void execute(String url) {
-			if (mLayout.getVisibility() == View.GONE) {
-				if (pageno < Integer.parseInt(AllPage)) {
-					pageno++;
-					mLayout.setVisibility(View.VISIBLE);
-					new Handler().postDelayed(new Runnable() {
-						@Override
-						public void run() {
-							getData(String.valueOf(pageno));
-							mAdapter.notifyDataSetChanged();
+	// 获取订单列表--上拉更多
+	private void getData(String num) {
+
+		String url = AllStaticMessage.URL_Order + AllStaticMessage.User_Id
+				+ "&orderState=0" + "&pageNum=" + num;
+		HttpUtil.get(url, OrderActivity.this, dialog,
+				new JsonHttpResponseHandler() {
+					@Override
+					public void onSuccess(int statusCode, Header[] headers,
+							JSONObject response) {
+						super.onSuccess(statusCode, headers, response);
+						// 成功返回JSONObject
+						try {
+							if (response.getString("Status").equals("true")) {
+								JSONArray mArray = response
+										.getJSONArray("Results");
+
+								if (mArray.length() > 0) {
+									for (int i = 0; i < mArray.length(); i++) {
+										mListData.add(mArray.getJSONObject(i));
+									}
+
+									if (mAdapter != null) {
+										mAdapter.notifyDataSetChanged();
+									}
+								}
+							} else {
+								Toast.makeText(
+										OrderActivity.this,
+										response.getString("Results")
+												.toString(), 500).show();
+							}
+						} catch (JSONException e) {
+							e.printStackTrace();
 						}
-					}, 1500);
+						mAbPullToRefreshView.onFooterLoadFinish();
+					}
 
-				} else {
-					Toast.makeText(OrderActivity.this, "内容全部加载完毕", 100).show();
-				}
-			}
+					@Override
+					public void onStart() {
+						super.onStart();
+						// 请求开始
+					}
 
-		}
-	};
+					@Override
+					public void onFinish() {
+						super.onFinish();
+						// 请求结束
+					}
+
+					@Override
+					public void onFailure(int statusCode, Header[] headers,
+							Throwable throwable, JSONObject errorResponse) {
+						// TODO Auto-generated method stub
+						super.onFailure(statusCode, headers, throwable,
+								errorResponse);
+						// 错误返回JSONObject
+						if (dialog != null) {
+							dialog.stop();
+						}
+					}
+				});
+	}
+
+	// AutoLoadCallBack callBack = new AutoLoadCallBack() {
+	// public void execute(String url) {
+	// if (mLayout.getVisibility() == View.GONE) {
+	// if (pageno < Integer.parseInt(AllPage)) {
+	// pageno++;
+	// mLayout.setVisibility(View.VISIBLE);
+	// new Handler().postDelayed(new Runnable() {
+	// @Override
+	// public void run() {
+	// // getData(String.valueOf(pageno));
+	// mAdapter.notifyDataSetChanged();
+	// }
+	// }, 1500);
+	//
+	// } else {
+	// Toast.makeText(OrderActivity.this, "内容全部加载完毕", 100).show();
+	// }
+	// }
+	//
+	// }
+	// };
 
 	private class MyGridViewAdapter extends BaseAdapter {
 		AppItem appItem;
@@ -264,9 +324,7 @@ public class OrderActivity extends Activity {
 
 		public MyGridViewAdapter(List<JSONObject> array) {
 			this.mData = array;
-			// imageLoader=new ImageLoader(OrderActivity.this,"");
 			options = MyTools.createOptions(R.drawable.img);
-			// MyTools.initImageLoader(OrderActivity.this);
 		}
 
 		@Override
@@ -372,13 +430,11 @@ public class OrderActivity extends Activity {
 				ImageLoader.getInstance().displayImage(imgUrl, appItem.AppImg,
 						options);
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			convertView.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					// TODO Auto-generated method stub
 					try {
 						mIntent = new Intent(OrderActivity.this,
 								OrderDetailActivity.class);
@@ -388,7 +444,6 @@ public class OrderActivity extends Activity {
 
 						startActivity(mIntent);
 					} catch (JSONException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -419,7 +474,6 @@ public class OrderActivity extends Activity {
 
 		@Override
 		public void onClick(View v) {
-			// TODO Auto-generated method stub
 			// 立即支付
 			try {
 				mIntent = new Intent(OrderActivity.this, MyPayActivity.class);
@@ -433,7 +487,6 @@ public class OrderActivity extends Activity {
 						.toString());
 				startActivity(mIntent);
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
@@ -444,5 +497,33 @@ public class OrderActivity extends Activity {
 	protected void onPause() {
 		super.onPause();
 		MobclickAgent.onPause(this);
+	}
+
+	/**
+	 * 上拉更多
+	 */
+	@Override
+	public void onFooterLoad(AbPullToRefreshView view) {
+		new Handler().postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				num++;
+				getData(num + "");
+			}
+		}, 500);
+	}
+
+	/**
+	 * 下拉刷新
+	 */
+	@Override
+	public void onHeaderRefresh(AbPullToRefreshView view) {
+		new Handler().postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				getData();
+				mAbPullToRefreshView.onHeaderRefreshFinish();
+			}
+		}, 500);
 	}
 }

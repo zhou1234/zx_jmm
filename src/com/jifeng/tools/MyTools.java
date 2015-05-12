@@ -479,13 +479,12 @@ public class MyTools {
 				 * IN_SAMPLE_POWER_OF_2:图片将降低2倍，直到下一减少步骤，使图像更小的目标大小 NONE:图片不会调整
 				 */
 				.bitmapConfig(Bitmap.Config.RGB_565)// 设置图片的解码类型
-				.delayBeforeLoading(30)// int delayInMillis为你设置的下载前的延迟时间
+				.delayBeforeLoading(100)// int delayInMillis为你设置的下载前的延迟时间
 				// 对图片进行处理
 				.resetViewBeforeLoading(true)// 设置图片在下载前是否重置，复位
 				// .displayer(new
 				// RoundedBitmapDisplayer(20))//不推荐用！！！！是否设置为圆角，弧度为多少
-				// .displayer(new
-				// FadeInBitmapDisplayer(100))//是否图片加载好后渐入的动画时间，可能会出现闪动
+				// .displayer(new FadeInBitmapDisplayer(1*1000))// 渐显--设置图片渐显的时间
 				.build();
 		return options;
 	}

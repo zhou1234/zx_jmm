@@ -7,7 +7,6 @@ import com.jifeng.url.AllStaticMessage;
 import com.umeng.analytics.MobclickAgent;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.graphics.Bitmap;
 import android.net.http.SslError;
 import android.os.Bundle;
@@ -25,7 +24,7 @@ public class WuLiuActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_wuliu);
-		dialog = new LoadingDialog(this);
+		dialog = new LoadingDialog(this);  
 
 		findView();
 		register();
@@ -61,7 +60,6 @@ public class WuLiuActivity extends Activity {
 			@Override
 			public void onReceivedSslError(WebView view,
 					SslErrorHandler handler, SslError error) {
-				// TODO Auto-generated method stub
 				// 忽略SSL证书错误，继续加载页面。
 				handler.proceed();
 			}

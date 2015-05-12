@@ -10,13 +10,14 @@ import org.json.JSONObject;
 
 import cn.sharesdk.framework.ShareSDK;
 
-import com.jifeng.image.ImageLoader;
 import com.jifeng.mlsales.R;
 import com.jifeng.myview.LoadingDialog;
 import com.jifeng.tools.MyTools;
 import com.jifeng.url.AllStaticMessage;
 import com.jifeng.url.HttpUtil;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.umeng.analytics.MobclickAgent;
 
 import android.annotation.SuppressLint;
@@ -46,6 +47,7 @@ public class DaiShouHuoActivity extends Activity {
 
 	private ImageView iv_no;
 	private TextView tv_no;
+	private DisplayImageOptions options;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -59,10 +61,8 @@ public class DaiShouHuoActivity extends Activity {
 		dialog = new LoadingDialog(this);
 		dialog.loading();
 		mData = new ArrayList<JSONObject>();
-		initData();
+		options = MyTools.createOptions(R.drawable.loading_01);
 		findView();
-		register();
-
 		getData("1");
 
 	}
@@ -71,14 +71,14 @@ public class DaiShouHuoActivity extends Activity {
 	protected void onDestroy() {
 		ShareSDK.stopSDK(this);
 		super.onDestroy();
-//		setContentView(R.layout.view_null);
-//		dialog = null;
-//		mIntent = null;
-//		mGridView = null;
-//		mAdapter = null;
-//		mData = null;
-//		this.finish();
-//		System.gc();
+		// setContentView(R.layout.view_null);
+		// dialog = null;
+		// mIntent = null;
+		// mGridView = null;
+		// mAdapter = null;
+		// mData = null;
+		// this.finish();
+		// System.gc();
 	}
 
 	// 查找控件
@@ -88,18 +88,6 @@ public class DaiShouHuoActivity extends Activity {
 
 		iv_no = (ImageView) findViewById(R.id.iv_no);
 		tv_no = (TextView) findViewById(R.id.tv_no);
-	}
-
-	// 注册事件
-	private void register() {
-
-	}
-
-	/*
-	 * 初始化数据
-	 */
-	private void initData() {
-
 	}
 
 	// //xml注册点击事件的实现
@@ -132,6 +120,7 @@ public class DaiShouHuoActivity extends Activity {
 									for (int i = 0; i < array.length(); i++) {
 										mData.add(array.getJSONObject(i));
 									}
+									mGridView.setVisibility(View.VISIBLE);
 									mAdapter = new MyGridViewAdapter(mData);
 									mGridView.setAdapter(mAdapter);
 								} else {
@@ -170,7 +159,6 @@ public class DaiShouHuoActivity extends Activity {
 					@Override
 					public void onFailure(int statusCode, Header[] headers,
 							Throwable throwable, JSONObject errorResponse) {
-						// TODO Auto-generated method stub
 						super.onFailure(statusCode, headers, throwable,
 								errorResponse);
 						// 错误返回JSONObject
@@ -184,39 +172,32 @@ public class DaiShouHuoActivity extends Activity {
 	private class MyGridViewAdapter extends BaseAdapter {
 		AppItem appItem;
 		List<JSONObject> mListData;
-		ImageLoader imageLoader;
 
 		public MyGridViewAdapter(List<JSONObject> listData) {
-			mListData = new ArrayList<JSONObject>();
 			this.mListData = listData;
-			imageLoader = new ImageLoader(DaiShouHuoActivity.this, "");
 		}
 
 		@Override
 		public int getCount() {
-			// TODO Auto-generated method stub
 			return mListData.size();
 		}
 
 		@Override
 		public Object getItem(int position) {
-			// TODO Auto-generated method stub
-			return null;
+			return mListData.get(position);
 		}
 
 		@Override
 		public long getItemId(int position) {
-			// TODO Auto-generated method stub
 			return position;
 		}
 
 		@Override
-		public View getView(final int position, View convertView,
-				ViewGroup parent) {
-			// TODO Auto-generated method stub
+		public View getView(int position, View convertView, ViewGroup parent) {
+			final int pos = position;
 			if (convertView == null) {
-				View v = LayoutInflater.from(DaiShouHuoActivity.this).inflate(
-						R.layout.item_daishouhuo_listview, null);
+				View v = getLayoutInflater().inflate(
+						R.layout.item_daishouhuo_listview, parent, false);
 				appItem = new AppItem();
 				appItem.AppText_time = (TextView) v
 						.findViewById(R.id.item_order_time);
@@ -242,43 +223,34 @@ public class DaiShouHuoActivity extends Activity {
 						.getString("AddTime").toString());
 				appItem.AppText_id.setText(mListData.get(position)
 						.getString("OrderId").toString());
+
 				appItem.AppText_price
 						.setText("￥"
 								+ mListData.get(position).getString("total")
 										.toString());
-				String imgUrl = AllStaticMessage.URL_GBase + "/UsersData/"
-						+ mData.get(position).getString("Account").toString()
-						+ "/" + mData.get(position).getString("Img").toString()
+				String imgUrl = AllStaticMessage.URL_GBase
+						+ "/UsersData/"
+						+ mListData.get(position).getString("Account")
+								.toString() + "/"
+						+ mListData.get(position).getString("Img").toString()
 						+ "/5.jpg";
-				imageLoader.DisplayImage(imgUrl, appItem.AppImg);
+				ImageLoader.getInstance().displayImage(imgUrl, appItem.AppImg,
+						options);
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
-			// appItem.AppBtn_WuLiu.setOnClickListener(new
-			// onItemClick(appItem,mData.get(position),"wuliu"));
-			// appItem.AppBtn_QueRen.setOnClickListener(new
-			// onItemClick(appItem,mData.get(position),"shouhuo"));
-
-			/* edit by jason */
 
 			convertView.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					// TODO Auto-generated method stub
-					// mIntent=new
-					// Intent(DaiShouHuoActivity.this,DaiShouHuo_Detail_Activity.class);
-					// startActivity(mIntent);
 					try {
 						mIntent = new Intent(DaiShouHuoActivity.this,
 								OrderDetailActivity.class);
 						mIntent.putExtra("id",
-								mData.get(position).getString("OrderId")
+								mListData.get(pos).getString("OrderId")
 										.toString());
 						startActivity(mIntent);
 					} catch (JSONException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}

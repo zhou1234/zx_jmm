@@ -101,7 +101,6 @@ public class OtherLogin {
 					 } 
 					handler.sendEmptyMessage(num);
 				} catch (JSONException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} 
 				plat_sina.removeAccount();

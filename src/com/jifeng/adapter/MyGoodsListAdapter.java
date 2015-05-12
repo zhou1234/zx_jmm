@@ -83,7 +83,7 @@ public class MyGoodsListAdapter extends BaseAdapter {
 			appItem = (GoodsListAppItem) convertView.getTag();
 		}
 		MyTools.setHight(appItem.AppmLayout, width, hight, mContext);
-		// appItem.AppBtn_shengyu_time.setVisibility(View.INVISIBLE);
+		//appItem.AppBtn_shengyu_time.setVisibility(View.INVISIBLE);
 		try {
 			if (mListData.get(position).getString("Stock").toString().equals("0")) {
 				appItem.AppImg_qiangguang.setVisibility(View.VISIBLE);

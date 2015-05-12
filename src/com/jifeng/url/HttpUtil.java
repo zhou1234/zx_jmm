@@ -59,7 +59,7 @@ public class HttpUtil {
 			conn = (HttpURLConnection) url.openConnection();
 			// 请求方式 GET/POST
 			// 超时时间(ms),超过时间连接断开
-			conn.setConnectTimeout(5000);
+			conn.setConnectTimeout(10000);
 			// conn.setReadTimeout(2000);
 			conn.setDoInput(true);
 			conn.setRequestMethod("GET");
@@ -251,7 +251,7 @@ public class HttpUtil {
 	// 新框架
 	private static AsyncHttpClient client = new AsyncHttpClient(); // 实例话对象
 	static {
-		client.setTimeout(5000); // 设置链接超时，如果不设置，默认为10s
+		client.setTimeout(10000); // 设置链接超时，如果不设置，默认为10s
 
 	}
 

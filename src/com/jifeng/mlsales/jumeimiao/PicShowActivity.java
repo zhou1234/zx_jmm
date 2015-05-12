@@ -36,6 +36,7 @@ public class PicShowActivity extends Activity {
 	private RelativeLayout mLayout;
 	private TextView mTextView;
 
+	@SuppressWarnings("deprecation")
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		try {

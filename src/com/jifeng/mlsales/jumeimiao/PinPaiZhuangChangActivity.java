@@ -1,6 +1,5 @@
 package com.jifeng.mlsales.jumeimiao;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,11 +69,9 @@ public class PinPaiZhuangChangActivity extends Activity {
 	public Handler handler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
-			// TODO Auto-generated method stub
 			super.handleMessage(msg);
 			switch (msg.what) {
 			case 0x01:
-				// Log.i("11111", "1111111111111111111");
 				mDongHua.setVisibility(View.VISIBLE);
 				Animation hyperspaceJumpAnimation = AnimationUtils
 						.loadAnimation(PinPaiZhuangChangActivity.this,
@@ -121,36 +118,34 @@ public class PinPaiZhuangChangActivity extends Activity {
 
 	@Override
 	protected void onDestroy() {
-		// TODO Auto-generated method stub
 		ShareSDK.stopSDK(this);
-		setContentView(R.layout.view_null);
 		super.onDestroy();
-		imageLoader.clearCache();
-
-		mText_title = null;
-		dialog = null;
-		tasckActivity.popActivity(PinPaiZhuangChangActivity.this);
-		tasckActivity = null;
-		btn_moren = null;
-		btn_news = null;
-		btn_rexiao = null;
-		btn_price = null;
-		mImage_price = null;
-		mPullScrollView = null;
-
-		mAdapter = null;
-		mGridView = null;
-		mImageView = null;
-		mText_MeiMiaoShuo = null;
-		mText_miao_say = null;
-		imageLoader = null;
-		mILoader = null;
-		mDongHua = null;
-		mLayout = null;
-		mIntent = null;
-		handler = null;
-		this.finish();
-		System.gc();
+//		imageLoader.clearCache();
+//		setContentView(R.layout.view_null);
+//		mText_title = null;
+//		dialog = null;
+//		tasckActivity.popActivity(PinPaiZhuangChangActivity.this);
+//		tasckActivity = null;
+//		btn_moren = null;
+//		btn_news = null;
+//		btn_rexiao = null;
+//		btn_price = null;
+//		mImage_price = null;
+//		mPullScrollView = null;
+//
+//		mAdapter = null;
+//		mGridView = null;
+//		mImageView = null;
+//		mText_MeiMiaoShuo = null;
+//		mText_miao_say = null;
+//		imageLoader = null;
+//		mILoader = null;
+//		mDongHua = null;
+//		mLayout = null;
+//		mIntent = null;
+//		handler = null;
+//		this.finish();
+//		System.gc();
 	}
 
 	// ×¢²áÊÂ¼þ

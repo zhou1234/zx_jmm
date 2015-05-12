@@ -36,19 +36,23 @@
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/rel_tou" 
-        android:layout_above="@+id/rel_button">
+        android:layout_above="@+id/rel_button"
+        android:layout_below="@+id/rel_tou" >
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/logo_xian" />
+
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dip"
-                android:background="@drawable/setting_second_bg"
+                android:background="#ffffff"
                 android:orientation="vertical" >
 
                 <LinearLayout
@@ -83,8 +87,8 @@
                 <RelativeLayout
                     android:id="@+id/jiesuan_select"
                     android:layout_width="fill_parent"
-                    android:visibility="gone"
-                    android:layout_height="100dip" >
+                    android:layout_height="100dip"
+                    android:visibility="gone" >
 
                     <ImageView
                         android:id="@+id/jiesuan_img_select"
@@ -149,9 +153,9 @@
                             android:layout_weight="1"
                             android:gravity="center"
                             android:text="送货时间不限"
-                            android:visibility="gone"
                             android:textColor="@color/text_color"
-                            android:textSize="16sp" />
+                            android:textSize="16sp"
+                            android:visibility="gone" />
                     </LinearLayout>
 
                     <Button
@@ -173,16 +177,17 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dip"
                     android:layout_marginRight="8dip"
-                    android:background="@drawable/logo_xian" />
+                    android:background="@drawable/logo_xian"
+                    android:visibility="gone" />
 
                 <RelativeLayout
                     android:id="@+id/jiesuan_select_address"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dip"
-                    android:visibility="gone"
                     android:background="@drawable/jiesuan_3"
-                    android:onClick="doclick" >
+                    android:onClick="doclick"
+                    android:visibility="gone" >
 
                     <Button
                         android:id="@+id/jiesuan_btn_select_address"
@@ -199,11 +204,21 @@
                 </RelativeLayout>
             </LinearLayout>
 
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/logo_xian" />
+
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/logo_xian" />
+
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dip"
-                android:background="@drawable/setting_second_bg"
+                android:background="#ffffff"
                 android:orientation="vertical" >
 
                 <LinearLayout
@@ -252,8 +267,8 @@
 
                     <ImageView
                         android:id="@+id/zhifubao"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="8dip"
                         android:layout_toRightOf="@+id/jiesuan_zhifubao_select"
@@ -294,8 +309,8 @@
 
                     <ImageView
                         android:id="@+id/weixin"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="8dip"
                         android:layout_toRightOf="@+id/jiesuan_weixin_select"
@@ -313,11 +328,21 @@
                 </RelativeLayout>
             </LinearLayout>
 
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/logo_xian" />
+
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/logo_xian" />
+
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dip"
-                android:background="@drawable/setting_second_bg"
+                android:background="#ffffff"
                 android:orientation="vertical" >
 
                 <LinearLayout
@@ -414,11 +439,12 @@
                     android:layout_marginLeft="8dip"
                     android:layout_marginRight="8dip"
                     android:background="@drawable/logo_xian" />
-                <RelativeLayout
+
+                <RelativeLayout
                     android:id="@+id/jiesuan_guan_quan"
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content" 
-                    android:onClick="doclick">
+                    android:layout_height="wrap_content"
+                    android:onClick="doclick" >
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -442,6 +468,11 @@
                         android:textSize="16sp" />
                 </RelativeLayout>
             </LinearLayout>
+
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/logo_xian" />
         </LinearLayout>
     </ScrollView>
 

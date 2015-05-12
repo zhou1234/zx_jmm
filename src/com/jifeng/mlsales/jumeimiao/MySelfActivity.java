@@ -414,14 +414,14 @@ public class MySelfActivity extends Activity {
 	protected void onDestroy() {
 		ShareSDK.stopSDK(this);
 		super.onDestroy();
-		mIntent = null;
-		mText_NickName = null;
-		mText_Jifen = null;
-		mLayout_Show = null;// 登录后显示数据
-		mTextFlag = null;
-		mIntent = null;
-		setContentView(R.layout.view_null);
-		System.gc();
+//		mIntent = null;
+//		mText_NickName = null;
+//		mText_Jifen = null;
+//		mLayout_Show = null;// 登录后显示数据
+//		mTextFlag = null;
+//		mIntent = null;
+//		setContentView(R.layout.view_null);
+//		System.gc();
 	}
 
 	public void onResume() {// 重启
@@ -442,6 +442,7 @@ public class MySelfActivity extends Activity {
 		}
 		getData1();
 		getData2();
+		getData3();
 		MobclickAgent.onResume(this);
 	}
 

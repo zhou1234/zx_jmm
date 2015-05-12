@@ -114,8 +114,8 @@ public class LoginActivity extends Activity {
 			finish();
 			break;
 		case R.id.login_login:// 登录
-			userName = mText_userName.getText().toString().trim();
-			userPsd = mText_userPsd.getText().toString().trim();
+			userName = mText_userName.getText().toString().replace(" ", "").trim();
+			userPsd = mText_userPsd.getText().toString().replace(" ", "").trim();
 			if (userName.equals("") || userName == null) {
 				Toast.makeText(this, "请输入用户名", 800).show();
 				return;

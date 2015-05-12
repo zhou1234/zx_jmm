@@ -365,7 +365,7 @@
             android:layout_below="@+id/third"
             android:layout_marginTop="8dip"
             android:orientation="horizontal"
-            android:visibility="gone" >
+            android:visibility="visible" >
 
             <ImageView
                 android:id="@+id/create_address_isdefault"

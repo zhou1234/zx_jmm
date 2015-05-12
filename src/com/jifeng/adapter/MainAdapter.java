@@ -3,7 +3,9 @@ package com.jifeng.adapter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.json.JSONException;
@@ -15,10 +17,14 @@ import com.jifeng.tools.MyTools;
 import com.jifeng.url.AllStaticMessage;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -31,6 +37,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class MainAdapter extends BaseAdapter {
+	private static final ImageLoadingListener ImageLoadingListenerImpl = null;
 	private Context mContext;
 	private MainAppItem appItem;
 	private List<JSONObject> mListData;
@@ -113,7 +120,9 @@ public class MainAdapter extends BaseAdapter {
 
 			if (imgurl != null) {
 				ImageLoader.getInstance().displayImage(imgurl, appItem.AppImg,
-						options);
+				options);
+//				ImageLoader.getInstance().displayImage(imgurl, appItem.AppImg,
+//						options, ImageLoadingListenerImpl);
 			}
 
 			appItem.AppImg.setOnClickListener(new onMainItemClick(appItem,
@@ -123,6 +132,27 @@ public class MainAdapter extends BaseAdapter {
 			e.printStackTrace();
 		}
 		return convertView;
+	}
+
+	// 监听图片异步加载
+	public static class ImageLoadingListenerImpl extends
+			SimpleImageLoadingListener {
+
+		public static final List<String> displayedImages = Collections
+				.synchronizedList(new LinkedList<String>());
+
+		@Override
+		public void onLoadingComplete(String imageUri, View view, Bitmap bitmap) {
+			if (bitmap != null) {
+				ImageView imageView = (ImageView) view;
+				boolean isFirstDisplay = !displayedImages.contains(imageUri);
+				if (isFirstDisplay) {
+					// 图片的淡入效果
+					FadeInBitmapDisplayer.animate(imageView, 1 * 1000);
+					displayedImages.add(imageUri);
+				}
+			}
+		}  
 	}
 
 	private void setTime(String endtime, Button btn) {

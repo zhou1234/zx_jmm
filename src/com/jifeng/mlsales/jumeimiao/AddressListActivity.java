@@ -12,7 +12,6 @@ import cn.sharesdk.framework.ShareSDK;
 
 import com.jifeng.mlsales.R;
 import com.jifeng.myview.LoadingDialog;
-import com.jifeng.tools.MyTools;
 import com.jifeng.tools.ShrefUtil;
 import com.jifeng.url.AllStaticMessage;
 import com.jifeng.url.HttpUtil;
@@ -20,7 +19,6 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.umeng.analytics.MobclickAgent;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -75,15 +73,15 @@ public class AddressListActivity extends Activity {
 	protected void onDestroy() {
 		ShareSDK.stopSDK(this);
 		super.onDestroy();
-		mIntent = null;
-		dialog = null;
-		mAdapter = null;
-		mGridView = null;
-		mShrefUtil = null;
-		mJsonObjects = null;
-		setContentView(R.layout.view_null);
-		this.finish();
-		System.gc();
+		// mIntent = null;
+		// dialog = null;
+		// mAdapter = null;
+		// mGridView = null;
+		// mShrefUtil = null;
+		// mJsonObjects = null;
+		// setContentView(R.layout.view_null);
+		// this.finish();
+		// System.gc();
 	}
 
 	// //xml注册点击事件的实现
@@ -106,8 +104,7 @@ public class AddressListActivity extends Activity {
 
 	private void getData() {
 		String url = AllStaticMessage.URL_Get_AddressList
-				+ AllStaticMessage.User_Id;// AllStaticMessage.User_Id
-		// Log.i("11111", url);
+				+ AllStaticMessage.User_Id;
 		HttpUtil.get(url, AddressListActivity.this, dialog,
 				new JsonHttpResponseHandler() {
 
@@ -219,17 +216,13 @@ public class AddressListActivity extends Activity {
 									}
 								}
 
-								// if (mAdapter != null) {
-								// mAdapter.notifyDataSetChanged();
-								// }
+								if (mAdapter != null) {
+									mAdapter.notifyDataSetChanged();
+								}
 								Toast.makeText(
 										AddressListActivity.this,
 										response.getString("Results")
 												.toString(), 500).show();
-								startActivity(new Intent(
-										AddressListActivity.this,
-										AddressListActivity.class));
-								finish();
 							} else {
 								Toast.makeText(
 										AddressListActivity.this,

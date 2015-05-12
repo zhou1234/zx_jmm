@@ -114,7 +114,7 @@ public class AllStaticMessage {
 	 */
 	// http://wwwpre.jumeimiao.com
 	public static String URL_GBase = "http://www.jumeimiao.com";// www.jumeimiao.com
-	//public static String URL_GBase = "http://wwwpre.jumeimiao.com";
+	// public static String URL_GBase = "http://wwwpre.jumeimiao.com";
 	public static String URL_Base = URL_GBase + "/api";
 	// 分类
 	public static String class_url = URL_Base + "/p.ashx?m=category";
@@ -122,7 +122,8 @@ public class AllStaticMessage {
 	public static String class_url_item = URL_Base
 			+ "/p.ashx?m=categoryProduct&categoryId=";
 	// 根据活动id获取活动详情
-	public static String active_url = URL_Base+"/p.ashx?m=activedetail&activeId=";
+	public static String active_url = URL_Base
+			+ "/p.ashx?m=activedetail&activeId=";
 
 	// 获取图片验证码
 	public static String URL_GetImgCode = URL_GBase + "/getCode.aspx?code=";
@@ -244,6 +245,9 @@ public class AllStaticMessage {
 	public static String URL_Order_List = URL_Base
 			+ "/o.ashx?m=orderList&UserId=";// 1&orderState=0 0或空，默认查全部 | 1:待付款
 	// | 2：待发货 | 3：待收货 | 4：待评价
+	// 所有订单
+	public static String URL_Order = URL_Base
+			+ "/o.ashx?m=newOrderList&UserId=";
 
 	// 订单详情
 	public static String URL_Order_Deatil = URL_Base

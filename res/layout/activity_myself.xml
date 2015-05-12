@@ -215,8 +215,8 @@
 
                         <ImageView
                             android:id="@+id/imageView_icon"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
                             android:layout_alignParentLeft="true"
                             android:layout_centerVertical="true"
                             android:layout_marginBottom="9dip"
@@ -261,8 +261,8 @@
 
                         <ImageView
                             android:id="@+id/imageView_icon"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
                             android:layout_alignParentLeft="true"
                             android:layout_centerVertical="true"
                             android:layout_marginBottom="9dip"
@@ -307,8 +307,8 @@
 
                         <ImageView
                             android:id="@+id/imageView_icon"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                           android:layout_width="35dp"
+                            android:layout_height="35dp"
                             android:layout_alignParentLeft="true"
                             android:layout_centerVertical="true"
                             android:layout_marginBottom="9dip"
@@ -353,8 +353,8 @@
 
                         <ImageView
                             android:id="@+id/imageView_icon"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                           android:layout_width="35dp"
+                            android:layout_height="35dp"
                             android:layout_alignParentLeft="true"
                             android:layout_centerVertical="true"
                             android:layout_marginBottom="9dip"
@@ -450,12 +450,12 @@
 
                         <ImageView
                             android:id="@+id/imageView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                           android:layout_width="35dp"
+                            android:layout_height="35dp"
                             android:layout_alignParentLeft="true"
                             android:layout_centerVertical="true"
                             android:layout_marginBottom="9dip"
-                            android:layout_marginLeft="24dip"
+                            android:layout_marginLeft="15dip"
                             android:layout_marginTop="9dip"
                             android:src="@drawable/ke_fu" />
 
@@ -519,8 +519,8 @@
 
                         <ImageView
                             android:id="@+id/imageView_icon"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                           android:layout_width="35dp"
+                            android:layout_height="35dp"
                             android:layout_alignParentLeft="true"
                             android:layout_centerVertical="true"
                             android:layout_marginBottom="9dip"
@@ -565,8 +565,8 @@
 
                         <ImageView
                             android:id="@+id/imageView_icon"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                           android:layout_width="35dp"
+                            android:layout_height="35dp"
                             android:layout_alignParentLeft="true"
                             android:layout_centerVertical="true"
                             android:layout_marginBottom="9dip"

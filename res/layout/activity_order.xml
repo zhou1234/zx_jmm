@@ -33,13 +33,20 @@
             android:textSize="16sp" />
     </RelativeLayout>
 
-    <GridView
-        android:id="@+id/order_gridview"
+    <com.ab.view.pullview.AbPullToRefreshView
+        android:id="@+id/mPullRefreshView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:numColumns="1"
-        android:scrollbars="@null"
-        android:verticalSpacing="12dip" />
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <GridView
+            android:id="@+id/order_gridview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:numColumns="1"
+            android:scrollbars="@null"
+            android:verticalSpacing="12dip" />
+    </com.ab.view.pullview.AbPullToRefreshView>
 
     <LinearLayout
         android:id="@+id/layout_loading"

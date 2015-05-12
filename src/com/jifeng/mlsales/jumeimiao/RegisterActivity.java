@@ -136,7 +136,7 @@ public class RegisterActivity extends Activity {
 		// Register_Sex = "1";
 		// break;
 		case R.id.register_btn_getcode:
-			String phone_1 = mEdit_Phone.getText().toString().trim();
+			String phone_1 = mEdit_Phone.getText().toString().replace(" ", "").trim();
 			if (phone_1 == null || phone_1.equals("")) {
 				Toast.makeText(this, "请输入手机号码", 500).show();
 				return;
@@ -148,13 +148,13 @@ public class RegisterActivity extends Activity {
 			getCode(phone_1);
 			break;
 		case R.id.register_btn_ok:
-			final String phone = mEdit_Phone.getText().toString().trim();
-			final String psd_1 = mEdit_Psd_1.getText().toString().trim();
+			final String phone = mEdit_Phone.getText().toString().replace(" ", "").trim();
+			final String psd_1 = mEdit_Psd_1.getText().toString().replace(" ", "").trim();
 
 			// final String psd_2 = mEdit_Psd_2.getText().toString().trim();
 			final String code = "111";// mEdit_Code.getText().toString().trim();
 			// 图片验证
-			final String txt_code = m_code.getText().toString().trim();
+			final String txt_code = m_code.getText().toString().replace(" ", "").trim();
 			if (phone == null || phone.equals("")) {
 				Toast.makeText(this, "请输入手机号码", 500).show();
 				return;

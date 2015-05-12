@@ -219,45 +219,45 @@ public class OneFragment extends BaseFragment implements
 						intent.putExtra("active", "1");
 						intent.putExtra("activeId", activeId);
 						startActivity(intent);
-					} 
-//					else if (mArray_ad
-//							.getJSONObject(my_ViewPager.getCurrentItem())
-//							.getString("AdType").equals("3")
-//							&& mArray_ad
-//									.getJSONObject(
-//											my_ViewPager.getCurrentItem())
-//									.getString("LinkUrl").equals("")) {
-//						Intent intent = new Intent(getActivity(),
-//								GoodsDetailActivity.class);
-//						intent.putExtra(
-//								"pid",
-//								mArray_ad
-//										.getJSONObject(
-//												my_ViewPager.getCurrentItem())
-//										.getString("Account").toString());// 活动id
-//
-//						intent.putExtra(
-//								"guigeid",
-//								mArray_ad
-//										.getJSONObject(
-//												my_ViewPager.getCurrentItem())
-//										.getString("Id").toString());// 规格
-//						intent.putExtra(
-//								"goodsid",
-//								mArray_ad
-//										.getJSONObject(
-//												my_ViewPager.getCurrentItem())
-//										.getString("GoodsId").toString());// 商品id
-//						intent.putExtra(
-//								"imgurl",
-//								AllStaticMessage.URL_GBase
-//										+ mArray_ad
-//												.getJSONObject(
-//														my_ViewPager
-//																.getCurrentItem())
-//												.getString("ImgUrl").toString());
-//						startActivity(intent);
-//					}
+					}
+					// else if (mArray_ad
+					// .getJSONObject(my_ViewPager.getCurrentItem())
+					// .getString("AdType").equals("3")
+					// && mArray_ad
+					// .getJSONObject(
+					// my_ViewPager.getCurrentItem())
+					// .getString("LinkUrl").equals("")) {
+					// Intent intent = new Intent(getActivity(),
+					// GoodsDetailActivity.class);
+					// intent.putExtra(
+					// "pid",
+					// mArray_ad
+					// .getJSONObject(
+					// my_ViewPager.getCurrentItem())
+					// .getString("Account").toString());// 活动id
+					//
+					// intent.putExtra(
+					// "guigeid",
+					// mArray_ad
+					// .getJSONObject(
+					// my_ViewPager.getCurrentItem())
+					// .getString("Id").toString());// 规格
+					// intent.putExtra(
+					// "goodsid",
+					// mArray_ad
+					// .getJSONObject(
+					// my_ViewPager.getCurrentItem())
+					// .getString("GoodsId").toString());// 商品id
+					// intent.putExtra(
+					// "imgurl",
+					// AllStaticMessage.URL_GBase
+					// + mArray_ad
+					// .getJSONObject(
+					// my_ViewPager
+					// .getCurrentItem())
+					// .getString("ImgUrl").toString());
+					// startActivity(intent);
+					// }
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
@@ -430,7 +430,7 @@ public class OneFragment extends BaseFragment implements
 				return mImageViews[position % mImageViews.length];
 			}
 		}
-	}
+	}  
 
 	private void getListData(final ListView mListView, String id) {
 		String url_1 = AllStaticMessage.URL_Shouye_1 + id;
@@ -491,7 +491,7 @@ public class OneFragment extends BaseFragment implements
 				mAbPullToRefreshView.onFooterLoadFinish();
 				Toast.makeText(getActivity(), "没有更多了", 0).show();
 			}
-		}, 1200);
+		}, 0);
 
 	}
 
@@ -502,7 +502,7 @@ public class OneFragment extends BaseFragment implements
 			public void run() {
 				getListData(mListView, "0");
 			}
-		}, 1200);
+		}, 0);
 
 	}
 

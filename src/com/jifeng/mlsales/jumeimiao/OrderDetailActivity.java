@@ -43,7 +43,7 @@ public class OrderDetailActivity extends Activity {
 	private Intent mIntent;
 	private MyListViewAdapter mAdapter;
 	private My_ListView mListView;
-	private List<JSONObject> mListData;
+	private List<JSONObject> mListData;   
 	private TextView[] mText;
 	private int[] mTextId = { R.id.orderDetail_1, R.id.orderDetail_2,
 			R.id.orderDetail_3, R.id.orderDetail_4, R.id.orderDetail_5,
@@ -148,7 +148,6 @@ public class OrderDetailActivity extends Activity {
 
 	@Override
 	protected void onResume() {
-		// TODO Auto-generated method stub
 		super.onResume();
 		if (AllStaticMessage.orderDetailFlag) {
 			AllStaticMessage.orderDetailFlag = false;
@@ -435,9 +434,7 @@ public class OrderDetailActivity extends Activity {
 		private MyListViewAdapter(List<JSONObject> listData) {
 			mListData = new ArrayList<JSONObject>();
 			this.mData = listData;
-			// imageLoader=new ImageLoader(OrderDetailActivity.this,"");
 			options = MyTools.createOptions(R.drawable.img);
-			// MyTools.initImageLoader(OrderDetailActivity.this);
 		}
 
 		@Override
@@ -458,7 +455,6 @@ public class OrderDetailActivity extends Activity {
 		@Override
 		public View getView(final int position, View convertView,
 				ViewGroup parent) {
-			// TODO Auto-generated method stub
 			if (convertView == null) {
 				View v = LayoutInflater.from(OrderDetailActivity.this).inflate(
 						R.layout.item_orderdetail_listview, null);
@@ -502,7 +498,6 @@ public class OrderDetailActivity extends Activity {
 						+ mData.get(position).getString("Account").toString()
 						+ "/" + mData.get(position).getString("Img").toString()
 						+ "/5.jpg";
-				// imageLoader.DisplayImage(imgUrl, appItem.AppImg);
 				ImageLoader.getInstance().displayImage(imgUrl, appItem.AppImg,
 						options);
 				int num = Integer.parseInt(mData.get(position)
@@ -612,9 +607,7 @@ public class OrderDetailActivity extends Activity {
 
 		@Override
 		public void onClick(View v) {
-			// TODO Auto-generated method stub
 			// …Í«ÎÕÀªı
-			// .getString("ProductId").toString()
 			try {
 				if (flag.equals("tuikuang")) {
 					mIntent = new Intent(OrderDetailActivity.this,
@@ -646,7 +639,6 @@ public class OrderDetailActivity extends Activity {
 			}
 
 		}
-
 	}
 
 	@Override

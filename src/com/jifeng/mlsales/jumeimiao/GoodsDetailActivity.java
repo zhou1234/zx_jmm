@@ -28,7 +28,13 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationSet;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.TranslateAnimation;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
@@ -46,7 +52,6 @@ public class GoodsDetailActivity extends Activity {
 	private TasckActivity tasckActivity;
 	private ImageView mImage_Car;
 	private ImageView iv_shopping;
-	private AnimationSet set;
 	// private Animation translateAnimation;
 	// private Animation scaleAnimation;
 	private Button btn_input_car;
@@ -102,41 +107,6 @@ public class GoodsDetailActivity extends Activity {
 		btn_input_car = (Button) findViewById(R.id.btn_inputcar_num);
 		iv_shopping = (ImageView) findViewById(R.id.iv_shopping);
 
-		// WindowManager manager = getWindowManager();
-		// int height = manager.getDefaultDisplay().getHeight();
-		// int width = manager.getDefaultDisplay().getWidth();
-		//
-		// set = new AnimationSet(false);
-		// TranslateAnimation translateAnimationX = new TranslateAnimation(0,
-		// -width, 0, -1000);
-		// translateAnimationX.setInterpolator(new LinearInterpolator());
-		// translateAnimationX.setRepeatCount(0);
-		// TranslateAnimation translateAnimationY = new TranslateAnimation(0, 0,
-		// 0, 1400);
-		// translateAnimationY.setInterpolator(new AccelerateInterpolator());
-		// translateAnimationY.setRepeatCount(0);
-		// set.addAnimation(translateAnimationY);
-		// set.addAnimation(translateAnimationX);
-		// set.setStartOffset(200);
-		// set.setDuration(1000);
-		// set.setAnimationListener(new AnimationListener() {
-		//
-		// @Override
-		// public void onAnimationStart(Animation arg0) {
-		// iv_shopping.setVisibility(View.VISIBLE);
-		// }
-		//
-		// @Override
-		// public void onAnimationRepeat(Animation arg0) {
-		//
-		// }
-		//
-		// @Override
-		// public void onAnimationEnd(Animation arg0) {
-		// iv_shopping.setVisibility(View.GONE);
-		// btn_input_car.setText(String.valueOf(AllStaticMessage.Car_num));
-		// }
-		// });
 	}
 
 	// 注册事件
@@ -456,8 +426,7 @@ public class GoodsDetailActivity extends Activity {
 		HttpUtil.get(url, GoodsDetailActivity.this, dialog,
 				new JsonHttpResponseHandler() {
 					@Override
-					public void onSuccess(int statusCode,
-							@SuppressWarnings("deprecation") Header[] headers,
+					public void onSuccess(int statusCode, Header[] headers,
 							JSONObject response) {
 						super.onSuccess(statusCode, headers, response);
 						// 成功返回JSONObject
@@ -519,8 +488,7 @@ public class GoodsDetailActivity extends Activity {
 						// 成功返回JSONObject
 						try {
 							if (response.getString("Status").equals("true")) {
-								// showCar();
-								// iv_shopping.startAnimation(set);
+
 								AllStaticMessage.Car_num++;
 								btn_input_car.setVisibility(View.VISIBLE);
 								btn_input_car.setText(String
@@ -579,6 +547,5 @@ public class GoodsDetailActivity extends Activity {
 	protected void onPause() {
 		super.onPause();
 		MobclickAgent.onPause(this);
-
 	}
 }

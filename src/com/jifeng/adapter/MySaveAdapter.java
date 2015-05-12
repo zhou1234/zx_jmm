@@ -121,13 +121,11 @@ public class MySaveAdapter extends BaseAdapter {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub 
 				try {
 					mIntent=new Intent(mContext,PinPaiZhuangChangActivity.class);
 					mIntent.putExtra("id", mJsonArray.get(position).getString("BrandId").toString());
 					mContext.startActivity(mIntent);
 				} catch (JSONException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				

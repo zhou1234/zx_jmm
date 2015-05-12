@@ -204,7 +204,6 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 	private void initDatas() {
 		String url = AllStaticMessage.URL_Get_AddressList
 				+ AllStaticMessage.User_Id;// AllStaticMessage.User_Id
-		// Log.i("11111", url);
 		HttpUtil.get(url, JieSuanActivity.this, dialog,
 				new JsonHttpResponseHandler() {
 
@@ -226,30 +225,82 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 								for (int i = 0; i < mArray.length(); i++) {
 									mJsonObjects.add(mArray.getJSONObject(i));
 								}
-								MyTools.setText(mText_Name, mJsonObjects.get(0)
-										.getString("TrueName"),
-										JieSuanActivity.this);
-								MyTools.setText(mText_Phone, mJsonObjects
-										.get(0).getString("PhoneTel"),
-										JieSuanActivity.this);
-								MyTools.setText(
-										mText_Address,
-										mJsonObjects.get(0).getString(
-												"Province")
-												+ mJsonObjects.get(0)
-														.getString("City")
-												+ mJsonObjects.get(0)
-														.getString("Country")
-												+ mJsonObjects
-														.get(0)
-														.getString(
-																"DetailAddress"),
-										JieSuanActivity.this);
-								MyTools.setText(mText_Time, mJsonObjects.get(0)
-										.getString("GoodsTime"),
-										JieSuanActivity.this);
-								addressId = mJsonObjects.get(0).getString("Id");
-								getYunFei(addressId);
+								for (int j = 0; j < mJsonObjects.size(); j++) {
+									String isDefault = mJsonObjects.get(j)
+											.getString("IsDefault");
+									if (isDefault.equals("1")) {
+										MyTools.setText(
+												mText_Name,
+												mJsonObjects.get(j).getString(
+														"TrueName"),
+												JieSuanActivity.this);
+										MyTools.setText(
+												mText_Phone,
+												mJsonObjects.get(j).getString(
+														"PhoneTel"),
+												JieSuanActivity.this);
+										MyTools.setText(
+												mText_Address,
+												mJsonObjects.get(j).getString(
+														"Province")
+														+ mJsonObjects.get(j)
+																.getString(
+																		"City")
+														+ mJsonObjects
+																.get(j)
+																.getString(
+																		"Country")
+														+ mJsonObjects
+																.get(j)
+																.getString(
+																		"DetailAddress"),
+												JieSuanActivity.this);
+										MyTools.setText(
+												mText_Time,
+												mJsonObjects.get(j).getString(
+														"GoodsTime"),
+												JieSuanActivity.this);
+										addressId = mJsonObjects.get(j)
+												.getString("Id");
+										getYunFei(addressId);
+									} else {
+										MyTools.setText(
+												mText_Name,
+												mJsonObjects.get(0).getString(
+														"TrueName"),
+												JieSuanActivity.this);
+										MyTools.setText(
+												mText_Phone,
+												mJsonObjects.get(0).getString(
+														"PhoneTel"),
+												JieSuanActivity.this);
+										MyTools.setText(
+												mText_Address,
+												mJsonObjects.get(0).getString(
+														"Province")
+														+ mJsonObjects.get(0)
+																.getString(
+																		"City")
+														+ mJsonObjects
+																.get(0)
+																.getString(
+																		"Country")
+														+ mJsonObjects
+																.get(0)
+																.getString(
+																		"DetailAddress"),
+												JieSuanActivity.this);
+										MyTools.setText(
+												mText_Time,
+												mJsonObjects.get(0).getString(
+														"GoodsTime"),
+												JieSuanActivity.this);
+										addressId = mJsonObjects.get(0)
+												.getString("Id");
+										getYunFei(addressId);
+									}
+
+								}
 
 							} else {
 								mLayout_2.setVisibility(View.VISIBLE);
@@ -465,7 +516,7 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 			// getYunFei(addressId);
 			// twoFlag = true;
 			// } catch (JSONException e) {
-			// // TODO Auto-generated catch block
+			//
 			// e.printStackTrace();
 			// }
 			// } else {
@@ -607,6 +658,7 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 
 	// 获取运费
 	private void getYunFei(String addressid) {
+		dialog.loading();
 		String url = AllStaticMessage.URL_YunFei + AllStaticMessage.User_Id
 				+ "&addressId=" + addressid + "&udid="
 				+ MyTools.getAndroidID(JieSuanActivity.this);
@@ -635,7 +687,6 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 									mText_guanfang.setText("未使用");
 									twoFlag = false;
 								}
-								// Toast.makeText(JieSuanActivity.this,response.getString("Results").toString(),500).show();
 							} else {
 								Toast.makeText(
 										JieSuanActivity.this,
