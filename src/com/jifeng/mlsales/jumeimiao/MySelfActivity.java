@@ -45,7 +45,6 @@ public class MySelfActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_myself);
-		dialog = new LoadingDialog(this);
 		findView();
 		if (!AllStaticMessage.Login_Flag.equals("")) {
 			mTextFlag.setVisibility(View.GONE);
@@ -426,6 +425,8 @@ public class MySelfActivity extends Activity {
 
 	public void onResume() {// ÷ÿ∆Ù
 		super.onResume();
+		dialog = new LoadingDialog(this);
+		dialog.loading();
 		if (AllStaticMessage.Login_Flag.equals("")) {
 			mLayout_Show.setVisibility(View.GONE);
 			mTextFlag.setVisibility(View.VISIBLE);
@@ -474,9 +475,9 @@ public class MySelfActivity extends Activity {
 						} catch (JSONException e) {
 							e.printStackTrace();
 						}
-						if (dialog != null) {
-							dialog.stop();
-						}
+//						if (dialog != null) {
+//							dialog.stop();
+//						}
 
 					}
 
@@ -528,9 +529,9 @@ public class MySelfActivity extends Activity {
 						} catch (JSONException e) {
 							e.printStackTrace();
 						}
-						if (dialog != null) {
-							dialog.stop();
-						}
+//						if (dialog != null) {
+//							dialog.stop();
+//						}
 
 					}
 

@@ -45,7 +45,6 @@ public class ShoppingCarActivity extends Activity {
 				mIntent = new Intent(ShoppingCarActivity.this,
 						LoginActivity.class);
 				startActivityForResult(mIntent, 1111);
-
 			} else {
 				mWebView.loadUrl(AllStaticMessage.URL_ShoppingCar + "&UserId="
 						+ AllStaticMessage.User_Id + "&udid="
@@ -143,7 +142,6 @@ public class ShoppingCarActivity extends Activity {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == RESULT_OK) {
 			switch (requestCode) {
@@ -220,25 +218,21 @@ public class ShoppingCarActivity extends Activity {
 
 	@Override
 	protected void onDestroy() {
-		// TODO Auto-generated method stub
 		ShareSDK.stopSDK(this);
 		super.onDestroy();
-		mWebView.removeAllViews();
-		mWebView.destroy();
-		mWebView = null;
-		setContentView(R.layout.view_null);
-
-		dialog = null;
-		mLayout = null;
-		mIntent = null;
-		System.gc();
+		// mWebView.removeAllViews();
+		// mWebView.destroy();
+		// mWebView = null;
+		// setContentView(R.layout.view_null);
+		//
+		// dialog = null;
+		// mLayout = null;
+		// mIntent = null;
+		// System.gc();
 	}
 
 	public void onResume() {
 		super.onResume();
-		if (AllStaticMessage.Login_Flag.equals("")) {
-			mLayout.setVisibility(View.VISIBLE);
-		}
 		MobclickAgent.onResume(this);
 	}
 
@@ -246,4 +240,5 @@ public class ShoppingCarActivity extends Activity {
 		super.onPause();
 		MobclickAgent.onPause(this);
 	}
+
 }

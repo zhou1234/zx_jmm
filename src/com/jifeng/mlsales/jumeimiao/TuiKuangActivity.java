@@ -8,7 +8,6 @@ import cn.sharesdk.framework.ShareSDK;
 
 import com.jifeng.mlsales.R;
 import com.jifeng.myview.LoadingDialog;
-import com.jifeng.tools.MyTools;
 import com.jifeng.url.AllStaticMessage;
 import com.jifeng.url.HttpUtil;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -16,7 +15,6 @@ import com.umeng.analytics.MobclickAgent;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
@@ -97,7 +95,6 @@ public class TuiKuangActivity extends Activity {
 					@Override
 					public void onSuccess(int statusCode, Header[] headers,
 							JSONObject response) {
-						// TODO Auto-generated method stub
 						super.onSuccess(statusCode, headers, response);
 						// 成功返回JSONObject
 						try {
@@ -115,7 +112,6 @@ public class TuiKuangActivity extends Activity {
 												.toString(), 500).show();
 							}
 						} catch (JSONException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 						if (dialog != null) {
@@ -138,7 +134,6 @@ public class TuiKuangActivity extends Activity {
 					@Override
 					public void onFailure(int statusCode, Header[] headers,
 							Throwable throwable, JSONObject errorResponse) {
-						// TODO Auto-generated method stub
 						super.onFailure(statusCode, headers, throwable,
 								errorResponse);
 						// 错误返回JSONObject
@@ -151,7 +146,6 @@ public class TuiKuangActivity extends Activity {
 
 	@Override
 	protected void onDestroy() {
-		// TODO Auto-generated method stub
 		ShareSDK.stopSDK(this);
 		setContentView(R.layout.view_null);
 		super.onDestroy();

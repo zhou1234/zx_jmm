@@ -8,13 +8,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -34,9 +34,7 @@ import com.ab.view.pullview.AbPullToRefreshView.OnFooterLoadListener;
 import com.ab.view.pullview.AbPullToRefreshView.OnHeaderRefreshListener;
 import com.jifeng.mlsales.R;
 import com.jifeng.myview.LoadingDialog;
-import com.jifeng.tools.AutoLoadListener;
 import com.jifeng.tools.MyTools;
-import com.jifeng.tools.AutoLoadListener.AutoLoadCallBack;
 import com.jifeng.url.AllStaticMessage;
 import com.jifeng.url.HttpUtil;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -52,8 +50,8 @@ public class OrderActivity extends Activity implements OnHeaderRefreshListener,
 	private List<JSONObject> mListData;
 	private LoadingDialog dialog;
 	private LinearLayout mLayout;// 加载更多
-	private int pageno = 1;
-	private String AllPage = "1";
+//	private int pageno = 1;
+//	private String AllPage = "1";
 
 	private AbPullToRefreshView mAbPullToRefreshView = null;
 	private int num = 1;
@@ -72,7 +70,6 @@ public class OrderActivity extends Activity implements OnHeaderRefreshListener,
 		dialog = new LoadingDialog(this);
 		mListData = new ArrayList<JSONObject>();
 		findView();
-		getData();
 	}
 
 	@Override
@@ -118,7 +115,6 @@ public class OrderActivity extends Activity implements OnHeaderRefreshListener,
 
 	// @Override
 	// public void onWindowFocusChanged(boolean hasFocus) {
-	// // TODO Auto-generated method stub
 	// super.onWindowFocusChanged(hasFocus);
 	//
 	// }
@@ -136,6 +132,7 @@ public class OrderActivity extends Activity implements OnHeaderRefreshListener,
 		// pageno = 1;
 		// getData();
 		// }
+		getData();
 		MobclickAgent.onResume(this);
 	}
 
@@ -152,7 +149,7 @@ public class OrderActivity extends Activity implements OnHeaderRefreshListener,
 				+ "&orderState=0" + "&pageNum=1";
 		HttpUtil.get(url, OrderActivity.this, dialog,
 				new JsonHttpResponseHandler() {
-					@Override
+					@SuppressLint("ShowToast") @Override
 					public void onSuccess(int statusCode, Header[] headers,
 							JSONObject response) {
 						super.onSuccess(statusCode, headers, response);
@@ -217,7 +214,6 @@ public class OrderActivity extends Activity implements OnHeaderRefreshListener,
 					@Override
 					public void onFailure(int statusCode, Header[] headers,
 							Throwable throwable, JSONObject errorResponse) {
-						// TODO Auto-generated method stub
 						super.onFailure(statusCode, headers, throwable,
 								errorResponse);
 						// 错误返回JSONObject
@@ -238,7 +234,7 @@ public class OrderActivity extends Activity implements OnHeaderRefreshListener,
 				+ "&orderState=0" + "&pageNum=" + num;
 		HttpUtil.get(url, OrderActivity.this, dialog,
 				new JsonHttpResponseHandler() {
-					@Override
+					@SuppressLint("ShowToast") @Override
 					public void onSuccess(int statusCode, Header[] headers,
 							JSONObject response) {
 						super.onSuccess(statusCode, headers, response);
@@ -284,7 +280,6 @@ public class OrderActivity extends Activity implements OnHeaderRefreshListener,
 					@Override
 					public void onFailure(int statusCode, Header[] headers,
 							Throwable throwable, JSONObject errorResponse) {
-						// TODO Auto-generated method stub
 						super.onFailure(statusCode, headers, throwable,
 								errorResponse);
 						// 错误返回JSONObject
@@ -329,26 +324,22 @@ public class OrderActivity extends Activity implements OnHeaderRefreshListener,
 
 		@Override
 		public int getCount() {
-			// TODO Auto-generated method stub
 			return mData.size();
 		}
 
 		@Override
 		public Object getItem(int position) {
-			// TODO Auto-generated method stub
 			return null;
 		}
 
 		@Override
 		public long getItemId(int position) {
-			// TODO Auto-generated method stub
 			return position;
 		}
 
 		@Override
 		public View getView(final int position, View convertView,
 				ViewGroup parent) {
-			// TODO Auto-generated method stub
 			if (convertView == null) {
 				View v = LayoutInflater.from(OrderActivity.this).inflate(
 						R.layout.item_order_gridview, null);

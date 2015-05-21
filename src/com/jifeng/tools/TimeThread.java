@@ -23,7 +23,6 @@ public class TimeThread extends Thread {
 	@Override
 	public void run() {
 		int i=num;
-		// TODO Auto-generated method stub
 		while (threadState) {
 			try {
 				Thread.sleep(1000);
@@ -34,7 +33,6 @@ public class TimeThread extends Thread {
 					threadState = false; 
 				}
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

@@ -20,7 +20,6 @@ import com.alipay.sdk.app.PayTask;
 import com.jifeng.mlsales.R;
 import com.jifeng.myview.LoadingDialog;
 import com.jifeng.tools.MyTools;
-import com.jifeng.tools.ShrefUtil;
 import com.jifeng.tools.TasckActivity;
 import com.jifeng.url.AllStaticMessage;
 import com.jifeng.url.HttpUtil;
@@ -57,7 +56,7 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 	private RelativeLayout mLayout_1, mLayout_2;
 	private ImageView mImage_zhifubao, mImage_weixin;
 	// private Button mBtn_BianJi;
-	private ShrefUtil mShrefUtil;
+	// private ShrefUtil mShrefUtil;
 	private String addressId = null, payWay = null, orderAmount = null,
 			goodsAmount = null;
 	private TextView mTextView_GoodsPrice, mTextView_YunFei,
@@ -92,7 +91,7 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_jiesuan);
-		mShrefUtil = new ShrefUtil(this, "data");
+		// mShrefUtil = new ShrefUtil(this, "data");
 		dialog = new LoadingDialog(this);
 		dialog.loading();
 		mJsonObjects = new ArrayList<JSONObject>();
@@ -262,7 +261,6 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 												JieSuanActivity.this);
 										addressId = mJsonObjects.get(j)
 												.getString("Id");
-										getYunFei(addressId);
 									} else {
 										MyTools.setText(
 												mText_Name,
@@ -297,11 +295,10 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 												JieSuanActivity.this);
 										addressId = mJsonObjects.get(0)
 												.getString("Id");
-										getYunFei(addressId);
 									}
 
 								}
-
+								getYunFei(addressId);
 							} else {
 								mLayout_2.setVisibility(View.VISIBLE);
 								mLayout_1.setVisibility(View.GONE);
@@ -729,6 +726,7 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 	/**
 	 * 支付宝
 	 **/
+	@SuppressLint("HandlerLeak")
 	private Handler mHandler = new Handler() {
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
@@ -739,8 +737,9 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 				// 判断resultStatus 为“9000”则代表支付成功，具体状态码代表含义可参考接口文档
 				if (TextUtils.equals(resultStatus, "9000")) {
 					AllStaticMessage.Back_to_ZhangHu = true;
-					tasckActivity
-							.popAllActivityExceptOne(TabHostActivity.class);
+					Intent mIntent = new Intent(JieSuanActivity.this,
+							TabHostActivity.class);
+					startActivity(mIntent);
 					JieSuanActivity.this.finish();
 					Toast.makeText(JieSuanActivity.this, "支付成功",
 							Toast.LENGTH_SHORT).show();

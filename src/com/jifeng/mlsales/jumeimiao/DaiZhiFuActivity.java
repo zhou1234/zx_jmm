@@ -60,9 +60,7 @@ public class DaiZhiFuActivity extends Activity {
 		mListData = new ArrayList<JSONObject>();
 		dialog.loading();
 		mData = new ArrayList<JSONObject>();
-		initData();
 		findView();
-		register();
 
 	}
 
@@ -71,7 +69,6 @@ public class DaiZhiFuActivity extends Activity {
 		ShareSDK.stopSDK(this);
 		super.onDestroy();
 		// setContentView(R.layout.view_null);
-		//
 		// dialog = null;
 		// mText_Title = null;
 		// mIntent = null;
@@ -86,7 +83,7 @@ public class DaiZhiFuActivity extends Activity {
 	// 查找控件
 	private void findView() {
 		mGridView = (GridView) findViewById(R.id.daizhifu_gridview);
-		mGridView.setSelector(new ColorDrawable(Color.TRANSPARENT));// 设置点击是背景透明
+		mGridView.setSelector(new ColorDrawable(Color.TRANSPARENT));//设置点击是背景透明
 		mText_Title = (TextView) findViewById(R.id.textview_title);
 		iv_no = (ImageView) findViewById(R.id.iv_no);
 		tv_no = (TextView) findViewById(R.id.tv_no);
@@ -101,19 +98,6 @@ public class DaiZhiFuActivity extends Activity {
 		}
 	}
 
-	// 注册事件
-	private void register() {
-
-	}
-
-	// 其他实现
-
-	/*
-	 * 初始化数据
-	 */
-	private void initData() {
-
-	}
 
 	// //xml注册点击事件的实现
 	public void doclick(View view) {

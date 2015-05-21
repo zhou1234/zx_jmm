@@ -1,6 +1,5 @@
 package com.jifeng.mlsales.jumeimiao;
 
-import java.util.Random;
 
 import org.apache.http.Header;
 import org.json.JSONException;
@@ -21,8 +20,6 @@ import com.umeng.analytics.MobclickAgent;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.Dialog;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -31,7 +28,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RadioButton;
 import android.widget.Toast;
 
 @SuppressLint("ShowToast")
@@ -45,7 +41,7 @@ public class RegisterActivity extends Activity {
 	private ShrefUtil mShrefUtil;
 	private String imgcode = "1234";
 	private EditText m_code;
-	ImageView img_code;
+	private ImageView img_code;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +72,6 @@ public class RegisterActivity extends Activity {
 
 	@Override
 	protected void onDestroy() {
-		// TODO Auto-generated method stub
 		ShareSDK.stopSDK(this);
 		setContentView(R.layout.view_null);
 		super.onDestroy();
@@ -243,7 +238,6 @@ public class RegisterActivity extends Activity {
 					@Override
 					public void onSuccess(int statusCode, Header[] headers,
 							JSONObject response) {
-						// TODO Auto-generated method stub
 						super.onSuccess(statusCode, headers, response);
 						// 成功返回JSONObject
 						try {
@@ -261,7 +255,6 @@ public class RegisterActivity extends Activity {
 							}
 							// dialog.stop();
 						} catch (JSONException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 
@@ -285,7 +278,6 @@ public class RegisterActivity extends Activity {
 					@Override
 					public void onFailure(int statusCode, Header[] headers,
 							Throwable throwable, JSONObject errorResponse) {
-						// TODO Auto-generated method stub
 						super.onFailure(statusCode, headers, throwable,
 								errorResponse);
 						// 错误返回JSONObject
@@ -306,7 +298,6 @@ public class RegisterActivity extends Activity {
 					@Override
 					public void onSuccess(int statusCode, Header[] headers,
 							JSONObject response) {
-						// TODO Auto-generated method stub
 						super.onSuccess(statusCode, headers, response);
 						// 成功返回JSONObject
 						try {
@@ -326,7 +317,6 @@ public class RegisterActivity extends Activity {
 							}
 							// dialog.stop();
 						} catch (JSONException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 						dialog.stop();
@@ -347,7 +337,6 @@ public class RegisterActivity extends Activity {
 					@Override
 					public void onFailure(int statusCode, Header[] headers,
 							Throwable throwable, JSONObject errorResponse) {
-						// TODO Auto-generated method stub
 						super.onFailure(statusCode, headers, throwable,
 								errorResponse);
 						// 错误返回JSONObject

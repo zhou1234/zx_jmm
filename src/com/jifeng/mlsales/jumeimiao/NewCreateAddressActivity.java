@@ -23,7 +23,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.umeng.analytics.MobclickAgent;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
+import android.app.Activity;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.ColorDrawable;
@@ -40,7 +40,7 @@ import android.widget.PopupWindow;
 import android.widget.Toast;
 
 @SuppressLint("ShowToast")
-public class NewCreateAddressActivity extends BaseActivity implements
+public class NewCreateAddressActivity extends Activity implements
 		OnWheelChangedListener {
 	private EditText mText_Name, mText_Phone, mText_Detail;
 	// private Button mBtn_Ok;//mBtn_Time,
@@ -59,12 +59,12 @@ public class NewCreateAddressActivity extends BaseActivity implements
 	private WheelView mViewCity;
 	private WheelView mViewDistrict;
 	private Button mBtnConfirm;
-	String[] provicedata, citydata, districtdata;
-	List<MyListItem> listProvice, listCity, listDistrict;
+	private String[] provicedata, citydata, districtdata;
+	private List<MyListItem> listProvice, listCity, listDistrict;
 	private Button mBtn_Provice, mBtn_City, mBtn_District;
-	View mView;
-	AlertDialog alertDialog;
-	boolean firstIn = true;
+	private View mView;
+	//private AlertDialog alertDialog;
+	private boolean firstIn = true;
 
 	private PopupWindow popupWindow;
 
@@ -142,28 +142,6 @@ public class NewCreateAddressActivity extends BaseActivity implements
 		mViewCity.setVisibleItems(7);
 		mViewDistrict.setVisibleItems(7);
 	}
-
-	// private void setUpListener() {
-	// // 添加change事件
-	// mViewProvince.addChangingListener(this);
-	// // 添加change事件
-	// mViewCity.addChangingListener(this);
-	// // 添加change事件
-	// mViewDistrict.addChangingListener(this);
-	//
-	// }
-
-	// private void setUpData() {
-	// initProvinceDatas();
-	// mViewProvince.setViewAdapter(new ArrayWheelAdapter<String>(
-	// NewCreateAddressActivity.this, mProvinceDatas));
-	// // 设置可见条目数量
-	// mViewProvince.setVisibleItems(7);
-	// mViewCity.setVisibleItems(7);
-	// mViewDistrict.setVisibleItems(7);
-	// updateCities();
-	// updateAreas();
-	// }
 
 	/*
 	 * 初始化数据（修改时）
@@ -373,8 +351,7 @@ public class NewCreateAddressActivity extends BaseActivity implements
 					}
 
 					@Override
-					public void onFailure(int statusCode,
-							@SuppressWarnings("deprecation") Header[] headers,
+					public void onFailure(int statusCode, Header[] headers,
 							Throwable throwable, JSONObject errorResponse) {
 						super.onFailure(statusCode, headers, throwable,
 								errorResponse);
@@ -386,59 +363,6 @@ public class NewCreateAddressActivity extends BaseActivity implements
 				});
 	}
 
-	// /**
-	// * 根据当前的省，更新市WheelView的信息
-	// */
-	// private void updateCities() {
-	// int pCurrent = mViewProvince.getCurrentItem();
-	// mCurrentProviceName = mProvinceDatas[pCurrent];
-	// String[] cities = mCitisDatasMap.get(mCurrentProviceName);
-	// if (cities == null) {
-	// cities = new String[] { "" };
-	// }
-	// mViewCity.setViewAdapter(new ArrayWheelAdapter<String>(this, cities));
-	// mViewCity.setCurrentItem(0);
-	// updateAreas();
-	// }
-	//
-	// /**
-	// * 根据当前的市，更新区WheelView的信息
-	// */
-	// private void updateAreas() {
-	// int pCurrent = mViewCity.getCurrentItem();
-	// mCurrentCityName = mCitisDatasMap.get(mCurrentProviceName)[pCurrent];
-	// String[] areas = mDistrictDatasMap.get(mCurrentCityName);
-	//
-	// if (areas == null) {
-	// areas = new String[] { "" };
-	// }
-	// mViewDistrict
-	// .setViewAdapter(new ArrayWheelAdapter<String>(this, areas));
-	// mViewDistrict.setCurrentItem(0);
-	// updateDistrict();
-	// }
-	//
-	// /**
-	// * 根据当前的区，更新邮编WheelView的信息
-	// */
-	// private void updateDistrict() {
-	// int pCurrent = mViewDistrict.getCurrentItem();
-	// mCurrentDistrictName = mDistrictDatasMap.get(mCurrentCityName)[pCurrent];
-	// mCurrentZipCode = mZipcodeDatasMap.get(mCurrentDistrictName);
-	//
-	// }
-
-	// @Override
-	// public void onChanged(WheelView wheel, int oldValue, int newValue) {
-	// if (wheel == mViewProvince) {
-	// updateCities();
-	// } else if (wheel == mViewCity) {
-	// updateAreas();
-	// } else if (wheel == mViewDistrict) {
-	// mCurrentDistrictName = mDistrictDatasMap.get(mCurrentCityName)[newValue];
-	// mCurrentZipCode = mZipcodeDatasMap.get(mCurrentDistrictName);
-	// }
-	// }
 	public void initSpinner1() {
 		dbm_province = new DBManager(this);
 		dbm_province.openDatabase();
@@ -448,16 +372,15 @@ public class NewCreateAddressActivity extends BaseActivity implements
 		}
 		listProvice = new ArrayList<MyListItem>();
 		try {
-
 			String sql = "select * from T_Province";
 			Cursor cursor = db_province.rawQuery(sql, null);
-			startManagingCursor(cursor);
+			//startManagingCursor(cursor);
 			cursor.moveToFirst();
 			while (!cursor.isLast()) {
 				String code = cursor
 						.getString(cursor.getColumnIndex("ProSort"));
-				// String name =
-				// cursor.getString(cursor.getColumnIndex("ProName"));
+				//String name =
+				//cursor.getString(cursor.getColumnIndex("ProName"));
 				byte bytes[] = cursor.getBlob(0);
 				String name = new String(bytes, "UTF-8");
 				MyListItem myListItem = new MyListItem();
@@ -506,7 +429,7 @@ public class NewCreateAddressActivity extends BaseActivity implements
 		try {
 			String sql = "select * from T_City where ProID='" + pcode + "'";
 			Cursor cursor = db_city.rawQuery(sql, null);
-			startManagingCursor(cursor);
+			// startManagingCursor(cursor);
 			cursor.moveToFirst();
 			while (!cursor.isLast()) {
 				String code = cursor.getString(cursor
@@ -563,7 +486,8 @@ public class NewCreateAddressActivity extends BaseActivity implements
 		try {
 			String sql = "select * from T_Zone where CityID='" + pcode + "'";
 			Cursor cursor = db_district.rawQuery(sql, null);
-			startManagingCursor(cursor);// 获取的Cursor对象交给Activity管理，这样Cursor的生命周期便能和Activity自动同步
+			// startManagingCursor(cursor);//
+			// 获取的Cursor对象交给Activity管理，这样Cursor的生命周期便能和Activity自动同步
 			cursor.moveToFirst();
 			while (!cursor.isLast()) {
 				String code = cursor.getString(cursor.getColumnIndex("ZoneID"));
@@ -654,7 +578,7 @@ public class NewCreateAddressActivity extends BaseActivity implements
 		// // mBtn_Time= null;
 		// // mBtn_Ok= null;
 		// mImageView = null;
-		// // time= null;
+		// time= null;
 		// province = null;
 		// city = null;
 		// district = null;

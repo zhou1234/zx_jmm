@@ -251,7 +251,7 @@ public class HttpUtil {
 	// 新框架
 	private static AsyncHttpClient client = new AsyncHttpClient(); // 实例话对象
 	static {
-		client.setTimeout(10000); // 设置链接超时，如果不设置，默认为10s
+		client.setTimeout(15000); // 设置链接超时，如果不设置，默认为10s
 
 	}
 

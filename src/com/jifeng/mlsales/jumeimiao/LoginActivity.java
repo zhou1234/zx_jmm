@@ -1,16 +1,11 @@
 package com.jifeng.mlsales.jumeimiao;
 
-import java.util.HashMap;
 
 import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import cn.sharesdk.framework.Platform;
-import cn.sharesdk.framework.PlatformActionListener;
 import cn.sharesdk.framework.ShareSDK;
-import cn.sharesdk.framework.utils.UIHandler;
-import cn.sharesdk.wechat.friends.Wechat;
 
 import com.jifeng.mlsales.R;
 import com.jifeng.myview.LoadingDialog;
@@ -24,7 +19,6 @@ import com.umeng.analytics.MobclickAgent;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;

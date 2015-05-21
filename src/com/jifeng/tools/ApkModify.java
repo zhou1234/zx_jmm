@@ -15,24 +15,21 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.jifeng.mlsales.jumeimiao.MainActivity;
 import com.jifeng.mlsales.jumeimiao.SettingActivity;
+import com.jifeng.mlsales.model.UpdateDialog;
 import com.jifeng.url.AllStaticMessage;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.app.AlertDialog.Builder;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.DialogInterface.OnClickListener;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.view.View;
 import android.widget.Toast;
 
 @SuppressLint({ "HandlerLeak", "ShowToast" })
@@ -58,9 +55,6 @@ public class ApkModify {
 	/*
 	 * 
 	 * 弹出对话框通知用户更新程序
-	 * 
-	 * 弹出对话框的步骤： 1.创建alertDialog的builder. 2.要给builder设置属性, 对话框的内容,样式,按钮
-	 * 3.通过builder 创建一个对话框 4.对话框show()出来
 	 */
 	private void sendMsg() {
 		Message message = new Message();
@@ -69,30 +63,50 @@ public class ApkModify {
 	}
 
 	protected void showUpdataDialog() {
-		AlertDialog.Builder builer = new Builder(context);
-		builer.setTitle("版本升级");
-		// builer.setMessage(info.getDescription());
-		builer.setMessage("发现新版本" + code + ",建议立即更新使用.");
-		// 当点确定按钮时从服务器上下载 新的apk 然后安装
-		builer.setPositiveButton("确定", new OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-
-				downLoadApk();
-			}
-		});
-		// 当点取消按钮时进行登录
-		builer.setNegativeButton("取消", new OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub
-				// LoginMain();
+		final UpdateDialog alertDialog = new UpdateDialog(context);
+//		alertDialog
+//				.setTitle("1.修复订单显示空白问题。\n2.优化了用户体验，更多活动上新，抢购更快速。\n3.修复各种bug，app运行更流畅。");
+		alertDialog.setPositiveButton("取消", new View.OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
 				if (mhandler != null) {
 					sendMsg();
+					alertDialog.dismiss();
 				}
 			}
 		});
-		AlertDialog dialog = builer.create();
-		dialog.show();
-		dialog.setCanceledOnTouchOutside(false);
+		alertDialog.setNegativeButton1("确定", new View.OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				downLoadApk();
+				alertDialog.dismiss();
+			}
+		});
+
+		// AlertDialog.Builder builer = new Builder(context);
+		// builer.setTitle("版本升级");
+		// // builer.setMessage(info.getDescription());
+		// builer.setMessage("发现新版本" + code + ",建议立即更新使用.");
+		// // 当点确定按钮时从服务器上下载 新的apk 然后安装
+		// builer.setPositiveButton("确定", new OnClickListener() {
+		// public void onClick(DialogInterface dialog, int which) {
+		//
+		// downLoadApk();
+		// }
+		// });
+		// // 当点取消按钮时进行登录
+		// builer.setNegativeButton("取消", new OnClickListener() {
+		// public void onClick(DialogInterface dialog, int which) {
+		// LoginMain();
+		// if (mhandler != null) {
+		// sendMsg();
+		// }
+		// }
+		// });
+		// AlertDialog dialog = builer.create();
+		// dialog.show();
+		// dialog.setCanceledOnTouchOutside(false);
 	}
 
 	/*
@@ -197,7 +211,6 @@ public class ApkModify {
 			JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
 					Request.Method.GET, AllStaticMessage.URL_Modify_Apk, null,
 					new Response.Listener<JSONObject>() {
-						@SuppressWarnings({ "unused" })
 						@Override
 						public void onResponse(JSONObject response) {
 							try {
@@ -213,7 +226,7 @@ public class ApkModify {
 									char d = getVersionName().charAt(
 											getVersionName().length() - 1);
 									if (response.getString("versionName")
-											.equals(getVersionName())||c<d) {
+											.equals(getVersionName()) || c < d) {
 										if (mhandler != null) {
 											sendMsg();
 										} else {
@@ -264,7 +277,6 @@ public class ApkModify {
 
 		@Override
 		public void handleMessage(Message msg) {
-			// TODO Auto-generated method stub
 			super.handleMessage(msg);
 			switch (msg.what) {
 			case 0:

@@ -13,7 +13,6 @@ import com.ab.view.pullview.AbPullToRefreshView.OnFooterLoadListener;
 import com.ab.view.pullview.AbPullToRefreshView.OnHeaderRefreshListener;
 import com.jifeng.adapter.MainAdapter;
 import com.jifeng.mlsales.R;
-import com.jifeng.mlsales.jumeimiao.GoodsDetailActivity;
 import com.jifeng.mlsales.jumeimiao.GoodsListActivity;
 import com.jifeng.mlsales.jumeimiao.LoginActivity;
 import com.jifeng.myview.LoadingDialog;
@@ -115,7 +114,7 @@ public class OneFragment extends BaseFragment implements
 		mListView.setVerticalScrollBarEnabled(false);
 		mListView.setSmoothScrollbarEnabled(true);
 		mListView.setFooterDividersEnabled(false);
-		// mListView.setFocusable(false);
+		mListView.setDividerHeight(0);
 		mListView.setOnScrollListener(new PauseOnScrollListener(ImageLoader
 				.getInstance(), true, true));
 		mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
@@ -491,7 +490,7 @@ public class OneFragment extends BaseFragment implements
 				mAbPullToRefreshView.onFooterLoadFinish();
 				Toast.makeText(getActivity(), "没有更多了", 0).show();
 			}
-		}, 0);
+		}, 1000);
 
 	}
 
@@ -502,7 +501,7 @@ public class OneFragment extends BaseFragment implements
 			public void run() {
 				getListData(mListView, "0");
 			}
-		}, 0);
+		}, 1000);
 
 	}
 

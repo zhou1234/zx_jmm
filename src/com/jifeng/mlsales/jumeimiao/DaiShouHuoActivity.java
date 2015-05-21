@@ -61,9 +61,8 @@ public class DaiShouHuoActivity extends Activity {
 		dialog = new LoadingDialog(this);
 		dialog.loading();
 		mData = new ArrayList<JSONObject>();
-		options = MyTools.createOptions(R.drawable.loading_01);
+		options = MyTools.createOptions(R.drawable.img);
 		findView();
-		getData("1");
 
 	}
 
@@ -271,6 +270,7 @@ public class DaiShouHuoActivity extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		getData("1");
 		MobclickAgent.onResume(this);
 	}
 

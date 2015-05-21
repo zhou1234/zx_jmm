@@ -12,7 +12,6 @@ import com.jifeng.tools.TasckActivity;
 import com.jifeng.url.AllStaticMessage;
 import com.jifeng.url.HttpUtil;
 import com.loopj.android.http.JsonHttpResponseHandler;
-import com.tencent.android.tpush.XGPushClickedResult;
 import com.tencent.android.tpush.XGPushManager;
 import com.umeng.analytics.MobclickAgent;
 
@@ -24,8 +23,6 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -406,7 +403,7 @@ public class TabHostActivity extends TabActivity implements
 		// Log.i("11111", url);
 		HttpUtil.get(url, TabHostActivity.this, dialog,
 				new JsonHttpResponseHandler() {
-					@Override
+					@SuppressLint("ShowToast") @Override
 					public void onSuccess(int statusCode, Header[] headers,
 							JSONObject response) {
 						super.onSuccess(statusCode, headers, response);

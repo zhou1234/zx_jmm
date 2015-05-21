@@ -11,6 +11,7 @@ import org.json.JSONObject;
 import cn.sharesdk.framework.ShareSDK;
 
 import com.jifeng.mlsales.R;
+import com.jifeng.mlsales.model.CustomerAlertDialog;
 import com.jifeng.myview.LoadingDialog;
 import com.jifeng.myview.My_ListView;
 import com.jifeng.tools.MyTools;
@@ -22,7 +23,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.umeng.analytics.MobclickAgent;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -43,7 +43,7 @@ public class OrderDetailActivity extends Activity {
 	private Intent mIntent;
 	private MyListViewAdapter mAdapter;
 	private My_ListView mListView;
-	private List<JSONObject> mListData;   
+	private List<JSONObject> mListData;
 	private TextView[] mText;
 	private int[] mTextId = { R.id.orderDetail_1, R.id.orderDetail_2,
 			R.id.orderDetail_3, R.id.orderDetail_4, R.id.orderDetail_5,
@@ -53,7 +53,7 @@ public class OrderDetailActivity extends Activity {
 	private LoadingDialog dialog;
 	private Button mButton_zhifu, mBtn_QuXiao_Order;
 	private boolean tuihuoFlag = false;
-	String payway, allprice, zhifuFlag = "";
+	private String payway, allprice, zhifuFlag = "";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -129,17 +129,36 @@ public class OrderDetailActivity extends Activity {
 
 			break;
 		case R.id.orderdetail_btn_quxiao_order:
-			Builder builder = new Builder(OrderDetailActivity.this);
-			builder.setTitle("确定移除嘛？");
-			builder.setPositiveButton("确定",
-					new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							cancelOrder(getIntent().getStringExtra("id"));
-						}
-					});
-			builder.setNegativeButton("取消", null);
-			builder.create().show();
+			// Builder builder = new Builder(OrderDetailActivity.this);
+			// builder.setTitle("确定移除嘛？");
+			// builder.setPositiveButton("确定",
+			// new DialogInterface.OnClickListener() {
+			// @Override
+			// public void onClick(DialogInterface dialog, int which) {
+			// cancelOrder(getIntent().getStringExtra("id"));
+			// }
+			// });
+			// builder.setNegativeButton("取消", null);
+			// builder.create().show();
+
+			final CustomerAlertDialog alertDialog = new CustomerAlertDialog(
+					OrderDetailActivity.this, false);
+			alertDialog.setTitle("确定移除嘛？");
+			alertDialog.setPositiveButton("取消", new OnClickListener() {
+				@Override
+				public void onClick(View arg0) {
+					alertDialog.dismiss();
+				}
+			});
+			alertDialog.setNegativeButton1("确定", new OnClickListener() {
+
+				@Override
+				public void onClick(View arg0) {
+					cancelOrder(getIntent().getStringExtra("id"));
+					alertDialog.dismiss();
+				}
+			});
+
 			break;
 		default:
 			break;

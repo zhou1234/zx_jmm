@@ -11,6 +11,7 @@ import org.json.JSONObject;
 import cn.sharesdk.framework.ShareSDK;
 
 import com.jifeng.mlsales.R;
+import com.jifeng.mlsales.model.CustomerAlertDialog;
 import com.jifeng.myview.LoadingDialog;
 import com.jifeng.tools.ShrefUtil;
 import com.jifeng.url.AllStaticMessage;
@@ -414,23 +415,45 @@ public class AddressListActivity extends Activity {
 		@Override
 		public void onClick(View v) {
 			if (flag.equals("delete")) {
-				Builder builder = new Builder(AddressListActivity.this);
-				builder.setTitle("确定移除嘛？");
-				builder.setPositiveButton("确定",
-						new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog,
-									int which) {
-								try {
-									deleteData(mArray.getString("Id")
-											.toString());
-								} catch (JSONException e) {
-									e.printStackTrace();
-								}
-							}
-						});
-				builder.setNegativeButton("取消", null);
-				builder.create().show();
+				final CustomerAlertDialog alertDialog = new CustomerAlertDialog(
+						AddressListActivity.this, false);
+				alertDialog.setTitle("确定移除嘛？");
+				alertDialog.setPositiveButton("取消", new OnClickListener() {
+					@Override
+					public void onClick(View arg0) {
+						alertDialog.dismiss();
+					}
+				});
+				alertDialog.setNegativeButton1("确定", new OnClickListener() {
+
+					@Override
+					public void onClick(View arg0) {
+						try {
+							deleteData(mArray.getString("Id").toString());
+							alertDialog.dismiss();
+						} catch (JSONException e) {
+							e.printStackTrace();
+						}
+
+					}
+				});
+				// Builder builder = new Builder(AddressListActivity.this);
+				// builder.setTitle("确定移除嘛？");
+				// builder.setPositiveButton("确定",
+				// new DialogInterface.OnClickListener() {
+				// @Override
+				// public void onClick(DialogInterface dialog,
+				// int which) {
+				// try {
+				// deleteData(mArray.getString("Id")
+				// .toString());
+				// } catch (JSONException e) {
+				// e.printStackTrace();
+				// }
+				// }
+				// });
+				// builder.setNegativeButton("取消", null);
+				// builder.create().show();
 
 			} else if (flag.equals("bianji")) {
 				mIntent = new Intent(AddressListActivity.this,
@@ -440,7 +463,6 @@ public class AddressListActivity extends Activity {
 			}
 
 		}
-
 	}
 
 }

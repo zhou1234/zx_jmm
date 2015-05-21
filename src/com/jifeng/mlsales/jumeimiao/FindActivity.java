@@ -93,7 +93,6 @@ public class FindActivity extends Activity {
 			@Override
 			public void onReceivedSslError(WebView view,
 					SslErrorHandler handler, SslError error) {
-				// TODO Auto-generated method stub
 				// 忽略SSL证书错误，继续加载页面。
 				handler.proceed();
 			}

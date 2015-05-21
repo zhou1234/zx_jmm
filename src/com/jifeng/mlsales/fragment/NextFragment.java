@@ -91,6 +91,7 @@ public class NextFragment extends BaseFragment implements
 
 		mListView.setVerticalScrollBarEnabled(false);
 		mListView.setFooterDividersEnabled(false);
+		mListView.setDividerHeight(0);
 
 		mListView.setOnScrollListener(new PauseOnScrollListener(ImageLoader
 				.getInstance(), true, true));
