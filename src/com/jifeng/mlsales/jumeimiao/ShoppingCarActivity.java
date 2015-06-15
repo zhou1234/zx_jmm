@@ -2,6 +2,7 @@ package com.jifeng.mlsales.jumeimiao;
 
 import cn.sharesdk.framework.ShareSDK;
 
+import com.jifeng.mlsales.FBApplication;
 import com.jifeng.mlsales.R;
 import com.jifeng.myview.LoadingDialog;
 import com.jifeng.tools.MyTools;
@@ -37,6 +38,7 @@ public class ShoppingCarActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_shoppingcar);
+		((FBApplication) getApplication()).addActivity(this);
 		dialog = new LoadingDialog(this);
 		findView();
 		register();
@@ -206,8 +208,7 @@ public class ShoppingCarActivity extends Activity {
 							.show();
 					mExitTime = System.currentTimeMillis();
 				} else {
-					this.finish();
-					System.exit(0);
+					this.getApplication().onTerminate();
 				}
 			}
 

@@ -20,7 +20,9 @@ import android.widget.TextView;
 
 import cn.sharesdk.framework.ShareSDK;
 
+import com.jifeng.mlsales.FBApplication;
 import com.jifeng.mlsales.R;
+import com.jifeng.myview.AlwaysMarqueeTextView;
 import com.jifeng.myview.LoadingDialog;
 import com.jifeng.tools.MyTools;
 import com.jifeng.touchgallery.GalleryWidget.GalleryViewPager;
@@ -34,20 +36,21 @@ public class PicShowActivity extends Activity {
 	private WebView mWebView;
 	private LoadingDialog dialog;
 	private RelativeLayout mLayout;
-	private TextView mTextView;
+	private AlwaysMarqueeTextView mTextView;
 
 	@SuppressWarnings("deprecation")
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		try {
 			setContentView(R.layout.activity_pic_show);
+			((FBApplication) getApplication()).addActivity(this);
 		} catch (OutOfMemoryError e) {
 			com.nostra13.universalimageloader.core.ImageLoader.getInstance()
 					.clearMemoryCache();
 		}
 		dialog = new LoadingDialog(this);
 		mLayout = (RelativeLayout) findViewById(R.id.pic_first);
-		mTextView = (TextView) findViewById(R.id.pic_title);
+		mTextView = (AlwaysMarqueeTextView) findViewById(R.id.pic_title);
 		mWebView = (WebView) findViewById(R.id.webview);
 		mViewPager = (GalleryViewPager) findViewById(R.id.viewer);
 		String[] urls = getIntent().getStringExtra("url").split(",");

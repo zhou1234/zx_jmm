@@ -10,7 +10,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.jifeng.adapter.MyGoodsListAdapter;
+import com.jifeng.mlsales.FBApplication;
 import com.jifeng.mlsales.R;
+import com.jifeng.myview.AlwaysMarqueeTextView;
 import com.jifeng.myview.LoadingDialog;
 import com.jifeng.myview.My_GridView;
 import com.jifeng.myview.PullToRefreshScrollView;
@@ -50,7 +52,7 @@ import android.widget.Toast;
 
 public class GoodsListActivity extends Activity {
 	private Intent mIntent;
-	private TextView mText_title;
+	private AlwaysMarqueeTextView mText_title;
 	private LoadingDialog dialog;
 	private TasckActivity tasckActivity;
 	private Button btn_moren, btn_news, btn_rexiao, btn_price;
@@ -110,6 +112,7 @@ public class GoodsListActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_goods_list);
+		((FBApplication) getApplication()).addActivity(this);
 		dialog = new LoadingDialog(this);
 		dialog.loading();
 		options = MyTools.createOptions(R.drawable.loading_01);
@@ -229,7 +232,7 @@ public class GoodsListActivity extends Activity {
 
 	// ²éÕÒ¿Ø¼þ
 	private void findView() {
-		mText_title = (TextView) findViewById(R.id.textview_title);
+		mText_title = (AlwaysMarqueeTextView) findViewById(R.id.textview_title);
 		btn_moren = (Button) findViewById(R.id.goods_list_btn_moren);
 		btn_news = (Button) findViewById(R.id.goods_list_btn_news);
 		btn_rexiao = (Button) findViewById(R.id.goods_list_btn_rexiao);

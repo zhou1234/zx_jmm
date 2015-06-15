@@ -7,6 +7,7 @@ import org.json.JSONObject;
 
 import cn.sharesdk.framework.ShareSDK;
 
+import com.jifeng.mlsales.FBApplication;
 import com.jifeng.mlsales.R;
 import com.jifeng.myview.LoadingDialog;
 import com.jifeng.tools.MyTools;
@@ -48,11 +49,10 @@ public class RegisterActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		imgcode = MyTools.getRandom();
 		setContentView(R.layout.activity_register);
+		((FBApplication) getApplication()).addActivity(this);
 		dialog = new LoadingDialog(this);
 		mShrefUtil = new ShrefUtil(this, "data");
-		initData();
 		findView();
-		register();
 	}
 
 	// 查找控件
@@ -87,22 +87,6 @@ public class RegisterActivity extends Activity {
 		System.gc();
 	}
 
-	// 注册事件
-	private void register() {
-
-	}
-
-	// 其他实现
-	private void setView(int i) {
-
-	}
-
-	/*
-	 * 初始化数据
-	 */
-	private void initData() {
-
-	}
 
 	// //xml注册点击事件的实现
 	@SuppressLint("ShowToast")

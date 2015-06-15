@@ -112,9 +112,9 @@ public class AllStaticMessage {
 	/**
 	 * 接口部分
 	 */
-	// http://wwwpre.jumeimiao.com
-	public static String URL_GBase = "http://www.jumeimiao.com";// www.jumeimiao.com
+	public static String URL_GBase = "http://www.jumeimiao.com";//
 	// public static String URL_GBase = "http://wwwpre.jumeimiao.com";
+	// public static String URL_GBase = "http://192.168.2.134:8010";
 	public static String URL_Base = URL_GBase + "/api";
 	// 分类
 	public static String class_url = URL_Base + "/p.ashx?m=category";
@@ -204,9 +204,16 @@ public class AllStaticMessage {
 	// 获取优惠券
 	public static String URL_GetQuan = URL_Base + "/p.ashx?m=getCoupon&a=";// 1&userId=1&cid=1
 																			// 领取官方优惠券
+	// 获取优惠券new
+	public static String URL_GetQuan_new = URL_Base
+			+ "/u.ashx?m=bindConupon&conuponCode=";
 	// 优惠券列表
 	public static String URL_Quan_list = URL_Base
 			+ "/p.ashx?m=getUserCoupon&uid=";// &type=0未使用 1已使用 2已过期
+
+	// 优惠券列表new
+	public static String URL_Quan_list_New = URL_Base
+			+ "/u.ashx?m=customerConuponList&status=";// &status=0未使用 1已使用 2已过期
 
 	// 购物车
 	public static String URL_ShoppingCar = URL_GBase + "/wap/car.html?";
@@ -298,6 +305,10 @@ public class AllStaticMessage {
 	// 官方优惠券
 	public static String URL_Guan_Quan = URL_Base
 			+ "/p.ashx?m=getEnableCoupon&UserId=";
+
+	// 官方优惠券new
+	public static String URL_Guan_Quan_New = URL_Base
+			+ "/u.ashx?m=usableConuponList&UserId=";
 
 	// 退出登录
 	// public static String

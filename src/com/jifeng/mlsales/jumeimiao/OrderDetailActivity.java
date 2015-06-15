@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 import cn.sharesdk.framework.ShareSDK;
 
+import com.jifeng.mlsales.FBApplication;
 import com.jifeng.mlsales.R;
 import com.jifeng.mlsales.model.CustomerAlertDialog;
 import com.jifeng.myview.LoadingDialog;
@@ -59,6 +60,7 @@ public class OrderDetailActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_orderdetail);
+		((FBApplication) getApplication()).addActivity(this);
 		dialog = new LoadingDialog(this);
 		mListData = new ArrayList<JSONObject>();
 		findView();

@@ -6,17 +6,16 @@ import org.json.JSONObject;
 
 import cn.sharesdk.framework.ShareSDK;
 
+import com.jifeng.mlsales.FBApplication;
 import com.jifeng.mlsales.R;
-import com.jifeng.mlsales.wxapi.WXPayEntryActivity;
 import com.jifeng.myview.LoadingDialog;
-import com.jifeng.tools.MyTools;
 import com.jifeng.url.AllStaticMessage;
 import com.jifeng.url.HttpUtil;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.umeng.analytics.MobclickAgent;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -29,6 +28,7 @@ public class CheckOrderActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.checkorderstatus);
+		((FBApplication) getApplication()).addActivity(this);
 		dialog = new LoadingDialog(this);
 		if (!getIntent().getStringExtra("orderNum").equals("")) {
 			checkOrderStatus(getIntent().getStringExtra("orderNum"));
@@ -43,7 +43,7 @@ public class CheckOrderActivity extends Activity {
 				+ AllStaticMessage.User_Id + "&OrderId=" + orderId;
 		HttpUtil.get(url, CheckOrderActivity.this, dialog,
 				new JsonHttpResponseHandler() {
-					@Override
+					@SuppressLint("ShowToast") @Override
 					public void onSuccess(int statusCode, Header[] headers,
 							JSONObject response) {
 						super.onSuccess(statusCode, headers, response);
@@ -88,7 +88,6 @@ public class CheckOrderActivity extends Activity {
 							}
 							AllStaticMessage.Back_to_ZhangHu = true;
 						} catch (JSONException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 						if (dialog != null) {
@@ -124,7 +123,6 @@ public class CheckOrderActivity extends Activity {
 
 	@Override
 	protected void onDestroy() {
-		// TODO Auto-generated method stub
 		ShareSDK.stopSDK(this);
 		setContentView(R.layout.view_null);
 		super.onDestroy();

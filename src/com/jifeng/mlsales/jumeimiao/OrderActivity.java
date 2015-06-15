@@ -32,6 +32,7 @@ import cn.sharesdk.framework.ShareSDK;
 import com.ab.view.pullview.AbPullToRefreshView;
 import com.ab.view.pullview.AbPullToRefreshView.OnFooterLoadListener;
 import com.ab.view.pullview.AbPullToRefreshView.OnHeaderRefreshListener;
+import com.jifeng.mlsales.FBApplication;
 import com.jifeng.mlsales.R;
 import com.jifeng.myview.LoadingDialog;
 import com.jifeng.tools.MyTools;
@@ -64,6 +65,7 @@ public class OrderActivity extends Activity implements OnHeaderRefreshListener,
 		super.onCreate(savedInstanceState);
 		try {
 			setContentView(R.layout.activity_order);
+			((FBApplication) getApplication()).addActivity(this);
 		} catch (OutOfMemoryError e) {
 			ImageLoader.getInstance().clearMemoryCache();
 		}

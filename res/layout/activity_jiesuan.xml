@@ -395,7 +395,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_margin="15dip"
-                        android:text="带计算"
+                        android:text="待计算"
                         android:textColor="@color/text_zhifu_price"
                         android:textSize="16sp" />
                 </RelativeLayout>
@@ -428,7 +428,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_margin="15dip"
-                        android:text="带计算"
+                        android:text="待计算"
                         android:textColor="@color/text_color"
                         android:textSize="16sp" />
                 </RelativeLayout>
@@ -442,7 +442,7 @@
 
                 <RelativeLayout
                     android:id="@+id/jiesuan_guan_quan"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:onClick="doclick" >
 
@@ -452,7 +452,7 @@
                         android:layout_alignParentLeft="true"
                         android:layout_centerVertical="true"
                         android:layout_margin="15dip"
-                        android:text="官方优惠券"
+                        android:text="官方代金券"
                         android:textColor="@color/text_color"
                         android:textSize="16sp" />
 
@@ -460,12 +460,21 @@
                         android:id="@+id/jiesuan_youhuiquan"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@+id/iv_jianTou"
+                        android:text="未使用"
+                        android:layout_marginRight="10dp"
+                        android:textColor="#ff0000"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:id="@+id/iv_jianTou"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_margin="15dip"
-                        android:text="未使用"
-                        android:textColor="@color/text_color"
-                        android:textSize="16sp" />
+                        android:layout_marginRight="15dp"
+                        android:src="@drawable/red_jiantou" />
                 </RelativeLayout>
             </LinearLayout>
 
@@ -500,7 +509,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="8dip"
             android:layout_toRightOf="@+id/text"
-            android:text="带计算"
+            android:text="待计算"
             android:textColor="@color/tab_select"
             android:textSize="16sp" />
 

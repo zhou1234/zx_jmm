@@ -27,6 +27,7 @@ import org.xmlpull.v1.XmlPullParser;
 import cn.sharesdk.framework.ShareSDK;
 
 import com.alipay.sdk.app.PayTask;
+import com.jifeng.mlsales.FBApplication;
 import com.jifeng.mlsales.R;
 import com.jifeng.mlsales.wxapi.MD5;
 import com.jifeng.mlsales.wxapi.Util;
@@ -97,6 +98,7 @@ public class MyPayActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_mypay);
+		((FBApplication) getApplication()).addActivity(this);
 		dialog = new LoadingDialog(this);
 		findView();
 		aboutWX();

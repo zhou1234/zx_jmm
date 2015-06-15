@@ -290,6 +290,18 @@
                             android:text="现金券"
                             android:textColor="@color/textcolor"
                             android:textSize="@dimen/title_siae" />
+
+                        <TextView
+                            android:id="@+id/tv_number"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="10dp"
+                            android:layout_toLeftOf="@+id/imageView_jiantou"
+                            android:text="3张可用"
+                            android:textColor="@color/tab_select"
+                            android:textSize="@dimen/title_siae"
+                            android:visibility="gone" />
                     </RelativeLayout>
 
                     <ImageView
@@ -307,7 +319,7 @@
 
                         <ImageView
                             android:id="@+id/imageView_icon"
-                           android:layout_width="35dp"
+                            android:layout_width="35dp"
                             android:layout_height="35dp"
                             android:layout_alignParentLeft="true"
                             android:layout_centerVertical="true"
@@ -353,7 +365,7 @@
 
                         <ImageView
                             android:id="@+id/imageView_icon"
-                           android:layout_width="35dp"
+                            android:layout_width="35dp"
                             android:layout_height="35dp"
                             android:layout_alignParentLeft="true"
                             android:layout_centerVertical="true"
@@ -450,7 +462,7 @@
 
                         <ImageView
                             android:id="@+id/imageView"
-                           android:layout_width="35dp"
+                            android:layout_width="35dp"
                             android:layout_height="35dp"
                             android:layout_alignParentLeft="true"
                             android:layout_centerVertical="true"
@@ -519,7 +531,7 @@
 
                         <ImageView
                             android:id="@+id/imageView_icon"
-                           android:layout_width="35dp"
+                            android:layout_width="35dp"
                             android:layout_height="35dp"
                             android:layout_alignParentLeft="true"
                             android:layout_centerVertical="true"
@@ -565,7 +577,7 @@
 
                         <ImageView
                             android:id="@+id/imageView_icon"
-                           android:layout_width="35dp"
+                            android:layout_width="35dp"
                             android:layout_height="35dp"
                             android:layout_alignParentLeft="true"
                             android:layout_centerVertical="true"

@@ -1,8 +1,8 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/main_bg_color"
+    android:background="#ffffff"
     android:orientation="vertical" >
 
     <RelativeLayout
@@ -28,7 +28,7 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:gravity="center_vertical"
-            android:text="居美喵优惠券"
+            android:text="美喵家居优惠券"
             android:textColor="@android:color/white"
             android:textSize="18sp" />
     </RelativeLayout>
@@ -36,10 +36,31 @@
     <ListView
         android:id="@+id/guan_list_quan"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" 
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rel_tou"
+        android:layout_above="@+id/ll_ok"
         android:layout_margin="8dip"
-        android:layout_weight="1"
         android:divider="@null"
         android:fadingEdge="none" />
 
-</LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_ok"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/bt_ok"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bt_ok"
+            android:text="确定"
+            android:visibility="gone"
+            android:textColor="@color/white"
+            android:layout_margin="10dp"
+            android:textSize="16dp" />
+    </LinearLayout>
+
+</RelativeLayout>

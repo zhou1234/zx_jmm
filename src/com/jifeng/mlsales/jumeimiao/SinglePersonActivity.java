@@ -2,6 +2,7 @@ package com.jifeng.mlsales.jumeimiao;
 
 import cn.sharesdk.framework.ShareSDK;
 
+import com.jifeng.mlsales.FBApplication;
 import com.jifeng.mlsales.R;
 import com.jifeng.tools.ShrefUtil;
 import com.jifeng.url.AllStaticMessage;
@@ -24,6 +25,7 @@ public class SinglePersonActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_single_person);
+		((FBApplication) getApplication()).addActivity(this);
 		mShrefUtil = new ShrefUtil(this, "data");
 		sp = getSharedPreferences(AllStaticMessage.SPNE, 0);
 	}

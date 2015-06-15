@@ -1,5 +1,6 @@
 package com.jifeng.mlsales.jumeimiao;
 
+import com.jifeng.mlsales.FBApplication;
 import com.jifeng.mlsales.R;
 import com.jifeng.myview.LoadingDialog;
 import com.jifeng.tools.MyTools;
@@ -24,6 +25,7 @@ public class WuLiuActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_wuliu);
+		((FBApplication) getApplication()).addActivity(this);
 		dialog = new LoadingDialog(this);  
 
 		findView();

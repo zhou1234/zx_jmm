@@ -1,5 +1,6 @@
 package com.jifeng.mlsales.wxapi;
 
+import com.jifeng.mlsales.FBApplication;
 import com.jifeng.mlsales.R;
 import com.jifeng.mlsales.jumeimiao.CheckOrderActivity;
 import com.jifeng.mlsales.jumeimiao.TabHostActivity;
@@ -27,6 +28,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.wxpay_result);
+		((FBApplication) getApplication()).addActivity(this);
 		api = WXAPIFactory.createWXAPI(this, AllStaticMessage.APP_ID);
 		api.handleIntent(getIntent(), this);
 		tasckActivity = new TasckActivity();
@@ -54,13 +56,13 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 				Intent mIntent = new Intent(WXPayEntryActivity.this,
 						TabHostActivity.class);
 				startActivity(mIntent);
-				finish();
+				this.getApplication().onTerminate();
 			} else {
 				Intent mIntent = new Intent(WXPayEntryActivity.this,
 						CheckOrderActivity.class);
 				mIntent.putExtra("orderNum", AllStaticMessage.WxOrder);
 				startActivity(mIntent);
-				finish();
+				this.finish();
 			}
 		}
 

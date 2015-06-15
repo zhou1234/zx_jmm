@@ -11,6 +11,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.jifeng.adapter.ClassMyGridViewAdapter;
+import com.jifeng.mlsales.FBApplication;
 import com.jifeng.mlsales.R;
 import com.jifeng.mlsales.model.ClassModel;
 import com.jifeng.myview.LoadingDialog;
@@ -49,6 +50,7 @@ public class ClassActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_class);
+		((FBApplication) getApplication()).addActivity(this);
 		dialog = new LoadingDialog(this);
 		dialog.loading();
 		init();
@@ -89,7 +91,7 @@ public class ClassActivity extends Activity {
 		String url = AllStaticMessage.class_url;
 		HttpUtil.get(url, ClassActivity.this, dialog,
 				new JsonHttpResponseHandler() {
-					@Override
+					@SuppressLint("ShowToast") @Override
 					public void onSuccess(int statusCode, Header[] headers,
 							JSONObject response) {
 						super.onSuccess(statusCode, headers, response);

@@ -2,19 +2,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ffffff"
     android:orientation="vertical" >
 
     <RelativeLayout
         android:id="@+id/youhuiquan_bg"
-        android:layout_width="fill_parent"
-        android:layout_height="120dip"
-        android:layout_marginLeft="15dip"
-        android:layout_marginRight="15dip"
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
         android:layout_marginBottom="10dip"
         android:background="@drawable/youhuiquan_bg_2" >
 
         <RelativeLayout
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@+id/img_2"
             android:layout_alignParentTop="true" >
@@ -41,22 +40,21 @@
                     android:id="@+id/rel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true" 
-                      >
-					<ImageView 
-					    android:id="@+id/img_all"
-					     android:layout_width="wrap_content"
+                    android:layout_centerHorizontal="true" >
+
+                    <ImageView
+                        android:id="@+id/img_all"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"  
-					    android:src="@drawable/youhuiquan_mao" 
-					    />
+                        android:layout_centerHorizontal="true"
+                        android:src="@drawable/youhuiquan_mao" />
+
                     <TextView
                         android:id="@+id/youhuiquan_huodong_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:layout_centerVertical="true"
-                        android:text=""
                         android:textColor="@color/white"
                         android:textSize="18sp"
                         android:visibility="gone" />
@@ -68,8 +66,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/rel"
                     android:layout_centerHorizontal="true"
-                    android:text=""
-                    android:textColor="@color/white" 
+                    android:textColor="@color/white"
                     android:textSize="12sp" />
             </RelativeLayout>
         </RelativeLayout>
@@ -96,19 +93,31 @@
                 android:id="@+id/text_classion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:singleLine="true"
                 android:text="品牌专用:"
                 android:textColor="@color/white"
                 android:textSize="14sp" />
-
-           <!--  <TextView
-                android:id="@+id/youhuiquan_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dip"
-                android:text="全场满3000减50"
-                android:textColor="@color/white"
-                android:textSize="14dip" /> -->
         </LinearLayout>
+
+        <CheckBox
+            android:id="@+id/check"
+            style="@style/CustomCheckboxTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:focusable="false"
+            android:clickable="false"
+           android:focusableInTouchMode="false"
+            />
     </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:src="@drawable/logo_xian" />
 
 </LinearLayout>

@@ -8,7 +8,10 @@ import org.json.JSONObject;
 
 import cn.sharesdk.onekeyshare.OnekeyShare;
 
+import com.jifeng.mlsales.FBApplication;
 import com.jifeng.mlsales.R;
+import com.jifeng.myview.AlwaysMarqueeTextView;
+import com.jifeng.myview.BadgeView;
 import com.jifeng.myview.LoadingDialog;
 import com.jifeng.tools.DownPic;
 import com.jifeng.tools.MyTools;
@@ -22,42 +25,40 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.http.SslError;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
-import android.view.WindowManager;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.Animation;
-import android.view.animation.Animation.AnimationListener;
-import android.view.animation.AnimationSet;
-import android.view.animation.LinearInterpolator;
-import android.view.animation.TranslateAnimation;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class GoodsDetailActivity extends Activity {
 	private Intent mIntent;
 	private WebView mWebView;
-	private TextView mText_title;
+	private AlwaysMarqueeTextView mText_title;
 	private LoadingDialog dialog;
 	private TasckActivity tasckActivity;
-	private ImageView mImage_Car;
-	private ImageView iv_shopping;
+	// private ImageView mImage_Car;
+	// private ImageView iv_shopping;
+	// private RelativeLayout rl_shoppingcar;
 	// private Animation translateAnimation;
 	// private Animation scaleAnimation;
 	private Button btn_input_car;
 	private String shareTitle, shareContent, shareUrl, detailUrl, shareImg;
 	private String activityId, id, spid;// 活动id 商品id 规格id
 	private boolean diaFlag = false;
+
 	Handler handler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
@@ -83,6 +84,7 @@ public class GoodsDetailActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_goods_detail);
+		((FBApplication) getApplication()).addActivity(this);
 		dialog = new LoadingDialog(this);
 		findView();
 		register();
@@ -102,10 +104,11 @@ public class GoodsDetailActivity extends Activity {
 	// 查找控件
 	private void findView() {
 		mWebView = (WebView) findViewById(R.id.goodslist_webview);
-		mText_title = (TextView) findViewById(R.id.textview_title);
-		mImage_Car = (ImageView) findViewById(R.id.shopping_img_car);
+		mText_title = (AlwaysMarqueeTextView) findViewById(R.id.textview_title);
+		// mImage_Car = (ImageView) findViewById(R.id.shopping_img_car);
 		btn_input_car = (Button) findViewById(R.id.btn_inputcar_num);
-		iv_shopping = (ImageView) findViewById(R.id.iv_shopping);
+		// iv_shopping = (ImageView) findViewById(R.id.iv_shopping);
+		// rl_shoppingcar = (RelativeLayout) findViewById(R.id.rl_shoppingcar);
 
 	}
 
@@ -301,6 +304,8 @@ public class GoodsDetailActivity extends Activity {
 			share(shareTitle, "这个不错哦!快来看看吧", shareUrl, shareImg);
 			break;
 		case R.id.input_shoppingcar:
+		case R.id.btn_inputcar_num:
+		case R.id.rl_shoppingcar:
 			if (AllStaticMessage.Car_num > 0) {
 				mIntent = new Intent(GoodsDetailActivity.this,
 						ShoppingCarActivity.class);
@@ -516,7 +521,6 @@ public class GoodsDetailActivity extends Activity {
 					@Override
 					public void onStart() {
 						super.onStart();
-						// 请求开始
 					}
 
 					@Override

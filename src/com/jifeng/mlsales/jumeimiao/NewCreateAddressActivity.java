@@ -15,6 +15,7 @@ import cn.sharesdk.framework.ShareSDK;
 
 import com.jifeng.city.DBManager;
 import com.jifeng.city.MyListItem;
+import com.jifeng.mlsales.FBApplication;
 import com.jifeng.mlsales.R;
 import com.jifeng.myview.LoadingDialog;
 import com.jifeng.url.AllStaticMessage;
@@ -72,6 +73,7 @@ public class NewCreateAddressActivity extends Activity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_add_address);
+		((FBApplication) getApplication()).addActivity(this);
 		// time = getResources().getStringArray(R.array.shouhuoTime);
 		dialog = new LoadingDialog(this);
 		findView();
@@ -192,7 +194,7 @@ public class NewCreateAddressActivity extends Activity implements
 
 		case R.id.create_address_city:
 
-		case R.id.create_address_country:
+		case R.id.create_address_country:  
 			registerListen();
 			popupWindowShow();
 			// if (firstIn) {

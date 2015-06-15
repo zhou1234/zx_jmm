@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 import cn.sharesdk.framework.ShareSDK;
 
+import com.jifeng.mlsales.FBApplication;
 import com.jifeng.mlsales.R;
 import com.jifeng.mlsales.model.CustomerAlertDialog;
 import com.jifeng.myview.LoadingDialog;
@@ -19,10 +20,9 @@ import com.jifeng.url.HttpUtil;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.umeng.analytics.MobclickAgent;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog.Builder;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -53,6 +53,7 @@ public class AddressListActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_address_list);
+		((FBApplication) getApplication()).addActivity(this);
 		dialog = new LoadingDialog(this);
 		dialog.loading();
 		mShrefUtil = new ShrefUtil(this, "data");
@@ -190,6 +191,7 @@ public class AddressListActivity extends Activity {
 		HttpUtil.get(url, AddressListActivity.this, dialog,
 				new JsonHttpResponseHandler() {
 
+					@SuppressLint("ShowToast")
 					@Override
 					public void onSuccess(int statusCode, Header[] headers,
 							JSONObject response) {
@@ -282,12 +284,13 @@ public class AddressListActivity extends Activity {
 	private class MyGridViewAdapter extends BaseAdapter {
 		AppItem appItem;
 		List<JSONObject> mObjects;
-		Context mContext;
+
+		// Context mContext;
 
 		public MyGridViewAdapter(List<JSONObject> array, Context context) {
 			mObjects = new ArrayList<JSONObject>();
 			this.mObjects = array;
-			this.mContext = context;
+			// this.mContext = context;
 		}
 
 		@Override

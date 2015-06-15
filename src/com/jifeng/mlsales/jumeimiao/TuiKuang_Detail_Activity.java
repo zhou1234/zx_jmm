@@ -2,6 +2,7 @@ package com.jifeng.mlsales.jumeimiao;
 
 import cn.sharesdk.framework.ShareSDK;
 
+import com.jifeng.mlsales.FBApplication;
 import com.jifeng.mlsales.R;
 import com.umeng.analytics.MobclickAgent;
 
@@ -15,7 +16,7 @@ public class TuiKuang_Detail_Activity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_tuikuan_detail);
-
+		((FBApplication) getApplication()).addActivity(this);
 		initData();
 		findView();
 		register();

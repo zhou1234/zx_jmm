@@ -17,6 +17,7 @@ import org.json.JSONObject;
 import cn.sharesdk.framework.ShareSDK;
 
 import com.alipay.sdk.app.PayTask;
+import com.jifeng.mlsales.FBApplication;
 import com.jifeng.mlsales.R;
 import com.jifeng.myview.LoadingDialog;
 import com.jifeng.tools.MyTools;
@@ -87,10 +88,16 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 
 	private List<JSONObject> mJsonObjects;
 
+	private int index = 0x132;
+
+	private JSONArray array = new JSONArray();
+	private String guanQuanText;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_jiesuan);
+		((FBApplication) getApplication()).addActivity(this);
 		// mShrefUtil = new ShrefUtil(this, "data");
 		dialog = new LoadingDialog(this);
 		dialog.loading();
@@ -155,6 +162,13 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 		mTextView_AllPrice = (TextView) findViewById(R.id.jiesuan_all_price);
 		// / mBtn_BianJi=(Button) findViewById(R.id.jiesuan_bianji);
 		mText_guanfang = (TextView) findViewById(R.id.jiesuan_youhuiquan);
+
+		payWay = "支付宝支付";
+		mImage_zhifubao.setImageDrawable(getResources().getDrawable(
+				R.drawable.register_select_2));
+		mImage_weixin.setImageDrawable(getResources().getDrawable(
+				R.drawable.register_select_1));
+
 	}
 
 	/*
@@ -387,13 +401,19 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 			// startActivity(mIntent);
 			break;
 		case R.id.jiesuan_guan_quan:
-			if (allvalue.equals("")) {
-				Toast.makeText(JieSuanActivity.this, "暂无可用优惠券", 500).show();
-				return;
+			// if (allvalue.equals("")) {
+			// Toast.makeText(JieSuanActivity.this, "暂无可用优惠券", 500).show();
+			// return;
+			// }
+			if (array.length() > 0) {
+				mIntent = new Intent(JieSuanActivity.this,
+						GuanQuanActivity.class);
+				mIntent.putExtra("value", allvalue);
+				mIntent.putExtra("index", index);
+				startActivityForResult(mIntent, 0x09);
+			} else {
+				Toast.makeText(JieSuanActivity.this, "暂无代金券可使用", 0).show();
 			}
-			mIntent = new Intent(JieSuanActivity.this, GuanQuanActivity.class);
-			mIntent.putExtra("value", allvalue);
-			startActivityForResult(mIntent, 0x09);
 
 			break;
 		case R.id.jiesuan_zhifubao_select:
@@ -440,15 +460,28 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 		if (resultCode == RESULT_OK) {
 			switch (requestCode) {
 			case 0x09:
-				if (!AllStaticMessage.guanquan_name.equals("")) {
-					mText_guanfang.setText(AllStaticMessage.guanquan_name);
-					Double mm = Double.valueOf(AllStaticMessage.guanquan_value);
-					Double nn = Double.valueOf(allvalue);
-					Double value = nn - mm;
-					if (value < 0) {
-						value = 0.00;
+				boolean flag = data.getBooleanExtra("flag", false);
+				if (flag) {
+					index = data.getIntExtra("index", -1);
+					if (!AllStaticMessage.guanquan_name.equals("")) {
+						mText_guanfang.setText(AllStaticMessage.guanquan_name);
+						Double mm = Double
+								.valueOf(AllStaticMessage.guanquan_value);
+						Double nn = Double.valueOf(allvalue);
+						Double value = nn - mm;
+						if (value < 0) {
+							value = 0.00;
+						}
+						mTextView_AllPrice.setText(String.valueOf(value));
 					}
-					mTextView_AllPrice.setText(String.valueOf(value));
+				} else {
+					index = 0x132;
+					mText_guanfang.setText(guanQuanText);
+					mTextView_AllPrice.setText(allvalue);
+
+					AllStaticMessage.guanquanid = "";
+					AllStaticMessage.guanquan_name = "";
+					AllStaticMessage.guanquan_value = "";
 				}
 				break;
 			default:
@@ -472,56 +505,56 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 	@Override
 	public void onWindowFocusChanged(boolean hasFocus) {
 		super.onWindowFocusChanged(hasFocus);
-		if (AllStaticMessage.JieSuan_Select_Address) {
-			AllStaticMessage.guanquanid = "";
-			AllStaticMessage.guanquan_name = "";
-			AllStaticMessage.guanquan_value = "";
+		// if (AllStaticMessage.JieSuan_Select_Address) {
+		// AllStaticMessage.guanquanid = "";
+		// AllStaticMessage.guanquan_name = "";
+		// AllStaticMessage.guanquan_value = "";
+		//
+		// AllStaticMessage.JieSuan_Select_Address = false;
 
-			AllStaticMessage.JieSuan_Select_Address = false;
-
-			// if (AllStaticMessage.mJsonObject_select_address != null) {
-			// mLayout_1.setVisibility(View.VISIBLE);
-			// mLayout_2.setVisibility(View.GONE);
-			// mShrefUtil.write("songhuo_address",
-			// AllStaticMessage.mJsonObject_select_address.toString());
-			// try {
-			// MyTools.setText(mText_Name,
-			// AllStaticMessage.mJsonObject_select_address
-			// .getString("TrueName"),
-			// JieSuanActivity.this);
-			// MyTools.setText(mText_Phone,
-			// AllStaticMessage.mJsonObject_select_address
-			// .getString("PhoneTel"),
-			// JieSuanActivity.this);
-			// MyTools.setText(
-			// mText_Address,
-			// AllStaticMessage.mJsonObject_select_address
-			// .getString("Province")
-			// + AllStaticMessage.mJsonObject_select_address
-			// .getString("City")
-			// + AllStaticMessage.mJsonObject_select_address
-			// .getString("Country")
-			// + AllStaticMessage.mJsonObject_select_address
-			// .getString("DetailAddress"),
-			// JieSuanActivity.this);
-			// MyTools.setText(mText_Time,
-			// AllStaticMessage.mJsonObject_select_address
-			// .getString("GoodsTime"),
-			// JieSuanActivity.this);
-			// addressId = AllStaticMessage.mJsonObject_select_address
-			// .getString("Id");
-			// getYunFei(addressId);
-			// twoFlag = true;
-			// } catch (JSONException e) {
-			//
-			// e.printStackTrace();
-			// }
-			// } else {
-			// addressId = "";
-			// mLayout_1.setVisibility(View.GONE);
-			// mLayout_2.setVisibility(View.VISIBLE);
-			// }
-		}
+		// if (AllStaticMessage.mJsonObject_select_address != null) {
+		// mLayout_1.setVisibility(View.VISIBLE);
+		// mLayout_2.setVisibility(View.GONE);
+		// mShrefUtil.write("songhuo_address",
+		// AllStaticMessage.mJsonObject_select_address.toString());
+		// try {
+		// MyTools.setText(mText_Name,
+		// AllStaticMessage.mJsonObject_select_address
+		// .getString("TrueName"),
+		// JieSuanActivity.this);
+		// MyTools.setText(mText_Phone,
+		// AllStaticMessage.mJsonObject_select_address
+		// .getString("PhoneTel"),
+		// JieSuanActivity.this);
+		// MyTools.setText(
+		// mText_Address,
+		// AllStaticMessage.mJsonObject_select_address
+		// .getString("Province")
+		// + AllStaticMessage.mJsonObject_select_address
+		// .getString("City")
+		// + AllStaticMessage.mJsonObject_select_address
+		// .getString("Country")
+		// + AllStaticMessage.mJsonObject_select_address
+		// .getString("DetailAddress"),
+		// JieSuanActivity.this);
+		// MyTools.setText(mText_Time,
+		// AllStaticMessage.mJsonObject_select_address
+		// .getString("GoodsTime"),
+		// JieSuanActivity.this);
+		// addressId = AllStaticMessage.mJsonObject_select_address
+		// .getString("Id");
+		// getYunFei(addressId);
+		// twoFlag = true;
+		// } catch (JSONException e) {
+		//
+		// e.printStackTrace();
+		// }
+		// } else {
+		// addressId = "";
+		// mLayout_1.setVisibility(View.GONE);
+		// mLayout_2.setVisibility(View.VISIBLE);
+		// }
+		// }
 	}
 
 	// 订单提交
@@ -680,10 +713,13 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 												.toString());
 								allvalue = response.getString("TotalMoney")
 										.toString();
-								if (twoFlag) {
-									mText_guanfang.setText("未使用");
-									twoFlag = false;
-								}
+								// if (twoFlag) {
+								// mText_guanfang.setText("未使用");
+								// twoFlag = false;
+								// }
+								getData(response.getString("GoodsMoney")
+										.toString());
+
 							} else {
 								Toast.makeText(
 										JieSuanActivity.this,
@@ -693,9 +729,9 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 						} catch (JSONException e) {
 							e.printStackTrace();
 						}
-						if (dialog != null) {
-							dialog.stop();
-						}
+						// if (dialog != null) {
+						// dialog.stop();
+						// }
 					}
 
 					@Override
@@ -740,7 +776,7 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 					Intent mIntent = new Intent(JieSuanActivity.this,
 							TabHostActivity.class);
 					startActivity(mIntent);
-					JieSuanActivity.this.finish();
+					JieSuanActivity.this.getApplication().onTerminate();
 					Toast.makeText(JieSuanActivity.this, "支付成功",
 							Toast.LENGTH_SHORT).show();
 				} else {
@@ -939,7 +975,7 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 	 */
 	private void weixinPay(String order_price, String order_no) {
 		dialog.loading();
-		String product_name = "居美喵居家特卖商品";
+		String product_name = "美喵家居特卖商品";
 		// try{
 		// //测试服务器采用GBK编码，否则不需要转码
 		// product_name = URLEncoder.encode("测试微信支付(app服务器端签名)","GBK");
@@ -1008,6 +1044,63 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 						intent.putExtra("orderNum", AllStaticMessage.WxOrder);
 						startActivity(intent);
 						JieSuanActivity.this.finish();
+					}
+				});
+	}
+
+	private void getData(String value) {
+		// String url = AllStaticMessage.URL_Guan_Quan +
+		// AllStaticMessage.User_Id
+		// + "&amount=" + value;
+		String url = AllStaticMessage.URL_Guan_Quan_New
+				+ AllStaticMessage.User_Id + "&amount=" + value;
+
+		HttpUtil.get(url, JieSuanActivity.this, dialog,
+				new JsonHttpResponseHandler() {
+					@Override
+					public void onSuccess(int statusCode, Header[] headers,
+							JSONObject response) {
+						super.onSuccess(statusCode, headers, response);
+						// 成功返回JSONObject
+						try {
+							if (response.getString("Status").equals("true")) {
+								array = response.getJSONArray("Results");
+								if (array.length() > 0) {
+									guanQuanText = "您有" + array.length()
+											+ "张代金券可使用";
+									mText_guanfang.setText(guanQuanText);
+								}
+							} else {
+								guanQuanText = "暂无代金券可使用";
+								mText_guanfang.setText(guanQuanText);
+							}
+						} catch (JSONException e) {
+							e.printStackTrace();
+						}
+						if (dialog != null) {
+							dialog.stop();
+						}
+
+					}
+
+					@Override
+					public void onStart() {
+						super.onStart();
+						// 请求开始
+					}
+
+					@Override
+					public void onFinish() {
+						super.onFinish();
+						// 请求结束
+					}
+
+					@Override
+					public void onFailure(int statusCode, Header[] headers,
+							Throwable throwable, JSONObject errorResponse) {
+						super.onFailure(statusCode, headers, throwable,
+								errorResponse);
+						// 错误返回JSONObject
 					}
 				});
 	}

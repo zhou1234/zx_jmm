@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 import com.jifeng.adapter.MyGoodsListAdapter;
 import com.jifeng.adapter.MyGoodsListAdapter1;
+import com.jifeng.mlsales.FBApplication;
 import com.jifeng.mlsales.R;
 import com.jifeng.myview.LoadingDialog;
 import com.jifeng.myview.PullToRefreshGridView;
@@ -79,6 +80,7 @@ public class FenLeiActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_fenlei);
+		((FBApplication) getApplication()).addActivity(this);
 		dialog = new LoadingDialog(this);
 		dialog.loading();
 		listData = new ArrayList<JSONObject>();

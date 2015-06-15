@@ -12,6 +12,7 @@ import cn.sharesdk.framework.ShareSDK;
 
 import com.jifeng.adapter.MyGoodsListAdapter;
 import com.jifeng.image.ImageLoader;
+import com.jifeng.mlsales.FBApplication;
 import com.jifeng.mlsales.R;
 import com.jifeng.myview.LoadingDialog;
 import com.jifeng.myview.My_GridView;
@@ -100,6 +101,7 @@ public class PinPaiZhuangChangActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_goods_list);
+		((FBApplication) getApplication()).addActivity(this);
 		dialog = new LoadingDialog(this);
 		dialog.loading();
 		mILoader = new ImageLoader(this, "");

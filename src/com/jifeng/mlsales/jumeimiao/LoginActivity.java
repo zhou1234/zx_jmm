@@ -7,6 +7,7 @@ import org.json.JSONObject;
 
 import cn.sharesdk.framework.ShareSDK;
 
+import com.jifeng.mlsales.FBApplication;
 import com.jifeng.mlsales.R;
 import com.jifeng.myview.LoadingDialog;
 import com.jifeng.tools.MyTools;
@@ -85,6 +86,7 @@ public class LoginActivity extends Activity {
 		ShareSDK.initSDK(this);
 
 		setContentView(R.layout.activity_login);
+		((FBApplication) getApplication()).addActivity(this);
 		dialog = new LoadingDialog(this);
 		mShrefUtil = new ShrefUtil(this, "data");
 		findView();

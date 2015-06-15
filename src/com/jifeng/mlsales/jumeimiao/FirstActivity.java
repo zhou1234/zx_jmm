@@ -6,6 +6,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.jifeng.adapter.MainAdapter;
+import com.jifeng.mlsales.FBApplication;
 import com.jifeng.mlsales.R;
 import com.jifeng.mlsales.fragment.NextFragment;
 import com.jifeng.mlsales.fragment.OneFragment;
@@ -69,6 +70,7 @@ public class FirstActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_first);
+		((FBApplication) getApplication()).addActivity(this);
 		dialog = new LoadingDialog(this);
 		dialog.show();
 		findViewById();
@@ -330,8 +332,10 @@ public class FirstActivity extends FragmentActivity {
 				Toast.makeText(this, "再按一次退出居美喵", Toast.LENGTH_SHORT).show();
 				mExitTime = System.currentTimeMillis();
 			} else {
-				this.finish();
-				System.exit(0);
+//				android.os.Process.killProcess(android.os.Process.myPid());
+//				this.finish();
+//				System.exit(0);
+				this.getApplication().onTerminate();
 			}
 			return true;
 		}

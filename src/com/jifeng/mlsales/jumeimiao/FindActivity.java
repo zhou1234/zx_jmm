@@ -2,6 +2,7 @@ package com.jifeng.mlsales.jumeimiao;
 
 import cn.sharesdk.framework.ShareSDK;
 
+import com.jifeng.mlsales.FBApplication;
 import com.jifeng.mlsales.R;
 import com.jifeng.myview.LoadingDialog;
 import com.jifeng.tools.MyTools;
@@ -33,6 +34,7 @@ public class FindActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_find);
+		((FBApplication) getApplication()).addActivity(this);
 		dialog = new LoadingDialog(this);
 		findView();
 		init();
@@ -139,8 +141,7 @@ public class FindActivity extends Activity {
 				Toast.makeText(this, "再按一次退出居美喵", Toast.LENGTH_SHORT).show();
 				mExitTime = System.currentTimeMillis();
 			} else {
-				this.finish();
-				System.exit(0);
+				this.getApplication().onTerminate();
 			}
 			return true;
 		}

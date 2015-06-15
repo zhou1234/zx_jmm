@@ -7,6 +7,7 @@ import org.json.JSONObject;
 
 import cn.sharesdk.framework.ShareSDK;
 
+import com.jifeng.mlsales.FBApplication;
 import com.jifeng.mlsales.R;
 import com.jifeng.myview.LoadingDialog;
 import com.jifeng.tools.MyTools;
@@ -17,6 +18,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.umeng.analytics.MobclickAgent;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
@@ -48,6 +50,7 @@ public class ClassionActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_classion);
+		((FBApplication) getApplication()).addActivity(this);
 		dialog = new LoadingDialog(this);
 		findView();
 		register();
@@ -82,7 +85,7 @@ public class ClassionActivity extends Activity {
 	private void register() {
 		// 监控小键盘搜索按钮
 		mEditText.setOnEditorActionListener(new OnEditorActionListener() {
-			@Override
+			@SuppressLint("ShowToast") @Override
 			public boolean onEditorAction(TextView v, int actionId,
 					KeyEvent event) {
 				if (actionId == EditorInfo.IME_ACTION_SEARCH) {
@@ -109,7 +112,7 @@ public class ClassionActivity extends Activity {
 	}
 
 	// //xml注册点击事件的实现
-	public void doclick(View view) {
+	@SuppressLint("ShowToast") public void doclick(View view) {
 		switch (view.getId()) {
 		case R.id.classion_search:
 			if (mEditText.getVisibility() == View.INVISIBLE) {
@@ -143,7 +146,7 @@ public class ClassionActivity extends Activity {
 		String url = AllStaticMessage.URL_FenLei;
 		HttpUtil.get(url, ClassionActivity.this, dialog,
 				new JsonHttpResponseHandler() {
-					@Override
+					@SuppressLint("ShowToast") @Override
 					public void onSuccess(int statusCode, Header[] headers,
 							JSONObject response) {
 						super.onSuccess(statusCode, headers, response);

@@ -4,6 +4,7 @@ import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.jifeng.mlsales.FBApplication;
 import com.jifeng.mlsales.R;
 import com.jifeng.myview.LoadingDialog;
 import com.jifeng.tools.ApkModify;
@@ -13,21 +14,19 @@ import com.jifeng.url.AllStaticMessage;
 import com.jifeng.url.HttpUtil;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
-@TargetApi(Build.VERSION_CODES.GINGERBREAD)
 public class LoadingActivity extends Activity {
 	private Intent mIntent;
 	private ShrefUtil mShrefUtil;
 	LoadingDialog dialog;
+	private boolean isFirstRun;
 	Handler handler = new Handler() {
 
 		@Override
@@ -41,12 +40,24 @@ public class LoadingActivity extends Activity {
 				new Handler().postDelayed(new Runnable() {
 					@Override
 					public void run() {
+						// if (isFirstRun) {
+						// mIntent = new Intent(LoadingActivity.this,
+						// WelcomeActivity.class);
+						// } else {
+						// mIntent = new Intent(LoadingActivity.this,
+						// TabHostActivity.class);
+						// }
+						// startActivity(mIntent);
+						// overridePendingTransition(R.anim.in_from_right,
+						// R.anim.out_to_left);
+						// LoadingActivity.this.finish();
+
 						mIntent = new Intent(LoadingActivity.this,
 								TabHostActivity.class);
 						startActivity(mIntent);
 						finish();
 					}
-				}, 800);
+				}, 700);
 
 				break;
 			default:
@@ -66,6 +77,8 @@ public class LoadingActivity extends Activity {
 		// .detectLeakedSqlLiteObjects().penaltyLog().penaltyDeath()
 		// .build());
 		setContentView(R.layout.activity_loading);
+		((FBApplication) getApplication()).addActivity(this);
+		
 		dialog = new LoadingDialog(this);
 		mShrefUtil = new ShrefUtil(this, "data");
 
@@ -86,7 +99,7 @@ public class LoadingActivity extends Activity {
 	private void onlyOne() {
 		SharedPreferences sharedPreferences = this.getSharedPreferences(
 				"share", MODE_PRIVATE);
-		boolean isFirstRun = sharedPreferences.getBoolean("isFirstRun", true);
+		isFirstRun = sharedPreferences.getBoolean("isFirstRun", true);
 		Editor editor = sharedPreferences.edit();
 
 		if (isFirstRun) {
@@ -134,7 +147,6 @@ public class LoadingActivity extends Activity {
 					@Override
 					public void onSuccess(int statusCode, Header[] headers,
 							JSONObject response) {
-						// TODO Auto-generated method stub
 						super.onSuccess(statusCode, headers, response);
 						// 成功返回JSONObject
 						try {
@@ -171,7 +183,6 @@ public class LoadingActivity extends Activity {
 					@Override
 					public void onFailure(int statusCode, Header[] headers,
 							Throwable throwable, JSONObject errorResponse) {
-						// TODO Auto-generated method stub
 						super.onFailure(statusCode, headers, throwable,
 								errorResponse);
 						// 错误返回JSONObject

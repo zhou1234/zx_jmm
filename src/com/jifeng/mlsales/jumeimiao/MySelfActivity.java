@@ -11,6 +11,7 @@ import org.json.JSONObject;
 
 import cn.sharesdk.framework.ShareSDK;
 
+import com.jifeng.mlsales.FBApplication;
 import com.jifeng.mlsales.R;
 import com.jifeng.myview.BadgeView;
 import com.jifeng.myview.LoadingDialog;
@@ -41,10 +42,13 @@ public class MySelfActivity extends Activity {
 			myself_rel_daishouhuo;
 	private BadgeView badgeView1, badgeView2, badgeView3;
 
+	private TextView tv_number;// 显示优惠券可使用的个数
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_myself);
+		((FBApplication) getApplication()).addActivity(this);
 		findView();
 		if (!AllStaticMessage.Login_Flag.equals("")) {
 			mTextFlag.setVisibility(View.GONE);
@@ -64,9 +68,6 @@ public class MySelfActivity extends Activity {
 
 	// 查找控件
 	private void findView() {
-		// rel_top=(RelativeLayout) findViewById(R.id.rel_top);
-		// rel_top.setBackgroundDrawable(MyTools.getDrawableImg(this,
-		// R.drawable.myself_head));
 
 		mText_NickName = (TextView) findViewById(R.id.myself_nickname);
 		mText_Jifen = (TextView) findViewById(R.id.myself_text_jifen);
@@ -83,6 +84,8 @@ public class MySelfActivity extends Activity {
 		badgeView2.setBadgeMargin(0);
 		badgeView3 = new BadgeView(MySelfActivity.this, myself_rel_daishouhuo);
 		badgeView3.setBadgeMargin(0);
+
+		tv_number = (TextView) findViewById(R.id.tv_number);
 	}
 
 	/***
@@ -213,7 +216,7 @@ public class MySelfActivity extends Activity {
 													// 进入拨号界面ACTION_DIAL
 			intent.setData(Uri.parse("tel:4009696876"));
 			startActivity(intent);
-			break;   
+			break;
 		default:
 			break;
 		}
@@ -401,8 +404,7 @@ public class MySelfActivity extends Activity {
 				Toast.makeText(this, "再按一次退出居美喵", Toast.LENGTH_SHORT).show();
 				mExitTime = System.currentTimeMillis();
 			} else {
-				this.finish();
-				System.exit(0);
+				this.getApplication().onTerminate();
 			}
 			return true;
 		}
@@ -413,14 +415,14 @@ public class MySelfActivity extends Activity {
 	protected void onDestroy() {
 		ShareSDK.stopSDK(this);
 		super.onDestroy();
-//		mIntent = null;
-//		mText_NickName = null;
-//		mText_Jifen = null;
-//		mLayout_Show = null;// 登录后显示数据
-//		mTextFlag = null;
-//		mIntent = null;
-//		setContentView(R.layout.view_null);
-//		System.gc();
+		// mIntent = null;
+		// mText_NickName = null;
+		// mText_Jifen = null;
+		// mLayout_Show = null;// 登录后显示数据
+		// mTextFlag = null;
+		// mIntent = null;
+		// setContentView(R.layout.view_null);
+		// System.gc();
 	}
 
 	public void onResume() {// 重启
@@ -444,6 +446,7 @@ public class MySelfActivity extends Activity {
 		getData1();
 		getData2();
 		getData3();
+		getQuan();
 		MobclickAgent.onResume(this);
 	}
 
@@ -475,9 +478,9 @@ public class MySelfActivity extends Activity {
 						} catch (JSONException e) {
 							e.printStackTrace();
 						}
-//						if (dialog != null) {
-//							dialog.stop();
-//						}
+						// if (dialog != null) {
+						// dialog.stop();
+						// }
 
 					}
 
@@ -529,9 +532,9 @@ public class MySelfActivity extends Activity {
 						} catch (JSONException e) {
 							e.printStackTrace();
 						}
-//						if (dialog != null) {
-//							dialog.stop();
-//						}
+						// if (dialog != null) {
+						// dialog.stop();
+						// }
 
 					}
 
@@ -610,6 +613,63 @@ public class MySelfActivity extends Activity {
 						if (dialog != null) {
 							dialog.stop();
 						}
+					}
+				});
+	}
+
+	/**
+	 * 获取可用的优惠券
+	 */
+	private void getQuan() {
+		// String url = AllStaticMessage.URL_Quan_list +
+		// AllStaticMessage.User_Id
+		// + "&type=" + type;
+		String url = AllStaticMessage.URL_Quan_list_New + "0" + "&UserId="
+				+ AllStaticMessage.User_Id;
+
+		HttpUtil.get(url, MySelfActivity.this, null,
+				new JsonHttpResponseHandler() {
+					@Override
+					public void onSuccess(int statusCode, Header[] headers,
+							JSONObject response) {
+						super.onSuccess(statusCode, headers, response);
+						// 成功返回JSONObject
+						try {
+							if (response.getString("Status").toString()
+									.equals("true")) {
+								JSONArray array = response
+										.getJSONArray("Results");
+								if (array.length() > 0) {
+									tv_number.setVisibility(View.VISIBLE);
+									tv_number.setText(array.length() + "张可用");
+								}
+
+							} else {
+								tv_number.setVisibility(View.GONE);
+							}
+						} catch (JSONException e) {
+							e.printStackTrace();
+						}
+					}
+
+					@Override
+					public void onStart() {
+						super.onStart();
+						// 请求开始
+					}
+
+					@Override
+					public void onFinish() {
+						super.onFinish();
+						// 请求结束
+					}
+
+					@Override
+					public void onFailure(int statusCode, Header[] headers,
+							Throwable throwable, JSONObject errorResponse) {
+						super.onFailure(statusCode, headers, throwable,
+								errorResponse);
+						// 错误返回JSONObject
 					}
 				});
 	}

@@ -4,6 +4,7 @@ import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.jifeng.mlsales.FBApplication;
 import com.jifeng.mlsales.R;
 import com.jifeng.myview.LoadingDialog;
 import com.jifeng.tools.MyTools;
@@ -23,6 +24,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.animation.AnimationUtils;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -66,6 +68,7 @@ public class TabHostActivity extends TabActivity implements
 		// .detectLeakedSqlLiteObjects().penaltyLog().penaltyDeath()
 		// .build());
 		setContentView(R.layout.maintabs);
+		((FBApplication) getApplication()).addActivity(this);
 		button = (RadioButton) findViewById(R.id.radio_button_xianshi);
 		// button2 = (RadioButton) findViewById(R.id.radio_button_fenlei);
 		button3 = (RadioButton) findViewById(R.id.radio_button_meirifaxian);
@@ -101,7 +104,7 @@ public class TabHostActivity extends TabActivity implements
 
 		if (userName.equals("") && openid.equals("")) {
 
-		} else {   
+		} else {
 			doLogin(userName, psd, loginType, openid, "android", gender,
 					nickName, address);
 		}
@@ -145,7 +148,6 @@ public class TabHostActivity extends TabActivity implements
 		// R.drawable.tab_second_2);
 		// button2.setCompoundDrawablesWithIntrinsicBounds(null, drawable1,
 		// null, null);
-		//
 		// break;
 		case 2:
 			button3.setChecked(true);
@@ -403,7 +405,8 @@ public class TabHostActivity extends TabActivity implements
 		// Log.i("11111", url);
 		HttpUtil.get(url, TabHostActivity.this, dialog,
 				new JsonHttpResponseHandler() {
-					@SuppressLint("ShowToast") @Override
+					@SuppressLint("ShowToast")
+					@Override
 					public void onSuccess(int statusCode, Header[] headers,
 							JSONObject response) {
 						super.onSuccess(statusCode, headers, response);

@@ -2,6 +2,7 @@ package com.jifeng.mlsales.jumeimiao;
 
 import cn.sharesdk.framework.ShareSDK;
 
+import com.jifeng.mlsales.FBApplication;
 import com.jifeng.mlsales.R;
 import com.jifeng.tools.ApkModify;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -25,6 +26,7 @@ public class SettingActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_setting);
+		((FBApplication) getApplication()).addActivity(this);
 		initData();
 		findView();
 		register();

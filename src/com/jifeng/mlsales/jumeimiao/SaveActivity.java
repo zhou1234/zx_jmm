@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import cn.sharesdk.framework.ShareSDK;
 
 import com.jifeng.adapter.MySaveAdapter;
+import com.jifeng.mlsales.FBApplication;
 //import com.jifeng.image.ImageLoader;
 import com.jifeng.mlsales.R;
 import com.jifeng.myview.LoadingDialog;
@@ -102,6 +103,7 @@ public class SaveActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_save);
+		((FBApplication) getApplication()).addActivity(this);
 		dialog = new LoadingDialog(this);
 		dialog.loading();
 		mListData_1 = new ArrayList<JSONObject>();

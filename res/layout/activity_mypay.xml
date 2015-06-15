@@ -28,7 +28,7 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:gravity="center_vertical"
-            android:text="居美喵收银台"
+            android:text="美喵收银台"
             android:textColor="@android:color/white"
             android:textSize="@dimen/title_siae" />
     </RelativeLayout>

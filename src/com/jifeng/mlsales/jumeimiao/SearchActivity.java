@@ -24,6 +24,7 @@ import android.widget.Toast;
 import android.widget.LinearLayout.LayoutParams;
 
 import com.jifeng.adapter.MyGoodsListAdapter1;
+import com.jifeng.mlsales.FBApplication;
 import com.jifeng.mlsales.R;
 import com.jifeng.myview.LoadingDialog;
 import com.jifeng.myview.PullToRefreshGridView;
@@ -76,6 +77,7 @@ public class SearchActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_fenlei);
+		((FBApplication) getApplication()).addActivity(this);
 		dialog = new LoadingDialog(this);
 		dialog.loading();
 		listData = new ArrayList<JSONObject>();

@@ -23,7 +23,7 @@
             android:onClick="doclick"
             android:src="@drawable/back_bg" />
 
-        <TextView
+        <com.jifeng.myview.AlwaysMarqueeTextView
             android:id="@+id/textview_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -32,6 +32,8 @@
             android:layout_toRightOf="@+id/goodslist_back"
             android:gravity="center"
             android:singleLine="true"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
             android:text=""
             android:textColor="@color/white"
             android:textSize="16sp" />

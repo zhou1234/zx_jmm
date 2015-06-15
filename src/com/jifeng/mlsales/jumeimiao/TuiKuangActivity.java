@@ -6,6 +6,7 @@ import org.json.JSONObject;
 
 import cn.sharesdk.framework.ShareSDK;
 
+import com.jifeng.mlsales.FBApplication;
 import com.jifeng.mlsales.R;
 import com.jifeng.myview.LoadingDialog;
 import com.jifeng.url.AllStaticMessage;
@@ -34,6 +35,7 @@ public class TuiKuangActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_tuikuan);
+		((FBApplication) getApplication()).addActivity(this);
 		dialog = new LoadingDialog(this);
 
 		OrderId = getIntent().getStringExtra("orderId").toString();

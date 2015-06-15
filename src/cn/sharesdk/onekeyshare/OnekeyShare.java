@@ -49,7 +49,7 @@ public class OnekeyShare implements PlatformActionListener, Callback {
 	private ArrayList<CustomerLogo> customers;
 	private int notifyIcon;
 	private String notifyTitle;
-	private boolean silent=true;
+	private boolean silent;
 	private PlatformActionListener callback;
 	private ShareContentCustomizeCallback customizeCallback;
 	private boolean dialogMode = false;

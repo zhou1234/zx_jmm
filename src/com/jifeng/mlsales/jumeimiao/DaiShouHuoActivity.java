@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 import cn.sharesdk.framework.ShareSDK;
 
+import com.jifeng.mlsales.FBApplication;
 import com.jifeng.mlsales.R;
 import com.jifeng.myview.LoadingDialog;
 import com.jifeng.tools.MyTools;
@@ -22,21 +23,17 @@ import com.umeng.analytics.MobclickAgent;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class DaiShouHuoActivity extends Activity {
 	private Intent mIntent;
@@ -54,12 +51,12 @@ public class DaiShouHuoActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		try {
 			setContentView(R.layout.activity_daishouhuo);
+			((FBApplication) getApplication()).addActivity(this);
 		} catch (OutOfMemoryError e) {
 			com.nostra13.universalimageloader.core.ImageLoader.getInstance()
 					.clearMemoryCache();
 		}
 		dialog = new LoadingDialog(this);
-		dialog.loading();
 		mData = new ArrayList<JSONObject>();
 		options = MyTools.createOptions(R.drawable.img);
 		findView();
@@ -102,6 +99,7 @@ public class DaiShouHuoActivity extends Activity {
 
 	@SuppressLint("ShowToast")
 	private void getData(String page) {
+		dialog.loading();
 		String url = AllStaticMessage.URL_Order_List + AllStaticMessage.User_Id
 				+ "&orderState=3" + "&page=" + page;
 		HttpUtil.get(url, DaiShouHuoActivity.this, dialog,
@@ -115,6 +113,9 @@ public class DaiShouHuoActivity extends Activity {
 							if (response.getString("Status").equals("true")) {
 								JSONArray array = response
 										.getJSONArray("Results");
+								if (mData != null) {
+									mData.clear();
+								}
 								if (array.length() > 0) {
 									for (int i = 0; i < array.length(); i++) {
 										mData.add(array.getJSONObject(i));

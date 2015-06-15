@@ -20,6 +20,7 @@ public class MessageReceiver extends XGPushBaseReceiver {
 
 	}
 
+	@SuppressWarnings("null")
 	@Override
 	public void onNotifactionClickedResult(Context arg0,
 			XGPushClickedResult arg1) {
@@ -35,12 +36,14 @@ public class MessageReceiver extends XGPushBaseReceiver {
 					JSONObject obj = new JSONObject(customContent);
 					if (!obj.isNull("activyId")) {
 						String activyId = obj.getString("activyId");
-						Intent intent = new Intent(arg0,
-								GoodsListActivity.class);
-						intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-						intent.putExtra("active", "1");
-						intent.putExtra("activeId", activyId);
-						arg0.startActivity(intent);
+						if (activyId != null || !activyId.equals("")) {
+							Intent intent = new Intent(arg0,
+									GoodsListActivity.class);
+							intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+							intent.putExtra("active", "1");
+							intent.putExtra("activeId", activyId);
+							arg0.startActivity(intent);
+						}
 					}
 				} catch (JSONException e) {
 					e.printStackTrace();

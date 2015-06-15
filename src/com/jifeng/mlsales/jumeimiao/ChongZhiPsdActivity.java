@@ -4,16 +4,16 @@ import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.jifeng.mlsales.FBApplication;
 import com.jifeng.mlsales.R;
 import com.jifeng.myview.LoadingDialog;
-import com.jifeng.tools.MyTools;
 import com.jifeng.url.AllStaticMessage;
 import com.jifeng.url.HttpUtil;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.umeng.analytics.MobclickAgent;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -29,6 +29,7 @@ public class ChongZhiPsdActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_forget_psd_2);
+		((FBApplication) getApplication()).addActivity(this);
 		dialog = new LoadingDialog(this);
 		findView();
 		phone = getIntent().getStringExtra("phonenum").toString();
@@ -42,6 +43,7 @@ public class ChongZhiPsdActivity extends Activity {
 	}
 
 	// //xml注册点击事件的实现
+	@SuppressLint("ShowToast")
 	public void doclick(View view) {
 		switch (view.getId()) {
 		case R.id.chongzhi_psd_back:// 返回
@@ -75,6 +77,7 @@ public class ChongZhiPsdActivity extends Activity {
 		HttpUtil.get(url, ChongZhiPsdActivity.this, dialog,
 				new JsonHttpResponseHandler() {
 
+					@SuppressLint("ShowToast")
 					@Override
 					public void onSuccess(int statusCode, Header[] headers,
 							JSONObject response) {
@@ -91,7 +94,6 @@ public class ChongZhiPsdActivity extends Activity {
 												.toString(), 500).show();
 							}
 						} catch (JSONException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 						if (dialog != null) {
