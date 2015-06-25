@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.jifeng.mlsales.jumeimiao.TabHostActivity;
+import com.jifeng.tools.DataCleanManager;
 import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -32,6 +33,7 @@ public class FBApplication extends Application {
 		for (Activity activity : activities) {
 			activity.finish();
 		}
+		DataCleanManager.clearCache(getCacheDir(), this);
 		System.exit(0);
 		android.os.Process.killProcess(android.os.Process.myPid());
 	}

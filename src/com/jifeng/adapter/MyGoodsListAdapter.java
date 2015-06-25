@@ -18,6 +18,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,24 +32,25 @@ import android.widget.TextView;
 public class MyGoodsListAdapter extends BaseAdapter {
 	GoodsListAppItem appItem;
 	List<JSONObject> mListData;
-	//ImageLoader imageLoader;
+	// ImageLoader imageLoader;
 	Context mContext;
 	String pid;
 	int width, hight;
 	DisplayImageOptions options;
 
 	public MyGoodsListAdapter(List<JSONObject> listData, Context context,
-			String id, int width, int hight) {//, ImageLoader imageLoader
+			String id, int width, int hight) {// , ImageLoader imageLoader
 		this.mContext = context;
-	//	this.imageLoader = imageLoader;
+		// this.imageLoader = imageLoader;
 		mListData = new ArrayList<JSONObject>();
 		this.mListData = listData;
 		this.pid = id;
 		this.width = width;
-		this.hight = hight; 
-		//MyTools.initImageLoader(mContext);
-		options=MyTools.createOptions(R.drawable.img);
+		this.hight = hight;
+		// MyTools.initImageLoader(mContext);
+		options = MyTools.createOptions(R.drawable.img);
 	}
+
 	@Override
 	public int getCount() {
 		return mListData.size();
@@ -67,43 +69,58 @@ public class MyGoodsListAdapter extends BaseAdapter {
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		if (convertView == null) {
-			View v = LayoutInflater.from(mContext).inflate(R.layout.item_goodslist_gridview, null);
+			View v = LayoutInflater.from(mContext).inflate(
+					R.layout.item_goodslist_gridview, null);
 			appItem = new GoodsListAppItem();
 			appItem.AppText_name = (TextView) v.findViewById(R.id.goods_name);
-			appItem.AppText_price_now = (TextView) v.findViewById(R.id.item_save_price_now);
-			appItem.AppText_price_old = (TextView) v.findViewById(R.id.item_save_price_old);
-			// appItem.AppBtn_shengyu_time = (Button)v.findViewById(R.id.goods_btn_shengyu_time);
+			appItem.AppText_price_now = (TextView) v
+					.findViewById(R.id.item_save_price_now);
+			appItem.AppText_price_old = (TextView) v
+					.findViewById(R.id.item_save_price_old);
+			// appItem.AppBtn_shengyu_time =
+			// (Button)v.findViewById(R.id.goods_btn_shengyu_time);
 			appItem.AppBtn_dazhe = (Button) v.findViewById(R.id.goods_dazhe);
 			appItem.AppImg = (ImageView) v.findViewById(R.id.goodslist_imgbig);
 			appItem.AppmLayout = (RelativeLayout) v.findViewById(R.id.rel_1);
-			appItem.AppImg_qiangguang = (ImageView) v.findViewById(R.id.goodslist_item_qiangguang);
+			appItem.AppImg_qiangguang = (ImageView) v
+					.findViewById(R.id.goodslist_item_qiangguang);
 			v.setTag(appItem);
 			convertView = v;
 		} else {
 			appItem = (GoodsListAppItem) convertView.getTag();
 		}
 		MyTools.setHight(appItem.AppmLayout, width, hight, mContext);
-		//appItem.AppBtn_shengyu_time.setVisibility(View.INVISIBLE);
+		// appItem.AppBtn_shengyu_time.setVisibility(View.INVISIBLE);
 		try {
-			if (mListData.get(position).getString("Stock").toString().equals("0")) {
+			if (mListData.get(position).getString("Stock").toString()
+					.equals("0")) {
 				appItem.AppImg_qiangguang.setVisibility(View.VISIBLE);
 			} else {
 				appItem.AppImg_qiangguang.setVisibility(View.GONE);
 			}
-			appItem.AppText_name.setText(mListData.get(position).getString("PName").toString());
+			appItem.AppText_name.setText(mListData.get(position)
+					.getString("PName").toString());
 			String num = "";
-			if (!mListData.get(position).getString("ActiveName").toString().equals("")) {
-				//特卖价
-				appItem.AppText_price_now.setText("￥"+ mListData.get(position).getString("SellPrice").toString());
+			if (!mListData.get(position).getString("ActiveName").toString()
+					.equals("")) {
+				// 特卖价
+				appItem.AppText_price_now.setText("￥"
+						+ mListData.get(position).getString("SellPrice")
+								.toString());
 				num = mListData.get(position).getString("SellPrice").toString();
 			} else {
-				//普通价
-				appItem.AppText_price_now.setText("￥"+ mListData.get(position).getString("Price").toString());
+				// 普通价
+				appItem.AppText_price_now
+						.setText("￥"
+								+ mListData.get(position).getString("Price")
+										.toString());
 				num = mListData.get(position).getString("Price").toString();
 			}
-			appItem.AppText_price_old.setText("￥"+ mListData.get(position).getString("MarketPrice")
+			appItem.AppText_price_old.setText("￥"
+					+ mListData.get(position).getString("MarketPrice")
 							.toString());
-			appItem.AppText_price_old.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+			appItem.AppText_price_old.getPaint().setFlags(
+					Paint.STRIKE_THRU_TEXT_FLAG);
 			// setTime(jsonArray.getJSONObject(position).getString("StartTime").toString(),jsonArray.getJSONObject(position).getString("EndTime").toString()
 			// ,appItem.AppBtn_shengyu_time);
 			if (!num.equals("")) {
@@ -114,20 +131,15 @@ public class MyGoodsListAdapter extends BaseAdapter {
 				String price = String.valueOf(result).substring(0, 3);
 				appItem.AppBtn_dazhe.setText(price + "折");
 			}
+			final String imgurl = AllStaticMessage.URL_GBase + "/UsersData/"
+					+ mListData.get(position).getString("Account").toString()
+					+ "/"
+					+ mListData.get(position).getString("SkuNo").toString()
+					+ "/5.jpg".trim();
 
-			//try {
-				String imgurl = AllStaticMessage.URL_GBase+ "/UsersData/"
-						+ mListData.get(position).getString("Account").toString() + "/"
-						+ mListData.get(position).getString("SkuNo").toString()
-						+ "/5.jpg".trim();
-			//	imageLoader.DisplayImage(imgurl, appItem.AppImg);
-		//	} catch (OutOfMemoryError e) {
+			ImageLoader.getInstance().displayImage(imgurl, appItem.AppImg,
+					options);
 
-			//}
-				ImageLoader.getInstance().displayImage(imgurl, appItem.AppImg, options);
- 
-			// MyTools.downImg(imgurl, appItem.AppImg);
-			// appItem.AppImg.setImageDrawable(mContext.getResources().getDrawable(R.drawable.img));
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -135,14 +147,15 @@ public class MyGoodsListAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View v) {
 				try {
-					Intent mIntent = new Intent(mContext,GoodsDetailActivity.class);
-					if(mContext.getClass()==FenLeiActivity.class){
-						mIntent.putExtra("pid",  mListData.get(position)
+					Intent mIntent = new Intent(mContext,
+							GoodsDetailActivity.class);
+					if (mContext.getClass() == FenLeiActivity.class) {
+						mIntent.putExtra("pid", mListData.get(position)
 								.getString("ActiveId").toString());// 活动id
-					}else{
+					} else {
 						mIntent.putExtra("pid", pid);// 活动id
 					}
-					
+
 					mIntent.putExtra("guigeid", mListData.get(position)
 							.getString("Id").toString());// 规格
 					mIntent.putExtra("goodsid", mListData.get(position)

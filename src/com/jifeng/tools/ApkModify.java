@@ -64,8 +64,8 @@ public class ApkModify {
 
 	protected void showUpdataDialog() {
 		final UpdateDialog alertDialog = new UpdateDialog(context);
-//		alertDialog
-//				.setTitle("1.修复订单显示空白问题。\n2.优化了用户体验，更多活动上新，抢购更快速。\n3.修复各种bug，app运行更流畅。");
+		// alertDialog
+		// .setTitle("1.修复订单显示空白问题。\n2.优化了用户体验，更多活动上新，抢购更快速。\n3.修复各种bug，app运行更流畅。");
 		alertDialog.setPositiveButton("取消", new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {

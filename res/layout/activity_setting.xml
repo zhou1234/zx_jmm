@@ -79,6 +79,15 @@
                 android:text="清除缓存"
                 android:textColor="@color/textcolor"
                 android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_cacheSize"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="8dip"
+                android:layout_toLeftOf="@+id/imageView_jiantou"
+                android:textSize="16sp" />
         </RelativeLayout>
 
         <ImageView
@@ -138,8 +147,6 @@
                 android:textColor="@color/tab_select"
                 android:textSize="16sp" />
         </RelativeLayout>
-
-      
 
         <RelativeLayout
             android:id="@+id/setting_rel_banbengengxin"
@@ -235,17 +242,5 @@
                 android:textSize="16sp" />
         </RelativeLayout>
     </LinearLayout>
-
-    <!--
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dip"
-        android:background="@drawable/address_item_2"
-        android:orientation="vertical" >
-
-         
-    </LinearLayout>
-    -->
 
 </LinearLayout>

@@ -1,10 +1,15 @@
 package com.jifeng.mlsales.jumeimiao;
 
+import java.io.File;
+
 import cn.sharesdk.framework.ShareSDK;
 
 import com.jifeng.mlsales.FBApplication;
 import com.jifeng.mlsales.R;
+import com.jifeng.mlsales.model.CustomerAlertDialog;
+import com.jifeng.mlsales.model.UpdateDialog;
 import com.jifeng.tools.ApkModify;
+import com.jifeng.tools.DataCleanManager;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.umeng.analytics.MobclickAgent;
 
@@ -20,21 +25,20 @@ import android.widget.TextView;
 
 public class SettingActivity extends Activity {
 	private Intent mIntent;
-	private TextView mTextView_banben;
+	private TextView mTextView_banben, tv_cacheSize;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_setting);
 		((FBApplication) getApplication()).addActivity(this);
-		initData();
 		findView();
-		register();
 	}
 
 	// 查找控件
 	private void findView() {
 		mTextView_banben = (TextView) findViewById(R.id.setting_banben);
+		tv_cacheSize = (TextView) findViewById(R.id.tv_cacheSize);
 		try {
 			// 获取packagemanager的实例
 			PackageManager packageManager = this.getPackageManager();
@@ -42,27 +46,13 @@ public class SettingActivity extends Activity {
 			PackageInfo packInfo = packageManager.getPackageInfo(
 					this.getPackageName(), 0);
 			mTextView_banben.setText(String.valueOf(packInfo.versionName));
-		} catch (NameNotFoundException e) {
-			// TODO Auto-generated catch block
+
+			String string = DataCleanManager.getCacheSize(SettingActivity.this
+					.getCacheDir());
+			tv_cacheSize.setText(string);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-
-	// 注册事件
-	private void register() {
-
-	}
-
-	// 其他实现
-	private void setView(int i) {
-
-	}
-
-	/*
-	 * 初始化数据
-	 */
-	private void initData() {
-
 	}
 
 	// //xml注册点击事件的实现
@@ -72,8 +62,37 @@ public class SettingActivity extends Activity {
 			finish();
 			break;
 		case R.id.setting_rel_cleanHuancun:// 清除缓存
-			ImageLoader.getInstance().clearDiskCache();
-			ImageLoader.getInstance().clearMemoryCache();
+			final CustomerAlertDialog alertDialog = new CustomerAlertDialog(
+					this, false);
+			alertDialog.setTitle("是否清除缓存?");
+			alertDialog.setPositiveButton("取消", new View.OnClickListener() {
+				@Override
+				public void onClick(View arg0) {
+					alertDialog.dismiss();
+				}
+			});
+			alertDialog.setNegativeButton1("确定", new View.OnClickListener() {
+
+				@Override
+				public void onClick(View arg0) {
+					ImageLoader.getInstance().clearDiskCache();
+					ImageLoader.getInstance().clearMemoryCache();
+					try {
+						DataCleanManager.clearCache(
+								SettingActivity.this.getCacheDir(),
+								SettingActivity.this);
+						String string = DataCleanManager
+								.getCacheSize(SettingActivity.this
+										.getCacheDir());
+						tv_cacheSize.setText(string);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+
+					alertDialog.dismiss();
+				}
+			});
+
 			break;
 		case R.id.setting_rel_kefudianhua:// 客服电话
 			Intent intent = new Intent();
@@ -81,12 +100,13 @@ public class SettingActivity extends Activity {
 													// 进入拨号界面ACTION_DIAL
 			intent.setData(Uri.parse("tel:4009696876"));
 			startActivity(intent);
-			break;   
+			break;
 		case R.id.setting_rel_yijianfankui:// 意见反馈
 			mIntent = new Intent(SettingActivity.this, AdviceActivity.class);
 			startActivity(mIntent);
 			break;
 		case R.id.setting_rel_banbengengxin:// 版本更新
+
 			ApkModify apkModify = new ApkModify(SettingActivity.this);
 			apkModify.new CheckVersionTask().run();
 			break;
@@ -98,13 +118,12 @@ public class SettingActivity extends Activity {
 
 	@Override
 	protected void onDestroy() {
-		// TODO Auto-generated method stub
 		ShareSDK.stopSDK(this);
-		setContentView(R.layout.view_null);
 		super.onDestroy();
-		mIntent = null;
-		this.finish();
-		System.gc();
+		// setContentView(R.layout.view_null);
+		// mIntent = null;
+		// this.finish();
+		// System.gc();
 	}
 
 	@Override

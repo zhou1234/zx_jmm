@@ -37,11 +37,11 @@ import android.os.Message;
 import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -105,7 +105,7 @@ public class GoodsListActivity extends Activity {
 	ScrollView mScrollView;
 	private ImageView mImg_Zhiding;
 
-	private String id="", youhui="", time="", text="", imgurl="";
+	private String id = "", youhui = "", time = "", text = "", imgurl = "";
 
 	@SuppressWarnings("deprecation")
 	@Override
@@ -132,7 +132,6 @@ public class GoodsListActivity extends Activity {
 				imgurl = intent.getStringExtra("imgurl").toString();
 				findView();
 				register();
-				initData();
 				getData(id, "0", String.valueOf(pageNum));
 			} else {
 				String activeId = intent.getStringExtra("activeId");
@@ -149,7 +148,6 @@ public class GoodsListActivity extends Activity {
 		HttpUtil.get(url, GoodsListActivity.this, dialog,
 				new JsonHttpResponseHandler() {
 
-					@SuppressLint("ShowToast")
 					@Override
 					public void onSuccess(int statusCode, Header[] headers,
 							JSONObject response) {
@@ -162,8 +160,8 @@ public class GoodsListActivity extends Activity {
 								JSONObject jsonObject = response
 										.getJSONObject("Results");
 								id = jsonObject.getString("Id").toString();
-//								youhui = jsonObject.getString("DesGuide")
-//										.toString();
+								// youhui = jsonObject.getString("DesGuide")
+								// .toString();
 								int data = MyTools.creayTime(jsonObject
 										.getString("EndTime").toString(),
 										MyTools.getTime());
@@ -180,9 +178,8 @@ public class GoodsListActivity extends Activity {
 												.toString();
 								findView();
 								register();
-								initData();
 								getData(id, "0", String.valueOf(pageNum));
-								
+
 							} else {
 								Toast.makeText(
 										GoodsListActivity.this,
@@ -193,12 +190,6 @@ public class GoodsListActivity extends Activity {
 						} catch (JSONException e) {
 							e.printStackTrace();
 						}
-						mPullScrollView.onPullDownRefreshComplete();
-						mPullScrollView.onPullUpRefreshComplete();
-						if (dialog != null) {
-							dialog.stop();
-						}
-
 					}
 
 					@Override
@@ -219,10 +210,6 @@ public class GoodsListActivity extends Activity {
 						super.onFailure(statusCode, headers, throwable,
 								errorResponse);
 						// 错误返回JSONObject
-						if (mPullScrollView != null) {
-							mPullScrollView.onPullDownRefreshComplete();
-							mPullScrollView.onPullUpRefreshComplete();
-						}
 						if (dialog != null) {
 							dialog.stop();
 						}
@@ -231,6 +218,7 @@ public class GoodsListActivity extends Activity {
 	}
 
 	// 查找控件
+	@SuppressLint("NewApi")
 	private void findView() {
 		mText_title = (AlwaysMarqueeTextView) findViewById(R.id.textview_title);
 		btn_moren = (Button) findViewById(R.id.goods_list_btn_moren);
@@ -247,7 +235,9 @@ public class GoodsListActivity extends Activity {
 	}
 
 	// 注册事件
+	@SuppressLint("NewApi")
 	private void register() {
+
 		mPullScrollView = new PullToRefreshScrollView(this, handler);
 		RelativeLayout layout = (RelativeLayout) findViewById(R.id.goodslist_liner_pullrefresh);
 		@SuppressWarnings("deprecation")
@@ -326,31 +316,6 @@ public class GoodsListActivity extends Activity {
 		}
 	}
 
-	/*
-	 * 初始化数据
-	 */
-	private void initData() {
-		// mGridView.setOnScrollListener(new OnScrollListener() {
-		//
-		// @Override
-		// public void onScrollStateChanged(AbsListView view, int scrollState) {
-		// // TODO Auto-generated method stub
-		//
-		// }
-		//
-		// @Override
-		// public void onScroll(AbsListView view, int firstVisibleItem,
-		// int visibleItemCount, int totalItemCount) {
-		// // TODO Auto-generated method stub
-		// if(firstVisibleItem>2){
-		// mImg_Zhiding.setVisibility(View.VISIBLE);
-		// }else{
-		// mImg_Zhiding.setVisibility(View.GONE);
-		// }
-		// }
-		// });
-	}
-
 	// //xml注册点击事件的实现
 	public void doclick(View view) {
 		switch (view.getId()) {
@@ -377,7 +342,7 @@ public class GoodsListActivity extends Activity {
 			break;
 		case R.id.goods_list_btn_moren:// 默认
 			sort(1);
-			break;
+			break; 
 		case R.id.goods_list_btn_news:// 最新
 			sort(2);
 			break;
@@ -575,18 +540,19 @@ public class GoodsListActivity extends Activity {
 									}
 
 								}
+
 							} else {
 								Toast.makeText(
 										GoodsListActivity.this,
 										response.getString("Results")
 												.toString(), 500).show();
 							}
-
+							mPullScrollView.onPullDownRefreshComplete();
+							mPullScrollView.onPullUpRefreshComplete();
 						} catch (JSONException e) {
 							e.printStackTrace();
 						}
-						mPullScrollView.onPullDownRefreshComplete();
-						mPullScrollView.onPullUpRefreshComplete();
+
 						if (dialog != null) {
 							dialog.stop();
 						}
@@ -611,10 +577,6 @@ public class GoodsListActivity extends Activity {
 						super.onFailure(statusCode, headers, throwable,
 								errorResponse);
 						// 错误返回JSONObject
-						if (mPullScrollView != null) {
-							mPullScrollView.onPullDownRefreshComplete();
-							mPullScrollView.onPullUpRefreshComplete();
-						}
 						if (dialog != null) {
 							dialog.stop();
 						}
@@ -686,4 +648,5 @@ public class GoodsListActivity extends Activity {
 		super.onPause();
 		MobclickAgent.onPause(this);
 	}
+
 }

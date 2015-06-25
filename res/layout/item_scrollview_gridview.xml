@@ -6,8 +6,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical" >
+        android:layout_height="wrap_content" >
 
         <LinearLayout
             android:id="@+id/rel_top_1"
@@ -32,7 +31,7 @@
 
         <LinearLayout
             android:id="@+id/goodslist_youhui_time"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/rel_top_1"
             android:background="@drawable/goodslist_bg"
@@ -41,7 +40,7 @@
             <RelativeLayout
                 android:id="@+id/lll"
                 android:layout_width="0dip"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="2" >
 
@@ -68,7 +67,7 @@
             <RelativeLayout
                 android:id="@+id/lll_2"
                 android:layout_width="0dip"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1" >
 
@@ -93,25 +92,16 @@
             </RelativeLayout>
         </LinearLayout>
 
-        <com.jifeng.myview.My_GridView
-            android:id="@+id/item_gridview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/goodslist_youhui_time"
-            android:horizontalSpacing="5dip"
-            android:numColumns="2"
-            android:verticalSpacing="5dip" />
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="125dip"
+            android:layout_height="match_parent"
             android:layout_alignBottom="@+id/rel_top_1"
             android:layout_alignParentTop="true" >
 
             <RelativeLayout
                 android:id="@+id/menban_miao"
                 android:layout_width="match_parent"
-                android:layout_height="125dip" 
+                android:layout_height="125dip"
                 android:background="@color/halftransparent"
                 android:orientation="horizontal" >
 
@@ -159,5 +149,15 @@
             </RelativeLayout>
         </LinearLayout>
     </RelativeLayout>
+
+    <com.jifeng.myview.My_GridView
+        android:id="@+id/item_gridview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:horizontalSpacing="5dip"
+        android:numColumns="2"
+        android:paddingTop="0dp"
+        android:verticalSpacing="5dip" >
+    </com.jifeng.myview.My_GridView>
 
 </LinearLayout>

@@ -112,7 +112,9 @@ public class AllStaticMessage {
 	/**
 	 * 接口部分
 	 */
-	public static String URL_GBase = "http://www.jumeimiao.com";//
+	public static String URL_GBase = "http://www.jumeimiao.com";
+	//public static String URL_GBase ="http://192.168.2.120:8010";
+
 	// public static String URL_GBase = "http://wwwpre.jumeimiao.com";
 	// public static String URL_GBase = "http://192.168.2.134:8010";
 	public static String URL_Base = URL_GBase + "/api";

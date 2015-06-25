@@ -224,7 +224,6 @@ public class PinPaiZhuangChangActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				mRelativeLayout_say.setVisibility(View.VISIBLE);
 			}
 		});
