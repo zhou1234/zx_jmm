@@ -85,4 +85,8 @@ public class FBApplication extends Application {
 		ImageLoader.getInstance().init(config.build());
 
 	}
+
+	public static FBApplication getInstance() {
+		return instance;
+	}
 }

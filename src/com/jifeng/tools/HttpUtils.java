@@ -65,26 +65,26 @@ public class HttpUtils {
 	/*
 	 * 自定义方法根据io流得到字符串
 	 */
-//	public static String changeInputString(InputStream is) {
-//		String jsonString = "";
-//		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//		byte[] data = new byte[1024];
-//		int len = 0;
-//		try {
-//			if (is != null) {
-//				while ((len = is.read(data)) != -1) {
-//					baos.write(data, 0, len);
-//				}
-//				jsonString = new String(baos.toByteArray(),
-//						Charset.defaultCharset());
-//				is.close();
-//			}
-//			baos.close();
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		return jsonString;
-//	}
+	// public static String changeInputString(InputStream is) {
+	// String jsonString = "";
+	// ByteArrayOutputStream baos = new ByteArrayOutputStream();
+	// byte[] data = new byte[1024];
+	// int len = 0;
+	// try {
+	// if (is != null) {
+	// while ((len = is.read(data)) != -1) {
+	// baos.write(data, 0, len);
+	// }
+	// jsonString = new String(baos.toByteArray(),
+	// Charset.defaultCharset());
+	// is.close();
+	// }
+	// baos.close();
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// }
+	// return jsonString;
+	// }
 
 	public static String myPost(String url, String Post_String) {
 		HttpURLConnection conn = null;

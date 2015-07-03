@@ -37,7 +37,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dip"
-        android:background="@drawable/setting_second_bg"
         android:orientation="vertical" >
 
         <RelativeLayout
@@ -125,6 +124,18 @@
                 android:textColor="@color/textcolor"
                 android:textSize="16sp" />
         </RelativeLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:background="@drawable/logo_xian" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:background="@drawable/logo_xian" />
     </LinearLayout>
 
     <LinearLayout

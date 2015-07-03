@@ -1,6 +1,5 @@
 package com.jifeng.mlsales.jumeimiao;
 
-
 import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -107,11 +106,14 @@ public class LoginActivity extends Activity {
 		new OtherLogin(LoginActivity.this);
 		switch (view.getId()) {
 		case R.id.login_back:
+			setResult(8080);
 			finish();
 			break;
 		case R.id.login_login:// 登录
-			userName = mText_userName.getText().toString().replace(" ", "").trim();
-			userPsd = mText_userPsd.getText().toString().replace(" ", "").trim();
+			userName = mText_userName.getText().toString().replace(" ", "")
+					.trim();
+			userPsd = mText_userPsd.getText().toString().replace(" ", "")
+					.trim();
 			if (userName.equals("") || userName == null) {
 				Toast.makeText(this, "请输入用户名", 800).show();
 				return;
@@ -211,6 +213,7 @@ public class LoginActivity extends Activity {
 										.getString("NickName").toString();
 								AllStaticMessage.User_Name = userName;
 								AllStaticMessage.User_Psd = psd;
+
 								mShrefUtil.write("user_name", userName);
 								mShrefUtil.write("user_psd", psd);
 
@@ -222,6 +225,9 @@ public class LoginActivity extends Activity {
 								editor.remove(AllStaticMessage.GENDER);
 								editor.remove(AllStaticMessage.NICK_NAME);
 								editor.remove(AllStaticMessage.ADDRESS);
+								if (openid.equals("") || openid == null) {
+									editor.remove(AllStaticMessage.USER_PATH);
+								}
 								editor.commit();
 
 								editor.putString(AllStaticMessage.NAME,
@@ -237,8 +243,15 @@ public class LoginActivity extends Activity {
 										nickName);
 								editor.putString(AllStaticMessage.ADDRESS,
 										address);
+								String str = response.getString("Photo")
+										.toString();
+								if (openid.equals("") || openid == null) {
+									editor.putString(
+											AllStaticMessage.USER_PATH, str);
+									AllStaticMessage.userImage = str;
+								}
 								editor.commit();
-								
+
 								setResult(RESULT_OK);
 								finish();
 							} else {

@@ -41,9 +41,8 @@
                 android:id="@+id/radio_button_fenlei"
                 style="@style/main_tab_bottom"
                 android:drawableTop="@drawable/tab_second_1"
-                android:text="分类"
-                android:textColor="@color/text_color"
-                android:visibility="gone" />
+                android:text="美喵圈"
+                android:textColor="@color/text_color" />
 
             <RadioButton
                 android:id="@+id/radio_button_meirifaxian"

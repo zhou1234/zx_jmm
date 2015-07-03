@@ -72,6 +72,7 @@ public class SinglePersonActivity extends Activity {
 		case R.id.single_person_tuichu:
 			AllStaticMessage.Login_Flag = "";
 			AllStaticMessage.User_Id = "";
+			AllStaticMessage.userImage = "";
 			mShrefUtil.write("user_name", "");
 			mShrefUtil.write("user_psd", "");
 
@@ -83,7 +84,9 @@ public class SinglePersonActivity extends Activity {
 			editor.remove(AllStaticMessage.GENDER);
 			editor.remove(AllStaticMessage.NICK_NAME);
 			editor.remove(AllStaticMessage.ADDRESS);
+			editor.remove(AllStaticMessage.USER_PATH);
 			editor.commit();
+			setResult(RESULT_OK);
 			finish();
 			break;
 		default:

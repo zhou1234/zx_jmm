@@ -2,6 +2,8 @@ package com.jifeng.url;
 
 import org.json.JSONObject;
 
+import android.R.string;
+
 public class AllStaticMessage {
 
 	public static final String SPNE = "jumeimiao";
@@ -12,6 +14,10 @@ public class AllStaticMessage {
 	public static final String GENDER = "gender";
 	public static final String NICK_NAME = "nickName";
 	public static final String ADDRESS = "address";
+
+	public static final String USER_PATH = "user_path";
+
+	public static boolean user_flag = false;
 
 	// 开发环境启用true，生产版本为false
 	public static final boolean DEVELOPER_MODE = false;
@@ -87,6 +93,7 @@ public class AllStaticMessage {
 	public static String NickName = "";
 	public static String Address = "";
 	public static String Gender = "";
+	public static String userImage = "";
 
 	// 订单状态
 	public static String[] zhifu = { "未支付", "已成功", "已发货", "已收货", "申请退货",
@@ -112,8 +119,8 @@ public class AllStaticMessage {
 	/**
 	 * 接口部分
 	 */
-	public static String URL_GBase = "http://www.jumeimiao.com";
-	//public static String URL_GBase ="http://192.168.2.120:8010";
+	// public static String URL_GBase = "http://www.jumeimiao.com";
+	public static String URL_GBase = "http://192.168.2.120:8010";
 
 	// public static String URL_GBase = "http://wwwpre.jumeimiao.com";
 	// public static String URL_GBase = "http://192.168.2.134:8010";
@@ -196,6 +203,49 @@ public class AllStaticMessage {
 	// 品牌专店
 	public static String URL_PinPai = URL_Base
 			+ "/p.ashx?m=getBrandProduct&id=";// 12&pageNum=1";
+
+	/**
+	 * 上传用户图像
+	 */
+
+	public static String URL_UpUserPhoto = URL_Base + "/u.ashx?m=EditUserPhoto";
+	/**
+	 * 发布晒图
+	 */
+	public static String URL_SaveBaskOrder = URL_Base
+			+ "/u.ashx?m=SaveBaskOrder";
+	/**
+	 * 晒图顶部轮播图片列表
+	 */
+	public static String URL_BannerList = URL_Base + "/u.ashx?m=BannerList";
+	/**
+	 * 赞
+	 */
+	public static String URL_Zan = URL_Base + "/u.ashx?m=Zan";
+	/**
+	 * 关注
+	 */
+	public static String URL_GuanZhu = URL_Base + "/u.ashx?m=AttentionExpert";
+
+	/**
+	 * 晒图列表
+	 */
+	public static String URL_BaskOrderList = URL_Base
+			+ "/u.ashx?m=BaskOrderList";
+	/**
+	 * 关注列表
+	 */
+	public static String URL_GuanZhuList = URL_Base + "/u.ashx?m=AttentionList";
+
+	/**
+	 * 评论列表
+	 */
+	public static String URL_ReviewList = URL_Base + "/u.ashx?m=ReviewList";
+
+	/**
+	 * 发布评论
+	 */
+	public static String URL_CreateReview = URL_Base + "/u.ashx?m=CreateReview";
 
 	// 搜索
 	public static String URL_Search = URL_Base + "/p.ashx?m=searchProduct&key=";// &pageNum=";

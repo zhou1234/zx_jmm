@@ -24,7 +24,6 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.animation.AnimationUtils;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -40,13 +39,13 @@ public class TabHostActivity extends TabActivity implements
 
 	public TabHost mTabHost;
 	private Intent mAIntent;
-	// private Intent mBIntent;
+	private Intent mBIntent;
 	private Intent mCIntent;
 	private Intent mDIntent;
 	private Intent mEIntent;
 	// private Intent mIntent;
 	RadioButton button;
-	// RadioButton button2;
+	RadioButton button2;
 	RadioButton button3;
 	RadioButton button4;
 	RadioButton button5;
@@ -70,7 +69,7 @@ public class TabHostActivity extends TabActivity implements
 		setContentView(R.layout.maintabs);
 		((FBApplication) getApplication()).addActivity(this);
 		button = (RadioButton) findViewById(R.id.radio_button_xianshi);
-		// button2 = (RadioButton) findViewById(R.id.radio_button_fenlei);
+		button2 = (RadioButton) findViewById(R.id.radio_button_fenlei);
 		button3 = (RadioButton) findViewById(R.id.radio_button_meirifaxian);
 		button4 = (RadioButton) findViewById(R.id.radio_button_shoppingcar);
 		button5 = (RadioButton) findViewById(R.id.radio_button_zhanghu);
@@ -119,9 +118,9 @@ public class TabHostActivity extends TabActivity implements
 			// } else if (AllStaticMessage.Back_to_ShoppingCar) {
 			// AllStaticMessage.Back_to_ShoppingCar = false;
 			// nextView(mTabHost.getCurrentTab(), 3);
-			// } else if (AllStaticMessage.Back_to_Classion) {
-			// AllStaticMessage.Back_to_Classion = false;
-			// nextView(mTabHost.getCurrentTab(), 1);
+		} else if (AllStaticMessage.Back_to_Classion) {
+			AllStaticMessage.Back_to_Classion = false;
+			nextView(mTabHost.getCurrentTab(), 1);
 		} else if (AllStaticMessage.Back_to_Find) {
 			AllStaticMessage.Back_to_Find = false;
 			nextView(mTabHost.getCurrentTab(), 2);
@@ -141,14 +140,14 @@ public class TabHostActivity extends TabActivity implements
 			button.setCompoundDrawablesWithIntrinsicBounds(null, drawable,
 					null, null);
 			break;
-		// case 1:
-		// button2.setChecked(true);
-		// button2.setTextColor(getResources().getColor(R.color.tab_select));
-		// Drawable drawable1 = this.getResources().getDrawable(
-		// R.drawable.tab_second_2);
-		// button2.setCompoundDrawablesWithIntrinsicBounds(null, drawable1,
-		// null, null);
-		// break;
+		case 1:
+			button2.setChecked(true);
+			button2.setTextColor(getResources().getColor(R.color.tab_select));
+			Drawable drawable1 = this.getResources().getDrawable(
+					R.drawable.tab_second_2);
+			button2.setCompoundDrawablesWithIntrinsicBounds(null, drawable1,
+					null, null);
+			break;
 		case 2:
 			button3.setChecked(true);
 			button3.setTextColor(getResources().getColor(R.color.tab_select));
@@ -198,9 +197,9 @@ public class TabHostActivity extends TabActivity implements
 			button.setChecked(true);
 			button.setBackgroundResource(R.drawable.tab_dibu_select_bg_2);
 			break;
-		// case 1:
-		// button2.setChecked(true);
-		// break;
+		case 1:
+			button2.setChecked(true);
+			break;
 		case 2:
 			button3.setChecked(true);
 			break;
@@ -217,7 +216,7 @@ public class TabHostActivity extends TabActivity implements
 
 	private void init() {
 		this.mAIntent = new Intent(this, FirstActivity.class);
-		// this.mBIntent = new Intent(this, ClassionActivity.class);
+		this.mBIntent = new Intent(this, MeiMiaoQuanActivity.class);
 
 		this.mCIntent = new Intent(this, FindActivity.class)
 				.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -228,7 +227,7 @@ public class TabHostActivity extends TabActivity implements
 		this.mEIntent = new Intent(this, MySelfActivity.class);// 清除顶层,实现页面刷新
 
 		button.setOnCheckedChangeListener(this);
-		// button2.setOnCheckedChangeListener(this);
+		button2.setOnCheckedChangeListener(this);
 		button3.setOnCheckedChangeListener(this);
 		button4.setOnCheckedChangeListener(this);
 		button5.setOnCheckedChangeListener(this);
@@ -252,16 +251,16 @@ public class TabHostActivity extends TabActivity implements
 				setCurrentTabWithAnim(currentTab, 0, "A_TAB");
 				// this.mTabHost.setCurrentTabByTag("A_TAB");
 				break;
-			// case R.id.radio_button_fenlei:
-			// button2.setTextColor(getResources()
-			// .getColor(R.color.tab_select));
-			// Drawable drawable2_1 = this.getResources().getDrawable(
-			// R.drawable.tab_second_2);
-			// button2.setCompoundDrawablesWithIntrinsicBounds(null,
-			// drawable2_1, null, null);
-			// setCurrentTabWithAnim(currentTab, 1, "B_TAB");
-			// // this.mTabHost.setCurrentTabByTag("B_TAB");
-			// break;
+			case R.id.radio_button_fenlei:
+				button2.setTextColor(getResources()
+						.getColor(R.color.tab_select));
+				Drawable drawable2_1 = this.getResources().getDrawable(
+						R.drawable.tab_second_2);
+				button2.setCompoundDrawablesWithIntrinsicBounds(null,
+						drawable2_1, null, null);
+				setCurrentTabWithAnim(currentTab, 1, "B_TAB");
+				// this.mTabHost.setCurrentTabByTag("B_TAB");
+				break;
 			case R.id.radio_button_meirifaxian:
 				button3.setTextColor(getResources()
 						.getColor(R.color.tab_select));
@@ -311,12 +310,11 @@ public class TabHostActivity extends TabActivity implements
 		button.setCompoundDrawablesWithIntrinsicBounds(null, drawable_1, null,
 				null);
 
-		// button2.setTextColor(getResources().getColor(R.color.text_color));
-		// Drawable drawable2 = this.getResources().getDrawable(
-		// R.drawable.tab_second_1);
-		// button2.setCompoundDrawablesWithIntrinsicBounds(null, drawable2,
-		// null,
-		// null);
+		button2.setTextColor(getResources().getColor(R.color.text_color));
+		Drawable drawable2 = this.getResources().getDrawable(
+				R.drawable.tab_second_1);
+		button2.setCompoundDrawablesWithIntrinsicBounds(null, drawable2, null,
+				null);
 
 		button3.setTextColor(getResources().getColor(R.color.text_color));
 		Drawable drawable3 = this.getResources().getDrawable(
@@ -349,8 +347,8 @@ public class TabHostActivity extends TabActivity implements
 		localTabHost.addTab(buildTabSpec("A_TAB", "限时特卖",
 				R.drawable.tab_fifth_2, this.mAIntent));
 
-		// localTabHost.addTab(buildTabSpec("B_TAB", "分类",
-		// R.drawable.tab_second_1, this.mBIntent));
+		localTabHost.addTab(buildTabSpec("B_TAB", "美喵圈",
+				R.drawable.tab_second_1, this.mBIntent));
 
 		localTabHost.addTab(buildTabSpec("C_TAB", "每日发现",
 				R.drawable.tab_thread_1, this.mCIntent));
@@ -426,6 +424,9 @@ public class TabHostActivity extends TabActivity implements
 								AllStaticMessage.User_Psd = psd;
 								mShrefUtil.write("user_name", userName);
 								mShrefUtil.write("user_psd", psd);
+
+								AllStaticMessage.userImage = sp.getString(
+										AllStaticMessage.USER_PATH, "");
 
 								Editor editor = sp.edit();
 								editor.remove(AllStaticMessage.NAME);

@@ -122,32 +122,32 @@ public class PinPaiZhuangChangActivity extends Activity {
 	protected void onDestroy() {
 		ShareSDK.stopSDK(this);
 		super.onDestroy();
-//		imageLoader.clearCache();
-//		setContentView(R.layout.view_null);
-//		mText_title = null;
-//		dialog = null;
-//		tasckActivity.popActivity(PinPaiZhuangChangActivity.this);
-//		tasckActivity = null;
-//		btn_moren = null;
-//		btn_news = null;
-//		btn_rexiao = null;
-//		btn_price = null;
-//		mImage_price = null;
-//		mPullScrollView = null;
-//
-//		mAdapter = null;
-//		mGridView = null;
-//		mImageView = null;
-//		mText_MeiMiaoShuo = null;
-//		mText_miao_say = null;
-//		imageLoader = null;
-//		mILoader = null;
-//		mDongHua = null;
-//		mLayout = null;
-//		mIntent = null;
-//		handler = null;
-//		this.finish();
-//		System.gc();
+		// imageLoader.clearCache();
+		// setContentView(R.layout.view_null);
+		// mText_title = null;
+		// dialog = null;
+		// tasckActivity.popActivity(PinPaiZhuangChangActivity.this);
+		// tasckActivity = null;
+		// btn_moren = null;
+		// btn_news = null;
+		// btn_rexiao = null;
+		// btn_price = null;
+		// mImage_price = null;
+		// mPullScrollView = null;
+		//
+		// mAdapter = null;
+		// mGridView = null;
+		// mImageView = null;
+		// mText_MeiMiaoShuo = null;
+		// mText_miao_say = null;
+		// imageLoader = null;
+		// mILoader = null;
+		// mDongHua = null;
+		// mLayout = null;
+		// mIntent = null;
+		// handler = null;
+		// this.finish();
+		// System.gc();
 	}
 
 	// ×¢²áÊÂ¼þ

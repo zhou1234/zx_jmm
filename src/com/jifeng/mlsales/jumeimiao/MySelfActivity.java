@@ -15,16 +15,26 @@ import com.jifeng.mlsales.FBApplication;
 import com.jifeng.mlsales.R;
 import com.jifeng.myview.BadgeView;
 import com.jifeng.myview.LoadingDialog;
+import com.jifeng.tools.FileImageUpload;
+import com.jifeng.tools.MyTools;
 import com.jifeng.url.AllStaticMessage;
 import com.jifeng.url.HttpUtil;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.umeng.analytics.MobclickAgent;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -43,12 +53,88 @@ public class MySelfActivity extends Activity {
 	private BadgeView badgeView1, badgeView2, badgeView3;
 
 	private TextView tv_number;// 显示优惠券可使用的个数
+	private ImageView img_touxiang;
+	private Bitmap bit;
+	private SharedPreferences sp;
+	private String str;
+	private Handler handler = new Handler() {
+		public void handleMessage(android.os.Message msg) {
+			switch (msg.what) {
+			case 0000:
+				try {
+					if (!str.equals("")) {
+						JSONObject object = new JSONObject(str);
+						if (object.getString("Status").toString()
+								.equals("true")) {
+							String strUrl = AllStaticMessage.URL_GBase + "/"
+									+ object.getString("Results").toString();
+							AllStaticMessage.userImage = strUrl;
+							dialog.loading();
+							ImageLoader.getInstance().loadImage(strUrl,
+									new ImageLoadingListener() {
+
+										@Override
+										public void onLoadingStarted(
+												String arg0, View arg1) {
+
+										}
+
+										@Override
+										public void onLoadingFailed(
+												String arg0, View arg1,
+												FailReason arg2) {
+
+										}
+
+										@Override
+										public void onLoadingComplete(
+												String arg0, View arg1,
+												Bitmap arg2) {
+											Bitmap bitmap = MyTools
+													.getRoundedCornerBitmap(arg2);
+											img_touxiang.setImageBitmap(bitmap);
+											dialog.stop();
+										}
+
+										@Override
+										public void onLoadingCancelled(
+												String arg0, View arg1) {
+
+										}
+									});
+
+							Editor editor = sp.edit();
+							editor.remove(AllStaticMessage.USER_PATH);
+							editor.commit();
+
+							editor.putString(AllStaticMessage.USER_PATH, strUrl);
+							editor.commit();
+
+						} else {
+							Toast.makeText(MySelfActivity.this, "上传失败",
+									Toast.LENGTH_SHORT).show();
+						}
+					} else {
+						Toast.makeText(MySelfActivity.this, "上传失败",
+								Toast.LENGTH_SHORT).show();
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+
+				break;
+			}
+
+		};
+	};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_myself);
 		((FBApplication) getApplication()).addActivity(this);
+		dialog = new LoadingDialog(this);
+		sp = getSharedPreferences(AllStaticMessage.SPNE, 0);
 		findView();
 		if (!AllStaticMessage.Login_Flag.equals("")) {
 			mTextFlag.setVisibility(View.GONE);
@@ -86,6 +172,44 @@ public class MySelfActivity extends Activity {
 		badgeView3.setBadgeMargin(0);
 
 		tv_number = (TextView) findViewById(R.id.tv_number);
+
+		img_touxiang = (ImageView) findViewById(R.id.img_touxiang);
+		Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
+				R.drawable.icon);
+		bit = MyTools.getRoundedCornerBitmap(bitmap);
+		img_touxiang.setImageBitmap(bit);
+		if (!AllStaticMessage.userImage.equals("")) {
+			dialog.loading();
+			ImageLoader.getInstance().loadImage(AllStaticMessage.userImage,
+					new ImageLoadingListener() {
+
+						@Override
+						public void onLoadingStarted(String arg0, View arg1) {
+
+						}
+
+						@Override
+						public void onLoadingFailed(String arg0, View arg1,
+								FailReason arg2) {
+
+						}
+
+						@Override
+						public void onLoadingComplete(String arg0, View arg1,
+								Bitmap arg2) {
+							Bitmap bitmap = MyTools
+									.getRoundedCornerBitmap(arg2);
+							img_touxiang.setImageBitmap(bitmap);
+							dialog.stop();
+						}
+
+						@Override
+						public void onLoadingCancelled(String arg0, View arg1) {
+
+						}
+					});
+		}
+
 	}
 
 	/***
@@ -94,6 +218,18 @@ public class MySelfActivity extends Activity {
 	public void doclick(View view) {
 		switch (view.getId()) {
 		case R.id.img_touxiang:
+			if (AllStaticMessage.Login_Flag.equals("")) {// LoginFlag
+				mIntent = new Intent(MySelfActivity.this, LoginActivity.class);
+				startActivityForResult(mIntent, 1111);
+			} else {
+				if (sp.getString(AllStaticMessage.OPEN_ID, "").equals("")) {
+					AllStaticMessage.user_flag = true;
+					Intent mIntent = new Intent(MySelfActivity.this,
+							ActivityCapture.class);
+					startActivityForResult(mIntent, 0x110);
+				}
+			}
+			break;
 		case R.id.my_rel:
 			if (AllStaticMessage.Login_Flag.equals("")) {// LoginFlag
 				mIntent = new Intent(MySelfActivity.this, LoginActivity.class);
@@ -101,7 +237,7 @@ public class MySelfActivity extends Activity {
 			} else {
 				mIntent = new Intent(MySelfActivity.this,
 						SinglePersonActivity.class);
-				startActivity(mIntent);
+				startActivityForResult(mIntent, 0x00);
 			}
 			break;
 		case R.id.myself_rel_daifukuan:
@@ -226,7 +362,7 @@ public class MySelfActivity extends Activity {
 		String url = AllStaticMessage.URL_KeFu + AllStaticMessage.User_Id;
 		HttpUtil.get(url, MySelfActivity.this, dialog,
 				new JsonHttpResponseHandler() {
-					@Override
+					@SuppressLint("ShowToast") @Override
 					public void onSuccess(int statusCode, Header[] headers,
 							JSONObject response) {
 						super.onSuccess(statusCode, headers, response);
@@ -319,10 +455,48 @@ public class MySelfActivity extends Activity {
 				mText_NickName.setText(AllStaticMessage.User_NickName);
 			}
 			mText_Jifen.setText(AllStaticMessage.User_JiFen + "分");
+
 			switch (requestCode) {
+			case 0x00:
+				img_touxiang.setImageBitmap(bit);
+				break;
 			case 1111:// 个人中心
 				mTextFlag.setVisibility(View.GONE);
 				mLayout_Show.setVisibility(View.VISIBLE);
+				if (!AllStaticMessage.userImage.equals("")) {
+					dialog.loading();
+					ImageLoader.getInstance().loadImage(
+							AllStaticMessage.userImage,
+							new ImageLoadingListener() {
+
+								@Override
+								public void onLoadingStarted(String arg0,
+										View arg1) {
+  
+								}
+
+								@Override
+								public void onLoadingFailed(String arg0,
+										View arg1, FailReason arg2) {
+
+								}
+
+								@Override
+								public void onLoadingComplete(String arg0,
+										View arg1, Bitmap arg2) {
+									Bitmap bitmap = MyTools
+											.getRoundedCornerBitmap(arg2);
+									img_touxiang.setImageBitmap(bitmap);
+									dialog.stop();
+								}
+
+								@Override
+								public void onLoadingCancelled(String arg0,
+										View arg1) {
+
+								}
+							});
+				}
 				break;
 			case 2222:// 待付款
 				mTextFlag.setVisibility(View.GONE);
@@ -379,7 +553,19 @@ public class MySelfActivity extends Activity {
 				mIntent = new Intent(MySelfActivity.this, SaveActivity.class);
 				startActivity(mIntent);
 				break;
+			case 0x110:
+				final String path = data.getStringExtra("path");
+				new Thread(new Runnable() {
 
+					@Override
+					public void run() {
+						str = FileImageUpload.upUserBitmap(
+								AllStaticMessage.URL_UpUserPhoto, path,
+								AllStaticMessage.User_Id);
+						handler.sendEmptyMessage(0000);
+					}
+				}).start();
+				break;
 			default:
 				break;
 			}
@@ -427,7 +613,6 @@ public class MySelfActivity extends Activity {
 
 	public void onResume() {// 重启
 		super.onResume();
-		dialog = new LoadingDialog(this);
 		dialog.loading();
 		if (AllStaticMessage.Login_Flag.equals("")) {
 			mLayout_Show.setVisibility(View.GONE);
