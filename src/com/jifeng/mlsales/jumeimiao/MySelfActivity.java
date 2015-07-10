@@ -221,18 +221,18 @@ public class MySelfActivity extends Activity {
 	public void doclick(View view) {
 		switch (view.getId()) {
 		case R.id.img_touxiang:
-			if (AllStaticMessage.Login_Flag.equals("")) {// LoginFlag
-				mIntent = new Intent(MySelfActivity.this, LoginActivity.class);
-				startActivityForResult(mIntent, 1111);
-			} else {
-				if (sp.getString(AllStaticMessage.OPEN_ID, "").equals("")) {
-					AllStaticMessage.user_flag = true;
-					Intent mIntent = new Intent(MySelfActivity.this,
-							ActivityCapture.class);
-					startActivityForResult(mIntent, 0x110);
-				}
-			}
-			break;
+//			if (AllStaticMessage.Login_Flag.equals("")) {// LoginFlag
+//				mIntent = new Intent(MySelfActivity.this, LoginActivity.class);
+//				startActivityForResult(mIntent, 1111);
+//			} else {
+//				if (sp.getString(AllStaticMessage.OPEN_ID, "").equals("")) {
+//					AllStaticMessage.user_flag = true;
+//					Intent mIntent = new Intent(MySelfActivity.this,
+//							ActivityCapture.class);
+//					startActivityForResult(mIntent, 0x110);
+//				}
+//			}
+//			break;
 		case R.id.my_rel:
 			if (AllStaticMessage.Login_Flag.equals("")) {// LoginFlag
 				mIntent = new Intent(MySelfActivity.this, LoginActivity.class);
