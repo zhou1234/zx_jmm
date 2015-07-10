@@ -9,70 +9,72 @@ import java.io.Serializable;
 public final class TagInfo implements Parcelable, Serializable {
 	private static final long serialVersionUID = -2939266917839493174L;
 	public String bname = "";
+	public String activityId = "";
 	public long bid = 0L;
 	public double pic_x = 0.0D;
 	public double pic_y = 0.0D;
 	public Direction direct = Direction.Left;
 	public Type type = Type.Undefined;
-	
+
 	public int leftMargin;
 	public int topMargin;
 
 	public enum Direction {
 		Left("left"), Right("right");
-		
+
 		private Direction(String valString) {
 			this.valueString = valString;
 		}
-		
-		public static int size(){
+
+		public static int size() {
 			return Direction.values().length;
 		}
-		
+
 		public String valueString;
-		
-		public String toString(){
+
+		public String toString() {
 			return valueString;
 		}
-		
-		public Direction valueof(String vaString){
-			if(vaString.equals("left")){
+
+		public Direction valueof(String vaString) {
+			if (vaString.equals("left")) {
 				return Direction.Left;
-			}else if(vaString.equals("right")){
+			} else if (vaString.equals("right")) {
 				return Direction.Right;
-			}else{
+			} else {
 				return null;
 			}
 		}
 	}
 
 	public enum Type {
-		Undefined("undefined"),Exists("exists"),CustomPoint("custom_point"),OfficalPoint("offical_point");
-		
+		Undefined("undefined"), Exists("exists"), CustomPoint("custom_point"), OfficalPoint(
+				"offical_point");
+
 		private Type(String typeString) {
 			this.valueString = typeString;
 		}
-		
-		public static int size(){
+
+		public static int size() {
 			return Type.values().length;
 		}
-		
+
 		public String valueString;
-		
-		public String toString(){
+
+		public String toString() {
 			return valueString;
 		}
-		
-		public Type valueof(String vaString){
-			if(vaString.equals("undefined")){
+
+		public Type valueof(String vaString) {
+			if (vaString.equals("undefined")) {
 				return Type.Undefined;
-			}else if(vaString.equals("exists")){
+			} else if (vaString.equals("exists")) {
 				return Type.Exists;
-			}else if(vaString.equals("custom_point")){
+			} else if (vaString.equals("custom_point")) {
 				return Type.CustomPoint;
-			}else if(vaString.equals("offical_point")){
+			} else if (vaString.equals("offical_point")) {
 				return Type.OfficalPoint;
-			}else{
+			} else {
 				return null;
 			}
 		}
@@ -97,8 +99,9 @@ public final class TagInfo implements Parcelable, Serializable {
 			this.bname = paramJSONObject.getString("bname");
 			this.pic_x = paramJSONObject.getDouble("pic_x");
 			this.pic_y = paramJSONObject.getDouble("pic_y");
-			this.direct = Direction.valueOf(paramJSONObject.getString("direct"));
-			if(null == direct){
+			this.direct = Direction
+					.valueOf(paramJSONObject.getString("direct"));
+			if (null == direct) {
 				throw new RuntimeException("taginfo no direction");
 			}
 			this.type = Type.Undefined;

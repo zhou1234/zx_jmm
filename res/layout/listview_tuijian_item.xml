@@ -16,7 +16,7 @@
             android:layout_height="match_parent"
             android:gravity="center" >
 
-            <ImageView
+            <com.jifeng.myview.CircleImageView
                 android:id="@+id/iv_name"
                 android:layout_width="35dp"
                 android:layout_height="35dp" />

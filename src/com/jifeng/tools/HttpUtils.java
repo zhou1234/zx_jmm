@@ -20,6 +20,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.HTTP;
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -34,57 +35,58 @@ public class HttpUtils {
 	// 定义一个静态的方法获取JSON内容
 	// 这里的path是web服务的网址
 	// URLEncoder.encode(mySpinner.getSelectedItem().toString(), "utf-8")
-	// public static String getJsonContent(String path, String param) {
-	// try {
-	// // 根据路径创建URL地址
-	// URL url = new URL(path + "?" + param);
-	// // 通过url地址打开连接
-	// Log.v("URL：", url.toString());
-	// HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-	// // 设置超时时间
-	// conn.setConnectTimeout(10000);
-	// // 设置请求方式
-	// conn.setRequestMethod("GET");
-	// // 设置属性
-	// // 设置该连接是否可输入
-	// conn.setDoInput(true);
-	// int code = conn.getResponseCode();
-	// System.out.println(code + "****");
-	// if (code == 200) {
-	// return changeInputString(conn.getInputStream());
-	// }
-	// // else {
-	// // return changeInputString(conn.getErrorStream());
-	// // }
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// }
-	// return "";
-	// }
+	public static String getJsonContent(String path) {
+		try {
+			// 根据路径创建URL地址
+			URL url = new URL(path);
+			// 通过url地址打开连接
+			Log.v("URL：", url.toString());
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			// 设置超时时间
+			conn.setConnectTimeout(10000);
+			// 设置请求方式
+			conn.setRequestMethod("GET");
+			// 设置属性
+			// 设置该连接是否可输入
+			conn.setDoInput(true);
+			int code = conn.getResponseCode();
+			System.out.println(code + "****");
+			if (code == 200) {
+				return changeInputString(conn.getInputStream());
+			}
+			// else {
+			// return changeInputString(conn.getErrorStream());
+			// }
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "";
+	}
 
 	/*
 	 * 自定义方法根据io流得到字符串
 	 */
-	// public static String changeInputString(InputStream is) {
-	// String jsonString = "";
-	// ByteArrayOutputStream baos = new ByteArrayOutputStream();
-	// byte[] data = new byte[1024];
-	// int len = 0;
-	// try {
-	// if (is != null) {
-	// while ((len = is.read(data)) != -1) {
-	// baos.write(data, 0, len);
-	// }
-	// jsonString = new String(baos.toByteArray(),
-	// Charset.defaultCharset());
-	// is.close();
-	// }
-	// baos.close();
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// }
-	// return jsonString;
-	// }
+	@SuppressLint("NewApi")
+	public static String changeInputString(InputStream is) {
+		String jsonString = "";
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		byte[] data = new byte[1024];
+		int len = 0;
+		try {
+			if (is != null) {
+				while ((len = is.read(data)) != -1) {
+					baos.write(data, 0, len);
+				}
+				jsonString = new String(baos.toByteArray(),
+						Charset.defaultCharset());
+				is.close();
+			}
+			baos.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return jsonString;
+	}
 
 	public static String myPost(String url, String Post_String) {
 		HttpURLConnection conn = null;

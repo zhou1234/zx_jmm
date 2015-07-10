@@ -9,4 +9,6 @@ public class TagInfoModel {
 	public float x;
 
 	public String tag_name;
+
+	public String activityId = "";
 }

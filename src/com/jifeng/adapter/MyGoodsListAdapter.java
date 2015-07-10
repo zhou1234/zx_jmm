@@ -155,7 +155,7 @@ public class MyGoodsListAdapter extends BaseAdapter {
 					} else {
 						mIntent.putExtra("pid", pid);// 活动id
 					}
-
+					mIntent.putExtra("active", "0");
 					mIntent.putExtra("guigeid", mListData.get(position)
 							.getString("Id").toString());// 规格
 					mIntent.putExtra("goodsid", mListData.get(position)

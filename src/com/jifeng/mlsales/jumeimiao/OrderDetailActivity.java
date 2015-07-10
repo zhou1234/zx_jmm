@@ -577,6 +577,7 @@ public class OrderDetailActivity extends Activity {
 							GoodsDetailActivity.class);
 
 					try {
+						mIntent.putExtra("active", "0");
 						mIntent.putExtra("pid",
 								mData.get(position).getString("ActiveId")
 										.toString());

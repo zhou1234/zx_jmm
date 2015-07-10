@@ -115,6 +115,7 @@ public class FindActivity extends Activity {
 							url.length());
 					mIntent = new Intent(FindActivity.this,
 							GoodsDetailActivity.class);
+					mIntent.putExtra("active","0");
 					mIntent.putExtra("pid", "");
 					mIntent.putExtra("goodsid", goodsID);
 					mIntent.putExtra("guigeid", guigeid);

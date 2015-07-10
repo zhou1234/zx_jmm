@@ -188,7 +188,8 @@ public class LoginActivity extends Activity {
 			final String gender, final String nickName, final String address) {
 
 		String url = AllStaticMessage.URL_Login + userName + "&password=" + psd
-				+ "&loginType=" + loginType + "&openid=" + openid
+				+ "&loginType=" + loginType + "&Photo="
+				+ AllStaticMessage.userImage + "&openid=" + openid
 				+ "&deviceType=" + deviceType + "&gender=" + gender
 				+ "&nickName=" + nickName + "&address=" + address + "&udid="
 				+ MyTools.getAndroidID(LoginActivity.this);
@@ -203,6 +204,10 @@ public class LoginActivity extends Activity {
 						try {
 							if (response.getString("Status").toString()
 									.equals("true")) {
+								if (!openid.equals("")) {
+
+								}
+
 								AllStaticMessage.Login_Flag = response
 										.getString("auth").toString();
 								AllStaticMessage.User_Id = response.getString(

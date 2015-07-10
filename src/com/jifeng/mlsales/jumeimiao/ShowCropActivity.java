@@ -37,14 +37,14 @@ public class ShowCropActivity extends Activity implements OnClickListener {
 			String path = intent.getStringExtra("img");
 			File file = new File(path);
 			if (file.exists()) {
-				Bitmap bitmap = BitmapFactory.decodeFile(path);
+				Bitmap bitmap = fitSizeImg(path);
 				int width = bitmap.getWidth();
 				int height = bitmap.getHeight();
 				cropImageView.setImageBitmap(bitmap);
-				if (width < 400 || height < 400) {
-					Toast.makeText(this, "图片尺寸太小了", Toast.LENGTH_SHORT).show();
-					finish();
-				} else {
+//				if (width < 400 || height < 400) {
+//					Toast.makeText(this, "图片尺寸太小了", Toast.LENGTH_SHORT).show();
+//					finish();
+//				} else {
 					int aspectRatio;
 					if (width > height) {
 						aspectRatio = height;
@@ -53,12 +53,36 @@ public class ShowCropActivity extends Activity implements OnClickListener {
 					}
 					cropImageView.setAspectRatio(aspectRatio, aspectRatio);
 					cropImageView.setFixedAspectRatio(true);
-				}
+//				}
 			} else {
 				Toast.makeText(this, "图片尺寸太小了", Toast.LENGTH_SHORT).show();
 				finish();
 			}
 		}
+	}
+
+	public static Bitmap fitSizeImg(String path) {
+		if (path == null || path.length() < 1)
+			return null;
+		File file = new File(path);
+		Bitmap resizeBmp = null;
+		BitmapFactory.Options opts = new BitmapFactory.Options();
+		// 数字越大读出的图片占用的heap越小 不然总是溢出
+		if (file.length() < 20480) { // 0-20k
+			opts.inSampleSize = 1;
+		} else if (file.length() < 51200) { // 20-50k
+			opts.inSampleSize = 1;
+		} else if (file.length() < 307200) { // 50-300k
+			opts.inSampleSize = 1;
+		} else if (file.length() < 819200) { // 300-800k
+			opts.inSampleSize = 1;
+		} else if (file.length() < 1048576) { // 800-1024k
+			opts.inSampleSize = 1;
+		} else {
+			opts.inSampleSize = 2;
+		}
+		resizeBmp = BitmapFactory.decodeFile(file.getPath(), opts);
+		return resizeBmp;
 	}
 
 	private void init() {

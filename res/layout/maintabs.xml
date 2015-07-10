@@ -38,17 +38,18 @@
                 android:textColor="@color/tab_select" />
 
             <RadioButton
-                android:id="@+id/radio_button_fenlei"
-                style="@style/main_tab_bottom"
-                android:drawableTop="@drawable/tab_second_1"
-                android:text="美喵圈"
-                android:textColor="@color/text_color" />
-
-            <RadioButton
                 android:id="@+id/radio_button_meirifaxian"
                 style="@style/main_tab_bottom"
                 android:drawableTop="@drawable/tab_thread_1"
                 android:text="每日精选"
+                android:textColor="@color/text_color" />
+
+            <RadioButton
+                android:id="@+id/radio_button_fenlei"
+                style="@style/main_tab_bottom"
+                android:drawableTop="@drawable/tab_second_1"
+                android:text="美喵圈"
+                android:visibility="gone"
                 android:textColor="@color/text_color" />
 
             <RadioButton

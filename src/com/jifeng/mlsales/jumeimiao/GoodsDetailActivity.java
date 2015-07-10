@@ -11,7 +11,6 @@ import cn.sharesdk.onekeyshare.OnekeyShare;
 import com.jifeng.mlsales.FBApplication;
 import com.jifeng.mlsales.R;
 import com.jifeng.myview.AlwaysMarqueeTextView;
-import com.jifeng.myview.BadgeView;
 import com.jifeng.myview.LoadingDialog;
 import com.jifeng.tools.DownPic;
 import com.jifeng.tools.MyTools;
@@ -25,22 +24,17 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.net.http.SslError;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class GoodsDetailActivity extends Activity {
@@ -88,15 +82,25 @@ public class GoodsDetailActivity extends Activity {
 		dialog = new LoadingDialog(this);
 		findView();
 		register();
-		activityId = getIntent().getStringExtra("pid").toString();// 活动id
-		id = getIntent().getStringExtra("goodsid").toString();// 商品id
-		spid = getIntent().getStringExtra("guigeid").toString();// 规格
-		shareUrl = AllStaticMessage.URL_Goods_detail_share + activityId
-				+ "&pid=" + id + "&id=" + spid;// +"&spid="+spid
-		detailUrl = AllStaticMessage.URL_Goods_detail + activityId + "&pid="
-				+ id + "&id=" + spid + "&userId=" + AllStaticMessage.User_Id;
-		shareImg = getIntent().getStringExtra("imgurl").toString();
-
+		Intent intent = getIntent();
+		if (intent != null) {
+			String active = intent.getStringExtra("active").toString();
+			if (active.equals("1")) {
+				detailUrl = intent.getStringExtra("detailUrl").toString()
+						+ "&userId=" + AllStaticMessage.User_Id;
+				shareUrl = intent.getStringExtra("shareUrl").toString();
+			} else {
+				activityId = intent.getStringExtra("pid").toString();// 活动id
+				id = intent.getStringExtra("goodsid").toString();// 商品id
+				spid = intent.getStringExtra("guigeid").toString();// 规格
+				shareUrl = AllStaticMessage.URL_Goods_detail_share + activityId
+						+ "&pid=" + id + "&id=" + spid;// +"&spid="+spid
+				detailUrl = AllStaticMessage.URL_Goods_detail + activityId
+						+ "&pid=" + id + "&id=" + spid + "&userId="
+						+ AllStaticMessage.User_Id;
+			}
+			shareImg = intent.getStringExtra("imgurl").toString();
+		}
 		tasckActivity = new TasckActivity();
 		tasckActivity.pushActivity(GoodsDetailActivity.this);
 	}

@@ -21,6 +21,8 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -237,6 +239,7 @@ public class MyTools {
 		final RectF rectF = new RectF(rect);
 
 		paint.setAntiAlias(true);
+		paint.setFilterBitmap(true);
 		canvas.drawARGB(0, 0, 0, 0);
 		// 圆形，所有只用一个
 
@@ -514,6 +517,28 @@ public class MyTools {
 		return options;
 	}
 
+	public static String getChannelCode(Context context) {
+		String code = getMetaData(context, "CHANNEL");
+		if (code != null) {
+			return code;
+		}
+		return "";
+	}
+
+	private static String getMetaData(Context context, String key) {
+		try {
+			ApplicationInfo ai = context.getPackageManager()
+					.getApplicationInfo(context.getPackageName(),
+							PackageManager.GET_META_DATA);
+		
+			Object value = ai.metaData.get(key);
+			if (value != null) {
+				return value.toString();
+			}
+		} catch (Exception e) {
+		}
+		return null;
+	}
 	// /**
 	// * Layout动画
 	// *

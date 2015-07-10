@@ -287,16 +287,16 @@ public class ActivityCapture extends Activity implements View.OnClickListener,
 		} catch (OutOfMemoryError e) {
 			e.printStackTrace();
 		}
-		try {
-			Bitmap b3 = Bitmap.createBitmap(bmp, rect.left, rect.top,
-					rect.width(), rect.height());
-			if (null != b3 && bmp != b3) {
-				bmp.recycle();
-				bmp = b3;
-			}
-		} catch (OutOfMemoryError e) {
-			e.printStackTrace();
-		}
+//		try {
+//			Bitmap b3 = Bitmap.createBitmap(bmp, rect.left, rect.top,
+//					rect.width(), rect.height());
+//			if (null != b3 && bmp != b3) {
+//				bmp.recycle();
+//				bmp = b3;
+//			}
+//		} catch (OutOfMemoryError e) {
+//			e.printStackTrace();
+//		}
 		// ½«Í¼Æ¬Ñ¹ËõÖÁ640*640
 		try {
 			Bitmap b4 = Bitmap.createScaledBitmap(bmp, 640, 640, false);
@@ -615,7 +615,7 @@ public class ActivityCapture extends Activity implements View.OnClickListener,
 				parameters.setRotation(0);
 				mCamera.setParameters(parameters);
 			} catch (Exception e) {
-				Debug.debug(e.toString());
+				Debug.debug(e.toString());  
 			}
 
 			// set preview size and make any resize, rotate or

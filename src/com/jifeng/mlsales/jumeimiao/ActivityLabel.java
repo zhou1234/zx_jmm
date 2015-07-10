@@ -7,6 +7,7 @@ import com.jifeng.mlsales.FBApplication;
 import com.jifeng.mlsales.R;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -14,6 +15,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
@@ -31,12 +33,14 @@ public class ActivityLabel extends Activity {
 	private MyListViewAdapter adapter;
 	private Intent intent;
 	private String str = "";
+	private InputMethodManager manager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.add_label);
 		((FBApplication) getApplication()).addActivity(this);
+		manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 		init();
 		intent = new Intent();
 	}
@@ -70,6 +74,12 @@ public class ActivityLabel extends Activity {
 				intent.putExtra("str", str);
 				setResult(100, intent);
 				finish();
+				if (getCurrentFocus() != null
+						&& getCurrentFocus().getWindowToken() != null) {
+					manager.hideSoftInputFromWindow(getCurrentFocus()
+							.getWindowToken(),
+							InputMethodManager.HIDE_NOT_ALWAYS);
+				}
 			}
 		});
 		et_label.addTextChangedListener(new TextWatcher() {

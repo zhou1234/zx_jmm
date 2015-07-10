@@ -8,23 +8,28 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.jifeng.image.ImageLoaderUser;
 import com.jifeng.mlsales.R;
 import com.jifeng.myview.LoadingDialog;
 import com.jifeng.tools.MyTools;
 import com.jifeng.url.AllStaticMessage;
 import com.jifeng.url.HttpUtil;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -38,18 +43,20 @@ public class CommentActivity extends Activity implements OnClickListener {
 	private TextView tv_wu, tv_send;
 	private EditText et_comment;
 	private LoadingDialog dialog;
-	private ImageLoaderUser imageLoaderUser;
 
 	private String BaskOrderId;// 晒单id
 
 	private List<JSONObject> mData;
+	private DisplayImageOptions options;
+	private InputMethodManager manager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_comment);
 		dialog = new LoadingDialog(this);
-		imageLoaderUser = new ImageLoaderUser(CommentActivity.this, "");
+		options = MyTools.createOptions(R.drawable.icon);
+		manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 		init();
 		mData = new ArrayList<JSONObject>();
 		Intent intent = getIntent();
@@ -69,6 +76,22 @@ public class CommentActivity extends Activity implements OnClickListener {
 
 		iv_back.setOnClickListener(this);
 		tv_send.setOnClickListener(this);
+
+		listView_comment.setOnTouchListener(new OnTouchListener() {
+
+			@Override
+			public boolean onTouch(View arg0, MotionEvent arg1) {
+				if (arg1.getAction() == MotionEvent.ACTION_DOWN) {
+					if (getCurrentFocus() != null
+							&& getCurrentFocus().getWindowToken() != null) {
+						manager.hideSoftInputFromWindow(getCurrentFocus()
+								.getWindowToken(),
+								InputMethodManager.HIDE_NOT_ALWAYS);
+					}
+				}
+				return onTouchEvent(arg1);
+			}
+		});
 	}
 
 	/**
@@ -238,16 +261,16 @@ public class CommentActivity extends Activity implements OnClickListener {
 				} else {
 					holder = (Holder) arg1.getTag();
 				}
-
-				String imageUrl = AllStaticMessage.URL_GBase+"/"+mData.get(arg0).getString("Photo");
+				String imageUrl = mData.get(arg0).getString("Photo");
 				if (!imageUrl.equals("") && imageUrl != null) {
-					imageLoaderUser.DisplayImage(imageUrl, holder.iv_user);
+					ImageLoader.getInstance().displayImage(imageUrl,
+							holder.iv_user, options);
 				}
 
 				holder.tv_name.setText(mData.get(arg0).getString("NickName"));
 				holder.tv_time.setText(mData.get(arg0).getString("ReviewTime"));
-				holder.tv_commmet.setText(mData.get(arg0).getString("Content"));
-
+				holder.tv_commmet.setText(unicodeToString(mData.get(arg0)
+						.getString("Content")));
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
@@ -262,25 +285,108 @@ public class CommentActivity extends Activity implements OnClickListener {
 		TextView tv_commmet;
 	}
 
+	@SuppressLint("NewApi")
 	@Override
 	public void onClick(View arg0) {
 		switch (arg0.getId()) {
 		case R.id.iv_back:
 			finish();
+			if (getCurrentFocus() != null
+					&& getCurrentFocus().getWindowToken() != null) {
+				manager.hideSoftInputFromWindow(getCurrentFocus()
+						.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+			}
 			break;
 		case R.id.tv_send:
 			String content = et_comment.getText().toString().trim();
+			String str = null;
 			if (!content.equals("") && content != null) {
-				sendComment(content);
+				try {
+					str = strToUnicode(content);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				sendComment(str);
 			} else {
 				Toast.makeText(CommentActivity.this, "忘记写评论了哦!",
 						Toast.LENGTH_SHORT).show();
 			}
-
+			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+			imm.showSoftInput(et_comment, InputMethodManager.SHOW_FORCED);
+			imm.hideSoftInputFromWindow(et_comment.getWindowToken(), 0); // 强制隐藏键
+			et_comment.setText("");
 			break;
 		default:
 			break;
 		}
-
 	}
+
+	/**
+	 * String的字符串转换成unicode的String
+	 * 
+	 * @param String
+	 *            strText 全角字符串
+	 * @return String 每个unicode之间无分隔符
+	 * @throws Exception
+	 */
+	public static String strToUnicode(String strText) throws Exception {
+		char c;
+		StringBuilder str = new StringBuilder();
+		int intAsc;
+		String strHex;
+		for (int i = 0; i < strText.length(); i++) {
+			c = strText.charAt(i);
+			intAsc = (int) c;
+			strHex = Integer.toHexString(intAsc);
+			if (intAsc > 128)
+				str.append("\\u" + strHex);
+			else
+				// 低位在前面补00
+				str.append("\\u00" + strHex);
+		}
+		return str.toString().replace("\\", "E");
+	}
+
+	/**
+	 * unicode的String转换成String的字符串
+	 * 
+	 * @param String
+	 *            hex 16进制值字符串 （一个unicode为2byte）
+	 * @return String 全角字符串
+	 */
+	public static String unicodeToString(String hex) {
+		int t = hex.length() / 6;
+		StringBuilder str = new StringBuilder();
+		for (int i = 0; i < t; i++) {
+			String s = hex.substring(i * 6, (i + 1) * 6);
+			// 高位需要补上00再转
+			String s1 = s.substring(2, 4) + "00";
+			// 低位直接转
+			String s2 = s.substring(4);
+			// 将16进制的string转为int
+			int n = Integer.valueOf(s1, 16) + Integer.valueOf(s2, 16);
+			// 将int转换为字符
+			char[] chars = Character.toChars(n);
+			str.append(new String(chars));
+		}
+		return str.toString().replace("E", "\\");
+	}
+
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+		if (event.getAction() == MotionEvent.ACTION_DOWN) {
+			if (getCurrentFocus() != null
+					&& getCurrentFocus().getWindowToken() != null) {
+				manager.hideSoftInputFromWindow(getCurrentFocus()
+						.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+			}
+		}
+		return super.onTouchEvent(event);
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+	}
+
 }

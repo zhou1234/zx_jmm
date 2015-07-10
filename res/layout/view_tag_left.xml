@@ -5,7 +5,7 @@
              android:minWidth="30.0dip">
     <com.jifeng.mlsales.photo.EmojiconTextView
             android:id="@+id/text"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="26.0dip"
             android:background="@drawable/tag_text_bg_left"
             android:clickable="false"
@@ -15,9 +15,10 @@
             android:paddingLeft="15.0dip"
             android:paddingRight="8.0dip"
             android:singleLine="true"
+            android:ellipsize="end"
             android:text=""
             android:textColor="#ffffff"
-            android:textSize="14.0sp"/>
+            android:textSize="13.0sp"/>
     <FrameLayout
             android:layout_width="20dp"
             android:layout_height="match_parent"

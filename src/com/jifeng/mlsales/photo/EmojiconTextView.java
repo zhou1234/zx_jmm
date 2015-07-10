@@ -25,12 +25,14 @@ public class EmojiconTextView extends TextView {
 	}
 
 	private void a(AttributeSet paramAttributeSet) {
-		if (paramAttributeSet == null){
+		if (paramAttributeSet == null) {
 			this.TextSize = (int) getTextSize();
-		}else{
-//			TypedArray localTypedArray = getContext().obtainStyledAttributes(paramAttributeSet, Emojicon);
-//			this.TextSize = (int) localTypedArray.getDimension(0, getTextSize());
-//			localTypedArray.recycle();
+		} else {
+			// TypedArray localTypedArray =
+			// getContext().obtainStyledAttributes(paramAttributeSet, Emojicon);
+			// this.TextSize = (int) localTypedArray.getDimension(0,
+			// getTextSize());
+			// localTypedArray.recycle();
 		}
 		setText(getText());
 	}
@@ -40,11 +42,12 @@ public class EmojiconTextView extends TextView {
 	}
 
 	public void setText(CharSequence mCharSequence, BufferType mBufferType) {
-		SpannableStringBuilder localSpannableStringBuilder = new SpannableStringBuilder(mCharSequence);
-//		uv.a(getContext(), localSpannableStringBuilder, this.TextSize);
+		SpannableStringBuilder localSpannableStringBuilder = new SpannableStringBuilder(
+				mCharSequence);
+		// uv.a(getContext(), localSpannableStringBuilder, this.TextSize);
 		super.setText(localSpannableStringBuilder, mBufferType);
 	}
-	
-//	public static final int[] Emojicon = { 2130772074 };
-//	public static final int Emojicon_emojiconSize;
+
+	// public static final int[] Emojicon = { 2130772074 };
+	// public static final int Emojicon_emojiconSize;
 }

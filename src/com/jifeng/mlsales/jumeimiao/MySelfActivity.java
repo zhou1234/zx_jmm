@@ -1,5 +1,7 @@
 package com.jifeng.mlsales.jumeimiao;
 
+import java.io.File;
+
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.RongIMClient.UserInfo;
@@ -13,6 +15,8 @@ import cn.sharesdk.framework.ShareSDK;
 
 import com.jifeng.mlsales.FBApplication;
 import com.jifeng.mlsales.R;
+import com.jifeng.mlsales.photo.BitmapUtil;
+import com.jifeng.mlsales.photo.PathManager;
 import com.jifeng.myview.BadgeView;
 import com.jifeng.myview.LoadingDialog;
 import com.jifeng.tools.FileImageUpload;
@@ -66,10 +70,9 @@ public class MySelfActivity extends Activity {
 						JSONObject object = new JSONObject(str);
 						if (object.getString("Status").toString()
 								.equals("true")) {
-							String strUrl = AllStaticMessage.URL_GBase + "/"
-									+ object.getString("Results").toString();
+							String strUrl = object.getString("Results")
+									.toString();
 							AllStaticMessage.userImage = strUrl;
-							dialog.loading();
 							ImageLoader.getInstance().loadImage(strUrl,
 									new ImageLoadingListener() {
 
@@ -90,9 +93,9 @@ public class MySelfActivity extends Activity {
 										public void onLoadingComplete(
 												String arg0, View arg1,
 												Bitmap arg2) {
-											Bitmap bitmap = MyTools
-													.getRoundedCornerBitmap(arg2);
-											img_touxiang.setImageBitmap(bitmap);
+											// Bitmap bitmap = MyTools
+											// .getRoundedCornerBitmap(arg2);
+											img_touxiang.setImageBitmap(arg2);
 											dialog.stop();
 										}
 
@@ -174,41 +177,41 @@ public class MySelfActivity extends Activity {
 		tv_number = (TextView) findViewById(R.id.tv_number);
 
 		img_touxiang = (ImageView) findViewById(R.id.img_touxiang);
-		Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
-				R.drawable.icon);
-		bit = MyTools.getRoundedCornerBitmap(bitmap);
-		img_touxiang.setImageBitmap(bit);
-		if (!AllStaticMessage.userImage.equals("")) {
-			dialog.loading();
-			ImageLoader.getInstance().loadImage(AllStaticMessage.userImage,
-					new ImageLoadingListener() {
-
-						@Override
-						public void onLoadingStarted(String arg0, View arg1) {
-
-						}
-
-						@Override
-						public void onLoadingFailed(String arg0, View arg1,
-								FailReason arg2) {
-
-						}
-
-						@Override
-						public void onLoadingComplete(String arg0, View arg1,
-								Bitmap arg2) {
-							Bitmap bitmap = MyTools
-									.getRoundedCornerBitmap(arg2);
-							img_touxiang.setImageBitmap(bitmap);
-							dialog.stop();
-						}
-
-						@Override
-						public void onLoadingCancelled(String arg0, View arg1) {
-
-						}
-					});
-		}
+		// Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
+		// R.drawable.icon);
+		// bit = MyTools.getRoundedCornerBitmap(bitmap);
+		// img_touxiang.setImageBitmap(bit);
+		// if (!AllStaticMessage.userImage.equals("")) {
+		// dialog.loading();
+		// ImageLoader.getInstance().loadImage(AllStaticMessage.userImage,
+		// new ImageLoadingListener() {
+		//
+		// @Override
+		// public void onLoadingStarted(String arg0, View arg1) {
+		//
+		// }
+		//
+		// @Override
+		// public void onLoadingFailed(String arg0, View arg1,
+		// FailReason arg2) {
+		//
+		// }
+		//
+		// @Override
+		// public void onLoadingComplete(String arg0, View arg1,
+		// Bitmap arg2) {
+		// Bitmap bitmap = MyTools
+		// .getRoundedCornerBitmap(arg2);
+		// img_touxiang.setImageBitmap(bitmap);
+		// dialog.stop();
+		// }
+		//
+		// @Override
+		// public void onLoadingCancelled(String arg0, View arg1) {
+		//
+		// }
+		// });
+		// }
 
 	}
 
@@ -362,7 +365,8 @@ public class MySelfActivity extends Activity {
 		String url = AllStaticMessage.URL_KeFu + AllStaticMessage.User_Id;
 		HttpUtil.get(url, MySelfActivity.this, dialog,
 				new JsonHttpResponseHandler() {
-					@SuppressLint("ShowToast") @Override
+					@SuppressLint("ShowToast")
+					@Override
 					public void onSuccess(int statusCode, Header[] headers,
 							JSONObject response) {
 						super.onSuccess(statusCode, headers, response);
@@ -458,7 +462,7 @@ public class MySelfActivity extends Activity {
 
 			switch (requestCode) {
 			case 0x00:
-				img_touxiang.setImageBitmap(bit);
+				//img_touxiang.setImageBitmap(bit);
 				break;
 			case 1111:// 个人中心
 				mTextFlag.setVisibility(View.GONE);
@@ -472,7 +476,7 @@ public class MySelfActivity extends Activity {
 								@Override
 								public void onLoadingStarted(String arg0,
 										View arg1) {
-  
+
 								}
 
 								@Override
@@ -554,13 +558,25 @@ public class MySelfActivity extends Activity {
 				startActivity(mIntent);
 				break;
 			case 0x110:
+				dialog.loading();
 				final String path = data.getStringExtra("path");
+				Bitmap bmp = BitmapFactory.decodeFile(path);
+				Bitmap bit = Bitmap.createScaledBitmap(bmp, 100, 100, false);
+				final File photoFile = PathManager.getCropPhotoPath();
+				boolean successful = BitmapUtil.saveBitmap2file(bit, photoFile,
+						Bitmap.CompressFormat.JPEG, 100);
+				while (!successful) {
+					successful = BitmapUtil.saveBitmap2file(bit, photoFile,
+							Bitmap.CompressFormat.JPEG, 100);
+				}
+
 				new Thread(new Runnable() {
 
 					@Override
 					public void run() {
 						str = FileImageUpload.upUserBitmap(
-								AllStaticMessage.URL_UpUserPhoto, path,
+								AllStaticMessage.URL_UpUserPhoto,
+								photoFile.getAbsolutePath(),
 								AllStaticMessage.User_Id);
 						handler.sendEmptyMessage(0000);
 					}

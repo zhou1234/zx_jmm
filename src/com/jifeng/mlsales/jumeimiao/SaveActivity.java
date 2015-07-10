@@ -568,6 +568,7 @@ public class SaveActivity extends Activity {
 					try {
 						Intent mIntent = new Intent(SaveActivity.this,
 								GoodsDetailActivity.class);
+						mIntent.putExtra("active", "0");
 						mIntent.putExtra("pid",
 								mArray.get(position).getString("activeId")
 										.toString());// »î¶¯id

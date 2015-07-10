@@ -1,6 +1,5 @@
 package com.jifeng.mlsales.jumeimiao;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -44,6 +43,7 @@ import com.jifeng.image.ImageLoaderTagView;
 import com.jifeng.image.ImageLoaderUser;
 import com.jifeng.mlsales.FBApplication;
 import com.jifeng.mlsales.R;
+import com.jifeng.mlsales.model.CustomerAlertDialog;
 import com.jifeng.mlsales.photo.TagInfoModel;
 import com.jifeng.mlsales.photo.TagsView;
 import com.jifeng.myview.LoadingDialog;
@@ -74,11 +74,10 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 	private boolean flag_guanZhu, flag_zan, flag_guanZhu_guanZhu,
 			flag_guanzhu_zan;
 
-	private boolean flag_first;
+	private boolean flag_first, flag_tuijian;
 	private List<JSONObject> mData, mDataGanZhu;
 	private LoadingDialog dialog;
 	private ImageLoaderTagView imageLoader;
-	private ImageLoaderUser imageLoaderUser;
 
 	private Map<Integer, Boolean> map;
 	private Map<Integer, Boolean> map_guanzhu;
@@ -89,6 +88,13 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 	private AbPullToRefreshView mPullRefreshView = null;
 	private AbPullToRefreshView mPullRefreshView_guanzhu = null;
 
+	private TextView tv_wuGuanzhu;
+
+	private LinearLayout layout_dian;
+	private My_ViewPager my_ViewPager;
+
+	private DisplayImageOptions options;
+
 	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -98,10 +104,11 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 		dialog = new LoadingDialog(this);
 		dialog.loading();
 		imageLoader = new ImageLoaderTagView(MeiMiaoQuanActivity.this, "");
-		imageLoaderUser = new ImageLoaderUser(MeiMiaoQuanActivity.this, "");
+		options = MyTools.createOptions(R.drawable.icon);
 		init();
 		width = getWindowManager().getDefaultDisplay().getWidth();
 		height = getWindowManager().getDefaultDisplay().getHeight();
+
 	}
 
 	private void init() {
@@ -154,6 +161,7 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 		View guanzhuView = getLayoutInflater().inflate(R.layout.guan_zhu, null);
 		listView_guanZhu = (ListView) guanzhuView
 				.findViewById(R.id.listView_guanZhu);
+		tv_wuGuanzhu = (TextView) guanzhuView.findViewById(R.id.tv_wuGuanzhu);
 		mPullRefreshView_guanzhu = (AbPullToRefreshView) guanzhuView
 				.findViewById(R.id.mPullRefreshView_guanzhu);
 		listView_guanZhu.setOnScrollListener(new PauseOnScrollListener(
@@ -180,6 +188,25 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 
 		viewPager.setAdapter(new MyAdapter());
 		viewPager.setOnPageChangeListener(new MyListener());
+
+		if (AllStaticMessage.isShare) {
+			viewPager.setCurrentItem(1);
+			flag_first = false;
+
+		} else {
+			if (!flag_tuijian) {
+				dialog.loading();
+				new Handler().postDelayed(new Runnable() {
+
+					@Override
+					public void run() {
+						getImgUrl(layout_dian, my_ViewPager);
+						getListTuiJianData(listView_tuiJian);
+						flag_tuijian = true;
+					}
+				}, 300);
+			}
+		}
 	}
 
 	class MyListViewAdapter extends BaseAdapter {
@@ -239,11 +266,12 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 				} else {
 					holder = (Holder) arg1.getTag();
 				}
-				String userImage = mData.get(arg0).getString("Photo")
-						.toString().trim();
+
+				String userImage = mData.get(arg0).getString("Photo");
 
 				if (!userImage.equals("") && userImage != null) {
-					imageLoaderUser.DisplayImage(userImage, holder.iv_name);
+					ImageLoader.getInstance().displayImage(userImage,
+							holder.iv_name, options);
 				}
 				holder.tv_name.setText(mData.get(arg0).getString("NickName"));
 				holder.tv_content.setText(mData.get(arg0).getString("Content"));
@@ -252,11 +280,25 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 						+ "赞");
 				holder.tv_pingLun.setText(mData.get(arg0).getString(
 						"ReviewCount"));
+				// String flag_zanString =
+				// mData.get(arg0).getString("ZanStatus");
+				// if (flag_zanString.equals("1")) {
+				// map.put(arg0, true);
+				// } else {
+				// map.put(arg0, false);
+				// }
 				if (map.get(arg0)) {
 					holder.iv_zan.setImageResource(R.drawable.img_zuan);
 				} else {
 					holder.iv_zan.setImageResource(R.drawable.img_zuan1);
 				}
+				// String flag_guanzhuString = mData.get(arg0).getString(
+				// "ConcernStatus");
+				// if (flag_guanzhuString.equals("1")) {
+				// map_guanzhu.put(arg0, true);
+				// } else {
+				// map_guanzhu.put(arg0, false);
+				// }
 
 				if (map_guanzhu.get(arg0)) {
 					holder.bt_guanZhu.setBackground(getResources().getDrawable(
@@ -275,6 +317,7 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 				final ArrayList<TagInfoModel> tagInfoModels = new ArrayList<TagInfoModel>();
 				JSONArray jsonArray = mData.get(arg0).getJSONArray("UserTag");
 				if (jsonArray.length() > 0) {
+
 					List<TagInfoModel> tagInfos = new ArrayList<TagInfoModel>();
 					for (int i = 0; i < jsonArray.length(); i++) {
 						TagInfoModel infoModel = new TagInfoModel();
@@ -284,17 +327,20 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 								.getJSONObject(i).getString("PositionX"));
 						float PositionY = Float.parseFloat(jsonArray
 								.getJSONObject(i).getString("PositionY"));
+						infoModel.activityId = jsonArray.getJSONObject(i)
+								.getString("ActivityId");
 						infoModel.x = PositionX;
 						infoModel.y = PositionY;
 						tagInfos.add(infoModel);
 					}
 					tagInfoModels.addAll(tagInfos);
 				}
-				String tageViewUrl = AllStaticMessage.URL_GBase + "/"
-						+ mData.get(arg0).getString("ImageUrl");
+				String tageViewUrl = mData.get(arg0).getString("ImageUrl");
 
 				holder.tagsView.setTagInfoModels(tagInfoModels);
-				imageLoader.DisplayImage(tageViewUrl, holder.tagsView);
+				if (!tageViewUrl.equals("") && tageViewUrl != null) {
+					imageLoader.DisplayImage(tageViewUrl, holder.tagsView);
+				}
 
 				holder.bt_guanZhu.setOnClickListener(new OnClickListener() {
 
@@ -304,7 +350,7 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 							Intent mIntent = new Intent(
 									MeiMiaoQuanActivity.this,
 									LoginActivity.class);
-							startActivity(mIntent);
+							startActivityForResult(mIntent, 0x001);
 						} else {
 							try {
 								if (map_guanzhu.get(cont)) {
@@ -346,9 +392,33 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 
 					@Override
 					public void onClick(View arg0) {
+						if (AllStaticMessage.Login_Flag.equals("")) {// LoginFlag
+							Intent mIntent = new Intent(
+									MeiMiaoQuanActivity.this,
+									LoginActivity.class);
+							startActivity(mIntent);
+						} else {
+							try {
+								Intent intent = new Intent(
+										MeiMiaoQuanActivity.this,
+										GoodsDetailActivity.class);
+								intent.putExtra("active", "1");
+								intent.putExtra("shareUrl", mData.get(cont)
+										.getString("ActivityShare"));
+								intent.putExtra("detailUrl", mData.get(cont)
+										.getString("Activity"));
+								intent.putExtra("imgurl", mData.get(cont)
+										.getString("ImageUrl"));
+								startActivity(intent);
+							} catch (JSONException e) {
+								e.printStackTrace();
+							}
+
+						}
 
 					}
 				});
+
 				holder.iv_zan.setOnClickListener(new OnClickListener() {
 
 					@Override
@@ -361,13 +431,16 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 						} else {
 							try {
 								int i = 0;
+								int j = 0;
 								if (map.get(cont)) {
 									flag_zan = true;
 								} else {
 									flag_zan = false;
 								}
+
 								if (!flag_zan) {
 									dianZan(mData.get(cont).getString("Id"));
+
 									holder.iv_zan
 											.setImageResource(R.drawable.img_zuan);
 									JSONObject jsonObject = new JSONObject();
@@ -377,17 +450,24 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 									i++;
 									jsonObject.put("SomePraiseCount", i + "");
 									mData.set(cont, jsonObject);
-									flag_zan = true;
+									// flag_zan = true;
 									holder.tv_zan.setText(i + "赞");
 									map.put(cont, true);
 								} else {
-									holder.tv_zan
-											.setText(mData.get(cont).getString(
-													"SomePraiseCount")
-													+ "赞");
-									Toast.makeText(MeiMiaoQuanActivity.this,
-											"已点赞过了哦", Toast.LENGTH_SHORT)
-											.show();
+									CancelDianZan(mData.get(cont).getString(
+											"Id"));
+									holder.iv_zan
+											.setImageResource(R.drawable.img_zuan1);
+									JSONObject jsonObject = new JSONObject();
+									jsonObject = mData.get(cont);
+									j = Integer.parseInt(mData.get(cont)
+											.getString("SomePraiseCount"));
+									j--;
+									jsonObject.put("SomePraiseCount", j + "");
+									mData.set(cont, jsonObject);
+									// flag_zan = true;
+									holder.tv_zan.setText(j + "赞");
+									map.put(cont, false);
 								}
 
 							} catch (NumberFormatException e) {
@@ -430,11 +510,13 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 						try {
 							share(mData.get(cont).getString("Content"),
 									"",
-									"www.baidu.com",
+									mData.get(cont).getString("ShareUrl")
+											.toString(),
 									AllStaticMessage.URL_GBase
 											+ "/"
-											+ mData.get(cont).getString(
-													"ImageUrl"));
+											+ mData.get(cont)
+													.getString("ImageUrl")
+													.toString());
 						} catch (JSONException e) {
 							e.printStackTrace();
 						}
@@ -455,6 +537,31 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 	private void dianZan(String BaskOrderId) {
 		String url = AllStaticMessage.URL_Zan + "&BaskOrderId=" + BaskOrderId
 				+ "&UserId=" + AllStaticMessage.User_Id;
+
+		HttpUtil.get(url, MeiMiaoQuanActivity.this, null,
+				new JsonHttpResponseHandler() {
+					@Override
+					public void onSuccess(int statusCode, Header[] headers,
+							JSONObject response) {
+						super.onSuccess(statusCode, headers, response);
+						try {
+							if (response.getString("Status").equals("true")) {
+							}
+						} catch (JSONException e) {
+							e.printStackTrace();
+						}
+					}
+				});
+	}
+
+	/**
+	 * 取消点赞
+	 * 
+	 * @param BaskOrderId
+	 */
+	private void CancelDianZan(String BaskOrderId) {
+		String url = AllStaticMessage.URL_CancelZan + "&BaskOrderId="
+				+ BaskOrderId + "&UserId=" + AllStaticMessage.User_Id;
 
 		HttpUtil.get(url, MeiMiaoQuanActivity.this, null,
 				new JsonHttpResponseHandler() {
@@ -531,6 +638,7 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 					holder.tv_name = (TextView) view.findViewById(R.id.tv_name);
 					holder.bt_guanZhu = (Button) view
 							.findViewById(R.id.bt_guanZhu);
+					holder.bt_guanZhu.setVisibility(View.GONE);
 					holder.tagsView = (TagsView) view
 							.findViewById(R.id.tagsView1);
 					holder.iv_zan = (ImageView) view.findViewById(R.id.iv_zan);
@@ -554,11 +662,12 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 				} else {
 					holder = (Holder) arg1.getTag();
 				}
-				String userImage = mDataGanZhu.get(arg0).getString("Photo")
-						.toString().trim();
+
+				String userImage = mDataGanZhu.get(arg0).getString("Photo");
 
 				if (!userImage.equals("") && userImage != null) {
-					imageLoaderUser.DisplayImage(userImage, holder.iv_name);
+					ImageLoader.getInstance().displayImage(userImage,
+							holder.iv_name, options);
 				}
 				holder.tv_name.setText(mDataGanZhu.get(arg0).getString(
 						"NickName"));
@@ -569,25 +678,32 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 						+ "赞");
 				holder.tv_pingLun.setText(mDataGanZhu.get(arg0).getString(
 						"ReviewCount"));
+
 				if (map_guanzhu_zan.get(arg0)) {
 					holder.iv_zan.setImageResource(R.drawable.img_zuan);
 				} else {
 					holder.iv_zan.setImageResource(R.drawable.img_zuan1);
 				}
-
-				if (map_guanzhu_guanzhu.get(arg0)) {
-					holder.bt_guanZhu.setBackground(getResources().getDrawable(
-							R.drawable.img_guanzhu1));
-					holder.bt_guanZhu.setText("已关注");
-					holder.bt_guanZhu.setTextColor(getResources().getColor(
-							R.color.text_color));
-				} else {
-					holder.bt_guanZhu.setBackground(getResources().getDrawable(
-							R.drawable.img_guanzhu));
-					holder.bt_guanZhu.setText("关注");
-					holder.bt_guanZhu.setTextColor(getResources().getColor(
-							R.color.tab_select));
-				}
+				// String flag_guanzhuString = mData.get(arg0).getString(
+				// "ConcernStatus");
+				// if (flag_guanzhuString.equals("1")) {
+				// map_guanzhu_guanzhu.put(arg0, true);
+				// } else {
+				// map_guanzhu_guanzhu.put(arg0, false);
+				// }
+				// if (map_guanzhu_guanzhu.get(arg0)) {
+				// holder.bt_guanZhu.setBackground(getResources().getDrawable(
+				// R.drawable.img_guanzhu1));
+				// holder.bt_guanZhu.setText("已关注");
+				// holder.bt_guanZhu.setTextColor(getResources().getColor(
+				// R.color.text_color));
+				// } else {
+				// holder.bt_guanZhu.setBackground(getResources().getDrawable(
+				// R.drawable.img_guanzhu));
+				// holder.bt_guanZhu.setText("关注");
+				// holder.bt_guanZhu.setTextColor(getResources().getColor(
+				// R.color.tab_select));
+				// }
 
 				final ArrayList<TagInfoModel> tagInfoModels = new ArrayList<TagInfoModel>();
 				JSONArray jsonArray = mDataGanZhu.get(arg0).getJSONArray(
@@ -602,17 +718,21 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 								.getJSONObject(i).getString("PositionX"));
 						float PositionY = Float.parseFloat(jsonArray
 								.getJSONObject(i).getString("PositionY"));
+						infoModel.activityId = jsonArray.getJSONObject(i)
+								.getString("ActivityId");
 						infoModel.x = PositionX;
 						infoModel.y = PositionY;
 						tagInfos.add(infoModel);
 					}
 					tagInfoModels.addAll(tagInfos);
 				}
-				String tageViewUrl = AllStaticMessage.URL_GBase + "/"
-						+ mDataGanZhu.get(arg0).getString("ImageUrl");
+				String tageViewUrl = mDataGanZhu.get(arg0)
+						.getString("ImageUrl");
 
 				holder.tagsView.setTagInfoModels(tagInfoModels);
-				imageLoader.DisplayImage(tageViewUrl, holder.tagsView);
+				if (!tageViewUrl.equals("") && tageViewUrl != null) {
+					imageLoader.DisplayImage(tageViewUrl, holder.tagsView);
+				}
 
 				holder.bt_guanZhu.setOnClickListener(new OnClickListener() {
 
@@ -665,8 +785,36 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 
 					@Override
 					public void onClick(View arg0) {
+						if (AllStaticMessage.Login_Flag.equals("")) {// LoginFlag
+							Intent mIntent = new Intent(
+									MeiMiaoQuanActivity.this,
+									LoginActivity.class);
+							startActivity(mIntent);
+						} else {
+							try {
+								Intent intent = new Intent(
+										MeiMiaoQuanActivity.this,
+										GoodsDetailActivity.class);
+								intent.putExtra("active", "1");
+								intent.putExtra(
+										"shareUrl",
+										mDataGanZhu.get(cont).getString(
+												"ActivityShare"));
+								intent.putExtra(
+										"detailUrl",
+										mDataGanZhu.get(cont).getString(
+												"Activity"));
+								intent.putExtra("imgurl", mDataGanZhu.get(cont)
+										.getString("ImageUrl"));
+								startActivity(intent);
+							} catch (JSONException e) {
+								e.printStackTrace();
+							}
+
+						}
 
 					}
+
 				});
 				holder.iv_zan.setOnClickListener(new OnClickListener() {
 
@@ -680,6 +828,7 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 						} else {
 							try {
 								int i = 0;
+								int j = 0;
 								if (map_guanzhu_zan.get(cont)) {
 									flag_guanzhu_zan = true;
 								} else {
@@ -697,18 +846,24 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 									i++;
 									jsonObject.put("SomePraiseCount", i + "");
 									mDataGanZhu.set(cont, jsonObject);
-									flag_guanzhu_zan = true;
+									// flag_guanzhu_zan = true;
 									holder.tv_zan.setText(i + "赞");
 									map_guanzhu_zan.put(cont, true);
 								} else {
-									holder.tv_zan
-											.setText(mDataGanZhu.get(cont)
-													.getString(
-															"SomePraiseCount")
-													+ "赞");
-									Toast.makeText(MeiMiaoQuanActivity.this,
-											"已点赞过了哦", Toast.LENGTH_SHORT)
-											.show();
+									CancelDianZan(mDataGanZhu.get(cont)
+											.getString("Id"));
+									holder.iv_zan
+											.setImageResource(R.drawable.img_zuan1);
+									JSONObject jsonObject = new JSONObject();
+									jsonObject = mDataGanZhu.get(cont);
+									j = Integer.parseInt(mDataGanZhu.get(cont)
+											.getString("SomePraiseCount"));
+									j--;
+									jsonObject.put("SomePraiseCount", j + "");
+									mDataGanZhu.set(cont, jsonObject);
+									// flag_guanzhu_zan = true;
+									holder.tv_zan.setText(j + "赞");
+									map_guanzhu_zan.put(cont, false);
 								}
 
 							} catch (NumberFormatException e) {
@@ -751,7 +906,8 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 						try {
 							share(mDataGanZhu.get(cont).getString("Content"),
 									"",
-									"www.baidu.com",
+									mDataGanZhu.get(cont).getString("ShareUrl")
+											.toString(),
 									AllStaticMessage.URL_GBase
 											+ "/"
 											+ mDataGanZhu.get(cont).getString(
@@ -789,19 +945,9 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 
 		listView_tuiJian.addHeaderView(headerView);
 
-		final My_ViewPager my_ViewPager = (My_ViewPager) headerView
+		my_ViewPager = (My_ViewPager) headerView
 				.findViewById(R.id.pic_viewPager);
-		final LinearLayout layout_dian = (LinearLayout) headerView
-				.findViewById(R.id.yuandian);
-		new Handler().postDelayed(new Runnable() {
-
-			@Override
-			public void run() {
-				getImgUrl(layout_dian, my_ViewPager);
-
-				getListTuiJianData(listView_tuiJian);
-			}
-		}, 300);
+		layout_dian = (LinearLayout) headerView.findViewById(R.id.yuandian);
 
 		my_ViewPager.setOnPageChangeListener(new OnPageChangeListener() {
 
@@ -841,7 +987,8 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 	 * @param listView
 	 */
 	private void getListTuiJianData(final ListView listView) {
-		String url = AllStaticMessage.URL_BaskOrderList;
+		String url = AllStaticMessage.URL_BaskOrderList + "&UserId="
+				+ AllStaticMessage.User_Id;
 
 		HttpUtil.get(url, MeiMiaoQuanActivity.this, null,
 				new JsonHttpResponseHandler() {
@@ -910,6 +1057,9 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 						super.onSuccess(statusCode, headers, response);
 						try {
 							if (response.getString("Status").equals("true")) {
+								tv_wuGuanzhu.setVisibility(View.GONE);
+								mPullRefreshView_guanzhu
+										.setVisibility(View.VISIBLE);
 								JSONArray mArray = response
 										.getJSONArray("Results");
 								if (mDataGanZhu != null) {
@@ -922,12 +1072,68 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 								listView.setAdapter(new MyListViewGuanZhuAdapter());
 								map_guanzhu_guanzhu = new HashMap<Integer, Boolean>();
 								map_guanzhu_zan = new HashMap<Integer, Boolean>();
-								for (int j = 0; j < mData.size(); j++) {
+								for (int j = 0; j < mDataGanZhu.size(); j++) {
 									map_guanzhu_zan.put(j, false);
 									map_guanzhu_guanzhu.put(j, false);
 								}
+							} else {
+								tv_wuGuanzhu.setVisibility(View.VISIBLE);
+								mPullRefreshView_guanzhu
+										.setVisibility(View.GONE);
+								flag_first = false;
 							}
 							mPullRefreshView_guanzhu.onHeaderRefreshFinish();
+							if (AllStaticMessage.isShare) {
+								final CustomerAlertDialog alertDialog = new CustomerAlertDialog(
+										MeiMiaoQuanActivity.this, false);
+								alertDialog.setTitle("是否分享？");
+								alertDialog.setPositiveButton("残忍拒绝",
+										new OnClickListener() {
+											@Override
+											public void onClick(View arg0) {
+												alertDialog.dismiss();
+											}
+										});
+								alertDialog.setNegativeButton1("立即分享",
+										new OnClickListener() {
+
+											@Override
+											public void onClick(View arg0) {
+												share(AllStaticMessage.title,
+														"",
+														AllStaticMessage.url,
+														AllStaticMessage.imgurl);
+												alertDialog.dismiss();
+											}
+										});
+
+								// View mView = getLayoutInflater().inflate(
+								// R.layout.share, null);
+								// mView.setOnClickListener(new
+								// OnClickListener() {
+								//
+								// @Override
+								// public void onClick(View arg0) {
+								// popupWindow.dismiss();
+								//
+								// }
+								// });
+								// popupWindow = new PopupWindow(mView);
+								// popupWindow.setWidth(LayoutParams.MATCH_PARENT);
+								// popupWindow
+								// .setHeight(LayoutParams.MATCH_PARENT);
+								// popupWindow
+								// .setAnimationStyle(R.style.AnimBottomPopup);
+								// ColorDrawable dw = new
+								// ColorDrawable(0xb0000000);
+								// popupWindow.setBackgroundDrawable(dw);
+								// popupWindow.setOutsideTouchable(true);
+								//
+								// popupWindow.showAtLocation(
+								// findViewById(R.id.share),
+								// Gravity.BOTTOM, 0, 0);
+								AllStaticMessage.isShare = false;
+							}
 							if (dialog != null) {
 								dialog.stop();
 							}
@@ -1037,19 +1243,12 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 		DisplayImageOptions options = MyTools
 				.createOptions(R.drawable.loading_01);
 		for (int i = 0; i < mArray_ad.length(); i++) {
-			// appItem.mAppIcon = (ImageView) v.findViewById(R.id.imgbig);
 			ImageView imageView = new ImageView(MeiMiaoQuanActivity.this);
 			imageView.setScaleType(ScaleType.FIT_XY);
 			// 异步加载图片
 			try {
-				String infUrl = AllStaticMessage.URL_GBase
-						+ "/"
-						+ mArray_ad.getJSONObject(i).getString("BannerPic")
-								.toString();
-				// final String aid =
-				// mArray_ad.getJSONObject(i).getString("Id").toString();
-				// DisplayImageOptions
-				// options=MyTools.createOptions(R.drawable.loading_01);
+				String infUrl = mArray_ad.getJSONObject(i)
+						.getString("BannerPic").toString();
 				ImageLoader.getInstance().displayImage(infUrl, imageView,
 						options);
 			} catch (JSONException e) {
@@ -1186,6 +1385,18 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 				tv_guanZhu.setTextColor(getResources().getColor(
 						R.color.text_color));
 				iv_guanZhu.setVisibility(View.INVISIBLE);
+				if (!flag_tuijian) {
+					dialog.loading();
+					new Handler().postDelayed(new Runnable() {
+
+						@Override
+						public void run() {
+							getImgUrl(layout_dian, my_ViewPager);
+							getListTuiJianData(listView_tuiJian);
+							flag_tuijian = true;
+						}
+					}, 300);
+				}
 				break;
 
 			case 1:
@@ -1326,7 +1537,6 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 	protected void onDestroy() {
 		super.onDestroy();
 		imageLoader.clearCache();
-		imageLoaderUser.clearCache();
 	}
 
 	/*
@@ -1347,4 +1557,17 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 		}
 		return super.onKeyDown(keyCode, event);
 	}
+
+	// ShareParams sp = new ShareParams();
+	// sp.setTitle("测试分享的标题");
+	// sp.setTitleUrl("http://sharesdk.cn"); // 标题的超链接
+	// sp.setText("测试分享的文本");
+	// sp.setImageUrl("http://www.someserver.com/测试图片网络地址.jpg");
+	// sp.setSite("发布分享的网站名称");
+	// sp.setSiteUrl("发布分享网站的地址");
+	//
+	// Platform qzone = ShareSDK.getPlatform (QZone.NAME);
+	// qzone. setPlatformActionListener (paListener); // 设置分享事件回调
+	// // 执行图文分享
+	// qzone.share(sp);
 }

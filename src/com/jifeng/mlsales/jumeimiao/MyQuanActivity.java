@@ -15,7 +15,6 @@ import com.jifeng.url.HttpUtil;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.umeng.analytics.MobclickAgent;
 
-import android.R.string;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
@@ -151,8 +150,8 @@ public class MyQuanActivity extends Activity implements OnClickListener {
 		// AllStaticMessage.User_Id
 		// + "&type=" + type;
 		statu = status;
-		String url = AllStaticMessage.URL_Quan_list_New
-				+ status + "&UserId=" + AllStaticMessage.User_Id;
+		String url = AllStaticMessage.URL_Quan_list_New + status + "&UserId="
+				+ AllStaticMessage.User_Id;
 
 		HttpUtil.get(url, MyQuanActivity.this, dialog,
 				new JsonHttpResponseHandler() {
@@ -296,12 +295,11 @@ public class MyQuanActivity extends Activity implements OnClickListener {
 				appItem.AppText_time.setText(endtime);
 
 				appItem.AppText_money.setText(mArray.getJSONObject(position)
-						.getString("CouponMoney") + "元现金券");
+						.getString("CouponMoney") + "元");
 				appItem.AppText_price.setText(mArray.getJSONObject(position)
 						.getString("CouponMoney"));
-				appItem.AppTv_rule.setText("("
-						+ mArray.getJSONObject(position).getString("UseRule")
-						+ ")");
+				appItem.AppTv_rule.setText(mArray.getJSONObject(position)
+						.getString("UseRule"));
 
 				appItem.AppTv_code.setText(mArray.getJSONObject(position)
 						.getString("CouponCode"));

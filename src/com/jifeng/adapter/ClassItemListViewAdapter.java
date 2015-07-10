@@ -137,6 +137,7 @@ public class ClassItemListViewAdapter extends BaseAdapter {
 					Intent mIntent = new Intent(mContext,
 							GoodsDetailActivity.class);
 					// if (mContext.getClass() == FenLeiActivity.class) {
+					mIntent.putExtra("active", "0");
 					mIntent.putExtra("pid",
 							mListData.get(position).getString("ActiveId")
 									.toString());// »î¶¯id

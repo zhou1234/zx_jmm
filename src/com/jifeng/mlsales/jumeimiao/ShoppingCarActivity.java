@@ -120,6 +120,7 @@ public class ShoppingCarActivity extends Activity {
 							url.length());
 					mIntent = new Intent(ShoppingCarActivity.this,
 							GoodsDetailActivity.class);
+					mIntent.putExtra("active", "0");
 					mIntent.putExtra("pid", "");
 					mIntent.putExtra("goodsid", goodsID);
 					mIntent.putExtra("guigeid", guigeid);

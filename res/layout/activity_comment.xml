@@ -67,7 +67,9 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_weight="1"
-            android:hint="评论一下" >
+            android:background="@drawable/shape"
+            android:hint="评论一下"
+            android:padding="8dp" >
 
             <requestFocus />
         </EditText>

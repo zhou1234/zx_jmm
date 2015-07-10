@@ -1,6 +1,7 @@
 package com.jifeng.mlsales.photo;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -12,7 +13,14 @@ import android.widget.FrameLayout;
 
 import java.util.List;
 
+import org.json.JSONException;
+
 import com.jifeng.mlsales.R;
+import com.jifeng.mlsales.jumeimiao.GoodsListActivity;
+import com.jifeng.mlsales.jumeimiao.LoginActivity;
+import com.jifeng.mlsales.jumeimiao.MeiMiaoQuanActivity;
+import com.jifeng.mlsales.jumeimiao.TabHostActivity;
+import com.jifeng.url.AllStaticMessage;
 
 /**
  * Created by sreay on 14-9-19.
@@ -44,8 +52,10 @@ public class TagsView extends FrameLayout implements TagView.TagViewListener {
 	}
 
 	private void init(Context context) {
-		animIn = AnimationUtils.loadAnimation(this.getContext(), R.anim.push_bottom_in);
+		animIn = AnimationUtils.loadAnimation(this.getContext(),
+				R.anim.push_bottom_in);
 		animIn.setDuration(100);
+
 		animIn.setAnimationListener(new Animation.AnimationListener() {
 			@Override
 			public void onAnimationStart(Animation animation) {
@@ -62,7 +72,8 @@ public class TagsView extends FrameLayout implements TagView.TagViewListener {
 
 			}
 		});
-		animOut = AnimationUtils.loadAnimation(this.getContext(), R.anim.push_up_out);
+		animOut = AnimationUtils.loadAnimation(this.getContext(),
+				R.anim.push_up_out);
 		animOut.setDuration(500);
 		animOut.setAnimationListener(new Animation.AnimationListener() {
 			@Override
@@ -96,9 +107,11 @@ public class TagsView extends FrameLayout implements TagView.TagViewListener {
 		int width = 0;
 		int height = 0;
 
-		if (widthModel == MeasureSpec.EXACTLY || heightModel == MeasureSpec.EXACTLY) {
-			if (widthModel == MeasureSpec.EXACTLY && heightModel == MeasureSpec.EXACTLY) {
-				//取较大的长度
+		if (widthModel == MeasureSpec.EXACTLY
+				|| heightModel == MeasureSpec.EXACTLY) {
+			if (widthModel == MeasureSpec.EXACTLY
+					&& heightModel == MeasureSpec.EXACTLY) {
+				// 取较大的长度
 				if (widthSize > heightSize) {
 					width = height = widthSize;
 				} else {
@@ -113,7 +126,9 @@ public class TagsView extends FrameLayout implements TagView.TagViewListener {
 		setMeasuredDimension(width, height);
 		this.width = width;
 		this.height = height;
-		measureChildren(MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY));
+		measureChildren(
+				MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY),
+				MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY));
 	}
 
 	public void setImage(Bitmap bmp) {
@@ -141,7 +156,8 @@ public class TagsView extends FrameLayout implements TagView.TagViewListener {
 				public void onGlobalLayout() {
 					width = TagsView.this.getMeasuredWidth();
 					height = TagsView.this.getMeasuredHeight();
-					TagsView.this.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+					TagsView.this.getViewTreeObserver()
+							.removeGlobalOnLayoutListener(this);
 					addTagViews();
 				}
 			});
@@ -166,11 +182,12 @@ public class TagsView extends FrameLayout implements TagView.TagViewListener {
 			TagInfo tagInfo = new TagInfo();
 			tagInfo.bid = 2L;
 			tagInfo.bname = model.tag_name;
+			tagInfo.activityId = model.activityId;
 			tagInfo.direct = TagInfo.Direction.Left;
 			tagInfo.pic_x = 50;
 			tagInfo.pic_y = 50;
 			tagInfo.type = TagInfo.Type.CustomPoint;
-			//换算
+			// 换算
 			if (width == 0 || height == 0) {
 				width = getMeasuredWidth();
 				height = getMeasuredHeight();
@@ -189,7 +206,8 @@ public class TagsView extends FrameLayout implements TagView.TagViewListener {
 			TagView tagView = new TagViewLeft(TagsView.this.getContext(), null);
 			tagView.setData(tagInfo);
 			tagView.setTagViewListener(TagsView.this);
-			LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+			LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT,
+					LayoutParams.WRAP_CONTENT);
 			params.leftMargin = tagInfo.leftMargin;
 			params.topMargin = tagInfo.topMargin;
 			tagsContainer.addView(tagView, params);
@@ -198,6 +216,19 @@ public class TagsView extends FrameLayout implements TagView.TagViewListener {
 
 	@Override
 	public void onTagViewClicked(View view, TagInfo info) {
-		CaoNiMeiToast.makeShortText(info.bname);
+		// CaoNiMeiToast.makeShortText(info.bname);
+		//CaoNiMeiToast.makeShortText(info.activityId);
+		if (AllStaticMessage.Login_Flag.equals("")) {// LoginFlag
+			Intent mIntent = new Intent(this.getContext(), LoginActivity.class);
+			this.getContext().startActivity(mIntent);
+		} else {
+			Intent intent = new Intent(this.getContext(),
+					GoodsListActivity.class);
+			intent.putExtra("active", "1");
+			intent.putExtra("activeId", info.activityId);
+			this.getContext().startActivity(intent);
+
+		}
+
 	}
 }

@@ -2,8 +2,6 @@ package com.jifeng.url;
 
 import org.json.JSONObject;
 
-import android.R.string;
-
 public class AllStaticMessage {
 
 	public static final String SPNE = "jumeimiao";
@@ -18,6 +16,16 @@ public class AllStaticMessage {
 	public static final String USER_PATH = "user_path";
 
 	public static boolean user_flag = false;
+	public static boolean isShare = false;
+
+	public static String qudaoString = "";
+
+	/**
+	 * 发布晒单后，返回的数据
+	 */
+	public static String title = "";
+	public static String url = "";
+	public static String imgurl = "";
 
 	// 开发环境启用true，生产版本为false
 	public static final boolean DEVELOPER_MODE = false;
@@ -119,8 +127,8 @@ public class AllStaticMessage {
 	/**
 	 * 接口部分
 	 */
-	// public static String URL_GBase = "http://www.jumeimiao.com";
-	public static String URL_GBase = "http://192.168.2.120:8010";
+	public static String URL_GBase = "http://www.jumeimiao.com";
+	//public static String URL_GBase = "http://192.168.2.120:8010";
 
 	// public static String URL_GBase = "http://wwwpre.jumeimiao.com";
 	// public static String URL_GBase = "http://192.168.2.134:8010";
@@ -222,6 +230,10 @@ public class AllStaticMessage {
 	 * 赞
 	 */
 	public static String URL_Zan = URL_Base + "/u.ashx?m=Zan";
+	/**
+	 * 取消赞
+	 */
+	public static String URL_CancelZan = URL_Base + "/u.ashx?m=CancelZan";
 	/**
 	 * 关注
 	 */

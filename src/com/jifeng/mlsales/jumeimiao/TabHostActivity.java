@@ -90,6 +90,9 @@ public class TabHostActivity extends TabActivity implements
 
 		Context context = getApplicationContext();
 		XGPushManager.registerPush(context);
+
+		AllStaticMessage.qudaoString = MyTools
+				.getChannelCode(TabHostActivity.this);
 	}
 
 	private void login() {

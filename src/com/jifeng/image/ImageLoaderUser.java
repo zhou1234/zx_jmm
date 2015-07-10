@@ -15,7 +15,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import com.jifeng.mlsales.R;
-import com.jifeng.mlsales.photo.TagsView;
 import com.jifeng.tools.MyTools;
 
 import android.app.Activity;
@@ -40,7 +39,7 @@ public class ImageLoaderUser {
 		executorService = Executors.newFixedThreadPool(5);
 		Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(),
 				R.drawable.icon);
-		stub_id = MyTools.getRoundedCornerBitmap(bitmap);
+		stub_id = bitmap;
 	}
 
 	// 最主要的方法
@@ -50,7 +49,7 @@ public class ImageLoaderUser {
 		// 先从内存缓存中查找
 		Bitmap bitmap = memoryCache.get(url);
 		if (bitmap != null) {
-			imageView.setImageBitmap(MyTools.getRoundedCornerBitmap(bitmap));
+			imageView.setImageBitmap(bitmap);
 		} else {
 			// 若没有的话则开启新线程加载图片
 			queuePhoto(url, imageView);
@@ -181,11 +180,11 @@ public class ImageLoaderUser {
 		public void run() {
 			if (imageViewReused(photoToLoad))
 				return;
-			if (bitmap != null)
-				photoToLoad.imageView.setImageBitmap(MyTools
-						.getRoundedCornerBitmap(bitmap));
-			else
+			if (bitmap != null) {
+				photoToLoad.imageView.setImageBitmap(bitmap);
+			} else {
 				photoToLoad.imageView.setImageBitmap(stub_id);
+			}
 		}
 	}
 

@@ -37,7 +37,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class MainAdapter extends BaseAdapter {
-	private static final ImageLoadingListener ImageLoadingListenerImpl = null;
 	private Context mContext;
 	private MainAppItem appItem;
 	private List<JSONObject> mListData;
