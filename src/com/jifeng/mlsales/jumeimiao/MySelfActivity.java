@@ -95,8 +95,8 @@ public class MySelfActivity extends Activity {
 												Bitmap arg2) {
 											// Bitmap bitmap = MyTools
 											// .getRoundedCornerBitmap(arg2);
-											img_touxiang.setImageBitmap(arg2);
-											dialog.stop();
+//											img_touxiang.setImageBitmap(arg2);
+//											dialog.stop();
 										}
 
 										@Override
@@ -467,40 +467,40 @@ public class MySelfActivity extends Activity {
 			case 1111:// 个人中心
 				mTextFlag.setVisibility(View.GONE);
 				mLayout_Show.setVisibility(View.VISIBLE);
-				if (!AllStaticMessage.userImage.equals("")) {
-					dialog.loading();
-					ImageLoader.getInstance().loadImage(
-							AllStaticMessage.userImage,
-							new ImageLoadingListener() {
-
-								@Override
-								public void onLoadingStarted(String arg0,
-										View arg1) {
-
-								}
-
-								@Override
-								public void onLoadingFailed(String arg0,
-										View arg1, FailReason arg2) {
-
-								}
-
-								@Override
-								public void onLoadingComplete(String arg0,
-										View arg1, Bitmap arg2) {
-									Bitmap bitmap = MyTools
-											.getRoundedCornerBitmap(arg2);
-									img_touxiang.setImageBitmap(bitmap);
-									dialog.stop();
-								}
-
-								@Override
-								public void onLoadingCancelled(String arg0,
-										View arg1) {
-
-								}
-							});
-				}
+//				if (!AllStaticMessage.userImage.equals("")) {
+//					dialog.loading();
+//					ImageLoader.getInstance().loadImage(
+//							AllStaticMessage.userImage,
+//							new ImageLoadingListener() {
+//
+//								@Override
+//								public void onLoadingStarted(String arg0,
+//										View arg1) {
+//
+//								}
+//
+//								@Override
+//								public void onLoadingFailed(String arg0,
+//										View arg1, FailReason arg2) {
+//
+//								}
+//
+//								@Override
+//								public void onLoadingComplete(String arg0,
+//										View arg1, Bitmap arg2) {
+//									Bitmap bitmap = MyTools
+//											.getRoundedCornerBitmap(arg2);
+//									img_touxiang.setImageBitmap(bitmap);
+//									dialog.stop();
+//								}
+//
+//								@Override
+//								public void onLoadingCancelled(String arg0,
+//										View arg1) {
+//
+//								}
+//							});
+			//	}
 				break;
 			case 2222:// 待付款
 				mTextFlag.setVisibility(View.GONE);
