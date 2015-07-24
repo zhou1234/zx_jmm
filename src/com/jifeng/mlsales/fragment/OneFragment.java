@@ -13,8 +13,11 @@ import com.ab.view.pullview.AbPullToRefreshView.OnFooterLoadListener;
 import com.ab.view.pullview.AbPullToRefreshView.OnHeaderRefreshListener;
 import com.jifeng.adapter.MainAdapter;
 import com.jifeng.mlsales.R;
+import com.jifeng.mlsales.jumeimiao.FindActivity;
 import com.jifeng.mlsales.jumeimiao.GoodsListActivity;
 import com.jifeng.mlsales.jumeimiao.LoginActivity;
+import com.jifeng.mlsales.jumeimiao.RegisterActivity;
+import com.jifeng.mlsales.jumeimiao.ZhuanChangActivity;
 import com.jifeng.myview.LoadingDialog;
 import com.jifeng.myview.My_ViewPager;
 import com.jifeng.myview.My_ViewPager.OnSingleTouchListener;
@@ -27,20 +30,26 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,6 +63,7 @@ public class OneFragment extends BaseFragment implements
 	private ImageView[] mImageViews;
 	private MainAdapter adapter = null;
 	private List<JSONObject> mData;
+	private List<JSONObject> mDataImg;
 
 	private AbPullToRefreshView mAbPullToRefreshView = null;
 
@@ -70,7 +80,13 @@ public class OneFragment extends BaseFragment implements
 	private RelativeLayout rl_zhiding;
 	private TextView tv_number, tv_cont;
 
+	private ImageView iv_left_top, iv_left_bottom, iv_left_bottom_right,
+			iv_right;
+
 	private int cont;
+
+	private PopupWindow popupWindow;
+	private View guideView;
 
 	@SuppressWarnings("deprecation")
 	@Override
@@ -81,16 +97,66 @@ public class OneFragment extends BaseFragment implements
 		width = manager.getDefaultDisplay().getWidth();
 
 		mData = new ArrayList<JSONObject>();
-
+		mDataImg = new ArrayList<JSONObject>();
 		dialog = new LoadingDialog(getActivity());
+		createPopupWindow();
+
+	}
+
+	private void createPopupWindow() {
+		guideView = LayoutInflater.from(getActivity()).inflate(
+				R.layout.guide_item, null);
+		popupWindow = new PopupWindow(guideView);
+		popupWindow.setWidth(LayoutParams.MATCH_PARENT);
+		popupWindow.setHeight(LayoutParams.MATCH_PARENT);
+		// popupWindow.setAnimationStyle(R.style.AnimBottomPopup);
+		ColorDrawable dw = new ColorDrawable(0xb0000000);
+		popupWindow.setBackgroundDrawable(dw);
+		popupWindow.setOutsideTouchable(true);
+
+		ImageView guideImageView = (ImageView) guideView
+				.findViewById(R.id.iv_guideView);
+		ImageView finishImageView = (ImageView) guideView
+				.findViewById(R.id.iv_finish);
+		RelativeLayout rl_guide = (RelativeLayout) guideView
+				.findViewById(R.id.rl_guide);
+		finishImageView.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				popupWindow.dismiss();
+			}
+		});
+		guideImageView.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				startActivity(new Intent(getActivity(), RegisterActivity.class));
+				popupWindow.dismiss();
+			}
+		});
+		MyTools.setImageViewWandH(rl_guide, guideImageView, width);
+
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		View rootView = inflater.inflate(R.layout.loading_item_second_one,
-				container, false);
+		final View rootView = inflater.inflate(
+				R.layout.loading_item_second_one, container, false);
+		if (AllStaticMessage.guideString) {
+			new Handler().postDelayed(new Runnable() {
+
+				@Override
+				public void run() {
+					popupWindow.showAtLocation(
+							rootView.findViewById(R.id.guide), Gravity.CENTER,
+							0, 0);
+					AllStaticMessage.guideString = false;
+				}
+			}, 100);
+		}
 		mAbPullToRefreshView = (AbPullToRefreshView) rootView
 				.findViewById(R.id.mPullRefreshView);
 		mListView = (ListView) rootView.findViewById(R.id.main_first_list);
@@ -104,9 +170,77 @@ public class OneFragment extends BaseFragment implements
 		View headerView = LayoutInflater.from(getActivity()).inflate(
 				R.layout.sticky_listview_header_item, null);
 
+		LinearLayout ll_left = (LinearLayout) headerView
+				.findViewById(R.id.ll_left);
+		LinearLayout ll_right = (LinearLayout) headerView
+				.findViewById(R.id.ll_right);
+		LinearLayout ll_left_bottom = (LinearLayout) headerView
+				.findViewById(R.id.ll_left_bottom);
+		LinearLayout ll_left_bottom_left = (LinearLayout) headerView
+				.findViewById(R.id.ll_left_bottom_left);
+		LinearLayout ll_left_bottom_right = (LinearLayout) headerView
+				.findViewById(R.id.ll_left_bottom_right);
+
+		LinearLayout.LayoutParams linearParamsLeft = (LinearLayout.LayoutParams) ll_left
+				.getLayoutParams();
+
+		linearParamsLeft.width = width / 3 * 2;
+		linearParamsLeft.height = LayoutParams.WRAP_CONTENT;
+		ll_left.setLayoutParams(linearParamsLeft);
+
+		LinearLayout.LayoutParams linearParamsRight = (LinearLayout.LayoutParams) ll_right
+				.getLayoutParams();
+		linearParamsRight.width = width / 3;
+		linearParamsRight.height = LayoutParams.WRAP_CONTENT;
+		ll_right.setLayoutParams(linearParamsRight);
+
+		LinearLayout.LayoutParams linearParamsLeftBottom = (LinearLayout.LayoutParams) ll_left_bottom
+				.getLayoutParams();
+		linearParamsLeftBottom.width = width / 3 * 2;
+		linearParamsLeftBottom.height = LayoutParams.WRAP_CONTENT;
+		ll_left_bottom.setLayoutParams(linearParamsLeftBottom);
+
+		LinearLayout.LayoutParams linearParamsLeftBottomLeft = (LinearLayout.LayoutParams) ll_left_bottom_left
+				.getLayoutParams();
+		linearParamsLeftBottomLeft.width = width / 3;
+		linearParamsLeftBottomLeft.height = LayoutParams.WRAP_CONTENT;
+		ll_left_bottom_left.setLayoutParams(linearParamsLeftBottomLeft);
+
+		LinearLayout.LayoutParams linearParamsLeftBottomRight = (LinearLayout.LayoutParams) ll_left_bottom_right
+				.getLayoutParams();
+		linearParamsLeftBottomRight.width = width / 3;
+		linearParamsLeftBottomRight.height = LayoutParams.WRAP_CONTENT;
+		ll_left_bottom_right.setLayoutParams(linearParamsLeftBottomRight);
+
+		LinearLayout ll_qiangLayout = (LinearLayout) headerView
+				.findViewById(R.id.ll_qiang);
+		LinearLayout ll_zheLayout = (LinearLayout) headerView
+				.findViewById(R.id.ll_zhe);
+		LinearLayout ll_shaiLayout = (LinearLayout) headerView
+				.findViewById(R.id.ll_shai);
+		ll_qiangLayout.setOnClickListener(new myOnClickListener());
+		ll_zheLayout.setOnClickListener(new myOnClickListener());
+		ll_shaiLayout.setOnClickListener(new myOnClickListener());
+
+		iv_left_top = (ImageView) headerView.findViewById(R.id.iv_left_top);
+		iv_left_bottom = (ImageView) headerView
+				.findViewById(R.id.iv_left_bottom);
+		iv_left_bottom_right = (ImageView) headerView
+				.findViewById(R.id.iv_left_bottom_right);
+		iv_right = (ImageView) headerView.findViewById(R.id.iv_right);
+
+		setImageViewWindthAndHeight();
+
+		getImgData();
+		iv_left_top.setOnClickListener(new myOnClickListener());
+		iv_left_bottom.setOnClickListener(new myOnClickListener());
+		iv_left_bottom_right.setOnClickListener(new myOnClickListener());
+		iv_right.setOnClickListener(new myOnClickListener());
+
 		RelativeLayout relativeLayout = (RelativeLayout) headerView
 				.findViewById(R.id.liner_second);
-		MyTools.getHight(relativeLayout, width, height, getActivity());
+		// MyTools.getHight(relativeLayout, width, height, getActivity());
+		MyTools.setWidthAndHeight(relativeLayout, width);
 
 		mAbPullToRefreshView.setOnHeaderRefreshListener(this);
 		mAbPullToRefreshView.setOnFooterLoadListener(this);
@@ -157,7 +291,7 @@ public class OneFragment extends BaseFragment implements
 
 		mListView.addHeaderView(headerView);
 		final My_ViewPager my_ViewPager = (My_ViewPager) headerView
-				.findViewById(R.id.pic_viewPager);
+				.findViewById(R.id.my_viewPager);
 		LinearLayout layout_dian = (LinearLayout) headerView
 				.findViewById(R.id.yuandian);
 
@@ -194,9 +328,12 @@ public class OneFragment extends BaseFragment implements
 				try {
 					if (mArray_ad.getJSONObject(my_ViewPager.getCurrentItem())
 							.getString("LinkUrl").contains("Find")) {
-						dialog.loading();
-						AllStaticMessage.Back_to_Find = true;
-						dialog.stop();
+						// dialog.loading();
+						// AllStaticMessage.Back_to_Find = true;
+						// dialog.stop();
+						Intent intent = new Intent(getActivity(),
+								FindActivity.class);
+						startActivity(intent);
 					} else if (mArray_ad
 							.getJSONObject(my_ViewPager.getCurrentItem())
 							.getString("LinkUrl").contains("Reg")) {
@@ -277,12 +414,91 @@ public class OneFragment extends BaseFragment implements
 		});
 		isPrepared = true;
 		lazyLoad();
-		// ViewGroup parent = (ViewGroup) rootView.getParent();
-		// if (parent != null) {
-		// parent.removeView(rootView);
-		// }
 
 		return rootView;
+	}
+
+	private void setImageViewWindthAndHeight() {
+		LayoutParams left_top_Params = iv_left_top.getLayoutParams();
+		float w = (float) 499 / (width / 3 * 2);
+		left_top_Params.width = width / 3 * 2;
+		left_top_Params.height = (int) (178 / w);
+		iv_left_top.setLayoutParams(left_top_Params);
+
+		LayoutParams left_bottom_Params = iv_left_bottom.getLayoutParams();
+		float w1 = (float) 244 / (width / 3);
+		left_bottom_Params.width = width / 3;
+		left_bottom_Params.height = (int) (178 / w1);
+		iv_left_bottom.setLayoutParams(left_bottom_Params);
+
+		LayoutParams left_bottom_right_Params = iv_left_bottom_right
+				.getLayoutParams();
+		float w2 = (float) 244 / (width / 3);
+		left_bottom_right_Params.width = width / 3;
+		left_bottom_right_Params.height = (int) (178 / w2);
+		iv_left_bottom_right.setLayoutParams(left_bottom_right_Params);
+
+		LayoutParams right_Params = iv_right.getLayoutParams();
+		float w3 = (float) 250 / (width / 3);
+		right_Params.width = width / 3;
+		right_Params.height = (int) (356 / w3);
+		iv_right.setLayoutParams(right_Params);
+
+	}
+
+	private void getImgData() {
+		String url_1 = AllStaticMessage.URL_FirstBannerList;
+		HttpUtil.get(url_1, getActivity(), null, new JsonHttpResponseHandler() {
+			@Override
+			public void onSuccess(int statusCode, Header[] headers,
+					JSONObject response) {
+				super.onSuccess(statusCode, headers, response);
+				try {
+					if (response.getString("Status").equals("true")) {
+						JSONArray mArray = response.getJSONArray("Results");
+						if (mDataImg != null) {
+							mDataImg.clear();
+						}
+						for (int i = 0; i < mArray.length(); i++) {
+							mDataImg.add(mArray.getJSONObject(i));
+						}
+						ImageLoader.getInstance().displayImage(
+								mDataImg.get(0).getString("BannerPic"),
+								iv_left_top);
+						ImageLoader.getInstance().displayImage(
+								mDataImg.get(1).getString("BannerPic"),
+								iv_left_bottom);
+						ImageLoader.getInstance().displayImage(
+								mDataImg.get(2).getString("BannerPic"),
+								iv_left_bottom_right);
+						ImageLoader.getInstance().displayImage(
+								mDataImg.get(3).getString("BannerPic"),
+								iv_right);
+					}
+
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+
+			@Override
+			public void onFailure(int statusCode, Header[] headers,
+					Throwable throwable, JSONObject errorResponse) {
+				super.onFailure(statusCode, headers, throwable, errorResponse);
+				rl_progress.setVisibility(View.GONE);
+			}
+
+			@Override
+			public void onStart() {
+				super.onStart();
+			}
+
+			@Override
+			public void onFinish() {
+				super.onFinish();
+			}
+		});
+
 	}
 
 	private void getImgUrl(final LinearLayout layout_dian,
@@ -301,8 +517,7 @@ public class OneFragment extends BaseFragment implements
 						imgs = new ImageView[mArray_ad.length()];
 						for (int i = 0; i < imgs.length; i++) {
 							ImageView imageView = new ImageView(getActivity());// 创建图片框
-							// imageView.setLayoutParams(new
-							// LayoutParams(20,20));
+							imageView.setLayoutParams(new LayoutParams(30, 30));
 							// 设置下方图片宽，高
 							imageView.setPadding(10, 0, 10, 5);// 内边距
 							if (i == 0) {
@@ -429,7 +644,7 @@ public class OneFragment extends BaseFragment implements
 				return mImageViews[position % mImageViews.length];
 			}
 		}
-	}  
+	}
 
 	private void getListData(final ListView mListView, String id) {
 		String url_1 = AllStaticMessage.URL_Shouye_1 + id;
@@ -515,4 +730,66 @@ public class OneFragment extends BaseFragment implements
 
 	}
 
+	class myOnClickListener implements OnClickListener {
+
+		@Override
+		public void onClick(View arg0) {
+			Intent intent;
+			switch (arg0.getId()) {
+			case R.id.ll_qiang:
+				intent = new Intent(getActivity(), GoodsListActivity.class);
+				intent.putExtra("active", "1");
+				intent.putExtra("activeId", "61");
+				startActivity(intent);
+				break;
+			case R.id.ll_zhe:
+				intent = new Intent(getActivity(), FindActivity.class);
+				startActivity(intent);
+				break;
+			case R.id.ll_shai:
+				dialog.loading();
+				AllStaticMessage.Back_to_Classion = true;
+				dialog.stop();
+				break;
+			case R.id.iv_left_top:
+				startIntnt(0);
+				break;
+			case R.id.iv_left_bottom:
+				startIntnt(1);
+				break;
+			case R.id.iv_left_bottom_right:
+				startIntnt(2);
+				break;
+
+			case R.id.iv_right:
+				startIntnt(3);
+				break;
+			default:
+				break;
+			}
+
+		}
+	}   
+
+	private void startIntnt(int i) {
+		try {
+			Intent intent;
+			String flag = mDataImg.get(i).getString("SpecialType");
+			String id = mDataImg.get(i).getString("SpecialId");
+			String title=mDataImg.get(i).getString("BannerName");
+			if (flag.equals("1")) {
+				intent = new Intent(getActivity(), GoodsListActivity.class);
+				intent.putExtra("active", "1");
+				intent.putExtra("activeId", id);
+				startActivity(intent);
+			} else if (flag.equals("2")) {
+				intent = new Intent(getActivity(), ZhuanChangActivity.class);
+				intent.putExtra("id", id);
+				intent.putExtra("title", title);
+				startActivity(intent);
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+	}
 }

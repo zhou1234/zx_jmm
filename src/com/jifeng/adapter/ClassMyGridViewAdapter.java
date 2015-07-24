@@ -21,7 +21,7 @@ import android.widget.TextView;
 public class ClassMyGridViewAdapter extends BaseAdapter {
 	private Context context;
 	private List<ClassModel> classModels;
-	private DisplayImageOptions options= MyTools.createOptions(R.drawable.img);
+	private DisplayImageOptions options = MyTools.createOptions(R.drawable.img);
 
 	public ClassMyGridViewAdapter(Context context, List<ClassModel> classModels) {
 		this.context = context;
@@ -60,7 +60,7 @@ public class ClassMyGridViewAdapter extends BaseAdapter {
 			}
 			holder.tv_name.setText(classModels.get(pos).getName());
 			String imageUrl = classModels.get(pos).getImage_url();
-			if (imageUrl != null) {
+			if (imageUrl != null && !imageUrl.equals("")) {
 				ImageLoader.getInstance().displayImage(imageUrl,
 						holder.iv_class, options);
 			}

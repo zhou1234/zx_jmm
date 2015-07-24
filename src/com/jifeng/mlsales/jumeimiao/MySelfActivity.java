@@ -20,7 +20,6 @@ import com.jifeng.mlsales.photo.PathManager;
 import com.jifeng.myview.BadgeView;
 import com.jifeng.myview.LoadingDialog;
 import com.jifeng.tools.FileImageUpload;
-import com.jifeng.tools.MyTools;
 import com.jifeng.url.AllStaticMessage;
 import com.jifeng.url.HttpUtil;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -93,10 +92,8 @@ public class MySelfActivity extends Activity {
 										public void onLoadingComplete(
 												String arg0, View arg1,
 												Bitmap arg2) {
-											// Bitmap bitmap = MyTools
-											// .getRoundedCornerBitmap(arg2);
-//											img_touxiang.setImageBitmap(arg2);
-//											dialog.stop();
+											img_touxiang.setImageBitmap(arg2);
+											dialog.stop();
 										}
 
 										@Override
@@ -177,41 +174,37 @@ public class MySelfActivity extends Activity {
 		tv_number = (TextView) findViewById(R.id.tv_number);
 
 		img_touxiang = (ImageView) findViewById(R.id.img_touxiang);
-		// Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
-		// R.drawable.icon);
-		// bit = MyTools.getRoundedCornerBitmap(bitmap);
-		// img_touxiang.setImageBitmap(bit);
-		// if (!AllStaticMessage.userImage.equals("")) {
-		// dialog.loading();
-		// ImageLoader.getInstance().loadImage(AllStaticMessage.userImage,
-		// new ImageLoadingListener() {
-		//
-		// @Override
-		// public void onLoadingStarted(String arg0, View arg1) {
-		//
-		// }
-		//
-		// @Override
-		// public void onLoadingFailed(String arg0, View arg1,
-		// FailReason arg2) {
-		//
-		// }
-		//
-		// @Override
-		// public void onLoadingComplete(String arg0, View arg1,
-		// Bitmap arg2) {
-		// Bitmap bitmap = MyTools
-		// .getRoundedCornerBitmap(arg2);
-		// img_touxiang.setImageBitmap(bitmap);
-		// dialog.stop();
-		// }
-		//
-		// @Override
-		// public void onLoadingCancelled(String arg0, View arg1) {
-		//
-		// }
-		// });
-		// }
+		bit = BitmapFactory.decodeResource(getResources(), R.drawable.my_icon);
+		img_touxiang.setImageBitmap(bit);
+		if (!AllStaticMessage.userImage.equals("")) {
+			dialog.loading();
+			ImageLoader.getInstance().loadImage(AllStaticMessage.userImage,
+					new ImageLoadingListener() {
+
+						@Override
+						public void onLoadingStarted(String arg0, View arg1) {
+
+						}
+
+						@Override
+						public void onLoadingFailed(String arg0, View arg1,
+								FailReason arg2) {
+
+						}
+
+						@Override
+						public void onLoadingComplete(String arg0, View arg1,
+								Bitmap arg2) {
+							img_touxiang.setImageBitmap(arg2);
+							dialog.stop();
+						}
+
+						@Override
+						public void onLoadingCancelled(String arg0, View arg1) {
+
+						}
+					});
+		}
 
 	}
 
@@ -221,19 +214,20 @@ public class MySelfActivity extends Activity {
 	public void doclick(View view) {
 		switch (view.getId()) {
 		case R.id.img_touxiang:
-//			if (AllStaticMessage.Login_Flag.equals("")) {// LoginFlag
-//				mIntent = new Intent(MySelfActivity.this, LoginActivity.class);
-//				startActivityForResult(mIntent, 1111);
-//			} else {
-//				if (sp.getString(AllStaticMessage.OPEN_ID, "").equals("")) {
-//					AllStaticMessage.user_flag = true;
-//					Intent mIntent = new Intent(MySelfActivity.this,
-//							ActivityCapture.class);
-//					startActivityForResult(mIntent, 0x110);
-//				}
-//			}
-//			break;
+			if (AllStaticMessage.Login_Flag.equals("")) {// LoginFlag
+				mIntent = new Intent(MySelfActivity.this, LoginActivity.class);
+				startActivityForResult(mIntent, 1111);
+			} else {
+				if (sp.getString(AllStaticMessage.OPEN_ID, "").equals("")) {
+					AllStaticMessage.user_flag = true;
+					Intent mIntent = new Intent(MySelfActivity.this,
+							ActivityCapture.class);
+					startActivityForResult(mIntent, 0x110);
+				}
+			}
+			break;
 		case R.id.my_rel:
+		case R.id.rel_top:
 			if (AllStaticMessage.Login_Flag.equals("")) {// LoginFlag
 				mIntent = new Intent(MySelfActivity.this, LoginActivity.class);
 				startActivityForResult(mIntent, 1111);
@@ -317,6 +311,7 @@ public class MySelfActivity extends Activity {
 			}
 			break;
 		case R.id.img_setting:// 设置
+		case R.id.ll_seting:
 			mIntent = new Intent(MySelfActivity.this, SettingActivity.class);
 			startActivity(mIntent);
 			break;
@@ -458,49 +453,47 @@ public class MySelfActivity extends Activity {
 			} else {
 				mText_NickName.setText(AllStaticMessage.User_NickName);
 			}
-			mText_Jifen.setText(AllStaticMessage.User_JiFen + "分");
+			mText_Jifen.setText("积分:" + AllStaticMessage.User_JiFen + "分");
 
 			switch (requestCode) {
 			case 0x00:
-				//img_touxiang.setImageBitmap(bit);
+				img_touxiang.setImageBitmap(bit);
 				break;
 			case 1111:// 个人中心
 				mTextFlag.setVisibility(View.GONE);
 				mLayout_Show.setVisibility(View.VISIBLE);
-//				if (!AllStaticMessage.userImage.equals("")) {
-//					dialog.loading();
-//					ImageLoader.getInstance().loadImage(
-//							AllStaticMessage.userImage,
-//							new ImageLoadingListener() {
-//
-//								@Override
-//								public void onLoadingStarted(String arg0,
-//										View arg1) {
-//
-//								}
-//
-//								@Override
-//								public void onLoadingFailed(String arg0,
-//										View arg1, FailReason arg2) {
-//
-//								}
-//
-//								@Override
-//								public void onLoadingComplete(String arg0,
-//										View arg1, Bitmap arg2) {
-//									Bitmap bitmap = MyTools
-//											.getRoundedCornerBitmap(arg2);
-//									img_touxiang.setImageBitmap(bitmap);
-//									dialog.stop();
-//								}
-//
-//								@Override
-//								public void onLoadingCancelled(String arg0,
-//										View arg1) {
-//
-//								}
-//							});
-			//	}
+				if (!AllStaticMessage.userImage.equals("")) {
+					dialog.loading();
+					ImageLoader.getInstance().loadImage(
+							AllStaticMessage.userImage,
+							new ImageLoadingListener() {
+
+								@Override
+								public void onLoadingStarted(String arg0,
+										View arg1) {
+
+								}
+
+								@Override
+								public void onLoadingFailed(String arg0,
+										View arg1, FailReason arg2) {
+
+								}
+
+								@Override
+								public void onLoadingComplete(String arg0,
+										View arg1, Bitmap arg2) {
+									img_touxiang.setImageBitmap(arg2);
+									dialog.stop();
+								}
+
+								@Override
+								public void onLoadingCancelled(String arg0,
+										View arg1) {
+
+								}
+							});
+				}
 				break;
 			case 2222:// 待付款
 				mTextFlag.setVisibility(View.GONE);
@@ -642,7 +635,7 @@ public class MySelfActivity extends Activity {
 			} else {
 				mText_NickName.setText(AllStaticMessage.User_NickName);
 			}
-			mText_Jifen.setText(AllStaticMessage.User_JiFen + "分");
+			mText_Jifen.setText("积分:" + AllStaticMessage.User_JiFen + "分");
 		}
 		getData1();
 		getData2();

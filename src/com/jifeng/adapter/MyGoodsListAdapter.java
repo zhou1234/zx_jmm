@@ -8,7 +8,6 @@ import org.json.JSONObject;
 
 //import com.jifeng.image.ImageLoader;
 import com.jifeng.mlsales.R;
-import com.jifeng.mlsales.jumeimiao.FenLeiActivity;
 import com.jifeng.mlsales.jumeimiao.GoodsDetailActivity;
 import com.jifeng.tools.MyTools;
 import com.jifeng.url.AllStaticMessage;
@@ -18,11 +17,11 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -81,6 +80,11 @@ public class MyGoodsListAdapter extends BaseAdapter {
 			// (Button)v.findViewById(R.id.goods_btn_shengyu_time);
 			appItem.AppBtn_dazhe = (Button) v.findViewById(R.id.goods_dazhe);
 			appItem.AppImg = (ImageView) v.findViewById(R.id.goodslist_imgbig);
+			
+			LayoutParams para = appItem.AppImg.getLayoutParams();
+			para.height =(width-20)/2;
+			para.width = (width-20)/2;
+			appItem.AppImg.setLayoutParams(para);
 			appItem.AppmLayout = (RelativeLayout) v.findViewById(R.id.rel_1);
 			appItem.AppImg_qiangguang = (ImageView) v
 					.findViewById(R.id.goodslist_item_qiangguang);
@@ -89,7 +93,7 @@ public class MyGoodsListAdapter extends BaseAdapter {
 		} else {
 			appItem = (GoodsListAppItem) convertView.getTag();
 		}
-		MyTools.setHight(appItem.AppmLayout, width, hight, mContext);
+		//MyTools.setHight(appItem.AppmLayout, width, hight, mContext);
 		// appItem.AppBtn_shengyu_time.setVisibility(View.INVISIBLE);
 		try {
 			if (mListData.get(position).getString("Stock").toString()
@@ -149,12 +153,12 @@ public class MyGoodsListAdapter extends BaseAdapter {
 				try {
 					Intent mIntent = new Intent(mContext,
 							GoodsDetailActivity.class);
-					if (mContext.getClass() == FenLeiActivity.class) {
-						mIntent.putExtra("pid", mListData.get(position)
-								.getString("ActiveId").toString());// 活动id
-					} else {
-						mIntent.putExtra("pid", pid);// 活动id
-					}
+					// if (mContext.getClass() == FenLeiActivity.class) {
+					// mIntent.putExtra("pid", mListData.get(position)
+					// .getString("ActiveId").toString());// 活动id
+					// } else {
+					mIntent.putExtra("pid", pid);// 活动id
+					// }
 					mIntent.putExtra("active", "0");
 					mIntent.putExtra("guigeid", mListData.get(position)
 							.getString("Id").toString());// 规格

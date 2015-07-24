@@ -1,7 +1,5 @@
 package com.jifeng.mlsales.jumeimiao;
 
-import java.io.File;
-
 import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,6 +20,7 @@ import com.umeng.analytics.MobclickAgent;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.http.SslError;
@@ -86,19 +85,24 @@ public class GoodsDetailActivity extends Activity {
 		if (intent != null) {
 			String active = intent.getStringExtra("active").toString();
 			if (active.equals("1")) {
-				detailUrl = intent.getStringExtra("detailUrl").toString()
-						+ "&userId=" + AllStaticMessage.User_Id;
-				shareUrl = intent.getStringExtra("shareUrl").toString();
+				String detail = intent.getStringExtra("detailUrl").toString();
+				if (!detail.equals("")) {
+					String[] strings = detail.split(",");
+					activityId = strings[2];// 活动id
+					id = strings[0];// 商品id
+					spid = strings[1];// 规格
+				}
 			} else {
 				activityId = intent.getStringExtra("pid").toString();// 活动id
 				id = intent.getStringExtra("goodsid").toString();// 商品id
 				spid = intent.getStringExtra("guigeid").toString();// 规格
-				shareUrl = AllStaticMessage.URL_Goods_detail_share + activityId
-						+ "&pid=" + id + "&id=" + spid;// +"&spid="+spid
-				detailUrl = AllStaticMessage.URL_Goods_detail + activityId
-						+ "&pid=" + id + "&id=" + spid + "&userId="
-						+ AllStaticMessage.User_Id;
 			}
+			shareUrl = AllStaticMessage.URL_Goods_detail_share + activityId
+					+ "&pid=" + id + "&id=" + spid;// +"&spid="+spid
+			detailUrl = AllStaticMessage.URL_Goods_detail + activityId
+					+ "&pid=" + id + "&id=" + spid + "&userId="
+					+ AllStaticMessage.User_Id;
+
 			shareImg = intent.getStringExtra("imgurl").toString();
 		}
 		tasckActivity = new TasckActivity();
@@ -141,6 +145,9 @@ public class GoodsDetailActivity extends Activity {
 			@Override
 			public void onReceivedSslError(WebView view,
 					SslErrorHandler handler, SslError error) {
+				if (dialog != null) {
+					dialog.stop();
+				}
 				// 忽略SSL证书错误，继续加载页面。
 				handler.proceed();
 			}
@@ -392,19 +399,19 @@ public class GoodsDetailActivity extends Activity {
 		oks.setText(content + url);
 
 		// imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
-		File file = new File(
-				android.os.Environment.getExternalStorageDirectory()
-						+ "/JuMeiMiao/pic/Myshare.jpg");
-		if (file.exists()) {
-			oks.setImagePath(android.os.Environment
-					.getExternalStorageDirectory()
-					+ "/JuMeiMiao/pic/Myshare.jpg");// 确保SDcard下面存在此张图片
-		}
+		// File file = new File(
+		// android.os.Environment.getExternalStorageDirectory()
+		// + "/JuMeiMiao/pic/Myshare.jpg");
+		// if (file.exists()) {
+		// oks.setImagePath(android.os.Environment
+		// .getExternalStorageDirectory()
+		// + "/JuMeiMiao/pic/Myshare.jpg");// 确保SDcard下面存在此张图片
+		// }
 		// url仅在微信（包括好友和朋友圈）中使用
 		oks.setUrl(url);
 		oks.setImageUrl(imgurl);
-		oks.setFilePath(android.os.Environment.getExternalStorageDirectory()
-				+ "/JuMeiMiao/pic/Myshare.jpg");
+		// oks.setFilePath(android.os.Environment.getExternalStorageDirectory()
+		// + "/JuMeiMiao/pic/Myshare.jpg");
 		// comment是我对这条分享的评论，仅在人人网和QQ空间使用
 		// oks.setComment("我是测试评论文本");
 		// site是分享此内容的网站名称，仅在QQ空间使用

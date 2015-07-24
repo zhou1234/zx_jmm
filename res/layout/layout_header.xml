@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="50dp"
     android:layout_gravity="clip_vertical"
-    android:background="@drawable/head"
+    android:background="@drawable/t_bg"
     android:paddingRight="10dp" >
 
     <!-- <TextView -->
@@ -25,14 +25,14 @@
 
     <FrameLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true" >
 
         <ImageView
             android:id="@+id/tv_head_left"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-           
             android:src="@drawable/back_bg" />
     </FrameLayout>
 
@@ -41,11 +41,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:shadowColor="#73804055"
         android:shadowDx="2"
         android:shadowDy="-2"
         android:shadowRadius="2"
-        android:textColor="@color/white"
         android:textSize="20sp" />
 
     <ImageView
@@ -64,7 +62,6 @@
         android:layout_centerVertical="true"
         android:gravity="center"
         android:padding="10dip"
-        android:textColor="@color/white"
         android:textSize="17sp"
         android:visibility="gone" />
 

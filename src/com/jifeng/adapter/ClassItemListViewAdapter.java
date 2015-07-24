@@ -19,7 +19,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jifeng.mlsales.R;
-import com.jifeng.mlsales.jumeimiao.FenLeiActivity;
 import com.jifeng.mlsales.jumeimiao.GoodsDetailActivity;
 import com.jifeng.tools.MyTools;
 import com.jifeng.url.AllStaticMessage;

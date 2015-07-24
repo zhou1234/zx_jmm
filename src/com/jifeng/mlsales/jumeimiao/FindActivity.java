@@ -7,6 +7,7 @@ import com.jifeng.mlsales.R;
 import com.jifeng.myview.LoadingDialog;
 import com.jifeng.tools.MyTools;
 import com.jifeng.url.AllStaticMessage;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.umeng.analytics.MobclickAgent;
 
 import android.annotation.TargetApi;
@@ -18,6 +19,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -109,14 +111,19 @@ public class FindActivity extends Activity {
 				} else if (url.contains("pid=")) {
 					url = url.replace("pid=", "#");
 					url = url.replace("&id=", "*");
+					url = url.replace("&activeId=", "$");
 					String goodsID = url.substring(url.lastIndexOf("#") + 1,
 							url.lastIndexOf("*"));
+					// String guigeid = url.substring(url.lastIndexOf("*") + 1,
+					// url.length());
 					String guigeid = url.substring(url.lastIndexOf("*") + 1,
+							url.lastIndexOf("$"));
+					String activityId = url.substring(url.lastIndexOf("$") + 1,
 							url.length());
 					mIntent = new Intent(FindActivity.this,
 							GoodsDetailActivity.class);
-					mIntent.putExtra("active","0");
-					mIntent.putExtra("pid", "");
+					mIntent.putExtra("active", "0");
+					mIntent.putExtra("pid", activityId);
 					mIntent.putExtra("goodsid", goodsID);
 					mIntent.putExtra("guigeid", guigeid);
 					mIntent.putExtra("imgurl", "");
@@ -128,6 +135,17 @@ public class FindActivity extends Activity {
 			}
 		});
 
+	}
+
+	// //xml注册点击事件的实现
+	public void doclick(View view) {
+		switch (view.getId()) {
+		case R.id.find_back:// 返回
+			finish();
+			break;
+		default:
+			break;
+		}
 	}
 
 	/*

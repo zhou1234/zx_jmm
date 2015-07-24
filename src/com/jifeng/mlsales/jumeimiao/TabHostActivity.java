@@ -76,7 +76,7 @@ public class TabHostActivity extends TabActivity implements
 
 		init();
 		mTabHost.setCurrentTab(0);
-		button.setBackgroundResource(R.drawable.tab_dibu_select_bg_1);
+		//button.setBackgroundResource(R.drawable.tab_dibu_select_bg_1);
 		tasckActivity = new TasckActivity();
 		tasckActivity.pushActivity(TabHostActivity.this);
 
@@ -124,9 +124,9 @@ public class TabHostActivity extends TabActivity implements
 		} else if (AllStaticMessage.Back_to_Classion) {
 			AllStaticMessage.Back_to_Classion = false;
 			nextView(mTabHost.getCurrentTab(), 1);
-		} else if (AllStaticMessage.Back_to_Find) {
-			AllStaticMessage.Back_to_Find = false;
-			nextView(mTabHost.getCurrentTab(), 2);
+//		} else if (AllStaticMessage.Back_to_Find) {
+//			AllStaticMessage.Back_to_Find = false;
+//			nextView(mTabHost.getCurrentTab(), 2);
 		} else if (AllStaticMessage.Back_to_ZhangHu) {
 			AllStaticMessage.Back_to_ZhangHu = false;
 			nextView(mTabHost.getCurrentTab(), 4);
@@ -137,7 +137,7 @@ public class TabHostActivity extends TabActivity implements
 		switch (before) {
 		case 0:
 			button.setChecked(true);
-			button.setTextColor(getResources().getColor(R.color.tab_select));
+			button.setTextColor(getResources().getColor(R.color.white));
 			Drawable drawable = this.getResources().getDrawable(
 					R.drawable.tab_first_2);
 			button.setCompoundDrawablesWithIntrinsicBounds(null, drawable,
@@ -145,7 +145,7 @@ public class TabHostActivity extends TabActivity implements
 			break;
 		case 1:
 			button2.setChecked(true);
-			button2.setTextColor(getResources().getColor(R.color.tab_select));
+			button2.setTextColor(getResources().getColor(R.color.white));
 			Drawable drawable1 = this.getResources().getDrawable(
 					R.drawable.tab_second_2);
 			button2.setCompoundDrawablesWithIntrinsicBounds(null, drawable1,
@@ -153,7 +153,7 @@ public class TabHostActivity extends TabActivity implements
 			break;
 		case 2:
 			button3.setChecked(true);
-			button3.setTextColor(getResources().getColor(R.color.tab_select));
+			button3.setTextColor(getResources().getColor(R.color.white));
 			Drawable drawable2 = this.getResources().getDrawable(
 					R.drawable.tab_thread_2);
 			button3.setCompoundDrawablesWithIntrinsicBounds(null, drawable2,
@@ -162,7 +162,7 @@ public class TabHostActivity extends TabActivity implements
 			break;
 		case 3:
 			button4.setChecked(true);
-			button4.setTextColor(getResources().getColor(R.color.tab_select));
+			button4.setTextColor(getResources().getColor(R.color.white));
 			Drawable drawable3 = null;
 			if (AllStaticMessage.ShoppingCar) {
 				drawable3 = this.getResources().getDrawable(
@@ -181,7 +181,7 @@ public class TabHostActivity extends TabActivity implements
 			break;
 		case 4:
 			button5.setChecked(true);
-			button5.setTextColor(getResources().getColor(R.color.tab_select));
+			button5.setTextColor(getResources().getColor(R.color.white));
 			Drawable drawable4 = this.getResources().getDrawable(
 					R.drawable.tab_fifth_2);
 			button5.setCompoundDrawablesWithIntrinsicBounds(null, drawable4,
@@ -198,7 +198,7 @@ public class TabHostActivity extends TabActivity implements
 		switch (num) {
 		case 0:
 			button.setChecked(true);
-			button.setBackgroundResource(R.drawable.tab_dibu_select_bg_2);
+			//button.setBackgroundResource(R.drawable.tab_dibu_select_bg_2);
 			break;
 		case 1:
 			button2.setChecked(true);
@@ -221,7 +221,7 @@ public class TabHostActivity extends TabActivity implements
 		this.mAIntent = new Intent(this, FirstActivity.class);
 		this.mBIntent = new Intent(this, MeiMiaoQuanActivity.class);
 
-		this.mCIntent = new Intent(this, FindActivity.class)
+		this.mCIntent = new Intent(this, ClassActivityNew.class)
 				.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
 		this.mDIntent = new Intent(this, ShoppingCarActivity.class)
@@ -237,7 +237,7 @@ public class TabHostActivity extends TabActivity implements
 		setupIntent();
 	}
 
-	@Override
+	@SuppressLint("NewApi") @Override
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 		if (isChecked) {
 			int currentTab = this.mTabHost.getCurrentTab();
@@ -245,8 +245,8 @@ public class TabHostActivity extends TabActivity implements
 			reBack();
 			switch (buttonView.getId()) {
 			case R.id.radio_button_xianshi:
-				button.setBackgroundResource(R.drawable.tab_dibu_select_bg_1);
-				button.setTextColor(getResources().getColor(R.color.tab_select));
+				//button.setBackgroundResource(R.drawable.tab_dibu_select_bg_1);
+				button.setTextColor(getResources().getColor(R.color.white));
 				Drawable drawable = this.getResources().getDrawable(
 						R.drawable.tab_first_2);
 				button.setCompoundDrawablesWithIntrinsicBounds(null, drawable,
@@ -256,17 +256,17 @@ public class TabHostActivity extends TabActivity implements
 				break;
 			case R.id.radio_button_fenlei:
 				button2.setTextColor(getResources()
-						.getColor(R.color.tab_select));
+						.getColor(R.color.white));
 				Drawable drawable2_1 = this.getResources().getDrawable(
 						R.drawable.tab_second_2);
 				button2.setCompoundDrawablesWithIntrinsicBounds(null,
-						drawable2_1, null, null);
+						drawable2_1,null, null);
 				setCurrentTabWithAnim(currentTab, 1, "B_TAB");
 				// this.mTabHost.setCurrentTabByTag("B_TAB");
 				break;
 			case R.id.radio_button_meirifaxian:
 				button3.setTextColor(getResources()
-						.getColor(R.color.tab_select));
+						.getColor(R.color.white));
 				Drawable drawable3_11 = this.getResources().getDrawable(
 						R.drawable.tab_thread_2);
 				button3.setCompoundDrawablesWithIntrinsicBounds(null,
@@ -276,7 +276,7 @@ public class TabHostActivity extends TabActivity implements
 				break;
 			case R.id.radio_button_shoppingcar:
 				button4.setTextColor(getResources()
-						.getColor(R.color.tab_select));
+						.getColor(R.color.white));
 				Drawable drawable4_111 = null;
 				if (AllStaticMessage.ShoppingCar) {
 					drawable4_111 = this.getResources().getDrawable(
@@ -293,7 +293,7 @@ public class TabHostActivity extends TabActivity implements
 				break;
 			case R.id.radio_button_zhanghu:
 				button5.setTextColor(getResources()
-						.getColor(R.color.tab_select));
+						.getColor(R.color.white));
 				Drawable drawable5_1111 = this.getResources().getDrawable(
 						R.drawable.tab_fifth_2);
 				button5.setCompoundDrawablesWithIntrinsicBounds(null,
@@ -353,7 +353,7 @@ public class TabHostActivity extends TabActivity implements
 		localTabHost.addTab(buildTabSpec("B_TAB", "美喵圈",
 				R.drawable.tab_second_1, this.mBIntent));
 
-		localTabHost.addTab(buildTabSpec("C_TAB", "每日发现",
+		localTabHost.addTab(buildTabSpec("C_TAB", "分类",
 				R.drawable.tab_thread_1, this.mCIntent));
 
 		localTabHost.addTab(buildTabSpec("D_TAB", "购物车",

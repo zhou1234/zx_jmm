@@ -99,6 +99,7 @@ public class SaveActivity extends Activity {
 		}
 	};
 
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -108,10 +109,8 @@ public class SaveActivity extends Activity {
 		dialog.loading();
 		mListData_1 = new ArrayList<JSONObject>();
 		mListData_2 = new ArrayList<JSONObject>();
-		initData();
 		findView();
 		handler.sendEmptyMessage(0x01);
-		register();
 		WindowManager manager = getWindowManager();
 		height = manager.getDefaultDisplay().getHeight();
 		width = manager.getDefaultDisplay().getWidth();
@@ -130,18 +129,6 @@ public class SaveActivity extends Activity {
 
 		iv_no = (ImageView) findViewById(R.id.iv_no);
 		tv_no = (TextView) findViewById(R.id.tv_no);
-	}
-
-	// 注册事件
-	private void register() {
-
-	}
-
-	/*
-	 * 初始化数据
-	 */
-	private void initData() {
-
 	}
 
 	@Override

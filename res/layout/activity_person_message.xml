@@ -8,8 +8,8 @@
     <RelativeLayout
         android:id="@+id/rel_tou"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/head" >
+        android:layout_height="50dp"
+        android:background="@drawable/t_bg" >
 
         <ImageView
             android:id="@+id/person_message_back"
@@ -29,10 +29,13 @@
             android:layout_centerVertical="true"
             android:gravity="center_vertical"
             android:text="个人资料"
-            android:textColor="@android:color/white"
             android:textSize="@dimen/title_siae" />
     </RelativeLayout>
-
+ <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="fitXY"
+        android:src="@drawable/logo_xian" />
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -64,6 +67,7 @@
                 android:background="@null"
                 android:layout_toRightOf="@+id/tt_nicheng"
                 android:text=""
+                android:maxLines="1"
                 android:textColor="@color/text_color"
                 android:textSize="16sp" />
 

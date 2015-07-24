@@ -19,6 +19,7 @@ public class AllStaticMessage {
 	public static boolean isShare = false;
 
 	public static String qudaoString = "";
+	public static boolean guideString = false;
 
 	/**
 	 * 发布晒单后，返回的数据
@@ -128,7 +129,7 @@ public class AllStaticMessage {
 	 * 接口部分
 	 */
 	public static String URL_GBase = "http://www.jumeimiao.com";
-	//public static String URL_GBase = "http://192.168.2.120:8010";
+	// public static String URL_GBase = "http://192.168.2.120:8010";
 
 	// public static String URL_GBase = "http://wwwpre.jumeimiao.com";
 	// public static String URL_GBase = "http://192.168.2.134:8010";
@@ -225,7 +226,13 @@ public class AllStaticMessage {
 	/**
 	 * 晒图顶部轮播图片列表
 	 */
-	public static String URL_BannerList = URL_Base + "/u.ashx?m=BannerList";
+	public static String URL_BannerList = URL_Base
+			+ "/u.ashx?m=BannerList&Position=1";
+
+
+	public static String URL_FirstBannerList = URL_Base
+			+ "/u.ashx?m=BannerList&Position=2";
+
 	/**
 	 * 赞
 	 */

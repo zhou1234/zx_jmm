@@ -2,9 +2,7 @@ package com.jifeng.pulltorefresh;
  
  
 
-import com.jifeng.mlsales.jumeimiao.MainActivity;
 import com.jifeng.pulltorefresh.ILoadingLayout.State;
-import com.jifeng.url.AllStaticMessage;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

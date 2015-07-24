@@ -7,15 +7,16 @@
     <RelativeLayout
         android:id="@+id/save_gridview_liner"
         android:layout_width="match_parent"
-        android:layout_height="125dip"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="5dip"
         android:layout_marginRight="5dip"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:visibility="visible" >
 
         <ImageView
             android:id="@+id/img_main_tou"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:scaleType="fitXY" />
 
         <Button
@@ -30,7 +31,8 @@
             android:paddingRight="8dip"
             android:text="仅剩5天"
             android:textColor="@color/white"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:visibility="gone" />
 
         <RelativeLayout
             android:id="@+id/rel_quan"
@@ -69,37 +71,52 @@
         </RelativeLayout>
     </RelativeLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="40dip"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/save_gridview_dibu" >
-
-        <Button
-            android:id="@+id/btn_activity_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/text_dazhe"
-            android:background="@null"
-            android:gravity="center_vertical|left"
-            android:paddingLeft="8dip"
-            android:singleLine="true"
-            android:text="水星家纺专场"
-            android:textColor="@color/text_color"
-            android:textSize="15sp" />
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:background="@color/white"
+        android:gravity="center_vertical" >
 
         <TextView
             android:id="@+id/text_dazhe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="8dip"
+            android:gravity="center|left"
             android:text="3折起"
             android:textColor="@color/tab_select"
             android:textSize="14sp" />
-    </RelativeLayout>
+
+        <Button
+            android:id="@+id/btn_activity_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:ellipsize="end"
+            android:gravity="center|left"
+            android:paddingLeft="8dip"
+            android:singleLine="true"
+            android:text="水星家纺专场"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center|right"
+            android:textColor="@color/text_color" />
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/img_w" />
 
 </LinearLayout>

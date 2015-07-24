@@ -67,8 +67,9 @@ public class GoodsListActivity extends Activity {
 	private Button mBtn_YouHui;
 	private TextView mText_Time, mText_MeiMiaoShuo, mText_miao_say;
 	private ImageView mDongHua;
-	LinearLayout mLayout;
+	private LinearLayout mLayout;
 	private boolean oneFlag = true;
+	private boolean flag_meimiaoshuo;
 	@SuppressLint("HandlerLeak")
 	public Handler handler = new Handler() {
 		@Override
@@ -101,8 +102,8 @@ public class GoodsListActivity extends Activity {
 	private String loadFlag = "0";
 	private int pageNum = 1;
 	private String pinpaiId = "";
-	DisplayImageOptions options;
-	ScrollView mScrollView;
+	private DisplayImageOptions options;
+	private ScrollView mScrollView;
 	private ImageView mImg_Zhiding;
 
 	private String id = "", youhui = "", time = "", text = "", imgurl = "";
@@ -138,7 +139,6 @@ public class GoodsListActivity extends Activity {
 				getActiveDetial(activeId);
 			}
 		}
-
 		tasckActivity = new TasckActivity();
 		tasckActivity.pushActivity(GoodsListActivity.this);
 	}
@@ -273,40 +273,67 @@ public class GoodsListActivity extends Activity {
 		mScrollView = mPullScrollView.getRefreshableView();
 
 		mScrollView.setVerticalScrollBarEnabled(false);
+
+		// View view = LayoutInflater.from(GoodsListActivity.this).inflate(
+		// R.layout.item_scrollview_gridview, null);
+		// mBtn_YouHui = (Button) view.findViewById(R.id.goodslist_youhui);
+		// mText_Time = (TextView) view.findViewById(R.id.item_goodslist_time);
+		// mText_MeiMiaoShuo = (TextView) view
+		// .findViewById(R.id.textView_meimiaoshuo);
+		// RelativeLayout relativeLayout = (RelativeLayout) view
+		// .findViewById(R.id.lll);
+		// if (youhui.equals("")) {
+		// relativeLayout.setVisibility(View.INVISIBLE);
+		// } else {
+		// mBtn_YouHui.setText(youhui);
+		// relativeLayout.setVisibility(View.VISIBLE);
+		// }
+		//
+		// mText_Time.setText(time);
+		// mText_MeiMiaoShuo.setText(text);
+		// mText_miao_say.setText(text);
+		// mText_MeiMiaoShuo.setOnClickListener(new OnClickListener() {
+		//
+		// @Override
+		// public void onClick(View v) {
+		// mRelativeLayout_say.setVisibility(View.VISIBLE);
+		// }
+		// });
+		// mGridView = (My_GridView) view.findViewById(R.id.item_gridview);
+		// mImageView = (ImageView) view.findViewById(R.id.img_goodslist_tou);
+		// RelativeLayout mLayout = (RelativeLayout) view
+		// .findViewById(R.id.rel_top_2);
+		// RelativeLayout mLayout_2 = (RelativeLayout) view
+		// .findViewById(R.id.menban_miao);
+
 		View view = LayoutInflater.from(GoodsListActivity.this).inflate(
-				R.layout.item_scrollview_gridview, null);
-		mBtn_YouHui = (Button) view.findViewById(R.id.goodslist_youhui);
-		mText_Time = (TextView) view.findViewById(R.id.item_goodslist_time);
-		mText_MeiMiaoShuo = (TextView) view
-				.findViewById(R.id.textView_meimiaoshuo);
-		RelativeLayout relativeLayout = (RelativeLayout) view
-				.findViewById(R.id.lll);
-		if (youhui.equals("")) {
-			relativeLayout.setVisibility(View.INVISIBLE);
-		} else {
-			mBtn_YouHui.setText(youhui);
-			relativeLayout.setVisibility(View.VISIBLE);
-		}
-
-		mText_Time.setText(time);
-		mText_MeiMiaoShuo.setText(text);
-		mText_miao_say.setText(text);
-		mText_MeiMiaoShuo.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				mRelativeLayout_say.setVisibility(View.VISIBLE);
-			}
-		});
+				R.layout.item_scrollview_gridview_new, null);
+		
+		final TextView tv_meimiaoshuo = (TextView) view
+				.findViewById(R.id.tv_meimiaoshuo);
+		final ImageView iv_DownAndUp = (ImageView) view
+				.findViewById(R.id.iv_downAndUp);
 		mGridView = (My_GridView) view.findViewById(R.id.item_gridview);
-		mImageView = (ImageView) view.findViewById(R.id.img_goodslist_tou);
-		RelativeLayout mLayout = (RelativeLayout) view
-				.findViewById(R.id.rel_top_2);
-		RelativeLayout mLayout_2 = (RelativeLayout) view
-				.findViewById(R.id.menban_miao);
-		MyTools.getHight(mLayout, width, height, GoodsListActivity.this);
-		MyTools.getHight(mLayout_2, width, height, GoodsListActivity.this);
-		ImageLoader.getInstance().displayImage(imgurl, mImageView);
+		mImageView = (ImageView) view.findViewById(R.id.iv_meimiao);
+		MyTools.setWidthAndHeight(mImageView, width);
+		
+		tv_meimiaoshuo.setText(text);
+		view.findViewById(R.id.ll_downAndUp).setOnClickListener(
+				new OnClickListener() {
+					@Override
+					public void onClick(View arg0) {
+						flag_meimiaoshuo = !flag_meimiaoshuo;
+						if (flag_meimiaoshuo) {
+							iv_DownAndUp.setImageResource(R.drawable.img_up);
+							tv_meimiaoshuo.setMaxLines(100);
+						} else {
+							iv_DownAndUp.setImageResource(R.drawable.img_down);
+							tv_meimiaoshuo.setMaxLines(2);
+						}
+					}
+				});
+
+		ImageLoader.getInstance().displayImage(imgurl, mImageView,options);
 		try {
 			mScrollView.smoothScrollTo(0, 20);
 			mScrollView.addView(view);
@@ -342,7 +369,7 @@ public class GoodsListActivity extends Activity {
 			break;
 		case R.id.goods_list_btn_moren:// Ä¬ÈÏ
 			sort(1);
-			break; 
+			break;
 		case R.id.goods_list_btn_news:// ×îÐÂ
 			sort(2);
 			break;
@@ -451,10 +478,10 @@ public class GoodsListActivity extends Activity {
 
 	//
 	private void setView(int num) {
-		btn_moren.setTextColor(getResources().getColor(R.color.text_color));
-		btn_news.setTextColor(getResources().getColor(R.color.text_color));
-		btn_rexiao.setTextColor(getResources().getColor(R.color.text_color));
-		btn_price.setTextColor(getResources().getColor(R.color.text_color));
+		btn_moren.setTextColor(getResources().getColor(R.color.black));
+		btn_news.setTextColor(getResources().getColor(R.color.black));
+		btn_rexiao.setTextColor(getResources().getColor(R.color.black));
+		btn_price.setTextColor(getResources().getColor(R.color.black));
 		Drawable drawable = this.getResources().getDrawable(
 				R.drawable.transparent);
 		btn_moren.setCompoundDrawablesWithIntrinsicBounds(null, null, null,

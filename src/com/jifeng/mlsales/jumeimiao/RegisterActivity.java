@@ -20,11 +20,13 @@ import com.umeng.analytics.MobclickAgent;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -296,6 +298,7 @@ public class RegisterActivity extends Activity {
 								mShrefUtil.write("user_psd", psd);
 								RegisterActivity.this.setResult(RESULT_OK);
 								RegisterActivity.this.finish();
+								AllStaticMessage.Back_to_ZhangHu=true;
 							} else {
 								Toast.makeText(
 										RegisterActivity.this,
@@ -373,7 +376,21 @@ public class RegisterActivity extends Activity {
 		}
 		return super.onKeyDown(keyCode, event);
 	}
+	@Override
+	public boolean dispatchKeyEvent(KeyEvent event) {
+		if (event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+			/* Òþ²ØÈí¼üÅÌ */
+			InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+			if (inputMethodManager.isActive()) {
+				inputMethodManager.hideSoftInputFromWindow(
+						RegisterActivity.this.getCurrentFocus()
+								.getWindowToken(), 0);
+			}
 
+			return true;
+		}
+		return super.dispatchKeyEvent(event);
+	}
 	@Override
 	protected void onResume() {
 		super.onResume();

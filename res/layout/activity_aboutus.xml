@@ -8,8 +8,8 @@
     <RelativeLayout
         android:id="@+id/rel_tou"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/head" >
+        android:layout_height="50dp"
+        android:background="@drawable/t_bg" >
 
         <ImageView
             android:id="@+id/aboutUs_back"
@@ -18,8 +18,9 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="3dip"
-            android:src="@drawable/back_bg" 
-            android:onClick="doclick"/> 
+            android:onClick="doclick"
+            android:src="@drawable/back_bg" />
+
         <TextView
             android:id="@+id/textview_title"
             android:layout_width="wrap_content"
@@ -28,16 +29,20 @@
             android:layout_centerVertical="true"
             android:gravity="center_vertical"
             android:text="关于美喵家居"
-            android:textColor="@android:color/white"
             android:textSize="16sp" />
     </RelativeLayout>
 
-   <WebView
-       android:id="@+id/aboutus_web"
-       android:layout_width="fill_parent"
-       android:layout_height="fill_parent"
-       android:layout_weight="1"
-       
-       />
+    <ImageView
+        android:id="@+id/iv_xian"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="fitXY"
+        android:src="@drawable/logo_xian" />
+
+    <WebView
+        android:id="@+id/aboutus_web"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1" />
 
 </LinearLayout>

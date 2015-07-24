@@ -9,8 +9,8 @@
     <RelativeLayout
         android:id="@+id/rel_tou"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/head" >
+        android:layout_height="50dp"
+        android:background="@drawable/t_bg" >
 
         <ImageView
             android:id="@+id/goodslist_back"
@@ -34,7 +34,6 @@
             android:marqueeRepeatLimit="marquee_forever"
             android:singleLine="true"
             android:text=""
-            android:textColor="@color/white"
             android:textSize="16sp" />
 
         <ImageView
@@ -91,7 +90,7 @@
                 android:background="@null"
                 android:onClick="doclick"
                 android:text="最新"
-                android:textColor="@color/text_color"
+                android:textColor="@color/black"
                 android:textSize="16sp" />
         </RelativeLayout>
 
@@ -110,7 +109,7 @@
                 android:background="@null"
                 android:onClick="doclick"
                 android:text="热销"
-                android:textColor="@color/text_color"
+                android:textColor="@color/black"
                 android:textSize="16sp" />
         </RelativeLayout>
 
@@ -129,7 +128,7 @@
                 android:background="@null"
                 android:onClick="doclick"
                 android:text="价格"
-                android:textColor="@color/text_color"
+                android:textColor="@color/black"
                 android:textSize="16sp" />
 
             <ImageView
@@ -161,7 +160,7 @@
 
         <ImageView
             android:id="@+id/img_wenzi"
-            android:layout_width="wrap_content"  
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:src="@drawable/shuaxin_wenzi"

@@ -8,8 +8,8 @@
     <RelativeLayout
         android:id="@+id/rel_top"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/head" >
+        android:layout_height="50dp"
+        android:background="@drawable/t_bg" >
 
         <TextView
             android:layout_width="wrap_content"
@@ -17,7 +17,6 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:text="添加优惠券"
-            android:textColor="@color/white"
             android:textSize="@dimen/title_siae" />
 
         <ImageView
@@ -32,9 +31,9 @@
 
     <ImageView
         android:id="@+id/imageView1"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:scaleType="fitXY"
         android:src="@drawable/logo_xian" />
 
     <LinearLayout

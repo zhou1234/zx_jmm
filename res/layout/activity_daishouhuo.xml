@@ -8,8 +8,8 @@
     <RelativeLayout
         android:id="@+id/rel_tou"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/head" >
+        android:layout_height="50dp"
+        android:background="@drawable/t_bg" >
 
         <ImageView
             android:id="@+id/daishouhuo_back"
@@ -29,9 +29,15 @@
             android:layout_centerVertical="true"
             android:gravity="center_vertical"
             android:text="待收货订单"
-            android:textColor="@android:color/white"
             android:textSize="16sp" />
     </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="fitXY"
+        android:src="@drawable/logo_xian" />
 
     <GridView
         android:id="@+id/daishouhuo_gridview"
@@ -42,24 +48,45 @@
         android:verticalSpacing="8dip" />
 
     <LinearLayout
+        android:id="@+id/ll_no"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#ffffff"
         android:gravity="center"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:visibility="gone" >
 
         <ImageView
             android:id="@+id/iv_no"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/img_order"
-            android:visibility="gone" />
+            android:src="@drawable/img_order" />
 
         <TextView
             android:id="@+id/tv_no"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:visibility="gone" />
+            android:text="您还没有相关的订单,喵~"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="去看看有哪些想买的"
+            android:textColor="@color/text_color" />
+
+        <Button
+            android:id="@+id/bt_stroll"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bt_ok"
+            android:text="去逛逛"
+            android:textColor="@color/white"
+            android:textSize="16dp" />
     </LinearLayout>
 
 </LinearLayout>

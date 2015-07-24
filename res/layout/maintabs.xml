@@ -22,50 +22,73 @@
             android:layout_weight="0.0"
             android:visibility="gone" />
 
-        <RadioGroup
-            android:id="@+id/main_radio"
-            android:layout_width="fill_parent"
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/tab_dibu_bg"
-            android:gravity="center_vertical"
-            android:orientation="horizontal" >
+            android:visibility="gone"
+            android:src="@drawable/logo_xian" />
 
-            <RadioButton
-                android:id="@+id/radio_button_xianshi"
-                style="@style/main_tab_bottom"
-                android:drawableTop="@drawable/tab_first_2"
-                android:text="今日特卖"
-                android:textColor="@color/tab_select" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:background="#252525"
+            android:gravity="center|bottom"
+            android:orientation="vertical" >
 
-            <RadioButton
-                android:id="@+id/radio_button_meirifaxian"
-                style="@style/main_tab_bottom"
-                android:drawableTop="@drawable/tab_thread_1"
-                android:text="每日精选"
-                android:textColor="@color/text_color" />
+            <RadioGroup
+                android:id="@+id/main_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="horizontal" >
 
-            <RadioButton
-                android:id="@+id/radio_button_fenlei"
-                style="@style/main_tab_bottom"
-                android:drawableTop="@drawable/tab_second_1"
-                android:text="美喵圈"
-                android:visibility="gone"
-                android:textColor="@color/text_color" />
+                <RadioButton
+                    android:id="@+id/radio_button_xianshi"
+                    style="@style/main_tab_bottom"
+                    android:drawableTop="@drawable/tab_first_2"
+                    android:scaleX="0.8"
+                    android:scaleY="0.8"
+                    android:text="今日特卖"
+                    android:textColor="@color/white" />
 
-            <RadioButton
-                android:id="@+id/radio_button_shoppingcar"
-                style="@style/main_tab_bottom"
-                android:drawableTop="@drawable/tab_forth_1"
-                android:text="购物车"
-                android:textColor="@color/text_color" />
+                <RadioButton
+                    android:id="@+id/radio_button_meirifaxian"
+                    style="@style/main_tab_bottom"
+                    android:drawableTop="@drawable/tab_thread_1"
+                    android:scaleX="0.8"
+                    android:scaleY="0.8"
+                    android:text="分类"
+                    android:textColor="@color/text_color" />
 
-            <RadioButton
-                android:id="@+id/radio_button_zhanghu"
-                style="@style/main_tab_bottom"
-                android:drawableTop="@drawable/tab_fifth_1"
-                android:text="我"
-                android:textColor="@color/text_color" />
-        </RadioGroup>
+                <RadioButton
+                    android:id="@+id/radio_button_fenlei"
+                    style="@style/main_tab_bottom"
+                    android:drawableTop="@drawable/tab_second_1"
+                    android:scaleX="0.8"
+                    android:scaleY="0.8"
+                    android:text="止痛贴"
+                    android:textColor="@color/text_color" />
+
+                <RadioButton
+                    android:id="@+id/radio_button_shoppingcar"
+                    style="@style/main_tab_bottom"
+                    android:drawableTop="@drawable/tab_forth_1"
+                    android:scaleX="0.8"
+                    android:scaleY="0.8"
+                    android:text="购物车"
+                    android:textColor="@color/text_color" />
+
+                <RadioButton
+                    android:id="@+id/radio_button_zhanghu"
+                    style="@style/main_tab_bottom"
+                    android:drawableTop="@drawable/tab_fifth_1"
+                    android:scaleX="0.8"
+                    android:scaleY="0.8"
+                    android:text="我"
+                    android:textColor="@color/text_color" />
+            </RadioGroup>
+        </LinearLayout>
     </LinearLayout>
 
 </TabHost>

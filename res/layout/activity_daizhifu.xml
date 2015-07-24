@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/main_bg_color"
+    android:gravity="center"
     android:orientation="vertical" >
 
     <!-- android:background="@color/main_bg_color" -->
@@ -10,8 +11,8 @@
     <RelativeLayout
         android:id="@+id/rel_tou"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/head" >
+        android:layout_height="50dp"
+        android:background="@drawable/t_bg" >
 
         <ImageView
             android:id="@+id/daizhifu_back"
@@ -31,9 +32,15 @@
             android:layout_centerVertical="true"
             android:gravity="center_vertical"
             android:text="待支付订单"
-            android:textColor="@android:color/white"
             android:textSize="16sp" />
     </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="fitXY"
+        android:src="@drawable/logo_xian" />
 
     <GridView
         android:id="@+id/daizhifu_gridview"
@@ -45,9 +52,12 @@
     </GridView>
 
     <LinearLayout
+        android:id="@+id/ll_no"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
+        android:visibility="gone"
+        android:background="#ffffff"
         android:orientation="vertical" >
 
         <ImageView
@@ -55,14 +65,35 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/img_order"
-            android:visibility="gone" />
+            />
 
         <TextView
             android:id="@+id/tv_no"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:visibility="gone" />
+            android:textSize="16dp"
+            android:text="您还没有相关的订单,喵~"
+             />
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/text_color"
+            android:text="去看看有哪些想买的" />
+
+        <Button
+            android:id="@+id/bt_stroll"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bt_ok"
+            android:textColor="@color/white"
+            android:textSize="16dp"
+            android:text="去逛逛" />
+
     </LinearLayout>
 
 </LinearLayout>

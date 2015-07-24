@@ -78,7 +78,7 @@ public class LoadingActivity extends Activity {
 		// .build());
 		setContentView(R.layout.activity_loading);
 		((FBApplication) getApplication()).addActivity(this);
-		
+
 		dialog = new LoadingDialog(this);
 		mShrefUtil = new ShrefUtil(this, "data");
 
@@ -88,7 +88,6 @@ public class LoadingActivity extends Activity {
 		} else {
 
 		}
-
 	}
 
 	@Override
@@ -105,6 +104,7 @@ public class LoadingActivity extends Activity {
 		if (isFirstRun) {
 			false_save();
 			// Log.d("debug", "第一次运行");
+			AllStaticMessage.guideString = true;
 			editor.putBoolean("isFirstRun", false);
 			editor.commit();
 			handler.sendEmptyMessage(0x01);

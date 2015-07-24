@@ -31,8 +31,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class DaiShouHuoActivity extends Activity {
@@ -42,9 +44,9 @@ public class DaiShouHuoActivity extends Activity {
 	private List<JSONObject> mData;
 	private LoadingDialog dialog;
 
-	private ImageView iv_no;
-	private TextView tv_no;
 	private DisplayImageOptions options;
+	private LinearLayout ll_no;
+	private Button bt_stroll;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -82,8 +84,17 @@ public class DaiShouHuoActivity extends Activity {
 		mGridView = (GridView) findViewById(R.id.daishouhuo_gridview);
 		mGridView.setSelector(new ColorDrawable(Color.TRANSPARENT));// 设置点击是背景透明
 
-		iv_no = (ImageView) findViewById(R.id.iv_no);
-		tv_no = (TextView) findViewById(R.id.tv_no);
+		ll_no = (LinearLayout) findViewById(R.id.ll_no);
+		bt_stroll = (Button) findViewById(R.id.bt_stroll);
+		bt_stroll.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				startActivity(new Intent(DaiShouHuoActivity.this,
+						TabHostActivity.class));
+				finish();
+			}
+		});
 	}
 
 	// //xml注册点击事件的实现
@@ -124,16 +135,12 @@ public class DaiShouHuoActivity extends Activity {
 									mAdapter = new MyGridViewAdapter(mData);
 									mGridView.setAdapter(mAdapter);
 								} else {
-									tv_no.setText("暂无待收货订单");
 									mGridView.setVisibility(View.GONE);
-									iv_no.setVisibility(View.VISIBLE);
-									tv_no.setVisibility(View.VISIBLE);
+									ll_no.setVisibility(View.VISIBLE);
 								}
 							} else {
-								tv_no.setText("暂无待收货订单");
 								mGridView.setVisibility(View.GONE);
-								iv_no.setVisibility(View.VISIBLE);
-								tv_no.setVisibility(View.VISIBLE);
+								ll_no.setVisibility(View.VISIBLE);
 							}
 						} catch (JSONException e) {
 							e.printStackTrace();

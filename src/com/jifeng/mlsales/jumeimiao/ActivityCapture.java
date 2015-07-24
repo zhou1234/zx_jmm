@@ -27,7 +27,6 @@ import android.view.*;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -77,7 +76,6 @@ public class ActivityCapture extends Activity implements View.OnClickListener,
 	final static String TAG = "capture";
 	private static final int PICK_IMAGE_ACTIVITY_REQUEST_CODE = 200;
 	private LinearLayout ll_flash;
-	private TextView tv_flash;
 	private ImageView iv_bitmap, iv_false, iv_flash;
 	private boolean flag;
 	private String path;
@@ -149,7 +147,6 @@ public class ActivityCapture extends Activity implements View.OnClickListener,
 		focuseView = findViewById(R.id.viewFocuse);
 
 		ll_flash = (LinearLayout) findViewById(R.id.ll_flash);
-		tv_flash = (TextView) findViewById(R.id.tv_flash);
 		iv_bitmap = (ImageView) findViewById(R.id.iv_bitmap);
 		iv_false = (ImageView) findViewById(R.id.iv_false);
 		iv_flash = (ImageView) findViewById(R.id.iv_flash);
@@ -287,16 +284,16 @@ public class ActivityCapture extends Activity implements View.OnClickListener,
 		} catch (OutOfMemoryError e) {
 			e.printStackTrace();
 		}
-//		try {
-//			Bitmap b3 = Bitmap.createBitmap(bmp, rect.left, rect.top,
-//					rect.width(), rect.height());
-//			if (null != b3 && bmp != b3) {
-//				bmp.recycle();
-//				bmp = b3;
-//			}
-//		} catch (OutOfMemoryError e) {
-//			e.printStackTrace();
-//		}
+		// try {
+		// Bitmap b3 = Bitmap.createBitmap(bmp, rect.left, rect.top,
+		// rect.width(), rect.height());
+		// if (null != b3 && bmp != b3) {
+		// bmp.recycle();
+		// bmp = b3;
+		// }
+		// } catch (OutOfMemoryError e) {
+		// e.printStackTrace();
+		// }
 		// 将图片压缩至640*640
 		try {
 			Bitmap b4 = Bitmap.createScaledBitmap(bmp, 640, 640, false);
@@ -388,11 +385,11 @@ public class ActivityCapture extends Activity implements View.OnClickListener,
 			if (flag) {
 				camParmeters = camera.getParameters();
 				camParmeters.setFlashMode(Parameters.FLASH_MODE_OFF);
-				tv_flash.setText("关闭");
+				iv_flash.setImageResource(R.drawable.img_flash_1);
 			} else {
 				camParmeters = camera.getParameters();
 				camParmeters.setFlashMode(Parameters.FLASH_MODE_AUTO);
-				tv_flash.setText("自动");
+				iv_flash.setImageResource(R.drawable.img_flash);
 			}
 			// camera.setParameters(camParmeters);
 			break;
@@ -615,7 +612,7 @@ public class ActivityCapture extends Activity implements View.OnClickListener,
 				parameters.setRotation(0);
 				mCamera.setParameters(parameters);
 			} catch (Exception e) {
-				Debug.debug(e.toString());  
+				Debug.debug(e.toString());
 			}
 
 			// set preview size and make any resize, rotate or
@@ -755,10 +752,13 @@ public class ActivityCapture extends Activity implements View.OnClickListener,
 						path = mCursor.getString(mCursor
 								.getColumnIndex(MediaColumns.DATA));
 						handler.sendEmptyMessage(0);
-
+					} else {
+						iv_bitmap.setImageResource(R.drawable.loading_22);
 					}
+
 				} catch (Exception e) {
 					e.printStackTrace();
+					iv_bitmap.setImageResource(R.drawable.loading_22);
 				}
 			}
 		}).start();

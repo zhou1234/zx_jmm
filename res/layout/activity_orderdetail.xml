@@ -8,8 +8,8 @@
     <RelativeLayout
         android:id="@+id/rel_tou"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/head" >
+        android:layout_height="50dp"
+        android:background="@drawable/t_bg" >
 
         <ImageView
             android:id="@+id/orderdetail_back"
@@ -29,7 +29,6 @@
             android:layout_centerVertical="true"
             android:gravity="center_vertical"
             android:text="订单详情"
-            android:textColor="@android:color/white"
             android:textSize="16sp" />
 
         <Button
@@ -42,10 +41,15 @@
             android:background="@drawable/orderdetail_quxiao"
             android:onClick="doclick"
             android:text="取消订单"
-            android:textColor="@color/white"
             android:textSize="15sp"
             android:visibility="invisible" />
     </RelativeLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="fitXY"
+        android:src="@drawable/logo_xian" />
 
     <ScrollView
         android:id="@+id/orderDetail_scrollview"

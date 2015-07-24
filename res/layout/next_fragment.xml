@@ -4,11 +4,46 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
+    <RelativeLayout
+        android:id="@+id/rel_top"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/t_bg" >
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:textSize="@dimen/title_siae" />
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="3dip"
+            android:background="@drawable/back_bg"
+            android:onClick="doclick" />
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/iv_xian"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rel_top"
+        android:scaleType="fitXY"
+        android:src="@drawable/logo_xian" />
+
     <com.ab.view.pullview.AbPullToRefreshView
         android:id="@+id/mPullRefreshView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical" >
+        android:layout_below="@+id/iv_xian"
+        android:orientation="vertical"
+        android:visibility="visible" >
 
         <ListView
             android:id="@+id/main_first_list"

@@ -12,7 +12,7 @@
         <RelativeLayout
             android:id="@+id/liner_second"
             android:layout_width="match_parent"
-            android:layout_height="120dip"
+            android:layout_height="200dip"
             android:orientation="horizontal" >
 
             <com.jifeng.myview.My_ViewPager

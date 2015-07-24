@@ -8,8 +8,8 @@
     <RelativeLayout
         android:id="@+id/search_tou"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/head" >
+        android:layout_height="50dp"
+        android:background="@drawable/t_bg" >
 
         <TextView
             android:id="@+id/classion_title"
@@ -17,30 +17,37 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:text="美喵圈"
-            android:textColor="@color/white"
-            android:textSize="18sp" />
+            android:text="止痛贴"
+            android:textSize="@dimen/title_siae" />
 
         <ImageView
             android:id="@+id/iv_photo"
-            android:layout_width="30dp"
-            android:layout_height="23dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
-            android:background="@drawable/photo_bg" />
+            android:background="@drawable/photo_bg"
+            android:scaleX="0.8"
+            android:scaleY="0.8" />
     </RelativeLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="fitXY"
+        android:src="@drawable/logo_xian" />
 
     <LinearLayout
         android:id="@+id/rel_main_top"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="#ffffff" >
+        android:layout_height="38dp"
+        android:background="@color/white" >
 
         <LinearLayout
             android:id="@+id/ll_tuiJian"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:gravity="center"
@@ -57,8 +64,8 @@
 
             <ImageView
                 android:id="@+id/iv_tuiJian"
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
+                android:layout_width="60dp"
+                android:layout_height="5dp"
                 android:scaleType="fitXY"
                 android:src="@drawable/main_ok_select_ok" />
         </LinearLayout>
@@ -66,7 +73,7 @@
         <LinearLayout
             android:id="@+id/ll_guanZhu"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:gravity="center"
@@ -83,13 +90,19 @@
 
             <ImageView
                 android:id="@+id/iv_guanZhu"
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
+                android:layout_width="60dp"
+                android:layout_height="5dp"
                 android:scaleType="fitXY"
                 android:src="@drawable/main_ok_select_ok"
                 android:visibility="invisible" />
         </LinearLayout>
     </LinearLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="fitXY"
+        android:src="@drawable/logo_xian" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPager"

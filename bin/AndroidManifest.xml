@@ -72,16 +72,16 @@
         android:icon="@drawable/icon"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        
-         <meta-data android:name="CHANNEL" android:value="dianru" />
-       
-         <meta-data
+        <meta-data
+            android:name="CHANNEL"
+            android:value="jumeimiao" />
+        <meta-data
             android:name="UMENG_APPKEY"
             android:value="55166db9fd98c58c37000111" >
         </meta-data>
         <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="Wandoujia" />
+            android:value="jumeimiao" />
 
         <activity
             android:name="com.jifeng.mlsales.jumeimiao.LoadingActivity"
@@ -152,9 +152,9 @@
             android:theme="@android:style/Theme.Light.NoTitleBar"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" >
         </activity>
-        <!-- fenlei -->
+        <!-- 分类新 -->
         <activity
-            android:name="com.jifeng.mlsales.jumeimiao.FenLeiActivity"
+            android:name="com.jifeng.mlsales.jumeimiao.ClassActivityNew"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar"
@@ -171,14 +171,6 @@
         <!-- 首页 -->
         <activity
             android:name="com.jifeng.mlsales.jumeimiao.MainActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Light.NoTitleBar"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden" >
-        </activity>
-        <!-- 分类 -->
-        <activity
-            android:name="com.jifeng.mlsales.jumeimiao.ClassionActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar"
@@ -518,6 +510,14 @@
         <!-- 分类Item -->
         <activity
             android:name="com.jifeng.mlsales.jumeimiao.ClassItemActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" >
+        </activity>
+        
+         <activity
+            android:name="com.jifeng.mlsales.jumeimiao.ZhuanChangActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar"

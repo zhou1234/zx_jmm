@@ -3,7 +3,6 @@ package com.jifeng.mlsales.jumeimiao;
 import java.util.Calendar;
 
 import org.apache.http.Header;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -12,7 +11,6 @@ import cn.sharesdk.framework.ShareSDK;
 import com.jifeng.mlsales.FBApplication;
 import com.jifeng.mlsales.R;
 import com.jifeng.myview.LoadingDialog;
-import com.jifeng.tools.MyTools;
 import com.jifeng.url.AllStaticMessage;
 import com.jifeng.url.HttpUtil;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -21,11 +19,13 @@ import com.umeng.analytics.MobclickAgent;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.content.Intent;
+import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -36,7 +36,7 @@ public class PersonMessageActivity extends Activity {
 	private TextView mText_Date, mText_Sex;
 	private EditText mEdit_NiCheng;
 	private LoadingDialog dialog;
-	private String nicheng="", shengri="";
+	private String nicheng = "", shengri = "";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +45,6 @@ public class PersonMessageActivity extends Activity {
 		((FBApplication) getApplication()).addActivity(this);
 		dialog = new LoadingDialog(this);
 		findView();
-		initData();
 		register();
 		get_person_Msg("", "", "");
 	}
@@ -70,13 +69,11 @@ public class PersonMessageActivity extends Activity {
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count,
 					int after) {
-				// TODO Auto-generated method stub
 
 			}
 
 			@Override
 			public void afterTextChanged(Editable s) {
-				// TODO Auto-generated method stub
 				// 更新数据
 				// get_person_Msg("modify","",mEdit_NiCheng.getText().toString());
 			}
@@ -85,7 +82,6 @@ public class PersonMessageActivity extends Activity {
 
 	@Override
 	protected void onDestroy() {
-		// TODO Auto-generated method stub
 		ShareSDK.stopSDK(this);
 		setContentView(R.layout.view_null);
 		super.onDestroy();
@@ -99,18 +95,6 @@ public class PersonMessageActivity extends Activity {
 		dialog = null;
 		this.finish();
 		System.gc();
-	}
-
-	// 其他实现
-	private void setView(int i) {
-
-	}
-
-	/*
-	 * 初始化数据
-	 */
-	private void initData() {
-
 	}
 
 	// //xml注册点击事件的实现
@@ -193,10 +177,10 @@ public class PersonMessageActivity extends Activity {
 										.equals("true")) {
 									AllStaticMessage.User_NickName = nickname;
 									Toast.makeText(PersonMessageActivity.this,
-											"信息修改成功", 500).show();
+											"信息修改成功", 0).show();
 								} else {
 									Toast.makeText(PersonMessageActivity.this,
-											"抱歉,信息更新失败,请重新再试一次", 500).show();
+											"抱歉,信息更新失败,请重新再试一次", 0).show();
 								}
 								finish();
 							} else {
@@ -225,7 +209,6 @@ public class PersonMessageActivity extends Activity {
 							}
 
 						} catch (JSONException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 						dialog.stop();
@@ -246,13 +229,28 @@ public class PersonMessageActivity extends Activity {
 					@Override
 					public void onFailure(int statusCode, Header[] headers,
 							Throwable throwable, JSONObject errorResponse) {
-						// TODO Auto-generated method stub
 						super.onFailure(statusCode, headers, throwable,
 								errorResponse);
 						// 错误返回JSONObject
 						dialog.stop();
 					}
 				});
+	}
+
+	@Override
+	public boolean dispatchKeyEvent(KeyEvent event) {
+		if (event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+			/* 隐藏软键盘 */
+			InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+			if (inputMethodManager.isActive()) {
+				inputMethodManager.hideSoftInputFromWindow(
+						PersonMessageActivity.this.getCurrentFocus()
+								.getWindowToken(), 0);
+			}
+
+			return true;
+		}
+		return super.dispatchKeyEvent(event);
 	}
 
 	@Override

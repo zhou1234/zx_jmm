@@ -18,8 +18,7 @@
                 android:id="@+id/mysave_img"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:scaleType="fitXY"
-                android:src="@drawable/loading_01" />
+                android:scaleType="fitXY" />
 
             <Button
                 android:layout_width="wrap_content"
@@ -53,8 +52,8 @@
             android:id="@+id/rel_meng"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:background="@drawable/mengban" 
-            android:visibility="gone">
+            android:background="@drawable/mengban"
+            android:visibility="gone" >
 
             <Button
                 android:id="@+id/delete"

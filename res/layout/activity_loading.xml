@@ -11,6 +11,7 @@
         android:layout_height="fill_parent"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
+        android:scaleType="fitXY"
         android:src="@drawable/loading_22" />
 
     <!--

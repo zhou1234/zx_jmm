@@ -8,13 +8,13 @@
     <RelativeLayout
         android:id="@+id/rel_tou"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/head" >
+        android:layout_height="50dp"
+        android:background="@drawable/t_bg" >
 
         <ImageView
             android:id="@+id/address_list_back"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"  
+            android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="3dip"
@@ -29,7 +29,6 @@
             android:layout_centerVertical="true"
             android:gravity="center_vertical"
             android:text="收货地址管理"
-            android:textColor="@color/white"
             android:textSize="16sp" />
 
         <Button
@@ -41,9 +40,15 @@
             android:background="@null"
             android:onClick="doclick"
             android:text="新增"
-            android:textColor="@color/white"
             android:textSize="16sp" />
     </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/iv_xian"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="fitXY"
+        android:src="@drawable/logo_xian" />
 
     <GridView
         android:id="@+id/address_list_gridview"

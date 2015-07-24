@@ -3,42 +3,32 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <RelativeLayout
-        android:id="@+id/rel_top"
-        android:layout_width="fill_parent"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/mViewPager"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/head" >
-   
-        <ImageView
-            android:layout_width="120dp"
-            android:layout_height="40dp"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/main_title" />
-
-        <ImageView
-            android:id="@+id/iv_class"  
-            android:layout_width="30dp"
-            android:layout_height="20dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/fen_lei_bg" />
-    </RelativeLayout>
+        android:layout_below="@+id/rel_top"
+        android:layout_centerInParent="true"
+        android:background="#ffffff"
+        android:flipInterval="30"
+        android:persistentDrawingCache="animation" />
 
     <RelativeLayout
         android:id="@+id/rl_tab"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/rel_top" >
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/iv_xian" >
 
         <com.jifeng.myview.SyncHorizontalScrollView
             android:id="@+id/mHsv"
             android:layout_width="fill_parent"
-            android:layout_height="40dip"
-            android:background="#ffffff"
+            android:layout_height="38dip"
+            android:alpha="01"
+            android:background="@drawable/tab_bg"
             android:fadingEdge="none"
-            android:scrollbars="none" >
+            android:scrollbars="none"
+            android:visibility="gone" >
 
             <RelativeLayout
                 android:id="@+id/rl_nav"
@@ -59,7 +49,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="2dip"
                     android:layout_alignParentBottom="true"
-                    android:background="@color/tab_select" />
+                    android:background="@color/tab_select"
+                    android:visibility="gone" />
             </RelativeLayout>
         </com.jifeng.myview.SyncHorizontalScrollView>
 
@@ -71,8 +62,7 @@
             android:layout_centerVertical="true"
             android:paddingBottom="1dip"
             android:src="@drawable/iv_navagation_scroll_left"
-            android:visibility="gone" >
-        </ImageView>
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/iv_nav_right"
@@ -82,19 +72,41 @@
             android:layout_centerVertical="true"
             android:paddingBottom="1dip"
             android:src="@drawable/iv_navagation_scroll_right"
-            android:visibility="gone" >
-        </ImageView>
+            android:visibility="gone" />
     </RelativeLayout>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/mViewPager"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/rel_top"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/t_bg" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/main_title" />
+
+        <ImageView
+            android:id="@+id/iv_class"
+            android:layout_width="30dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/fen_lei_bg"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/iv_xian"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_below="@id/rl_tab"
-        android:layout_gravity="center"
-        android:background="#ffffff"
-        android:flipInterval="30"
-        android:persistentDrawingCache="animation" />
+        android:scaleType="fitXY"
+        android:layout_below="@+id/rel_top"
+        android:src="@drawable/logo_xian" />
 
 </RelativeLayout>

@@ -3,7 +3,7 @@
     android:id="@+id/rootView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_color" >
+    android:background="@color/white" >
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -30,7 +30,7 @@
                     android:id="@+id/image"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scaleType="centerCrop" />
+                    android:scaleType="fitXY" />
 
                 <FrameLayout
                     android:id="@+id/tagsContainer"
@@ -74,7 +74,7 @@
                             android:background="@null"
                             android:ems="10"
                             android:gravity="top"
-                            android:hint="点评一下吧,不超过140字"
+                            android:hint="喵呜,说点什么吧,不超过140字"
                             android:textSize="16dp" />
                     </LinearLayout>
                 </LinearLayout>
@@ -91,9 +91,8 @@
 
             <Button
                 android:id="@+id/bt_ok"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:background="@drawable/bt_ok"
                 android:text="发布"
                 android:textColor="@color/white"

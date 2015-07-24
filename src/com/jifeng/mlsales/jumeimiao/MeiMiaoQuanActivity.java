@@ -23,6 +23,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -35,15 +36,20 @@ import android.widget.ImageView.ScaleType;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 
+import cn.sharesdk.framework.Platform;
+import cn.sharesdk.framework.PlatformActionListener;
+import cn.sharesdk.framework.Platform.ShareParams;
+import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
+import cn.sharesdk.sina.weibo.SinaWeibo;
+import cn.sharesdk.wechat.friends.Wechat;
+import cn.sharesdk.wechat.moments.WechatMoments;
 
 import com.ab.view.pullview.AbPullToRefreshView;
+import com.ab.view.pullview.AbPullToRefreshView.OnFooterLoadListener;
 import com.ab.view.pullview.AbPullToRefreshView.OnHeaderRefreshListener;
-import com.jifeng.image.ImageLoaderTagView;
-import com.jifeng.image.ImageLoaderUser;
 import com.jifeng.mlsales.FBApplication;
 import com.jifeng.mlsales.R;
-import com.jifeng.mlsales.model.CustomerAlertDialog;
 import com.jifeng.mlsales.photo.TagInfoModel;
 import com.jifeng.mlsales.photo.TagsView;
 import com.jifeng.myview.LoadingDialog;
@@ -55,8 +61,8 @@ import com.jifeng.url.HttpUtil;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 
+@SuppressLint("HandlerLeak")
 public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 	private ImageView iv_photo;
 	private LinearLayout ll_tuiJian, ll_guanZhu;
@@ -77,7 +83,6 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 	private boolean flag_first, flag_tuijian;
 	private List<JSONObject> mData, mDataGanZhu;
 	private LoadingDialog dialog;
-	private ImageLoaderTagView imageLoader;
 
 	private Map<Integer, Boolean> map;
 	private Map<Integer, Boolean> map_guanzhu;
@@ -94,20 +99,30 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 	private My_ViewPager my_ViewPager;
 
 	private DisplayImageOptions options;
+	private DisplayImageOptions option;
+
+	private View heardView;
+
+	private MyListViewGuanZhuAdapter guanZhuAdapter;
+	private MyListViewAdapter tuijianadapter;
+	private int tuijian_num = 1, guanzhu_num = 1;
 
 	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.meimiaoquan_activity);
+		ShareSDK.initSDK(MeiMiaoQuanActivity.this);
 		((FBApplication) getApplication()).addActivity(this);
-		dialog = new LoadingDialog(this);
-		dialog.loading();
-		imageLoader = new ImageLoaderTagView(MeiMiaoQuanActivity.this, "");
-		options = MyTools.createOptions(R.drawable.icon);
-		init();
 		width = getWindowManager().getDefaultDisplay().getWidth();
 		height = getWindowManager().getDefaultDisplay().getHeight();
+		dialog = new LoadingDialog(this);
+		dialog.loading();
+		tuijianadapter = new MyListViewAdapter();
+		guanZhuAdapter = new MyListViewGuanZhuAdapter();
+		options = MyTools.createOptions(R.drawable.my_icon);
+		option = MyTools.createOptions(R.drawable.img);
+		init();
 
 	}
 
@@ -136,11 +151,24 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 		View tuijianView = getLayoutInflater().inflate(R.layout.tui_jian, null);
 		listView_tuiJian = (ListView) tuijianView
 				.findViewById(R.id.listView_tuiJian);
+
 		mPullRefreshView = (AbPullToRefreshView) tuijianView
 				.findViewById(R.id.mPullRefreshView);
-		listView_tuiJian.setOnScrollListener(new PauseOnScrollListener(
-				ImageLoader.getInstance(), true, true));
-		mPullRefreshView.setLoadMoreEnable(false);
+		mPullRefreshView.setOnFooterLoadListener(new OnFooterLoadListener() {
+
+			@Override
+			public void onFooterLoad(AbPullToRefreshView view) {
+				new Handler().postDelayed(new Runnable() {
+
+					@Override
+					public void run() {
+						tuijian_num++;
+						getListTuiJianDataNum(listView_tuiJian, tuijian_num
+								+ "");
+					}
+				}, 800);
+			}
+		});
 		mPullRefreshView
 				.setOnHeaderRefreshListener(new OnHeaderRefreshListener() {
 
@@ -150,6 +178,7 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 
 							@Override
 							public void run() {
+								tuijian_num = 1;
 								getListTuiJianData(listView_tuiJian);
 							}
 						}, 1000);
@@ -161,13 +190,28 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 		View guanzhuView = getLayoutInflater().inflate(R.layout.guan_zhu, null);
 		listView_guanZhu = (ListView) guanzhuView
 				.findViewById(R.id.listView_guanZhu);
+
 		tv_wuGuanzhu = (TextView) guanzhuView.findViewById(R.id.tv_wuGuanzhu);
 		mPullRefreshView_guanzhu = (AbPullToRefreshView) guanzhuView
 				.findViewById(R.id.mPullRefreshView_guanzhu);
-		listView_guanZhu.setOnScrollListener(new PauseOnScrollListener(
-				ImageLoader.getInstance(), true, true));
 
-		mPullRefreshView_guanzhu.setLoadMoreEnable(false);
+		mPullRefreshView_guanzhu
+				.setOnFooterLoadListener(new OnFooterLoadListener() {
+
+					@Override
+					public void onFooterLoad(AbPullToRefreshView view) {
+						new Handler().postDelayed(new Runnable() {
+
+							@Override
+							public void run() {
+								guanzhu_num++;
+								getListGuanZhuDataNum(listView_tuiJian,
+										guanzhu_num + "");
+							}
+						}, 800);
+
+					}
+				});
 		mPullRefreshView_guanzhu
 				.setOnHeaderRefreshListener(new OnHeaderRefreshListener() {
 
@@ -177,6 +221,7 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 
 							@Override
 							public void run() {
+								guanzhu_num = 1;
 								getListGuanZhuData(listView_guanZhu);
 							}
 						}, 1000);
@@ -188,9 +233,9 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 
 		viewPager.setAdapter(new MyAdapter());
 		viewPager.setOnPageChangeListener(new MyListener());
-
 		if (AllStaticMessage.isShare) {
 			viewPager.setCurrentItem(1);
+			addListViewHeardView();
 			flag_first = false;
 
 		} else {
@@ -208,6 +253,153 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 			}
 		}
 	}
+
+	private void addListViewHeardView() {
+		heardView = getLayoutInflater().inflate(
+				R.layout.item_guanzhu_heard_view, null);
+		heardView.findViewById(R.id.iv_finish).setOnClickListener(
+				new MyOnClickListener());
+		heardView.findViewById(R.id.iv_weixin).setOnClickListener(
+				new MyOnClickListener());
+		heardView.findViewById(R.id.iv_weixin_p).setOnClickListener(
+				new MyOnClickListener());
+		heardView.findViewById(R.id.iv_sina).setOnClickListener(
+				new MyOnClickListener());
+
+		listView_guanZhu.addHeaderView(heardView);
+	}
+
+	class MyOnClickListener implements View.OnClickListener {
+
+		@Override
+		public void onClick(View arg0) {
+			switch (arg0.getId()) {
+			case R.id.iv_finish:
+				listView_guanZhu.removeHeaderView(heardView);
+				break;
+			case R.id.iv_weixin:
+				share(Wechat.NAME);
+				break;
+			case R.id.iv_weixin_p:
+				share(WechatMoments.NAME);
+				break;
+			case R.id.iv_sina:
+				shareSina();
+				break;
+			default:
+				break;
+			}
+
+		}
+
+	}
+
+	private void share(String name) {
+		dialog.loading();
+		ShareParams sp = new ShareParams();
+		sp.setShareType(Platform.SHARE_WEBPAGE);
+		sp.setTitle(AllStaticMessage.title);
+		// sp.setTitleUrl(AllStaticMessage.url); // 标题的超链接
+		sp.setUrl(AllStaticMessage.url);
+		sp.setText(AllStaticMessage.title + AllStaticMessage.url);
+		sp.setImageUrl(AllStaticMessage.imgurl);
+		// sp.setSite(getString(R.string.app_name));
+		// sp.setSiteUrl(AllStaticMessage.url);
+
+		Platform platform = ShareSDK.getPlatform(name);
+		platform.setPlatformActionListener(new PlatformActionListener() {
+
+			@Override
+			public void onError(Platform arg0, int arg1, Throwable arg2) {
+				if (dialog != null) {
+					dialog.stop();
+				}
+				handler.sendEmptyMessage(1);
+			}
+
+			@Override
+			public void onComplete(Platform arg0, int arg1,
+					HashMap<String, Object> arg2) {
+				if (dialog != null) {
+					dialog.stop();
+				}
+				handler.sendEmptyMessage(2);
+			}
+
+			@Override
+			public void onCancel(Platform arg0, int arg1) {
+				if (dialog != null) {
+					dialog.stop();
+				}
+				handler.sendEmptyMessage(3);
+			}
+		}); // 设置分享事件回调
+
+		// 执行分享
+		platform.share(sp);
+
+	}
+
+	private void shareSina() {
+		dialog.loading();
+		ShareParams sp = new ShareParams();
+		sp.setText(AllStaticMessage.title + AllStaticMessage.url);
+		sp.setImageUrl(AllStaticMessage.imgurl);
+
+		Platform weibo = ShareSDK.getPlatform(SinaWeibo.NAME);
+		// 设置分享监听
+		weibo.setPlatformActionListener(new PlatformActionListener() {
+
+			@Override
+			public void onError(Platform arg0, int arg1, Throwable arg2) {
+				if (dialog != null) {
+					dialog.stop();
+				}
+				handler.sendEmptyMessage(1);
+			}
+
+			@Override
+			public void onComplete(Platform arg0, int arg1,
+					HashMap<String, Object> arg2) {
+				if (dialog != null) {
+					dialog.stop();
+				}
+				handler.sendEmptyMessage(2);
+			}
+
+			@Override
+			public void onCancel(Platform arg0, int arg1) {
+				if (dialog != null) {
+					dialog.stop();
+				}
+				handler.sendEmptyMessage(3);
+			}
+		});
+		// 执行分享
+		weibo.share(sp);
+	}
+
+	private Handler handler = new Handler() {
+		@SuppressLint("HandlerLeak")
+		public void handleMessage(android.os.Message msg) {
+			switch (msg.what) {
+			case 1:
+				Toast.makeText(MeiMiaoQuanActivity.this, "分享失败", 0).show();
+				break;
+
+			case 2:
+				Toast.makeText(MeiMiaoQuanActivity.this, "分享成功", 0).show();
+				listView_guanZhu.removeHeaderView(heardView);
+				guanZhuAdapter.notifyDataSetChanged();
+				break;
+
+			case 3:
+				Toast.makeText(MeiMiaoQuanActivity.this, "取消分享", 0).show();
+				break;
+			}
+
+		};
+	};
 
 	class MyListViewAdapter extends BaseAdapter {
 
@@ -339,7 +531,8 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 
 				holder.tagsView.setTagInfoModels(tagInfoModels);
 				if (!tageViewUrl.equals("") && tageViewUrl != null) {
-					imageLoader.DisplayImage(tageViewUrl, holder.tagsView);
+					ImageLoader.getInstance().displayImage(tageViewUrl,
+							holder.tagsView.getImageView(), option);
 				}
 
 				holder.bt_guanZhu.setOnClickListener(new OnClickListener() {
@@ -392,28 +585,20 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 
 					@Override
 					public void onClick(View arg0) {
-						if (AllStaticMessage.Login_Flag.equals("")) {// LoginFlag
-							Intent mIntent = new Intent(
+						try {
+							Intent intent = new Intent(
 									MeiMiaoQuanActivity.this,
-									LoginActivity.class);
-							startActivity(mIntent);
-						} else {
-							try {
-								Intent intent = new Intent(
-										MeiMiaoQuanActivity.this,
-										GoodsDetailActivity.class);
-								intent.putExtra("active", "1");
-								intent.putExtra("shareUrl", mData.get(cont)
-										.getString("ActivityShare"));
-								intent.putExtra("detailUrl", mData.get(cont)
-										.getString("Activity"));
-								intent.putExtra("imgurl", mData.get(cont)
-										.getString("ImageUrl"));
-								startActivity(intent);
-							} catch (JSONException e) {
-								e.printStackTrace();
-							}
-
+									GoodsDetailActivity.class);
+							intent.putExtra("active", "1");
+							intent.putExtra("shareUrl", mData.get(cont)
+									.getString("ActivityShare"));
+							intent.putExtra("detailUrl", mData.get(cont)
+									.getString("IdGroup"));
+							intent.putExtra("imgurl", mData.get(cont)
+									.getString("ImageUrl"));
+							startActivity(intent);
+						} catch (JSONException e) {
+							e.printStackTrace();
 						}
 
 					}
@@ -731,7 +916,8 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 
 				holder.tagsView.setTagInfoModels(tagInfoModels);
 				if (!tageViewUrl.equals("") && tageViewUrl != null) {
-					imageLoader.DisplayImage(tageViewUrl, holder.tagsView);
+					ImageLoader.getInstance().displayImage(tageViewUrl,
+							holder.tagsView.getImageView(), option);
 				}
 
 				holder.bt_guanZhu.setOnClickListener(new OnClickListener() {
@@ -785,32 +971,21 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 
 					@Override
 					public void onClick(View arg0) {
-						if (AllStaticMessage.Login_Flag.equals("")) {// LoginFlag
-							Intent mIntent = new Intent(
-									MeiMiaoQuanActivity.this,
-									LoginActivity.class);
-							startActivity(mIntent);
-						} else {
-							try {
-								Intent intent = new Intent(
-										MeiMiaoQuanActivity.this,
-										GoodsDetailActivity.class);
-								intent.putExtra("active", "1");
-								intent.putExtra(
-										"shareUrl",
-										mDataGanZhu.get(cont).getString(
-												"ActivityShare"));
-								intent.putExtra(
-										"detailUrl",
-										mDataGanZhu.get(cont).getString(
-												"Activity"));
-								intent.putExtra("imgurl", mDataGanZhu.get(cont)
-										.getString("ImageUrl"));
-								startActivity(intent);
-							} catch (JSONException e) {
-								e.printStackTrace();
-							}
 
+						try {
+							Intent intent = new Intent(
+									MeiMiaoQuanActivity.this,
+									GoodsDetailActivity.class);
+							intent.putExtra("active", "1");
+							intent.putExtra("shareUrl", mDataGanZhu.get(cont)
+									.getString("ActivityShare"));
+							intent.putExtra("detailUrl", mDataGanZhu.get(cont)
+									.getString("IdGroup"));
+							intent.putExtra("imgurl", mDataGanZhu.get(cont)
+									.getString("ImageUrl"));
+							startActivity(intent);
+						} catch (JSONException e) {
+							e.printStackTrace();
 						}
 
 					}
@@ -934,14 +1109,11 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 
 	private void addHeardView() {
 		View headerView = getLayoutInflater().inflate(
-				R.layout.sticky_listview_header_item, null);
-		RelativeLayout relative_second = (RelativeLayout) headerView
-				.findViewById(R.id.relative_second);
-		relative_second.setVisibility(View.GONE);
+				R.layout.activity_meimiaoquan_viewpager, null);
+
 		RelativeLayout relativeLayout = (RelativeLayout) headerView
 				.findViewById(R.id.liner_second);
-		MyTools.getHight(relativeLayout, width, height,
-				MeiMiaoQuanActivity.this);
+		MyTools.setWidthAndHeight(relativeLayout, width);
 
 		listView_tuiJian.addHeaderView(headerView);
 
@@ -1008,7 +1180,7 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 									mData.add(mArray.getJSONObject(i));
 								}
 
-								listView.setAdapter(new MyListViewAdapter());
+								listView.setAdapter(tuijianadapter);
 								map_guanzhu = new HashMap<Integer, Boolean>();
 								map = new HashMap<Integer, Boolean>();
 								for (int j = 0; j < mData.size(); j++) {
@@ -1044,6 +1216,75 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 				});
 	}
 
+	/**
+	 * 晒单列表
+	 * 
+	 * @param listView
+	 */
+	private void getListTuiJianDataNum(final ListView listView, String num) {
+		String url = AllStaticMessage.URL_BaskOrderList + "&UserId="
+				+ AllStaticMessage.User_Id + "&pageNum=" + num;
+
+		HttpUtil.get(url, MeiMiaoQuanActivity.this, null,
+				new JsonHttpResponseHandler() {
+					@SuppressLint({ "UseSparseArrays", "ShowToast" })
+					@Override
+					public void onSuccess(int statusCode, Header[] headers,
+							JSONObject response) {
+						super.onSuccess(statusCode, headers, response);
+						try {
+							if (response.getString("Status").equals("true")) {
+								JSONArray mArray = response
+										.getJSONArray("Results");
+								for (int i = 0; i < mArray.length(); i++) {
+									mData.add(mArray.getJSONObject(i));
+								}
+								tuijianadapter.notifyDataSetChanged();
+								map_guanzhu = new HashMap<Integer, Boolean>();
+								map = new HashMap<Integer, Boolean>();
+								for (int j = 0; j < mData.size(); j++) {
+									map.put(j, false);
+									map_guanzhu.put(j, false);
+								}
+							} else {
+								Toast.makeText(
+										MeiMiaoQuanActivity.this,
+										response.getString("Results")
+												.toString(), 0).show();
+							}
+							mPullRefreshView.onFooterLoadFinish();
+							if (dialog != null) {
+								dialog.stop();
+							}
+						} catch (JSONException e) {
+							e.printStackTrace();
+						}
+					}
+
+					@Override
+					public void onFailure(int statusCode, Header[] headers,
+							Throwable throwable, JSONObject errorResponse) {
+						super.onFailure(statusCode, headers, throwable,
+								errorResponse);
+					}
+
+					@Override
+					public void onStart() {
+						super.onStart();
+					}
+
+					@Override
+					public void onFinish() {
+						super.onFinish();
+					}
+				});
+	}
+
+	/**
+	 * 关注列表
+	 * 
+	 * @param listView
+	 */
 	private void getListGuanZhuData(final ListView listView) {
 		String url = AllStaticMessage.URL_GuanZhuList + "&UserId="
 				+ AllStaticMessage.User_Id;
@@ -1069,7 +1310,7 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 									mDataGanZhu.add(mArray.getJSONObject(i));
 								}
 
-								listView.setAdapter(new MyListViewGuanZhuAdapter());
+								listView.setAdapter(guanZhuAdapter);
 								map_guanzhu_guanzhu = new HashMap<Integer, Boolean>();
 								map_guanzhu_zan = new HashMap<Integer, Boolean>();
 								for (int j = 0; j < mDataGanZhu.size(); j++) {
@@ -1084,28 +1325,6 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 							}
 							mPullRefreshView_guanzhu.onHeaderRefreshFinish();
 							if (AllStaticMessage.isShare) {
-								final CustomerAlertDialog alertDialog = new CustomerAlertDialog(
-										MeiMiaoQuanActivity.this, false);
-								alertDialog.setTitle("是否分享？");
-								alertDialog.setPositiveButton("残忍拒绝",
-										new OnClickListener() {
-											@Override
-											public void onClick(View arg0) {
-												alertDialog.dismiss();
-											}
-										});
-								alertDialog.setNegativeButton1("立即分享",
-										new OnClickListener() {
-
-											@Override
-											public void onClick(View arg0) {
-												share(AllStaticMessage.title,
-														"",
-														AllStaticMessage.url,
-														AllStaticMessage.imgurl);
-												alertDialog.dismiss();
-											}
-										});
 
 								// View mView = getLayoutInflater().inflate(
 								// R.layout.share, null);
@@ -1161,6 +1380,75 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 				});
 	}
 
+	/**
+	 * 关注列表
+	 * 
+	 * @param listView
+	 * @param num
+	 */
+	private void getListGuanZhuDataNum(final ListView listView, String num) {
+		String url = AllStaticMessage.URL_GuanZhuList + "&UserId="
+				+ AllStaticMessage.User_Id + "&pageNum=" + num;
+
+		HttpUtil.get(url, MeiMiaoQuanActivity.this, null,
+				new JsonHttpResponseHandler() {
+					@SuppressLint("UseSparseArrays")
+					@Override
+					public void onSuccess(int statusCode, Header[] headers,
+							JSONObject response) {
+						super.onSuccess(statusCode, headers, response);
+						try {
+							if (response.getString("Status").equals("true")) {
+								tv_wuGuanzhu.setVisibility(View.GONE);
+								mPullRefreshView_guanzhu
+										.setVisibility(View.VISIBLE);
+								JSONArray mArray = response
+										.getJSONArray("Results");
+								for (int i = 0; i < mArray.length(); i++) {
+									mDataGanZhu.add(mArray.getJSONObject(i));
+								}
+
+								guanZhuAdapter.notifyDataSetChanged();
+								map_guanzhu_guanzhu = new HashMap<Integer, Boolean>();
+								map_guanzhu_zan = new HashMap<Integer, Boolean>();
+								for (int j = 0; j < mDataGanZhu.size(); j++) {
+									map_guanzhu_zan.put(j, false);
+									map_guanzhu_guanzhu.put(j, false);
+								}
+							} else {
+								Toast.makeText(
+										MeiMiaoQuanActivity.this,
+										response.getString("Results")
+												.toString(), 0).show();
+							}
+							mPullRefreshView_guanzhu.onFooterLoadFinish();
+							if (dialog != null) {
+								dialog.stop();
+							}
+						} catch (JSONException e) {
+							e.printStackTrace();
+						}
+					}
+
+					@Override
+					public void onFailure(int statusCode, Header[] headers,
+							Throwable throwable, JSONObject errorResponse) {
+						super.onFailure(statusCode, headers, throwable,
+								errorResponse);
+					}
+
+					@Override
+					public void onStart() {
+						super.onStart();
+					}
+
+					@Override
+					public void onFinish() {
+						super.onFinish();
+					}
+				});
+	}
+
 	private void getImgUrl(final LinearLayout layout_dian,
 			final My_ViewPager my_ViewPager) {
 		dialog.loading();
@@ -1183,8 +1471,8 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 								for (int i = 0; i < imgs.length; i++) {
 									ImageView imageView = new ImageView(
 											MeiMiaoQuanActivity.this);// 创建图片框
-									// imageView.setLayoutParams(new
-									// LayoutParams(20,20));
+									imageView.setLayoutParams(new LayoutParams(
+											30, 30));
 									// 设置下方图片宽，高
 									imageView.setPadding(10, 0, 10, 5);// 内边距
 									if (i == 0) {
@@ -1427,7 +1715,6 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 			default:
 				break;
 			}
-
 		}
 	}
 
@@ -1536,7 +1823,6 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		imageLoader.clearCache();
 	}
 
 	/*
@@ -1558,16 +1844,4 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 		return super.onKeyDown(keyCode, event);
 	}
 
-	// ShareParams sp = new ShareParams();
-	// sp.setTitle("测试分享的标题");
-	// sp.setTitleUrl("http://sharesdk.cn"); // 标题的超链接
-	// sp.setText("测试分享的文本");
-	// sp.setImageUrl("http://www.someserver.com/测试图片网络地址.jpg");
-	// sp.setSite("发布分享的网站名称");
-	// sp.setSiteUrl("发布分享网站的地址");
-	//
-	// Platform qzone = ShareSDK.getPlatform (QZone.NAME);
-	// qzone. setPlatformActionListener (paListener); // 设置分享事件回调
-	// // 执行图文分享
-	// qzone.share(sp);
 }

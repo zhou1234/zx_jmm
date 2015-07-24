@@ -8,8 +8,8 @@
     <RelativeLayout
         android:id="@+id/rel_tou"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/head" >
+        android:layout_height="50dp"
+        android:background="@drawable/t_bg" >
 
         <ImageView
             android:id="@+id/goodslist_back"
@@ -28,11 +28,10 @@
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/goodslist_share"
             android:layout_toRightOf="@+id/goodslist_back"
-            android:gravity="center"
-            android:singleLine="true"
             android:ellipsize="marquee"
+            android:gravity="center"
             android:marqueeRepeatLimit="marquee_forever"
-            android:textColor="@color/white"
+            android:singleLine="true"
             android:textSize="16sp" />
 
         <ImageView
@@ -57,43 +56,60 @@
             android:visibility="invisible" />
     </RelativeLayout>
 
+    <ImageView
+        android:id="@+id/iv_xian"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rel_tou"
+        android:scaleType="fitXY"
+        android:src="@drawable/logo_xian" />
+
     <WebView
         android:id="@+id/goodslist_webview"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:layout_above="@+id/rel"
-        android:layout_below="@+id/rel_tou" />
+        android:layout_below="@+id/iv_xian" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/rel"
+        android:src="@drawable/logo_xian" />
 
     <RelativeLayout
         android:id="@+id/rel"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/goodsdetail_dibu_bg" >
+        android:background="@color/white" >
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dip" >
+            android:layout_height="match_parent"
+            android:background="#1e1e1e" >
 
             <RelativeLayout
                 android:id="@+id/rl_shoppingcar"
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
                 android:layout_alignBottom="@+id/goodsdetail_btn_inputshopping"
-                android:layout_alignParentLeft="true"
+                android:layout_alignParentRight="true"
                 android:layout_alignTop="@+id/goodsdetail_btn_inputshopping"
                 android:layout_centerVertical="true"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:onClick="doclick" >
 
                 <ImageView
                     android:id="@+id/input_shoppingcar"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
+                    android:layout_centerInParent="true"
                     android:layout_marginLeft="15dip"
                     android:onClick="doclick"
+                    android:scaleY="0.9"
+                    android:scaleX="0.9"
                     android:src="@drawable/shopping_car" />
 
                 <Button
@@ -107,16 +123,16 @@
                     android:text="1"
                     android:textColor="@color/white"
                     android:textSize="11sp"
-                    android:visibility="invisible" />
+                    android:visibility="visible" />
             </RelativeLayout>
 
             <Button
                 android:id="@+id/goodsdetail_btn_inputshopping"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="8dip"
-                android:background="@drawable/goodsdetail_btn_bg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_toLeftOf="@+id/rl_shoppingcar"
+                android:background="#fc4627"
                 android:onClick="doclick"
                 android:text="加入购物车"
                 android:textColor="@color/white"

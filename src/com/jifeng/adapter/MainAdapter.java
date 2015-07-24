@@ -18,7 +18,6 @@ import com.jifeng.url.AllStaticMessage;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import android.annotation.SuppressLint;
@@ -29,6 +28,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -78,28 +78,31 @@ public class MainAdapter extends BaseAdapter {
 		if (convertView == null) {
 			View v = LayoutInflater.from(mContext).inflate(
 					R.layout.item_main_listview, null);
-			appItem = new MainAppItem();
+		  	appItem = new MainAppItem();
 			appItem.AppBtn_time = (Button) v.findViewById(R.id.btn_time);
 			appItem.AppBtn_youhuiquan = (TextView) v
 					.findViewById(R.id.btn_youhuiquan);
 			appItem.AppBtn_name = (Button) v
 					.findViewById(R.id.btn_activity_name);
 			appItem.AppImg = (ImageView) v.findViewById(R.id.img_main_tou);
+			MyTools.setWidthAndHeight(appItem.AppImg, width);
+			
 			appItem.AppText_dazhe = (TextView) v.findViewById(R.id.text_dazhe);
 			appItem.AppmLayout = (RelativeLayout) v
 					.findViewById(R.id.save_gridview_liner);
 			appItem.AppmLayout_Quan = (RelativeLayout) v
 					.findViewById(R.id.rel_quan);
+			appItem.AppTv_time=(TextView) v.findViewById(R.id.tv_time);
 			v.setTag(appItem);
 			convertView = v;
 		} else {
 			appItem = (MainAppItem) convertView.getTag();
 		}
 
-		MyTools.getHight(appItem.AppmLayout, width, height, mContext);
+		//MyTools.getHight(appItem.AppmLayout, width, height, mContext);
 		try {
 			setTime(mListData.get(position).getString("EndTime").toString(),
-					appItem.AppBtn_time);
+					appItem.AppBtn_time,appItem.AppTv_time);
 
 			if (mListData.get(position).getString("DesGuide").toString()
 					.equals("")) {
@@ -154,20 +157,24 @@ public class MainAdapter extends BaseAdapter {
 		}  
 	}
 
-	private void setTime(String endtime, Button btn) {
+	private void setTime(String endtime, Button btn,TextView tv_time) {
 		int date = MyTools.creayTime(endtime, MyTools.getTime());
 		if (date > 0) {
 			btn.setText("仅剩" + String.valueOf(date) + "天");
+			tv_time.setText("仅剩" + String.valueOf(date) + "天");
 		} else {
 			int hour = returnHour(endtime, MyTools.getTime(), "hour");
 			if (hour > 0) {
 				btn.setText("仅剩" + String.valueOf(hour) + "小时");
+				tv_time.setText("仅剩" + String.valueOf(hour) + "小时");
 			} else {
 				int fenzhong = returnHour(endtime, MyTools.getTime(), "");
 				if (fenzhong > 0) {
 					btn.setText("仅剩" + String.valueOf(fenzhong) + "分钟");
+					tv_time.setText("仅剩" + String.valueOf(fenzhong) + "分钟");
 				} else {
 					btn.setText("活动已结束");
+					tv_time.setText("活动已结束");
 				}
 			}
 		}
@@ -200,6 +207,7 @@ public class MainAdapter extends BaseAdapter {
 		TextView AppText_dazhe;
 		RelativeLayout AppmLayout;// 控制图片显示高度
 		RelativeLayout AppmLayout_Quan;
+		TextView AppTv_time;
 	}
 
 	class onMainItemClick implements OnClickListener {

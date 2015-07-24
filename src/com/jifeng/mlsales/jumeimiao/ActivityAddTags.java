@@ -11,7 +11,8 @@ import android.text.Selection;
 import android.text.TextWatcher;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
@@ -33,6 +34,7 @@ import org.json.JSONObject;
 import com.jifeng.mlsales.FBApplication;
 import com.jifeng.mlsales.R;
 import com.jifeng.mlsales.photo.BitmapUtil;
+import com.jifeng.mlsales.photo.FixWidthFrameLayout;
 import com.jifeng.mlsales.photo.HGAlertDlg;
 import com.jifeng.mlsales.photo.HGTagPickerView;
 import com.jifeng.mlsales.photo.HGTipsDlg;
@@ -58,13 +60,14 @@ public class ActivityAddTags extends Activity implements View.OnClickListener,
 	private TextView headRight;
 	private ImageView image;
 	private FrameLayout tagsContainer;
+	private FixWidthFrameLayout frameLayout;
 
 	private float positionX = 0;
 	private float positionY = 0;
 	private float X;
 	private float Y;
 
-	private int width, w;
+	private int width, w, wid;
 	private int height, h;
 	private List<TagView> tagViews = new ArrayList<TagView>();
 	private List<TagInfo> tagInfos = new ArrayList<TagInfo>();
@@ -85,9 +88,10 @@ public class ActivityAddTags extends Activity implements View.OnClickListener,
 	private Button bt_ok;
 	private LoadingDialog dialog;
 	private LinearLayout ll_text;
-
+	private TagView tag;
 	private String str;
 	private TagView tagView;
+	private TagView moveTagView;
 	private Handler handler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
 			switch (msg.what) {
@@ -142,11 +146,13 @@ public class ActivityAddTags extends Activity implements View.OnClickListener,
 		activity.startActivity(intent);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.activity_add_tags);
 		((FBApplication) getApplication()).addActivity(this);
+		wid = getWindowManager().getDefaultDisplay().getWidth();
 		if (getIntent() != null) {
 			Intent intent = getIntent();
 			imagePath = intent.getStringExtra(KImagePath);
@@ -162,10 +168,17 @@ public class ActivityAddTags extends Activity implements View.OnClickListener,
 		headRight = (TextView) findViewById(R.id.tv_head_right);
 		headRight.setVisibility(View.GONE);
 		image = (ImageView) findViewById(R.id.image);
+		frameLayout=(FixWidthFrameLayout) findViewById(R.id.frameLayout);
+		LayoutParams params = frameLayout.getLayoutParams();
+		params.width = wid;
+		params.height = wid;
+		frameLayout.setLayoutParams(params);
+
 		tagsContainer = (FrameLayout) findViewById(R.id.tagsContainer);
 		et_comment = (EditText) findViewById(R.id.et_comment);
 		bt_ok = (Button) findViewById(R.id.bt_ok);
 		ll_text = (LinearLayout) findViewById(R.id.ll_text);
+		ll_text.setOnClickListener(this);
 
 		bt_ok.setOnClickListener(this);
 
@@ -326,6 +339,35 @@ public class ActivityAddTags extends Activity implements View.OnClickListener,
 		// this.finish();
 	}
 
+	private void moveTagView() {
+		try {
+			String tagName = moveTagView.getData().getjson().getString("bname");
+			for (int i = 0; i < tagViews.size(); i++) {
+				String name = tagViews.get(i).getData().getjson()
+						.getString("bname");
+				if (name.equals(tagName)) {
+					TagInfo tagInfo = new TagInfo();
+					tagInfo.bid = 2L;
+					tagInfo.bname = tagName;
+					tagInfo.direct = TagInfo.Direction.Left;
+					tagInfo.pic_x = 50;
+					tagInfo.pic_y = 50;
+					tagInfo.type = TagInfo.Type.CustomPoint;
+					tagInfo.leftMargin = (int) positionX;
+					tagInfo.topMargin = (int) positionY;
+					moveTagView.setData(tagInfo);
+					tagViews.set(i, moveTagView);
+					return;
+				}
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+		// tagViews.add(tagView);
+		// tagsContainer.addView(tagView, params);
+	}
+
 	private void addTag() {
 		w = image.getWidth();
 		h = image.getHeight();
@@ -343,62 +385,64 @@ public class ActivityAddTags extends Activity implements View.OnClickListener,
 		tagView.setData(tagInfo);
 		tagView.getWidth();
 		tagView.setTagViewListener(this);
-		tagView.setOnTouchListener(new OnTouchListener() {
-
-			@Override
-			public boolean onTouch(View view, MotionEvent motionEvent) {
-				int action = motionEvent.getAction();
-
-				switch (action) {
-				case MotionEvent.ACTION_DOWN:
-					X = motionEvent.getRawX();
-					Y = motionEvent.getRawY();
-					break;
-				case MotionEvent.ACTION_MOVE:
-					int dx = (int) (motionEvent.getRawX() - X);
-					int dy = (int) (motionEvent.getRawY() - Y);
-
-					int left = (int) (view.getLeft() + dx);
-					int top = (int) (view.getTop() + dy);
-					int right = (int) (view.getRight() + dx);
-					int bottom = (int) (view.getBottom() + dy);
-
-					if (left < 0) {
-						left = 0;
-						right = left + view.getWidth();
-					}
-
-					if (right > w) {
-						right = w;
-						left = right - view.getWidth();
-					}
-
-					if (top < 0) {
-						top = 0;
-						bottom = top + view.getHeight();
-					}
-
-					if (bottom > h) {
-						bottom = h;
-						top = bottom - view.getHeight();
-					}
-
-					view.layout(left, top, right, bottom);
-
-					X = motionEvent.getRawX();
-					Y = motionEvent.getRawY();
-
-					break;
-				case MotionEvent.ACTION_UP:
-					break;
-
-				default:
-					break;
-				}
-
-				return false;
-			}
-		});
+		// tagView.setOnTouchListener(new OnTouchListener() {
+		//
+		// @Override
+		// public boolean onTouch(View view, MotionEvent motionEvent) {
+		// moveTagView = (TagView) view;
+		// int action = motionEvent.getAction();
+		// switch (action) {
+		// case MotionEvent.ACTION_DOWN:
+		// X = motionEvent.getRawX();
+		// Y = motionEvent.getRawY();
+		// break;
+		// case MotionEvent.ACTION_MOVE:
+		// int dx = (int) (motionEvent.getRawX() - X);
+		// int dy = (int) (motionEvent.getRawY() - Y);
+		//
+		// int left = (int) (view.getLeft() + dx);
+		// int top = (int) (view.getTop() + dy);
+		// int right = (int) (view.getRight() + dx);
+		// int bottom = (int) (view.getBottom() + dy);
+		//
+		// if (left < 0) {
+		// left = 0;
+		// right = left + view.getWidth();
+		// }
+		//
+		// if (right > w) {
+		// right = w;
+		// left = right - view.getWidth();
+		// }
+		//
+		// if (top < 0) {
+		// top = 0;
+		// bottom = top + view.getHeight();
+		// }
+		//
+		// if (bottom > h) {
+		// bottom = h;
+		// top = bottom - view.getHeight();
+		// }
+		//
+		// view.layout(left, top, right, bottom);
+		//
+		// X = motionEvent.getRawX();
+		// Y = motionEvent.getRawY();
+		//
+		// positionX = motionEvent.getX();
+		// positionY = motionEvent.getY();
+		// break;
+		// case MotionEvent.ACTION_UP:
+		// moveTagView();
+		// break;
+		// default:
+		// break;
+		// }
+		//
+		// return false;
+		// }
+		// });
 
 		FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
 				FrameLayout.LayoutParams.WRAP_CONTENT,
@@ -420,15 +464,28 @@ public class ActivityAddTags extends Activity implements View.OnClickListener,
 		tagInfo.type = TagInfo.Type.CustomPoint;
 		tagInfo.leftMargin = (int) positionX;
 		tagInfo.topMargin = (int) positionY;
-		TagView tagView = new TagViewLeft(this, null);
-		tagView.setData(tagInfo);
+		tag = new TagViewLeft(this, null);
+		tag.setData(tagInfo);
 		FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
 				FrameLayout.LayoutParams.WRAP_CONTENT,
 				FrameLayout.LayoutParams.WRAP_CONTENT);
 		params.leftMargin = tagInfo.leftMargin;
 		params.topMargin = tagInfo.topMargin;
-		addTagViews.add(tagView);
-		ll_text.addView(tagView, params);
+		addTagViews.add(tag);
+		ll_text.addView(tag, params);
+
+		tag.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				positionX = width / 2;
+				positionY = height / 2;
+				addLabel();
+				Intent intent = new Intent(ActivityAddTags.this,
+						ActivityLabel.class);
+				startActivityForResult(intent, 0x11);
+			}
+		});
 	}
 
 	private void addLabel() {
@@ -450,7 +507,6 @@ public class ActivityAddTags extends Activity implements View.OnClickListener,
 		case MotionEvent.ACTION_DOWN:
 			positionX = motionEvent.getX();
 			positionY = motionEvent.getY();
-
 			break;
 
 		}

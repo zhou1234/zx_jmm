@@ -13,8 +13,8 @@
         <RelativeLayout
             android:id="@+id/rel_tou"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/head" >
+            android:layout_height="50dp"
+            android:background="@drawable/t_bg" >
 
             <ImageView
                 android:id="@+id/shoppingcar_back"
@@ -35,24 +35,31 @@
                 android:layout_centerVertical="true"
                 android:gravity="center_vertical"
                 android:text="购物车"
-                android:textColor="@android:color/white"
                 android:textSize="@dimen/title_siae" />
         </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/iv_xian"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:layout_below="@+id/rel_tou"
+            android:src="@drawable/logo_xian" />
 
         <WebView
             android:id="@+id/shoppingcar_webview"
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
-            android:layout_below="@+id/rel_tou" />
+            android:layout_below="@+id/iv_xian" />
 
         <RelativeLayout
             android:id="@+id/shoppingcar_no"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_below="@+id/rel_tou"
+            android:layout_below="@+id/iv_xian"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:background="@color/main_bg_color"
+            android:background="#ffffff"
             android:visibility="gone" >
 
             <LinearLayout
@@ -67,7 +74,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:src="@drawable/car" />
+                    android:src="@drawable/img_order" />
 
                 <TextView
                     android:id="@+id/listnone"
@@ -76,15 +83,24 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="15dip"
                     android:gravity="center_horizontal"
-                    android:text="喵呜，空的 ╮(╯_╰)╭"
-                    android:textColor="@color/text_color"
+                    android:text="喵呜，购物车快饿扁啦！"
                     android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/listnone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="15dip"
+                    android:gravity="center_horizontal"
+                    android:text="主人快给我挑点宝贝吧"
+                    android:textColor="@color/text_color" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="25dip"
+                    android:layout_marginTop="10dip"
                     android:orientation="horizontal" >
 
                     <Button
@@ -103,12 +119,12 @@
 
                     <Button
                         android:id="@+id/shoppingcar_gotobuy"
-                        android:layout_width="wrap_content"
+                        android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="4dip"
                         android:layout_marginRight="8dip"
                         android:layout_weight="1"
-                        android:background="@drawable/shopping_login"
+                        android:background="@drawable/bt_ok"
                         android:onClick="doclick"
                         android:text="去逛逛"
                         android:textColor="@color/white"

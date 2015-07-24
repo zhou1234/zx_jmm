@@ -23,7 +23,6 @@ import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,7 +48,7 @@ public class NextFragment extends BaseFragment implements
 	private ListView mListView;
 	private ImageView goodslist_zhiding;
 
-	String Id, Pid;
+	private String Id, Pid;
 	private MainAdapter mAdapter;
 	private List<JSONObject> listData;
 
@@ -77,6 +76,7 @@ public class NextFragment extends BaseFragment implements
 		View rootView = inflater.inflate(R.layout.next_fragment, container,
 				false);
 		mListView = (ListView) rootView.findViewById(R.id.main_first_list);
+		
 		mAbPullToRefreshView = (AbPullToRefreshView) rootView
 				.findViewById(R.id.mPullRefreshView);
 		rl_progress = (RelativeLayout) rootView.findViewById(R.id.rl_progress);

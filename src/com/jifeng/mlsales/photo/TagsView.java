@@ -1,5 +1,8 @@
 package com.jifeng.mlsales.photo;
 
+import java.util.List;
+
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -10,16 +13,11 @@ import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
-
-import java.util.List;
-
-import org.json.JSONException;
+import android.widget.ImageView;
 
 import com.jifeng.mlsales.R;
 import com.jifeng.mlsales.jumeimiao.GoodsListActivity;
 import com.jifeng.mlsales.jumeimiao.LoginActivity;
-import com.jifeng.mlsales.jumeimiao.MeiMiaoQuanActivity;
-import com.jifeng.mlsales.jumeimiao.TabHostActivity;
 import com.jifeng.url.AllStaticMessage;
 
 /**
@@ -34,7 +32,13 @@ public class TagsView extends FrameLayout implements TagView.TagViewListener {
 	private int width;
 	private int height;
 
+	private int w;
 	private Animation animIn, animOut;
+
+	public ImageView getImageView() {
+		return backImage;
+
+	}
 
 	public TagsView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
@@ -51,7 +55,11 @@ public class TagsView extends FrameLayout implements TagView.TagViewListener {
 		init(context);
 	}
 
+	@SuppressWarnings("deprecation")
 	private void init(Context context) {
+		w = ((Activity) context).getWindowManager().getDefaultDisplay()
+				.getWidth();
+
 		animIn = AnimationUtils.loadAnimation(this.getContext(),
 				R.anim.push_bottom_in);
 		animIn.setDuration(100);
@@ -94,6 +102,12 @@ public class TagsView extends FrameLayout implements TagView.TagViewListener {
 		LayoutInflater inflater = LayoutInflater.from(context);
 		inflater.inflate(R.layout.view_tags, this, true);
 		backImage = (FixWidthImageView) findViewById(R.id.backImage);
+		android.view.ViewGroup.LayoutParams params = backImage
+				.getLayoutParams();
+		params.width = w;
+		params.height = w;
+		backImage.setLayoutParams(params);
+
 		tagsContainer = (FrameLayout) findViewById(R.id.tagsContainer);
 	}
 
@@ -217,18 +231,10 @@ public class TagsView extends FrameLayout implements TagView.TagViewListener {
 	@Override
 	public void onTagViewClicked(View view, TagInfo info) {
 		// CaoNiMeiToast.makeShortText(info.bname);
-		//CaoNiMeiToast.makeShortText(info.activityId);
-		if (AllStaticMessage.Login_Flag.equals("")) {// LoginFlag
-			Intent mIntent = new Intent(this.getContext(), LoginActivity.class);
-			this.getContext().startActivity(mIntent);
-		} else {
-			Intent intent = new Intent(this.getContext(),
-					GoodsListActivity.class);
-			intent.putExtra("active", "1");
-			intent.putExtra("activeId", info.activityId);
-			this.getContext().startActivity(intent);
-
-		}
-
+		// CaoNiMeiToast.makeShortText(info.activityId);
+		Intent intent = new Intent(this.getContext(), GoodsListActivity.class);
+		intent.putExtra("active", "1");
+		intent.putExtra("activeId", info.activityId);
+		this.getContext().startActivity(intent);
 	}
 }

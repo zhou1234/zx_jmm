@@ -176,13 +176,14 @@ public class ShoppingCarActivity extends Activity {
 		switch (view.getId()) {
 		case R.id.shoppingcar_gotobuy:
 			if (getIntent().getStringExtra("showflag").equals("yes")) {
-				AllStaticMessage.Back_to_XianShiTm = true;
-				tasckActivity.popAllActivityExceptOne(TabHostActivity.class);
+				startActivity(new Intent(ShoppingCarActivity.this,
+						TabHostActivity.class));
 			} else {
 				dialog.loading();
 				AllStaticMessage.Back_to_XianShiTm = true;
 				dialog.stop();
 			}
+
 			break;
 		case R.id.shoppingcar_back:
 			finish();

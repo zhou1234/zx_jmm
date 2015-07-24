@@ -5,21 +5,17 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.jifeng.adapter.MainAdapter;
 import com.jifeng.mlsales.FBApplication;
 import com.jifeng.mlsales.R;
 import com.jifeng.mlsales.fragment.NextFragment;
 import com.jifeng.mlsales.fragment.OneFragment;
 import com.jifeng.myview.LoadingDialog;
-import com.jifeng.myview.My_ListView;
-import com.jifeng.myview.PullToRefreshScrollView;
 import com.jifeng.myview.SyncHorizontalScrollView;
 import com.jifeng.url.AllStaticMessage;
 import com.jifeng.url.HttpUtil;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
-import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -29,20 +25,18 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.DisplayMetrics;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.TranslateAnimation;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.Toast;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 
@@ -150,6 +144,7 @@ public class FirstActivity extends FragmentActivity {
 						}
 					}
 				});
+		
 	}
 
 	private void initNavigationHSV() {
@@ -175,7 +170,7 @@ public class FirstActivity extends FragmentActivity {
 		// rl_nav = (RelativeLayout) findViewById(R.id.rl_nav);
 
 		mHsv = (SyncHorizontalScrollView) findViewById(R.id.mHsv);
-
+		mHsv.getBackground().setAlpha(220);
 		rg_nav_content = (RadioGroup) findViewById(R.id.rg_nav_content);
 
 		iv_nav_indicator = (ImageView) findViewById(R.id.iv_nav_indicator);
@@ -192,7 +187,7 @@ public class FirstActivity extends FragmentActivity {
 					@Override
 					public void onClick(View arg0) {
 						startActivity(new Intent(FirstActivity.this,
-								ClassActivity.class));
+								ClassActivityNew.class));
 					}
 				});
 	}
@@ -270,7 +265,7 @@ public class FirstActivity extends FragmentActivity {
 								}
 								LayoutParams cursor_Params = iv_nav_indicator
 										.getLayoutParams();
-								cursor_Params.width = indicatorWidth;// 初始化滑动下标的宽
+								cursor_Params.width = indicatorWidth-20;// 初始化滑动下标的宽
 								iv_nav_indicator.setLayoutParams(cursor_Params);
 
 								// mHsv.setSomeParam(rl_nav, iv_nav_left,
@@ -285,7 +280,9 @@ public class FirstActivity extends FragmentActivity {
 								// LayoutInflater.from(this);
 
 								initNavigationHSV();
-
+								tabTitle = new String[1];
+								tabTitle[0] = "今日特卖";
+								
 								mAdapter = new TabFragmentPagerAdapter(
 										getSupportFragmentManager());
 								mViewPager.setAdapter(mAdapter);

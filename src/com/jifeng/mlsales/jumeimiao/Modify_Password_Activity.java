@@ -17,9 +17,12 @@ import com.umeng.analytics.MobclickAgent;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -151,7 +154,21 @@ public class Modify_Password_Activity extends Activity {
 					}
 				});
 	}
+	@Override
+	public boolean dispatchKeyEvent(KeyEvent event) {
+		if (event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+			/* Òþ²ØÈí¼üÅÌ */
+			InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+			if (inputMethodManager.isActive()) {
+				inputMethodManager.hideSoftInputFromWindow(
+						Modify_Password_Activity.this.getCurrentFocus()
+								.getWindowToken(), 0);
+			}
 
+			return true;
+		}
+		return super.dispatchKeyEvent(event);
+	}
 	@Override
 	protected void onResume() {
 		super.onResume();

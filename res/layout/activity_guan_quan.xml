@@ -8,8 +8,8 @@
     <RelativeLayout
         android:id="@+id/rel_tou"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/head" >
+        android:layout_height="50dp"
+        android:background="@drawable/t_bg" >
 
         <ImageView
             android:id="@+id/guan_quan_back"
@@ -29,16 +29,23 @@
             android:layout_centerVertical="true"
             android:gravity="center_vertical"
             android:text="美喵家居优惠券"
-            android:textColor="@android:color/white"
             android:textSize="18sp" />
     </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/iv_xian"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rel_tou"
+        android:scaleType="fitXY"
+        android:src="@drawable/logo_xian" />
 
     <ListView
         android:id="@+id/guan_list_quan"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/rel_tou"
         android:layout_above="@+id/ll_ok"
+        android:layout_below="@+id/iv_xian"
         android:layout_margin="8dip"
         android:divider="@null"
         android:fadingEdge="none" />
@@ -55,12 +62,12 @@
             android:id="@+id/bt_ok"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="10dp"
             android:background="@drawable/bt_ok"
             android:text="确定"
-            android:visibility="gone"
             android:textColor="@color/white"
-            android:layout_margin="10dp"
-            android:textSize="16dp" />
+            android:textSize="16dp"
+            android:visibility="gone" />
     </LinearLayout>
 
 </RelativeLayout>

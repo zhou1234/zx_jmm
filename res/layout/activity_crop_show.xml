@@ -7,18 +7,17 @@
     <LinearLayout
         android:id="@+id/ll_title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_alignParentTop="true"
-        android:background="@drawable/head"
+        android:background="@drawable/t_bg"
+        android:visibility="gone"
         android:gravity="center" >
 
         <TextView
             android:id="@+id/textView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="15dp"
             android:text="裁剪"
-            android:textColor="#ffffff"
             android:textSize="22dp" />
     </LinearLayout>
 
@@ -26,8 +25,6 @@
         android:id="@+id/cropImageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/ll_bottom"
-        android:layout_below="@+id/ll_title"
         android:layout_centerInParent="true" >
     </com.edmodo.cropper.CropImageView>
 
@@ -36,21 +33,31 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="15dp"
-        android:layout_marginTop="15dp" >
+        >
 
         <LinearLayout
             android:id="@+id/ll_false"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center" >
+            android:gravity="center|left" >
 
             <ImageView
                 android:id="@+id/iv_false"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:visibility="gone"
                 android:background="@drawable/false_bg" />
+
+            <TextView
+                android:id="@+id/tv_false"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:layout_margin="20dp"
+                android:textColor="@color/text_color"
+                android:text="取消" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -58,13 +65,24 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center" >
+            android:gravity="center|right" >
 
             <ImageView
                 android:id="@+id/iv_ok"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
+                android:visibility="gone"
                 android:background="@drawable/true_bg" />
+
+            <TextView
+                android:id="@+id/tv_ok"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/tab_select"
+                android:layout_marginRight="20dp"
+                android:textSize="20dp"
+                android:text="选取" />
+
         </LinearLayout>
     </LinearLayout>
 

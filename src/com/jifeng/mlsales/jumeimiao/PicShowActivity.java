@@ -7,6 +7,7 @@ import java.util.List;
 import android.app.Activity;
 import android.app.Dialog;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.http.SslError;
 import android.os.Bundle;
 import android.util.Log;
@@ -68,9 +69,10 @@ public class PicShowActivity extends Activity {
 			if (url.length == 1) {
 				if (MyTools.checkNetWorkStatus(PicShowActivity.this)) {
 					mLayout.setBackgroundDrawable(getResources().getDrawable(
-							R.drawable.head));
+							R.drawable.t_bg));
 					mTextView.setText(getIntent().getStringExtra("title")
 							.toString());
+					mTextView.setTextColor(Color.parseColor("#000000"));
 					mTextView.setVisibility(View.VISIBLE);
 					mWebView.setVisibility(View.VISIBLE);
 					mViewPager.setVisibility(View.GONE);

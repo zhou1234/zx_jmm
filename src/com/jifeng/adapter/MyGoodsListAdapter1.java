@@ -13,14 +13,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jifeng.mlsales.R;
-import com.jifeng.mlsales.jumeimiao.FenLeiActivity;
 import com.jifeng.mlsales.jumeimiao.GoodsDetailActivity;
 import com.jifeng.tools.MyTools;
 import com.jifeng.url.AllStaticMessage;
@@ -74,6 +73,10 @@ public class MyGoodsListAdapter1 extends BaseAdapter {
 					.findViewById(R.id.item_save_price_old);
 			appItem.AppBtn_dazhe = (Button) v.findViewById(R.id.goods_dazhe);
 			appItem.AppImg = (ImageView) v.findViewById(R.id.goodslist_imgbig);
+			LayoutParams para = appItem.AppImg.getLayoutParams();
+			para.height =(width-20)/2;
+			para.width = (width-20)/2;
+			appItem.AppImg.setLayoutParams(para);
 			appItem.AppImg_qiangguang = (ImageView) v
 					.findViewById(R.id.goodslist_item_qiangguang);
 			v.setTag(appItem);
@@ -96,7 +99,7 @@ public class MyGoodsListAdapter1 extends BaseAdapter {
 				// 特卖价
 				appItem.AppText_price_now.setText("￥"
 						+ mListData.get(position).getString("SellPrice")
-						  		.toString());
+								.toString());
 				num = mListData.get(position).getString("SellPrice").toString();
 			} else {
 				// 普通价
@@ -138,12 +141,12 @@ public class MyGoodsListAdapter1 extends BaseAdapter {
 				try {
 					Intent mIntent = new Intent(mContext,
 							GoodsDetailActivity.class);
-					if (mContext.getClass() == FenLeiActivity.class) {
-						mIntent.putExtra("pid", mListData.get(position)
-								.getString("ActiveId").toString());// 活动id
-					} else {
-						mIntent.putExtra("pid", pid);// 活动id
-					}
+					// if (mContext.getClass() == FenLeiActivity.class) {
+					// mIntent.putExtra("pid", mListData.get(position)
+					// .getString("ActiveId").toString());// 活动id
+					// } else {
+					mIntent.putExtra("pid", pid);// 活动id
+					// }
 					mIntent.putExtra("active", "0");
 					mIntent.putExtra("guigeid", mListData.get(position)
 							.getString("Id").toString());// 规格

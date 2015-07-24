@@ -55,7 +55,7 @@ public class CommentActivity extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_comment);
 		dialog = new LoadingDialog(this);
-		options = MyTools.createOptions(R.drawable.icon);
+		options = MyTools.createOptions(R.drawable.my_icon);
 		manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 		init();
 		mData = new ArrayList<JSONObject>();

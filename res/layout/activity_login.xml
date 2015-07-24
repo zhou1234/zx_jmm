@@ -8,9 +8,8 @@
     <RelativeLayout
         android:id="@+id/rel_tou"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/head"
-         >
+        android:layout_height="50dp"
+        android:background="@drawable/t_bg" >
 
         <ImageView
             android:id="@+id/login_back"
@@ -30,9 +29,14 @@
             android:layout_centerVertical="true"
             android:gravity="center_vertical"
             android:text="登录"
-            android:textColor="@color/white"
             android:textSize="@dimen/title_siae" />
     </RelativeLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="fitXY"
+        android:src="@drawable/logo_xian" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -47,9 +51,8 @@
             android:layout_marginLeft="11dip"
             android:layout_marginRight="11dip"
             android:layout_marginTop="25dip"
-            android:orientation="vertical" 
             android:background="@drawable/login_input"
-            >
+            android:orientation="vertical" >
 
             <EditText
                 android:id="@+id/edt_username"
@@ -123,11 +126,11 @@
             android:id="@+id/login_forget_psd"
             android:layout_width="120dip"
             android:layout_height="45dip"
+            android:layout_alignParentRight="true"
             android:layout_alignRight="@+id/liner_btn"
             android:layout_below="@+id/liner_btn"
             android:layout_marginTop="10dip"
             android:background="@null"
-            android:layout_alignParentRight="true"
             android:onClick="doclick"
             android:text="忘记密码?"
             android:textColor="@color/text_color"
@@ -182,7 +185,7 @@
             <ImageView
                 android:id="@+id/login_img_weibo"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" 
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="15dip"
                 android:onClick="doclick"
                 android:src="@drawable/login_weibo_bg" />
@@ -192,14 +195,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dip"
-                android:layout_marginRight="15dip" 
+                android:layout_marginRight="15dip"
                 android:onClick="doclick"
                 android:src="@drawable/login_weixin_bg" />
 
             <ImageView
                 android:id="@+id/login_img_qq"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" 
+                android:layout_height="wrap_content"
                 android:layout_marginRight="15dip"
                 android:onClick="doclick"
                 android:src="@drawable/login_qq_bg" />

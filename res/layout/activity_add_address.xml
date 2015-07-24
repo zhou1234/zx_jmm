@@ -9,8 +9,8 @@
     <RelativeLayout
         android:id="@+id/add_address_rel_tou"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/head" >
+        android:layout_height="50dp"
+        android:background="@drawable/t_bg" >
 
         <ImageView
             android:id="@+id/add_address_back"
@@ -30,7 +30,6 @@
             android:layout_centerVertical="true"
             android:gravity="center_vertical"
             android:text="新增地址"
-            android:textColor="@android:color/white"
             android:textSize="16sp" />
 
         <Button
@@ -42,15 +41,22 @@
             android:background="@null"
             android:onClick="doclick"
             android:text="保存"
-            android:textColor="@color/white"
             android:textSize="16sp" />
     </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/iv_xian"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/add_address_rel_tou"
+        android:scaleType="fitXY"
+        android:src="@drawable/logo_xian" />
 
     <LinearLayout
         android:id="@+id/add_address_second"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/add_address_rel_tou"
+        android:layout_below="@+id/iv_xian"
         android:layout_marginTop="10dip"
         android:background="@drawable/yisisi"
         android:orientation="vertical" >

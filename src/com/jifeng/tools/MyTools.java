@@ -39,6 +39,7 @@ import android.os.Environment;
 import android.telephony.TelephonyManager;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
@@ -390,6 +391,107 @@ public class MyTools {
 		}
 	}
 
+	public static void getHightNew(RelativeLayout layout, int width,
+			int height, Context mContext) {
+		LinearLayout.LayoutParams linearParams = (LinearLayout.LayoutParams) layout
+				.getLayoutParams(); // 取控件mLayout当前的布局参数
+
+		if (width == 800 && height == 1280) {
+			linearParams.height = MyTools.dip2px(mContext, 160);// 手机
+			layout.setLayoutParams(linearParams); // 使设置好的布局参数应用到控件
+		} else if (width == 480 && height == 800) {
+			linearParams.height = MyTools.dip2px(mContext, 130);
+			layout.setLayoutParams(linearParams);
+		} else if (width == 480 && height == 854) {
+			linearParams.height = MyTools.dip2px(mContext, 136);
+			layout.setLayoutParams(linearParams);
+		} else if (width == 800 && height == 1232) {
+			linearParams.height = MyTools.dip2px(mContext, 290);// 平板
+			layout.setLayoutParams(linearParams); // 使设置好的布局参数应用到控件
+		} else if (width == 720 && height == 1280) {
+			linearParams.height = MyTools.dip2px(mContext, 145);
+			layout.setLayoutParams(linearParams);
+		} else if (width == 640 && height == 960) {
+			linearParams.height = MyTools.dip2px(mContext, 130);
+			layout.setLayoutParams(linearParams);
+		} else if (width == 1600 && height == 2560) {
+			linearParams.height = MyTools.dip2px(mContext, 275);
+			layout.setLayoutParams(linearParams);
+		} else if (width == 1080 && height == 1776) {
+			linearParams.height = MyTools.dip2px(mContext, 145);
+			layout.setLayoutParams(linearParams);
+		} else if (width == 1080 && height == 1812) {
+			linearParams.height = MyTools.dip2px(mContext, 145);
+			layout.setLayoutParams(linearParams);
+		} else if (width == 1080 && height == 1920) {
+			linearParams.height = MyTools.dip2px(mContext, 146);
+			layout.setLayoutParams(linearParams);
+		} else if (width == 1440 && height == 2392) {
+			linearParams.height = MyTools.dip2px(mContext, 170);
+			layout.setLayoutParams(linearParams);
+		} else if (width == 768 && height == 1184) {
+			linearParams.height = MyTools.dip2px(mContext, 155);
+			layout.setLayoutParams(linearParams);
+		} else if (width == 1440 && height == 2560) {
+			linearParams.height = MyTools.dip2px(mContext, 185);
+			layout.setLayoutParams(linearParams);
+		} else if (width == 1200 && height == 1824) {
+			linearParams.height = MyTools.dip2px(mContext, 185);
+			layout.setLayoutParams(linearParams);
+		}
+	}
+
+	// 动态设置控件高度(长)
+	public static void setHeardHight(LinearLayout layout, int width,
+			int height, Context mContext) {
+		LinearLayout.LayoutParams linearParams = (LinearLayout.LayoutParams) layout
+				.getLayoutParams(); // 取控件mLayout当前的布局参数
+
+		if (width == 800 && height == 1280) {
+			linearParams.height = MyTools.dip2px(mContext, 170);// 手机
+			layout.setLayoutParams(linearParams); // 使设置好的布局参数应用到控件
+		} else if (width == 480 && height == 800) {
+			linearParams.height = MyTools.dip2px(mContext, 140);
+			layout.setLayoutParams(linearParams);
+		} else if (width == 480 && height == 854) {
+			linearParams.height = MyTools.dip2px(mContext, 146);
+			layout.setLayoutParams(linearParams);
+		} else if (width == 800 && height == 1232) {
+			linearParams.height = MyTools.dip2px(mContext, 300);// 平板
+			layout.setLayoutParams(linearParams); // 使设置好的布局参数应用到控件
+		} else if (width == 720 && height == 1280) {
+			linearParams.height = MyTools.dip2px(mContext, 155);
+			layout.setLayoutParams(linearParams);
+		} else if (width == 640 && height == 960) {
+			linearParams.height = MyTools.dip2px(mContext, 140);
+			layout.setLayoutParams(linearParams);
+		} else if (width == 1600 && height == 2560) {
+			linearParams.height = MyTools.dip2px(mContext, 285);
+			layout.setLayoutParams(linearParams);
+		} else if (width == 1080 && height == 1776) {
+			linearParams.height = MyTools.dip2px(mContext, 155);
+			layout.setLayoutParams(linearParams);
+		} else if (width == 1080 && height == 1812) {
+			linearParams.height = MyTools.dip2px(mContext, 165);
+			layout.setLayoutParams(linearParams);
+		} else if (width == 1080 && height == 1920) {
+			linearParams.height = MyTools.dip2px(mContext, 156);
+			layout.setLayoutParams(linearParams);
+		} else if (width == 1440 && height == 2392) {
+			linearParams.height = MyTools.dip2px(mContext, 180);
+			layout.setLayoutParams(linearParams);
+		} else if (width == 768 && height == 1184) {
+			linearParams.height = MyTools.dip2px(mContext, 165);
+			layout.setLayoutParams(linearParams);
+		} else if (width == 1440 && height == 2560) {
+			linearParams.height = MyTools.dip2px(mContext, 195);
+			layout.setLayoutParams(linearParams);
+		} else if (width == 1200 && height == 1824) {
+			linearParams.height = MyTools.dip2px(mContext, 195);
+			layout.setLayoutParams(linearParams);
+		}
+	}
+
 	/**
 	 * 得到自定义的progressDialog
 	 */
@@ -433,37 +535,37 @@ public class MyTools {
 		LinearLayout.LayoutParams linearParams = (LinearLayout.LayoutParams) layout
 				.getLayoutParams(); // 取控件mLayout当前的布局参数
 		if (width == 800 && height == 1280) {
-			linearParams.height = MyTools.dip2px(mContext, 265);// 手机
+			linearParams.height = MyTools.dip2px(mContext, 270);// 手机
 			layout.setLayoutParams(linearParams); // 使设置好的布局参数应用到控件
 		} else if (width == 480 && height == 800) {
-			linearParams.height = MyTools.dip2px(mContext, 230);
-			layout.setLayoutParams(linearParams);
-		} else if (width == 480 && height == 854) {
 			linearParams.height = MyTools.dip2px(mContext, 235);
 			layout.setLayoutParams(linearParams);
+		} else if (width == 480 && height == 854) {
+			linearParams.height = MyTools.dip2px(mContext, 240);
+			layout.setLayoutParams(linearParams);
 		} else if (width == 800 && height == 1232) {
-			linearParams.height = MyTools.dip2px(mContext, 442);// 平板
+			linearParams.height = MyTools.dip2px(mContext, 447);// 平板
 			layout.setLayoutParams(linearParams); // 使设置好的布局参数应用到控件
 		} else if (width == 720 && height == 1280) {
-			linearParams.height = MyTools.dip2px(mContext, 245);// 257
+			linearParams.height = MyTools.dip2px(mContext, 250);// 257
 			layout.setLayoutParams(linearParams);
 		} else if (width == 1080 && height == 1812) {
-			linearParams.height = MyTools.dip2px(mContext, 245);
+			linearParams.height = MyTools.dip2px(mContext, 250);
 			layout.setLayoutParams(linearParams);
 		} else if (width == 1080 && height == 1920) {
-			linearParams.height = MyTools.dip2px(mContext, 245);
+			linearParams.height = MyTools.dip2px(mContext, 250);
 			layout.setLayoutParams(linearParams);
 		} else if (width == 1440 && height == 2392) {
-			linearParams.height = MyTools.dip2px(mContext, 271);
+			linearParams.height = MyTools.dip2px(mContext, 276);
 			layout.setLayoutParams(linearParams);
 		} else if (width == 768 && height == 1184) {
-			linearParams.height = MyTools.dip2px(mContext, 251);
+			linearParams.height = MyTools.dip2px(mContext, 256);
 			layout.setLayoutParams(linearParams);
 		} else if (width == 1440 && height == 2560) {
-			linearParams.height = MyTools.dip2px(mContext, 285);
+			linearParams.height = MyTools.dip2px(mContext, 290);
 			layout.setLayoutParams(linearParams);
 		} else if (width == 1200 && height == 1824) {
-			linearParams.height = MyTools.dip2px(mContext, 305);
+			linearParams.height = MyTools.dip2px(mContext, 310);
 			layout.setLayoutParams(linearParams);
 		}
 	}
@@ -530,7 +632,7 @@ public class MyTools {
 			ApplicationInfo ai = context.getPackageManager()
 					.getApplicationInfo(context.getPackageName(),
 							PackageManager.GET_META_DATA);
-		
+
 			Object value = ai.metaData.get(key);
 			if (value != null) {
 				return value.toString();
@@ -539,6 +641,37 @@ public class MyTools {
 		}
 		return null;
 	}
+
+	public static void setWidthAndHeight(ImageView imageView, int width) {
+		LayoutParams params = imageView.getLayoutParams();
+		float w = (float) 640 / width;
+		params.width = width;
+		params.height = (int) (251 / w);
+		imageView.setLayoutParams(params);
+	}
+
+	public static void setWidthAndHeight(RelativeLayout relativeLayout,
+			int width) {
+		LayoutParams params = relativeLayout.getLayoutParams();
+		float w = (float) 640 / width;
+		params.width = width;
+		params.height = (int) (251 / w);
+		relativeLayout.setLayoutParams(params);
+	}
+
+	public static void setImageViewWandH(RelativeLayout relativeLayout,
+			ImageView imageView, int width) {
+		LayoutParams params = imageView.getLayoutParams();
+		params.width = width - 80;
+		params.height = width - 80;
+		imageView.setLayoutParams(params);
+
+//		LayoutParams params1 = relativeLayout.getLayoutParams();
+//		params1.width = width - 60;
+//		params1.height = width - 60;
+//		relativeLayout.setLayoutParams(params1);
+	}
+
 	// /**
 	// * Layout动画
 	// *

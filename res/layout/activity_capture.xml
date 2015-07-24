@@ -43,17 +43,10 @@
                     android:id="@+id/iv_flash"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
                     android:gravity="center"
                     android:scaleType="center"
-                   android:background="@drawable/flash_bg" />
-
-                <TextView
-                    android:id="@+id/tv_flash"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:text="自动"
-                    android:textColor="#ffffff" />
+                    android:src="@drawable/img_flash" />
             </LinearLayout>
 
             <LinearLayout
@@ -82,8 +75,8 @@
 
                 <ImageView
                     android:id="@+id/bnToggleCamera"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
                     android:scaleType="center"
                     android:src="@drawable/icon_camera_switch" />
             </LinearLayout>
@@ -101,7 +94,6 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_gravity="center"
-           
             android:src="@drawable/bn_camera_capture_selector" />
 
         <ImageView
@@ -110,8 +102,7 @@
             android:layout_height="50dp"
             android:layout_gravity="right|center"
             android:layout_marginRight="15dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/icon_camera_capture_pressed" />
+            android:scaleType="fitXY" />
 
         <ImageView
             android:id="@+id/iv_false"

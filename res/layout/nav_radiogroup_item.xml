@@ -4,6 +4,7 @@
     android:layout_height="2dp"
     android:background="@null"
     android:button="@null"
+    android:drawableBottom="@drawable/table_host_bg"
     android:checked="true"
     android:gravity="center"
     android:text=""

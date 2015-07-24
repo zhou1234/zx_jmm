@@ -9,7 +9,7 @@
         android:id="@+id/rel_tou"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/head" >
+        android:background="@drawable/t_bg" >
 
         <ImageView
             android:id="@+id/save_back"
@@ -29,7 +29,6 @@
             android:layout_centerVertical="true"
             android:gravity="center_vertical"
             android:text="我的收藏"
-            android:textColor="@android:color/white"
             android:textSize="@dimen/title_siae" />
 
         <Button
@@ -41,14 +40,21 @@
             android:background="@null"
             android:onClick="doclick"
             android:text="编辑"
-            android:textColor="@color/white"
             android:textSize="16sp" />
     </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/iv_xian"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="fitXY"
+        android:src="@drawable/logo_xian" />
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/transparent"
+        android:visibility="gone"
         android:orientation="horizontal" >
 
         <Button

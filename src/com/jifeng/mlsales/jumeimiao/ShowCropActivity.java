@@ -16,13 +16,13 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class ShowCropActivity extends Activity implements OnClickListener {
 	private CropImageView cropImageView;
-	private ImageView iv_ok, iv_false;
+	private TextView tv_ok, tv_false;
 	private LinearLayout ll_false, ll_ok;
 
 	@Override
@@ -41,19 +41,19 @@ public class ShowCropActivity extends Activity implements OnClickListener {
 				int width = bitmap.getWidth();
 				int height = bitmap.getHeight();
 				cropImageView.setImageBitmap(bitmap);
-//				if (width < 400 || height < 400) {
-//					Toast.makeText(this, "Í¼Æ¬³ß´çÌ«Ð¡ÁË", Toast.LENGTH_SHORT).show();
-//					finish();
-//				} else {
-					int aspectRatio;
-					if (width > height) {
-						aspectRatio = height;
-					} else {
-						aspectRatio = width;
-					}
-					cropImageView.setAspectRatio(aspectRatio, aspectRatio);
-					cropImageView.setFixedAspectRatio(true);
-//				}
+				// if (width < 400 || height < 400) {
+				// Toast.makeText(this, "Í¼Æ¬³ß´çÌ«Ð¡ÁË", Toast.LENGTH_SHORT).show();
+				// finish();
+				// } else {
+				int aspectRatio;
+				if (width > height) {
+					aspectRatio = height;
+				} else {
+					aspectRatio = width;
+				}
+				cropImageView.setAspectRatio(aspectRatio, aspectRatio);
+				cropImageView.setFixedAspectRatio(true);
+				// }
 			} else {
 				Toast.makeText(this, "Í¼Æ¬³ß´çÌ«Ð¡ÁË", Toast.LENGTH_SHORT).show();
 				finish();
@@ -87,26 +87,26 @@ public class ShowCropActivity extends Activity implements OnClickListener {
 
 	private void init() {
 		cropImageView = (CropImageView) findViewById(R.id.cropImageView);
-		iv_ok = (ImageView) findViewById(R.id.iv_ok);
-		iv_false = (ImageView) findViewById(R.id.iv_false);
+		tv_ok = (TextView) findViewById(R.id.tv_ok);
+		tv_false = (TextView) findViewById(R.id.tv_false);
 		ll_ok = (LinearLayout) findViewById(R.id.ll_ok);
 		ll_false = (LinearLayout) findViewById(R.id.ll_false);
 
-		iv_ok.setOnClickListener(this);
+		tv_ok.setOnClickListener(this);
 		ll_ok.setOnClickListener(this);
-		iv_false.setOnClickListener(this);
+		tv_false.setOnClickListener(this);
 		ll_false.setOnClickListener(this);
 	}
 
 	@Override
 	public void onClick(View arg0) {
 		switch (arg0.getId()) {
-		case R.id.iv_ok:
+		case R.id.tv_ok:
 		case R.id.ll_ok:
 			Bitmap croppedImage = cropImageView.getCroppedImage();
 			File photoFile = PathManager.getCropPhotoPath();
-			boolean successful = BitmapUtil.saveBitmap2file(croppedImage,
-					photoFile, Bitmap.CompressFormat.JPEG, 100);
+			boolean successful = BitmapUtil.saveBitmap2file(croppedImage, photoFile,
+					Bitmap.CompressFormat.JPEG, 100);
 			while (!successful) {
 				successful = BitmapUtil.saveBitmap2file(croppedImage,
 						photoFile, Bitmap.CompressFormat.JPEG, 100);
@@ -123,7 +123,7 @@ public class ShowCropActivity extends Activity implements OnClickListener {
 			}
 			finish();
 			break;
-		case R.id.iv_false:
+		case R.id.tv_false:
 		case R.id.ll_false:
 			finish();
 			break;

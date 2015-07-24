@@ -8,9 +8,9 @@ package com.ab;
 
 public final class R {
 	public static final class drawable {
-		public static final int ic_launcher = 0x7f02005f;
-		public static final int shuaxin_mao = 0x7f02017c;
-		public static final int shuaxin_wenzi = 0x7f02017d;
+		public static final int ic_launcher = 0x7f020061;
+		public static final int shuaxin_mao = 0x7f020196;
+		public static final int shuaxin_wenzi = 0x7f020197;
 	}
 	public static final class string {
 		public static final int app_name = 0x7f060000;
