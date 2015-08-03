@@ -47,6 +47,7 @@
                 android:id="@+id/imageView1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:src="@drawable/main_quan_qian" />
 
             <TextView
@@ -77,13 +78,13 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:background="@color/white"
-        android:gravity="center_vertical" >
+        android:gravity="center" >
 
         <TextView
             android:id="@+id/text_dazhe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center|left"
+            android:gravity="center_vertical|left"
             android:text="3折起"
             android:textColor="@color/tab_select"
             android:textSize="14sp" />
@@ -97,7 +98,7 @@
             android:layout_weight="1"
             android:background="@null"
             android:ellipsize="end"
-            android:gravity="center|left"
+            android:gravity="center_vertical"
             android:paddingLeft="8dip"
             android:singleLine="true"
             android:text="水星家纺专场"
@@ -108,7 +109,7 @@
             android:id="@+id/tv_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center|right"
+            android:gravity="center_vertical|right"
             android:textColor="@color/text_color" />
     </LinearLayout>
 

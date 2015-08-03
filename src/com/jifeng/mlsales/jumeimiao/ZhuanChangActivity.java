@@ -49,7 +49,7 @@ public class ZhuanChangActivity extends Activity implements
 
 	private RelativeLayout rl_progress;
 	private RelativeLayout rl_zhiding;
-	private TextView tv_number, tv_cont,tv_title;
+	private TextView tv_number, tv_cont, tv_title;
 
 	private int cont;
 
@@ -66,14 +66,14 @@ public class ZhuanChangActivity extends Activity implements
 		Intent intent = getIntent();
 		if (intent != null) {
 			id = intent.getStringExtra("id");
-			title=intent.getStringExtra("title");
+			title = intent.getStringExtra("title");
 			tv_title.setText(title);
 			getListData(mListView, id);
 		}
 	}
 
 	private void init() {
-		tv_title=(TextView) findViewById(R.id.tv_title);
+		tv_title = (TextView) findViewById(R.id.tv_title);
 		mListView = (ListView) findViewById(R.id.main_first_list);
 
 		mAbPullToRefreshView = (AbPullToRefreshView) findViewById(R.id.mPullRefreshView);
@@ -199,13 +199,7 @@ public class ZhuanChangActivity extends Activity implements
 
 	@Override
 	public void onFooterLoad(AbPullToRefreshView view) {
-		new Handler().postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				mAbPullToRefreshView.onFooterLoadFinish();
-				Toast.makeText(ZhuanChangActivity.this, "没有更多了", 0).show();
-			}
-		}, 1200);
+		mAbPullToRefreshView.onFooterLoadFinish();
 	}
 
 	@Override

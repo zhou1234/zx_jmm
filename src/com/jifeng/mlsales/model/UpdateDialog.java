@@ -10,13 +10,11 @@ import android.widget.TextView;
 
 public class UpdateDialog {
 
-	Context context;
-	android.app.AlertDialog ad;
-	TextView dialog_title_tv, dialog_cancel_tv, dialog_ok_tv;
+	private android.app.AlertDialog ad;
+	private TextView dialog_title_tv, dialog_cancel_tv, dialog_ok_tv;
 
 	public UpdateDialog(Context context) {
 		try {
-			this.context = context;
 			ad = new android.app.AlertDialog.Builder(context).create();
 			ad.setCancelable(false);
 			ad.show();

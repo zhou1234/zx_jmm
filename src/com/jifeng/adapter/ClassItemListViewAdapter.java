@@ -26,11 +26,11 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class ClassItemListViewAdapter extends BaseAdapter {
-	ClassItemListViewAppItem appItem;
-	List<JSONObject> mListData;
-	Context mContext;
-	int width, hight;
-	DisplayImageOptions options;
+	private ClassItemListViewAppItem appItem;
+	private List<JSONObject> mListData;
+	private Context mContext;
+	private int width, hight;
+	private DisplayImageOptions options;
 
 	public ClassItemListViewAdapter(List<JSONObject> listData, Context context,
 			int width, int hight) {

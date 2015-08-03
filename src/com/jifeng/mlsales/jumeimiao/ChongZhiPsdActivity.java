@@ -23,7 +23,7 @@ public class ChongZhiPsdActivity extends Activity {
 	private EditText mText_psd_1, mText_psd_2;
 	private String psd_1, psd_2;
 	private LoadingDialog dialog;
-	String phone;
+	private String phone;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

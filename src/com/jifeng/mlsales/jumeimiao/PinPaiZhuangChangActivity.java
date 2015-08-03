@@ -63,36 +63,16 @@ public class PinPaiZhuangChangActivity extends Activity {
 	private ImageView mImageView;
 	// private Button mBtn_YouHui;
 	private TextView mText_MeiMiaoShuo, mText_miao_say;// mText_Time,
-	ImageLoader imageLoader, mILoader;
-	private ImageView mDongHua;
-	LinearLayout mLayout;
+	private ImageLoader imageLoader;
 	private boolean oneFlag = true;
-	public Handler handler = new Handler() {
+	private Handler handler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
 			super.handleMessage(msg);
-			switch (msg.what) {
-			case 0x01:
-				mDongHua.setVisibility(View.VISIBLE);
-				Animation hyperspaceJumpAnimation = AnimationUtils
-						.loadAnimation(PinPaiZhuangChangActivity.this,
-								R.anim.puch_up_in);
-				mDongHua.startAnimation(hyperspaceJumpAnimation);
-				break;
-			case 0x02:
-				mDongHua.setVisibility(View.INVISIBLE);
-				mLayout.setVisibility(View.INVISIBLE);
-				break;
-			case 0x03:
-				mLayout.setVisibility(View.VISIBLE);
-				break;
-			default:
-				break;
-			}
 		}
 	};
 	private List<JSONObject> mListData;
-	int width, height;
+	private int width, height;
 	private RelativeLayout mRelativeLayout_say;
 	private String loadFlag = "0";
 	private int pageNum = 1, TotailPage = 1;
@@ -104,7 +84,7 @@ public class PinPaiZhuangChangActivity extends Activity {
 		((FBApplication) getApplication()).addActivity(this);
 		dialog = new LoadingDialog(this);
 		dialog.loading();
-		mILoader = new ImageLoader(this, "");
+		new ImageLoader(this, "");
 		WindowManager manager = getWindowManager();
 		width = manager.getDefaultDisplay().getWidth();
 		height = manager.getDefaultDisplay().getHeight();
@@ -122,35 +102,8 @@ public class PinPaiZhuangChangActivity extends Activity {
 	protected void onDestroy() {
 		ShareSDK.stopSDK(this);
 		super.onDestroy();
-		// imageLoader.clearCache();
-		// setContentView(R.layout.view_null);
-		// mText_title = null;
-		// dialog = null;
-		// tasckActivity.popActivity(PinPaiZhuangChangActivity.this);
-		// tasckActivity = null;
-		// btn_moren = null;
-		// btn_news = null;
-		// btn_rexiao = null;
-		// btn_price = null;
-		// mImage_price = null;
-		// mPullScrollView = null;
-		//
-		// mAdapter = null;
-		// mGridView = null;
-		// mImageView = null;
-		// mText_MeiMiaoShuo = null;
-		// mText_miao_say = null;
-		// imageLoader = null;
-		// mILoader = null;
-		// mDongHua = null;
-		// mLayout = null;
-		// mIntent = null;
-		// handler = null;
-		// this.finish();
-		// System.gc();
-	}
 
-	// 注册事件
+	}
 
 	// 查找控件
 	private void findView() {
@@ -160,11 +113,7 @@ public class PinPaiZhuangChangActivity extends Activity {
 		btn_rexiao = (Button) findViewById(R.id.goods_list_btn_rexiao);
 		btn_price = (Button) findViewById(R.id.goods_list_btn_jiage);
 		mImage_price = (ImageView) findViewById(R.id.goods_list_img_jiage);
-		mDongHua = (ImageView) findViewById(R.id.img_wenzi);
-		mLayout = (LinearLayout) findViewById(R.id.main_rel);
-		mText_miao_say = (TextView) findViewById(R.id.text_miao_say);
 		mText_miao_say.setMovementMethod(ScrollingMovementMethod.getInstance());
-		mRelativeLayout_say = (RelativeLayout) findViewById(R.id.rel_say);
 	}
 
 	// 注册事件
@@ -217,9 +166,6 @@ public class PinPaiZhuangChangActivity extends Activity {
 		linearLayout.setVisibility(View.GONE);
 		mText_MeiMiaoShuo = (TextView) view
 				.findViewById(R.id.textView_meimiaoshuo);
-		RelativeLayout relativeLayout = (RelativeLayout) view
-				.findViewById(R.id.lll);
-
 		mText_MeiMiaoShuo.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -297,15 +243,6 @@ public class PinPaiZhuangChangActivity extends Activity {
 				getData(getIntent().getStringExtra("id").toString(), "4", "1");
 				loadFlag = "4";
 			}
-
-			break;
-		case R.id.rel_say:
-			mRelativeLayout_say.setVisibility(View.GONE);
-			break;
-		case R.id.text_miao_say:
-			mRelativeLayout_say.setVisibility(View.GONE);
-			break;
-		default:
 			break;
 		}
 	}

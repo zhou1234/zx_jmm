@@ -23,7 +23,8 @@
     <color name="possible_result_points">#c0ffff00</color>
 
     <!-- tableBar选中颜色 -->
-    <color name="tab_select">#ff641c</color>
+    <color name="tab_select">#fa2701</color>
+    <!--  <color name="tab_select">#ff641c</color> -->
     <color name="tab_select_new">#000000</color>
     <!-- 首页未选中的颜色 -->
     <color name="main_no_select">#ffbb9c</color>

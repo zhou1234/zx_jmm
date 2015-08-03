@@ -49,7 +49,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:numColumns="1"
-            android:scrollbars="@null"
             android:verticalSpacing="12dip" />
     </com.ab.view.pullview.AbPullToRefreshView>
 

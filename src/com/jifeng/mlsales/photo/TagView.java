@@ -14,9 +14,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class TagView extends RelativeLayout implements View.OnClickListener {
-	public Animation blackAnimation1;
-	public Animation blackAnimation2;
-	public Animation whiteAnimation;
+	private Animation blackAnimation1;
+	private Animation blackAnimation2;
+	private Animation whiteAnimation;
 
 	public TextView textview;// ÎÄ×ÖÃèÊöÏÔÊ¾View
 	public ImageView blackIcon1;// ºÚÉ«Ô²È¦View
@@ -48,14 +48,14 @@ public class TagView extends RelativeLayout implements View.OnClickListener {
 		this.setOnClickListener(this);
 	}
 
-	public final void clearAnim() {
+	private final void clearAnim() {
 		this.blackIcon1.clearAnimation();
 		this.blackIcon2.clearAnimation();
 		this.viewPointer.clearAnimation();
 		this.isShow = false;
 	}
 
-	public final void startBlackAnimation1(final ImageView imageView) {
+	private final void startBlackAnimation1(final ImageView imageView) {
 		blackAnimation1.setAnimationListener(new AnimationListener() {
 			@Override
 			public void onAnimationStart(Animation animation) {
@@ -84,7 +84,7 @@ public class TagView extends RelativeLayout implements View.OnClickListener {
 		imageView.startAnimation(blackAnimation1);
 	}
 
-	public final void startBlackAnimation2(final ImageView imageView) {
+	private final void startBlackAnimation2(final ImageView imageView) {
 		blackAnimation2.setAnimationListener(new AnimationListener() {
 			@Override
 			public void onAnimationStart(Animation animation) {
@@ -114,7 +114,7 @@ public class TagView extends RelativeLayout implements View.OnClickListener {
 		imageView.startAnimation(blackAnimation2);
 	}
 
-	public final void startWhiteAnimation(final ImageView imageView) {
+	private final void startWhiteAnimation(final ImageView imageView) {
 		whiteAnimation.setAnimationListener(new AnimationListener() {
 			@Override
 			public void onAnimationStart(Animation animation) {
@@ -171,7 +171,7 @@ public class TagView extends RelativeLayout implements View.OnClickListener {
 		show();
 	}
 
-	public void show() {
+	private void show() {
 		if (this.isShow) {
 			return;
 		}

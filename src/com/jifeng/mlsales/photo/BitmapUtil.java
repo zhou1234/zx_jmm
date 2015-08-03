@@ -21,7 +21,7 @@ public class BitmapUtil {
 	 * @param path
 	 * @return
 	 */
-	public static int readPictureDegree(String path) {
+	private static int readPictureDegree(String path) {
 		int degree = 0;
 		try {
 			ExifInterface exifInterface = new ExifInterface(path);

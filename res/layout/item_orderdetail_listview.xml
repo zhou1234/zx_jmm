@@ -110,7 +110,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:text="￥1234.00"
-                    android:textColor="@color/text_zhifu_price"
+                    android:textColor="@color/tab_select"
                     android:textSize="16sp" />
             </LinearLayout>
         </LinearLayout>

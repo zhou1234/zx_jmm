@@ -36,7 +36,7 @@ public class MyQuanActivity extends Activity implements OnClickListener {
 	private MyListViewAdapter mAdapter;
 	private LoadingDialog dialog;
 	private Button mBtn_wei, mBtn_yi, mBtn_guoqi;
-	JSONArray array;
+	private JSONArray array;
 	private ImageView iv_no;
 	private TextView tv_no, tv_addQuan;
 	private String statu = "0";
@@ -99,19 +99,19 @@ public class MyQuanActivity extends Activity implements OnClickListener {
 		switch (i) {
 		case 0:
 			mBtn_wei.setTextColor(getResources().getColor(
-					R.color.main_no_select));
+					R.color.tab_select));
 			mBtn_wei.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.fadain_zuo));
 			break;
 		case 1:
 			mBtn_yi.setTextColor(getResources()
-					.getColor(R.color.main_no_select));
+					.getColor(R.color.tab_select));
 			mBtn_yi.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.fadain_middle));
 			break;
 		case 2:
 			mBtn_guoqi.setTextColor(getResources().getColor(
-					R.color.main_no_select));
+					R.color.tab_select));
 			mBtn_guoqi.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.fadain_you));
 			break;
@@ -339,15 +339,15 @@ public class MyQuanActivity extends Activity implements OnClickListener {
 
 	}
 
-	class AppItem {
+	private class AppItem {
 		// TextView AppText_name;
-		TextView AppText_time;
-		TextView AppText_money;
-		TextView AppText_price;
-		TextView AppTv_rule;
-		TextView AppTv_code;
-		TextView AppTv_status;
-		LinearLayout Appll_price;
+		private TextView AppText_time;
+		private TextView AppText_money;
+		private TextView AppText_price;
+		private TextView AppTv_rule;
+		private TextView AppTv_code;
+		private TextView AppTv_status;
+		private LinearLayout Appll_price;
 		// TextView AppText_classsion;
 		// RelativeLayout AppRel_Bg;
 		// TextView AppText_pinpai;

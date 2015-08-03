@@ -40,12 +40,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MySelfActivity extends Activity {
+public class MySelfActivity extends Activity implements OnClickListener {
 	private Intent mIntent;
 	private TextView mText_NickName, mText_Jifen;
 	private LinearLayout mLayout_Show;// 登录后显示数据
@@ -60,6 +62,10 @@ public class MySelfActivity extends Activity {
 	private Bitmap bit;
 	private SharedPreferences sp;
 	private String str;
+
+	private LinearLayout ll_no_login;
+	private LinearLayout rel_top;
+	private Button bt_login, bt_zhuCe;
 	private Handler handler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
 			switch (msg.what) {
@@ -136,24 +142,17 @@ public class MySelfActivity extends Activity {
 		dialog = new LoadingDialog(this);
 		sp = getSharedPreferences(AllStaticMessage.SPNE, 0);
 		findView();
-		if (!AllStaticMessage.Login_Flag.equals("")) {
-			mTextFlag.setVisibility(View.GONE);
-			mLayout_Show.setVisibility(View.VISIBLE);
-		} else {
-			mLayout_Show.setVisibility(View.GONE);
-			mTextFlag.setVisibility(View.VISIBLE);
-			if (AllStaticMessage.User_NickName == null
-					|| AllStaticMessage.User_NickName.equals("")) {
-				mText_NickName.setText(AllStaticMessage.User_Name);
-			} else {
-				mText_NickName.setText(AllStaticMessage.User_NickName);
-			}
-		}
 
 	}
 
 	// 查找控件
 	private void findView() {
+		ll_no_login = (LinearLayout) findViewById(R.id.ll_no_login);
+		rel_top=(LinearLayout) findViewById(R.id.rel_top);
+		bt_login = (Button) findViewById(R.id.bt_login);
+		bt_zhuCe = (Button) findViewById(R.id.bt_zhuCe);
+		bt_login.setOnClickListener(this);
+		bt_zhuCe.setOnClickListener(this);
 
 		mText_NickName = (TextView) findViewById(R.id.myself_nickname);
 		mText_Jifen = (TextView) findViewById(R.id.myself_text_jifen);
@@ -460,8 +459,8 @@ public class MySelfActivity extends Activity {
 				img_touxiang.setImageBitmap(bit);
 				break;
 			case 1111:// 个人中心
-				mTextFlag.setVisibility(View.GONE);
-				mLayout_Show.setVisibility(View.VISIBLE);
+				ll_no_login.setVisibility(View.GONE);
+				rel_top.setVisibility(View.VISIBLE);
 				if (!AllStaticMessage.userImage.equals("")) {
 					dialog.loading();
 					ImageLoader.getInstance().loadImage(
@@ -496,24 +495,24 @@ public class MySelfActivity extends Activity {
 				}
 				break;
 			case 2222:// 待付款
-				mTextFlag.setVisibility(View.GONE);
-				mLayout_Show.setVisibility(View.VISIBLE);
+				ll_no_login.setVisibility(View.GONE);
+				rel_top.setVisibility(View.VISIBLE);
 				mIntent = new Intent(MySelfActivity.this,
 						DaiZhiFuActivity.class);
 				mIntent.putExtra("title", "待付款订单");
 				startActivity(mIntent);
 				break;
 			case 3333:// 待发货
-				mTextFlag.setVisibility(View.GONE);
-				mLayout_Show.setVisibility(View.VISIBLE);
+				ll_no_login.setVisibility(View.GONE);
+				rel_top.setVisibility(View.VISIBLE);
 				mIntent = new Intent(MySelfActivity.this,
 						DaiZhiFuActivity.class);
 				mIntent.putExtra("title", "待发货订单");
 				startActivity(mIntent);
 				break;
 			case 4444:// 待收货
-				mTextFlag.setVisibility(View.GONE);
-				mLayout_Show.setVisibility(View.VISIBLE);
+				ll_no_login.setVisibility(View.GONE);
+				rel_top.setVisibility(View.VISIBLE);
 				mIntent = new Intent(MySelfActivity.this,
 						DaiShouHuoActivity.class);
 				startActivity(mIntent);
@@ -525,28 +524,28 @@ public class MySelfActivity extends Activity {
 				getTaken();
 				break;
 			case 6666:// 所有订单
-				mTextFlag.setVisibility(View.GONE);
-				mLayout_Show.setVisibility(View.VISIBLE);
+				ll_no_login.setVisibility(View.GONE);
+				rel_top.setVisibility(View.VISIBLE);
 				mIntent = new Intent(MySelfActivity.this, OrderActivity.class);
 				startActivity(mIntent);
 				break;
 			case 7777:// 优惠券
-				mTextFlag.setVisibility(View.GONE);
-				mLayout_Show.setVisibility(View.VISIBLE);
+				ll_no_login.setVisibility(View.GONE);
+				rel_top.setVisibility(View.VISIBLE);
 				mIntent = new Intent(MySelfActivity.this, MyQuanActivity.class);
 				startActivity(mIntent);
 				break;
 			case 8888:// 收货地址
-				mTextFlag.setVisibility(View.GONE);
-				mLayout_Show.setVisibility(View.VISIBLE);
+				ll_no_login.setVisibility(View.GONE);
+				rel_top.setVisibility(View.VISIBLE);
 				mIntent = new Intent(MySelfActivity.this,
 						AddressListActivity.class);
 				mIntent.putExtra("flag", "myself");
 				startActivity(mIntent);
 				break;
 			case 9999:// 我的收藏
-				mTextFlag.setVisibility(View.GONE);
-				mLayout_Show.setVisibility(View.VISIBLE);
+				ll_no_login.setVisibility(View.GONE);
+				rel_top.setVisibility(View.VISIBLE);
 				mIntent = new Intent(MySelfActivity.this, SaveActivity.class);
 				startActivity(mIntent);
 				break;
@@ -624,11 +623,11 @@ public class MySelfActivity extends Activity {
 		super.onResume();
 		dialog.loading();
 		if (AllStaticMessage.Login_Flag.equals("")) {
-			mLayout_Show.setVisibility(View.GONE);
-			mTextFlag.setVisibility(View.VISIBLE);
+			rel_top.setVisibility(View.GONE);
+			ll_no_login.setVisibility(View.VISIBLE);
 		} else {
-			mTextFlag.setVisibility(View.GONE);
-			mLayout_Show.setVisibility(View.VISIBLE);
+			ll_no_login.setVisibility(View.GONE);
+			rel_top.setVisibility(View.VISIBLE);
 			if (AllStaticMessage.User_NickName == null
 					|| AllStaticMessage.User_NickName.equals("")) {
 				mText_NickName.setText(AllStaticMessage.User_Name);
@@ -866,5 +865,20 @@ public class MySelfActivity extends Activity {
 						// 错误返回JSONObject
 					}
 				});
+	}
+
+	@Override
+	public void onClick(View arg0) {
+		switch (arg0.getId()) {
+		case R.id.bt_login:
+			mIntent = new Intent(MySelfActivity.this, LoginActivity.class);
+			startActivityForResult(mIntent, 1111);
+			break;
+		case R.id.bt_zhuCe:
+			mIntent = new Intent(MySelfActivity.this, RegisterActivity.class);
+			startActivity(mIntent);
+			break;
+		}
+
 	}
 }

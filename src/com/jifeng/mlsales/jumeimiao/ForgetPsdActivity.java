@@ -33,7 +33,7 @@ public class ForgetPsdActivity extends Activity {
 	private Button mBtn_code;
 	private String phonenum, code;
 	private TimeThread timeThread;
-	LoadingDialog dialog;
+	private LoadingDialog dialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

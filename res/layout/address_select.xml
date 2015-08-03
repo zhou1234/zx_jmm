@@ -67,7 +67,7 @@
             android:layout_marginLeft="8dip"
             android:layout_marginRight="8dip"
             android:layout_marginTop="20dip"
-            android:background="@drawable/login_login_bg"
+            android:background="@drawable/address_delete_bg"
             android:onClick="doclick"
             android:text="确定"
             android:textColor="@color/white"

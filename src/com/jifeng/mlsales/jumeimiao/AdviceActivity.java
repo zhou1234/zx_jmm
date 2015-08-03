@@ -17,7 +17,6 @@ import com.umeng.analytics.MobclickAgent;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -26,7 +25,6 @@ import android.widget.Toast;
 
 public class AdviceActivity extends Activity {
 	private EditText mEditText;
-	private Button mButton;
 	private LoadingDialog dialog;
 
 	@Override
@@ -67,14 +65,12 @@ public class AdviceActivity extends Activity {
 		dialog = null;
 
 		mEditText = null;
-		mButton = null;
 		this.finish();
 		System.gc();
 	}
 
 	private void findView() {
 		mEditText = (EditText) findViewById(R.id.advice_edt);
-		mButton = (Button) findViewById(R.id.advice_btn);
 	}
 
 	private void sendMessage(String message) {

@@ -9,9 +9,11 @@ import android.os.Handler;
 import android.text.Editable;
 import android.text.Selection;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
@@ -20,11 +22,11 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -64,25 +66,19 @@ public class ActivityAddTags extends Activity implements View.OnClickListener,
 
 	private float positionX = 0;
 	private float positionY = 0;
-	private float X;
-	private float Y;
 
-	private int width, w, wid;
-	private int height, h;
+	private int width, wid;
+	private int height;
 	private List<TagView> tagViews = new ArrayList<TagView>();
-	private List<TagInfo> tagInfos = new ArrayList<TagInfo>();
 
 	private static final String KImagePath = "image_path";
 	private String imagePath = "";
-	public Bitmap bitmap;
+	private Bitmap bitmap;
 
 	private HGAlertDlg dlg;
 	private HGTagPickerView tagPickerView;
 	private HGTipsDlg tipsDlg;
 	private int tagsCount = 0;
-	private List<String> base = Arrays.asList("时尚流", "小清新", "复古风", "甜美风",
-			"中性风", "作死", "这就是我", "清晨的宁静", "下午茶", "后会无期", "no zuo no die",
-			"随心所欲");
 	private String content = "";
 	private EditText et_comment;
 	private Button bt_ok;
@@ -140,7 +136,7 @@ public class ActivityAddTags extends Activity implements View.OnClickListener,
 		};
 	};
 
-	public static void open(Activity activity, String imagePath) {
+	static void open(Activity activity, String imagePath) {
 		Intent intent = new Intent(activity, ActivityAddTags.class);
 		intent.putExtra(KImagePath, imagePath);
 		activity.startActivity(intent);
@@ -162,13 +158,13 @@ public class ActivityAddTags extends Activity implements View.OnClickListener,
 		setListeners();
 	}
 
-	protected void getViews() {
+	private void getViews() {
 		headLeft = (ImageView) findViewById(R.id.tv_head_left);
 		headTitle = (TextView) findViewById(R.id.tv_head_title);
 		headRight = (TextView) findViewById(R.id.tv_head_right);
 		headRight.setVisibility(View.GONE);
 		image = (ImageView) findViewById(R.id.image);
-		frameLayout=(FixWidthFrameLayout) findViewById(R.id.frameLayout);
+		frameLayout = (FixWidthFrameLayout) findViewById(R.id.frameLayout);
 		LayoutParams params = frameLayout.getLayoutParams();
 		params.width = wid;
 		params.height = wid;
@@ -178,7 +174,6 @@ public class ActivityAddTags extends Activity implements View.OnClickListener,
 		et_comment = (EditText) findViewById(R.id.et_comment);
 		bt_ok = (Button) findViewById(R.id.bt_ok);
 		ll_text = (LinearLayout) findViewById(R.id.ll_text);
-		ll_text.setOnClickListener(this);
 
 		bt_ok.setOnClickListener(this);
 
@@ -192,7 +187,7 @@ public class ActivityAddTags extends Activity implements View.OnClickListener,
 		alphaAnimation.start();
 	}
 
-	protected void initViews() {
+	private void initViews() {
 		dialog = new LoadingDialog(this);
 		headTitle.setText("添加标签");
 		headRight.setText("完成");
@@ -200,7 +195,7 @@ public class ActivityAddTags extends Activity implements View.OnClickListener,
 		image.setImageBitmap(bitmap);
 	}
 
-	protected void setListeners() {
+	private void setListeners() {
 		headLeft.setOnClickListener(this);
 		headRight.setOnClickListener(this);
 		image.setOnClickListener(this);
@@ -339,38 +334,7 @@ public class ActivityAddTags extends Activity implements View.OnClickListener,
 		// this.finish();
 	}
 
-	private void moveTagView() {
-		try {
-			String tagName = moveTagView.getData().getjson().getString("bname");
-			for (int i = 0; i < tagViews.size(); i++) {
-				String name = tagViews.get(i).getData().getjson()
-						.getString("bname");
-				if (name.equals(tagName)) {
-					TagInfo tagInfo = new TagInfo();
-					tagInfo.bid = 2L;
-					tagInfo.bname = tagName;
-					tagInfo.direct = TagInfo.Direction.Left;
-					tagInfo.pic_x = 50;
-					tagInfo.pic_y = 50;
-					tagInfo.type = TagInfo.Type.CustomPoint;
-					tagInfo.leftMargin = (int) positionX;
-					tagInfo.topMargin = (int) positionY;
-					moveTagView.setData(tagInfo);
-					tagViews.set(i, moveTagView);
-					return;
-				}
-			}
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-
-		// tagViews.add(tagView);
-		// tagsContainer.addView(tagView, params);
-	}
-
 	private void addTag() {
-		w = image.getWidth();
-		h = image.getHeight();
 		tagsCount++;
 		TagInfo tagInfo = new TagInfo();
 		tagInfo.bid = 2L;
@@ -383,66 +347,50 @@ public class ActivityAddTags extends Activity implements View.OnClickListener,
 		tagInfo.topMargin = (int) positionY;
 		TagView tagView = new TagViewLeft(this, null);
 		tagView.setData(tagInfo);
-		tagView.getWidth();
-		tagView.setTagViewListener(this);
-		// tagView.setOnTouchListener(new OnTouchListener() {
-		//
-		// @Override
-		// public boolean onTouch(View view, MotionEvent motionEvent) {
-		// moveTagView = (TagView) view;
-		// int action = motionEvent.getAction();
-		// switch (action) {
-		// case MotionEvent.ACTION_DOWN:
-		// X = motionEvent.getRawX();
-		// Y = motionEvent.getRawY();
-		// break;
-		// case MotionEvent.ACTION_MOVE:
-		// int dx = (int) (motionEvent.getRawX() - X);
-		// int dy = (int) (motionEvent.getRawY() - Y);
-		//
-		// int left = (int) (view.getLeft() + dx);
-		// int top = (int) (view.getTop() + dy);
-		// int right = (int) (view.getRight() + dx);
-		// int bottom = (int) (view.getBottom() + dy);
-		//
-		// if (left < 0) {
-		// left = 0;
-		// right = left + view.getWidth();
-		// }
-		//
-		// if (right > w) {
-		// right = w;
-		// left = right - view.getWidth();
-		// }
-		//
-		// if (top < 0) {
-		// top = 0;
-		// bottom = top + view.getHeight();
-		// }
-		//
-		// if (bottom > h) {
-		// bottom = h;
-		// top = bottom - view.getHeight();
-		// }
-		//
-		// view.layout(left, top, right, bottom);
-		//
-		// X = motionEvent.getRawX();
-		// Y = motionEvent.getRawY();
-		//
-		// positionX = motionEvent.getX();
-		// positionY = motionEvent.getY();
-		// break;
-		// case MotionEvent.ACTION_UP:
-		// moveTagView();
-		// break;
-		// default:
-		// break;
-		// }
-		//
-		// return false;
-		// }
-		// });
+		tagView.setOnTouchListener(new OnTouchListener() {
+			private float X;
+			private float Y;
+			private float down_x;
+			private float down_y;
+
+			@Override
+			public boolean onTouch(View view, MotionEvent motionEvent) {
+				moveTagView = (TagView) view;
+				int action = motionEvent.getAction();
+				switch (action) {
+				case MotionEvent.ACTION_DOWN:
+					X = motionEvent.getRawX();
+					Y = motionEvent.getRawY();
+					down_x = motionEvent.getRawX();
+					down_y = motionEvent.getRawY();
+					break;
+				case MotionEvent.ACTION_MOVE:
+					int dx = (int) (motionEvent.getRawX() - X);
+					int dy = (int) (motionEvent.getRawY() - Y);
+					setPosition(view, dx, dy);
+					X = motionEvent.getRawX();
+					Y = motionEvent.getRawY();
+					break;
+				case MotionEvent.ACTION_UP:
+					if (Math.abs(X - down_x) < 1.5
+							&& Math.abs(Y - down_y) < 1.5) {
+						destView = view;
+						if (null == dlg) {
+							dlg = HGAlertDlg.showDlg("确定删除该标签?", null,
+									ActivityAddTags.this, ActivityAddTags.this);
+						}
+
+					} else {
+						moveTagView();
+					}
+					break;
+				default:
+					break;
+				}
+
+				return false;
+			}
+		});
 
 		FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
 				FrameLayout.LayoutParams.WRAP_CONTENT,
@@ -453,8 +401,112 @@ public class ActivityAddTags extends Activity implements View.OnClickListener,
 		tagsContainer.addView(tagView, params);
 	}
 
+	private void moveTagView() {
+		try {
+			String tagName = moveTagView.getData().getjson().getString("bname");
+			TagInfo tagInfo = new TagInfo();
+			tagInfo.bid = 2L;
+			tagInfo.bname = tagName;
+			tagInfo.direct = TagInfo.Direction.Left;
+			tagInfo.pic_x = 50;
+			tagInfo.pic_y = 50;
+			tagInfo.type = TagInfo.Type.CustomPoint;
+			tagInfo.leftMargin = (int) positionX;
+			tagInfo.topMargin = (int) positionY;
+			TagView newTagView = new TagViewLeft(this, null);
+			newTagView.setData(tagInfo);
+			newTagView.setOnTouchListener(new OnTouchListener() {
+				private float X;
+				private float Y;
+				private float down_x;
+				private float down_y;
+
+				@Override
+				public boolean onTouch(View view, MotionEvent motionEvent) {
+					moveTagView = (TagView) view;
+					int action = motionEvent.getAction();
+					switch (action) {
+					case MotionEvent.ACTION_DOWN:
+						X = motionEvent.getRawX();
+						Y = motionEvent.getRawY();
+						down_x = motionEvent.getRawX();
+						down_y = motionEvent.getRawY();
+						break;
+					case MotionEvent.ACTION_MOVE:
+						int dx = (int) (motionEvent.getRawX() - X);
+						int dy = (int) (motionEvent.getRawY() - Y);
+
+						setPosition(view, dx, dy);
+						X = motionEvent.getRawX();
+						Y = motionEvent.getRawY();
+
+						break;
+					case MotionEvent.ACTION_UP:
+						if (Math.abs(X - down_x) < 1.5
+								&& Math.abs(Y - down_y) < 1.5) {
+							destView = view;
+							if (null == dlg) {
+								dlg = HGAlertDlg.showDlg("确定删除该标签?", null,
+										ActivityAddTags.this,
+										ActivityAddTags.this);
+							}
+
+						} else {
+							moveTagView();
+						}
+
+						break;
+					default:
+						break;
+					}
+
+					return false;
+				}
+			});
+			FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+					FrameLayout.LayoutParams.WRAP_CONTENT,
+					FrameLayout.LayoutParams.WRAP_CONTENT);
+			params.leftMargin = tagInfo.leftMargin;
+			params.topMargin = tagInfo.topMargin;
+			tagViews.add(newTagView);
+			tagsContainer.addView(newTagView, params);
+
+			tagViews.remove(moveTagView);
+			tagsContainer.removeView(moveTagView);
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void setPosition(View v, int dx, int dy) {
+		int parentWidth = image.getWidth();
+		int parentHeight = image.getHeight();
+		int l = v.getLeft() + dx;
+		int t = v.getTop() + dy;
+		if (l < 0)
+			l = 0;
+		else if ((l + v.getWidth()) >= parentWidth) {
+			l = parentWidth - v.getWidth();
+		}
+		if (t < 0)
+			t = 0;
+		else if ((t + v.getHeight()) >= parentHeight) {
+			t = parentHeight - v.getHeight();
+		}
+		int r = l + v.getWidth();
+		int b = t + v.getHeight();
+		v.layout(l, t, r, b);
+		FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) v
+				.getLayoutParams();
+		params.leftMargin = l;
+		params.topMargin = t;
+		v.setLayoutParams(params);
+		positionX = l;
+		positionY = t;
+	}
+
 	private void addTagView() {
-		List<TagView> addTagViews = new ArrayList<TagView>();
 		TagInfo tagInfo = new TagInfo();
 		tagInfo.bid = 2L;
 		tagInfo.bname = "点击图片,自定义标签";
@@ -469,9 +521,9 @@ public class ActivityAddTags extends Activity implements View.OnClickListener,
 		FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
 				FrameLayout.LayoutParams.WRAP_CONTENT,
 				FrameLayout.LayoutParams.WRAP_CONTENT);
+		params.gravity = Gravity.CENTER;
 		params.leftMargin = tagInfo.leftMargin;
 		params.topMargin = tagInfo.topMargin;
-		addTagViews.add(tag);
 		ll_text.addView(tag, params);
 
 		tag.setOnClickListener(new OnClickListener() {
@@ -489,14 +541,12 @@ public class ActivityAddTags extends Activity implements View.OnClickListener,
 	}
 
 	private void addLabel() {
-		List<TagView> tag = new ArrayList<TagView>();
 		tagView = new TagViewLeftNew(this, null);
 		FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
 				FrameLayout.LayoutParams.WRAP_CONTENT,
 				FrameLayout.LayoutParams.WRAP_CONTENT);
 		params.leftMargin = (int) positionX;
 		params.topMargin = (int) positionY;
-		tag.add(tagView);
 		tagsContainer.addView(tagView, params);
 	}
 

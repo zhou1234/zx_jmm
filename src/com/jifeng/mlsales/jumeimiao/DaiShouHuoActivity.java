@@ -210,8 +210,6 @@ public class DaiShouHuoActivity extends Activity {
 						.findViewById(R.id.item_order_time);
 				appItem.AppText_id = (TextView) v
 						.findViewById(R.id.item_order_id);
-				appItem.AppText_status = (TextView) v
-						.findViewById(R.id.item_order_status);
 				appItem.AppText_price = (TextView) v
 						.findViewById(R.id.item_order_price);
 				appItem.AppImg = (ImageView) v
@@ -267,12 +265,11 @@ public class DaiShouHuoActivity extends Activity {
 
 	}
 
-	class AppItem {
-		TextView AppText_time;
-		TextView AppText_id;
-		TextView AppText_status;
+	private class AppItem {
+		private TextView AppText_time;
+		private TextView AppText_id;
 		TextView AppText_price;
-		ImageView AppImg;
+		private ImageView AppImg;
 	}
 
 	@Override

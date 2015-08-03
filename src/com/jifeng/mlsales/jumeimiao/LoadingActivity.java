@@ -14,6 +14,7 @@ import com.jifeng.url.AllStaticMessage;
 import com.jifeng.url.HttpUtil;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -25,9 +26,9 @@ import android.os.Message;
 public class LoadingActivity extends Activity {
 	private Intent mIntent;
 	private ShrefUtil mShrefUtil;
-	LoadingDialog dialog;
+	private LoadingDialog dialog;
 	private boolean isFirstRun;
-	Handler handler = new Handler() {
+	@SuppressLint("HandlerLeak") private Handler handler = new Handler() {
 
 		@Override
 		public void handleMessage(Message msg) {
@@ -104,7 +105,7 @@ public class LoadingActivity extends Activity {
 		if (isFirstRun) {
 			false_save();
 			// Log.d("debug", "第一次运行");
-			AllStaticMessage.guideString = true;
+			AllStaticMessage.guide = true;
 			editor.putBoolean("isFirstRun", false);
 			editor.commit();
 			handler.sendEmptyMessage(0x01);

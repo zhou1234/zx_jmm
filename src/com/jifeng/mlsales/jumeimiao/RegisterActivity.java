@@ -21,11 +21,13 @@ import com.umeng.analytics.MobclickAgent;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -54,6 +56,16 @@ public class RegisterActivity extends Activity {
 		dialog = new LoadingDialog(this);
 		mShrefUtil = new ShrefUtil(this, "data");
 		findView();
+
+		findViewById(R.id.tv_login).setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				startActivity(new Intent(RegisterActivity.this,
+						LoginActivity.class));
+				finish();
+			}
+		});
 	}
 
 	// 查找控件
@@ -89,9 +101,9 @@ public class RegisterActivity extends Activity {
 	}
 
 	// //xml注册点击事件的实现
-	@SuppressLint("ShowToast")
 	public void doclick(View view) {
 		switch (view.getId()) {
+
 		case R.id.register_back:// 返回
 			if (timeThread != null) {
 				timeThread.setThreadState(false);
@@ -296,9 +308,12 @@ public class RegisterActivity extends Activity {
 										500).show();
 								mShrefUtil.write("user_name", phone);
 								mShrefUtil.write("user_psd", psd);
-								RegisterActivity.this.setResult(RESULT_OK);
-								RegisterActivity.this.finish();
-								AllStaticMessage.Back_to_ZhangHu=true;
+//								RegisterActivity.this.setResult(RESULT_OK);
+//								RegisterActivity.this.finish();
+								AllStaticMessage.Register=true;
+								AllStaticMessage.Back_to_ZhangHu = true;
+								startActivity(new Intent(RegisterActivity.this,
+										TabHostActivity.class));
 							} else {
 								Toast.makeText(
 										RegisterActivity.this,
@@ -376,6 +391,7 @@ public class RegisterActivity extends Activity {
 		}
 		return super.onKeyDown(keyCode, event);
 	}
+
 	@Override
 	public boolean dispatchKeyEvent(KeyEvent event) {
 		if (event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
@@ -391,6 +407,7 @@ public class RegisterActivity extends Activity {
 		}
 		return super.dispatchKeyEvent(event);
 	}
+
 	@Override
 	protected void onResume() {
 		super.onResume();

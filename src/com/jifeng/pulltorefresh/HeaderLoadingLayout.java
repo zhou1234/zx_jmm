@@ -113,7 +113,7 @@ public class HeaderLoadingLayout extends LoadingLayout {
     
     @Override
     protected void onStateChanged(State curState, State oldState) {
-        mArrowImageView.setVisibility(View.GONE);
+        mArrowImageView.setVisibility(View.VISIBLE);
         mProgressBar.setVisibility(View.INVISIBLE);
         
         super.onStateChanged(curState, oldState);

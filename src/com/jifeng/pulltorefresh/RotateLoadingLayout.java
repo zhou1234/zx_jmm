@@ -3,6 +3,7 @@ package com.jifeng.pulltorefresh;
 
 import com.jifeng.mlsales.R;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -72,8 +73,8 @@ public class RotateLoadingLayout extends LoadingLayout {
         mHeaderTimeView = (TextView) findViewById(R.id.pull_to_refresh_header_time);
         mHeaderTimeViewTitle = (TextView) findViewById(R.id.pull_to_refresh_last_update_time_text);
         
-        mArrowImageView.setScaleType(ScaleType.CENTER);
-        mArrowImageView.setImageResource(R.drawable.default_ptr_rotate);
+       // mArrowImageView.setScaleType(ScaleType.CENTER);
+        //mArrowImageView.setImageResource(R.drawable.default_ptr_rotate);
         
         float pivotValue = 0.5f;    // SUPPRESS CHECKSTYLE
         float toDegree = 720.0f;    // SUPPRESS CHECKSTYLE
@@ -136,7 +137,7 @@ public class RotateLoadingLayout extends LoadingLayout {
         mHintTextView.setText(R.string.pull_to_refresh_header_hint_loading);
     }
     
-    @Override
+    @SuppressLint("NewApi") @Override
     public void onPull(float scale) { 
       float angle = scale * 180f; // SUPPRESS CHECKSTYLE
         mArrowImageView.setRotation(angle);
@@ -145,7 +146,7 @@ public class RotateLoadingLayout extends LoadingLayout {
     /**
      * 重置动画
      */
-    private void resetRotation() {
+    @SuppressLint("NewApi") private void resetRotation() {
         mArrowImageView.clearAnimation();
         mArrowImageView.setRotation(0);
     }

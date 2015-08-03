@@ -158,7 +158,7 @@
             android:id="@+id/single_person_tuichu"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/login_login_bg"
+            android:background="@drawable/address_delete_bg"
             android:onClick="doclick"
             android:text="退出登录"
             android:textColor="@color/white"

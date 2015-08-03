@@ -61,7 +61,7 @@ public class ShowCropActivity extends Activity implements OnClickListener {
 		}
 	}
 
-	public static Bitmap fitSizeImg(String path) {
+	private static Bitmap fitSizeImg(String path) {
 		if (path == null || path.length() < 1)
 			return null;
 		File file = new File(path);

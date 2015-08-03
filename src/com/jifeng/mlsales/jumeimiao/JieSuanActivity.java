@@ -63,7 +63,6 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 	private TextView mTextView_GoodsPrice, mTextView_YunFei,
 			mTextView_AllPrice, mText_guanfang;
 	private LoadingDialog dialog;
-	private boolean twoFlag = false;
 	/**
 	 * 支付宝
 	 **/
@@ -815,7 +814,7 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 	 * call alipay sdk pay. 调用SDK支付
 	 * 
 	 */
-	public void tijiao(final String orderNum, String allPrice) {
+	private void tijiao(final String orderNum, String allPrice) {
 		String orderInfo = getOrderInfo(orderNum, allPrice);
 		String sign = sign(orderInfo);
 		try {
@@ -852,41 +851,6 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 
 		Thread payThread = new Thread(payRunnable);
 		payThread.start();
-	}
-
-	/**
-	 * check whether the device has authentication alipay account.
-	 * 查询终端设备是否存在支付宝认证账户
-	 * 
-	 */
-	public void check(View v) {
-		Runnable checkRunnable = new Runnable() {
-
-			@Override
-			public void run() {
-				PayTask payTask = new PayTask(JieSuanActivity.this);
-				boolean isExist = payTask.checkAccountIfExist();
-
-				Message msg = new Message();
-				msg.what = SDK_CHECK_FLAG;
-				msg.obj = isExist;
-				mHandler.sendMessage(msg);
-			}
-		};
-
-		Thread checkThread = new Thread(checkRunnable);
-		checkThread.start();
-
-	}
-
-	/**
-	 * get the sdk version. 获取SDK版本号
-	 * 
-	 */
-	public void getSDKVersion() {
-		PayTask payTask = new PayTask(this);
-		String version = payTask.getVersion();
-		Toast.makeText(this, version, Toast.LENGTH_SHORT).show();
 	}
 
 	private String getOrderInfo(String orderNum, String allPrice) {
@@ -958,7 +922,7 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 	 * @param content
 	 *            待签名订单信息
 	 */
-	public String sign(String content) {
+	private String sign(String content) {
 		return SignUtils.sign(content, Keys.PRIVATE);
 	}
 

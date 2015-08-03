@@ -80,9 +80,9 @@ public class ClassMyGridViewAdapter extends BaseAdapter {
 		return view;
 	}
 
-	class Holder {
-		ImageView iv_class;
-		TextView tv_name;
+	private class Holder {
+		private ImageView iv_class;
+		private TextView tv_name;
 
 	}
 }

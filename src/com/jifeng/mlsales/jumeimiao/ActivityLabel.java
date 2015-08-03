@@ -20,7 +20,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -115,7 +114,7 @@ public class ActivityLabel extends Activity {
 		});
 	}
 
-	class MyListViewAdapter extends BaseAdapter {
+	private class MyListViewAdapter extends BaseAdapter {
 
 		@Override
 		public int getCount() {

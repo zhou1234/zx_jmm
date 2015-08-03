@@ -42,7 +42,7 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
 
 public class FirstActivity extends FragmentActivity {
 
-	public static final String ARGUMENTS_TITLE = "title";
+	private static final String ARGUMENTS_TITLE = "title";
 	public static final String ARGUMENTS_ID = "id";
 	// private RelativeLayout rl_nav;
 	private SyncHorizontalScrollView mHsv;
@@ -52,7 +52,7 @@ public class FirstActivity extends FragmentActivity {
 	// private ImageView iv_nav_right;
 	private ViewPager mViewPager;
 	private int indicatorWidth;
-	public static String[] tabTitle; // 标题
+	private static String[] tabTitle; // 标题
 	private LayoutInflater mInflater;
 	private TabFragmentPagerAdapter mAdapter;
 	private int currentIndicatorLeft = 0;
@@ -198,9 +198,9 @@ public class FirstActivity extends FragmentActivity {
 		return true;
 	}
 
-	public static class TabFragmentPagerAdapter extends FragmentPagerAdapter {
+	private static class TabFragmentPagerAdapter extends FragmentPagerAdapter {
 
-		public TabFragmentPagerAdapter(FragmentManager fm) {
+		private TabFragmentPagerAdapter(FragmentManager fm) {
 			super(fm);
 		}
 

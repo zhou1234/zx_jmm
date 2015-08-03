@@ -207,9 +207,6 @@ public class LoginActivity extends Activity {
 						try {
 							if (response.getString("Status").toString()
 									.equals("true")) {
-								if (!openid.equals("")) {
-
-								}
 
 								AllStaticMessage.Login_Flag = response
 										.getString("auth").toString();
@@ -259,7 +256,6 @@ public class LoginActivity extends Activity {
 									AllStaticMessage.userImage = str;
 								}
 								editor.commit();
-
 								setResult(RESULT_OK);
 								finish();
 							} else {
@@ -303,21 +299,22 @@ public class LoginActivity extends Activity {
 					}
 				});
 	}
+
 	@Override
 	public boolean dispatchKeyEvent(KeyEvent event) {
 		if (event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
 			/* Òþ²ØÈí¼üÅÌ */
 			InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 			if (inputMethodManager.isActive()) {
-				inputMethodManager.hideSoftInputFromWindow(
-						LoginActivity.this.getCurrentFocus()
-								.getWindowToken(), 0);
+				inputMethodManager.hideSoftInputFromWindow(LoginActivity.this
+						.getCurrentFocus().getWindowToken(), 0);
 			}
 
 			return true;
 		}
 		return super.dispatchKeyEvent(event);
 	}
+
 	@Override
 	protected void onDestroy() {
 		ShareSDK.stopSDK(this);

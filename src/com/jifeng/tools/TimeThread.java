@@ -12,10 +12,8 @@ public class TimeThread extends Thread {
 	private boolean threadState = true;
 	private Handler handler; 
 	private int num;
-	Context context;
 	public TimeThread(Context context,Handler handler,int num) {
 		 
-		this.context=context;
 		this.handler=handler;
 		this.num=num;
 	}

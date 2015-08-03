@@ -27,12 +27,11 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class MyGoodsListAdapter2 extends BaseAdapter {
-	GoodsListAppItem2 appItem;
-	List<JSONObject> mListData;
-	Context mContext;
-	String pid;
-	int width, hight;
-	DisplayImageOptions options;
+	private GoodsListAppItem2 appItem;
+	private List<JSONObject> mListData;
+	private Context mContext;
+	private String pid;
+	private DisplayImageOptions options;
 
 	public MyGoodsListAdapter2(List<JSONObject> listData, Context context,
 			String id, int width, int hight) {
@@ -40,8 +39,6 @@ public class MyGoodsListAdapter2 extends BaseAdapter {
 		mListData = new ArrayList<JSONObject>();
 		this.mListData = listData;
 		this.pid = id;
-		this.width = width;
-		this.hight = hight;
 		options = MyTools.createOptions(R.drawable.img);
 	}
 

@@ -236,7 +236,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dip"
         android:layout_marginTop="15dip"
-        android:background="@drawable/mypay_btn_bg"
+        android:background="@drawable/address_delete_bg"
         android:onClick="doclick"
         android:text="确认支付"
         android:textColor="@color/white"

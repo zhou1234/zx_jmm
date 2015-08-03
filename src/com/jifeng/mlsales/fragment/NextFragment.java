@@ -76,7 +76,7 @@ public class NextFragment extends BaseFragment implements
 		View rootView = inflater.inflate(R.layout.next_fragment, container,
 				false);
 		mListView = (ListView) rootView.findViewById(R.id.main_first_list);
-		
+
 		mAbPullToRefreshView = (AbPullToRefreshView) rootView
 				.findViewById(R.id.mPullRefreshView);
 		rl_progress = (RelativeLayout) rootView.findViewById(R.id.rl_progress);
@@ -129,7 +129,7 @@ public class NextFragment extends BaseFragment implements
 			public void onScroll(AbsListView arg0, int arg1, int arg2, int arg3) {
 				tv_number.setText(arg1 + arg2 + "");
 				tv_cont.setText(arg3 + "");
-				cont = arg1+arg2;
+				cont = arg1 + arg2;
 			}
 		});
 
@@ -147,10 +147,10 @@ public class NextFragment extends BaseFragment implements
 		});
 		isPrepared = true;
 		lazyLoad();
-//		ViewGroup parent = (ViewGroup) rootView.getParent();
-//		if (parent != null) {
-//			parent.removeView(rootView);
-//		}
+		// ViewGroup parent = (ViewGroup) rootView.getParent();
+		// if (parent != null) {
+		// parent.removeView(rootView);
+		// }
 		return rootView;
 	}
 
@@ -205,13 +205,8 @@ public class NextFragment extends BaseFragment implements
 
 	@Override
 	public void onFooterLoad(AbPullToRefreshView view) {
-		new Handler().postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				mAbPullToRefreshView.onFooterLoadFinish();
-				Toast.makeText(getActivity(), "没有更多了", 0).show();
-			}
-		}, 1200);
+
+		mAbPullToRefreshView.onFooterLoadFinish();
 
 	}
 

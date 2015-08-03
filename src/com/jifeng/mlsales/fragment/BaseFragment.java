@@ -2,7 +2,7 @@ package com.jifeng.mlsales.fragment;
 
 import android.support.v4.app.Fragment;
 
-public abstract class BaseFragment extends Fragment {
+abstract class BaseFragment extends Fragment {
 
 	/** Fragment当前状态是否可见 */
 	protected boolean isVisible;
@@ -23,14 +23,14 @@ public abstract class BaseFragment extends Fragment {
 	/**
 	 * 可见
 	 */
-	protected void onVisible() {
+	private void onVisible() {
 		lazyLoad();
 	}
 
 	/**
 	 * 不可见
 	 */
-	protected void onInvisible() {
+	private void onInvisible() {
 
 	}
 

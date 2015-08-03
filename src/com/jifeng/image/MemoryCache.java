@@ -10,7 +10,7 @@ import java.util.Map.Entry;
 import android.graphics.Bitmap;
 import android.util.Log;
 
-public class MemoryCache {
+class MemoryCache {
 
     private static final String TAG = "MemoryCache";
     // 放入缓存时是个同步操作
@@ -33,7 +33,7 @@ public class MemoryCache {
             Log.i(TAG, "MemoryCache will use up to " + limit / 1024. / 1024. + "MB");
     }
 
-    public Bitmap get(String id) {
+    Bitmap get(String id) {
             try {
                     if (!cache.containsKey(id))
                             return null;
@@ -43,7 +43,7 @@ public class MemoryCache {
             }
     }
 
-    public void put(String id, Bitmap bitmap) {
+    void put(String id, Bitmap bitmap) {
             try {
                     if (cache.containsKey(id))
                             size -= getSizeInBytes(cache.get(id));
@@ -75,7 +75,7 @@ public class MemoryCache {
             }
     }
 
-    public void clear() {
+    void clear() {
             cache.clear();
     }
 
@@ -85,7 +85,7 @@ public class MemoryCache {
      * @param bitmap
      * @return
      */
-    long getSizeInBytes(Bitmap bitmap) {
+    private long getSizeInBytes(Bitmap bitmap) {
             if (bitmap == null)
                     return 0;
             return bitmap.getRowBytes() * bitmap.getHeight();

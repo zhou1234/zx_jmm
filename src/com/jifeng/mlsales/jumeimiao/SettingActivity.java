@@ -1,13 +1,10 @@
 package com.jifeng.mlsales.jumeimiao;
 
-import java.io.File;
-
 import cn.sharesdk.framework.ShareSDK;
 
 import com.jifeng.mlsales.FBApplication;
 import com.jifeng.mlsales.R;
 import com.jifeng.mlsales.model.CustomerAlertDialog;
-import com.jifeng.mlsales.model.UpdateDialog;
 import com.jifeng.tools.ApkModify;
 import com.jifeng.tools.DataCleanManager;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -17,7 +14,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;

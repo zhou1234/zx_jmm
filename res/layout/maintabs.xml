@@ -85,7 +85,7 @@
                     android:drawableTop="@drawable/tab_fifth_1"
                     android:scaleX="0.8"
                     android:scaleY="0.8"
-                    android:text="我"
+                    android:text="我的"
                     android:textColor="@color/text_color" />
             </RadioGroup>
         </LinearLayout>

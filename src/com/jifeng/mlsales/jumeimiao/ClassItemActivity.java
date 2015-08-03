@@ -27,6 +27,8 @@ import android.os.Handler;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -98,6 +100,27 @@ public class ClassItemActivity extends Activity implements
 						ClassItemActivity.this.finish();
 					}
 				});
+
+		mListView.setOnScrollListener(new OnScrollListener() {
+
+			@Override
+			public void onScrollStateChanged(AbsListView arg0, int arg1) {
+
+			}
+
+			@Override
+			public void onScroll(AbsListView arg0, int arg1, int arg2, int arg3) {
+				if ((arg1 + arg2) == listData.size() - 2) {
+					new Handler().postDelayed(new Runnable() {
+						@Override
+						public void run() {
+							num++;
+							getData1(id, num + "", sortCol, sortType);
+						}
+					}, 0);
+				}
+			}
+		});
 	}
 
 	private void getData(String Id, String str, String sortCol, String sortType) {
@@ -105,7 +128,7 @@ public class ClassItemActivity extends Activity implements
 			dialog.loading();
 		}
 		String url = AllStaticMessage.class_url_item + Id + "&sortCol="
-				+ sortCol + "&sortType=" + sortType;
+				+ sortCol + "&sortType=" + sortType+"&pageSize=20";
 		HttpUtil.get(url, ClassItemActivity.this, dialog,
 				new JsonHttpResponseHandler() {
 					@SuppressLint("ShowToast")
@@ -141,9 +164,8 @@ public class ClassItemActivity extends Activity implements
 								}
 							} else {
 								mAbPullToRefreshView.onHeaderRefreshFinish();
-								Toast.makeText(
-										ClassItemActivity.this,
-										"暂无商品", 500).show();
+								Toast.makeText(ClassItemActivity.this, "暂无商品",
+										500).show();
 							}
 						} catch (JSONException e) {
 							e.printStackTrace();
@@ -185,7 +207,7 @@ public class ClassItemActivity extends Activity implements
 	 */
 	private void getData1(String Id, String num, String sortCol, String sortType) {
 		String url = AllStaticMessage.class_url_item + Id + "&sortCol="
-				+ sortCol + "&sortType=" + sortType + "&pageNum=" + num;
+				+ sortCol + "&sortType=" + sortType + "&pageNum=" + num+"&pageSize=10";
 		HttpUtil.get(url, ClassItemActivity.this, dialog,
 				new JsonHttpResponseHandler() {
 					@SuppressLint("ShowToast")
@@ -205,18 +227,18 @@ public class ClassItemActivity extends Activity implements
 									if (adapter != null) {
 										adapter.notifyDataSetChanged();
 									}
-									mAbPullToRefreshView.onFooterLoadFinish();
+									// mAbPullToRefreshView.onFooterLoadFinish();
 									// adapter = new ClassItemListViewAdapter(
 									// listData, ClassItemActivity.this,
 									// width, height);
 									// mListView.setAdapter(adapter);
 								}
 							} else {
-								mAbPullToRefreshView.onFooterLoadFinish();
-								Toast.makeText(
-										ClassItemActivity.this,
-										response.getString("Results")
-												.toString(), 500).show();
+								// mAbPullToRefreshView.onFooterLoadFinish();
+								// Toast.makeText(
+								// ClassItemActivity.this,
+								// response.getString("Results")
+								// .toString(), 500).show();
 							}
 						} catch (JSONException e) {
 							e.printStackTrace();
@@ -256,14 +278,14 @@ public class ClassItemActivity extends Activity implements
 	 */
 	@Override
 	public void onFooterLoad(AbPullToRefreshView view) {
-		new Handler().postDelayed(new Runnable() {
-			@SuppressLint("ShowToast")
-			@Override
-			public void run() {
-				num++;
-				getData1(id, num + "", sortCol, sortType);
-			}
-		}, 1000);
+		// new Handler().postDelayed(new Runnable() {
+		// @Override
+		// public void run() {
+		// num++;
+		// getData1(id, num + "", sortCol, sortType);
+		// }
+		// }, 0);
+		mAbPullToRefreshView.onFooterLoadFinish();
 	}
 
 	/**

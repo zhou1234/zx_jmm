@@ -23,9 +23,9 @@ import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
-public class ImageUtil {
+class ImageUtil {
 
-	public static InputStream getRequest(String path) throws Exception {
+	private static InputStream getRequest(String path) throws Exception {
 		URL url = new URL(path);
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		conn.setRequestMethod("GET");
@@ -36,7 +36,7 @@ public class ImageUtil {
 		return null;
 	}
 
-	public static byte[] readInputStream(InputStream inStream) throws Exception {
+	private static byte[] readInputStream(InputStream inStream) throws Exception {
 		ByteArrayOutputStream outSteam = new ByteArrayOutputStream();
 		byte[] buffer = new byte[4096];
 		int len = 0;
@@ -48,49 +48,28 @@ public class ImageUtil {
 		return outSteam.toByteArray();
 	}
 
-	public static Drawable loadImageFromUrl(String url) {
-		URL m;
-		InputStream i = null;
-		try {
-			m = new URL(url);
-			i = (InputStream) m.getContent();
-		} catch (MalformedURLException e1) {
-			e1.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		Drawable d = Drawable.createFromStream(i, "src");
-		return d;
-	}
+	
 
-	public static Drawable getDrawableFromUrl(String url) throws Exception {
+	static Drawable getDrawableFromUrl(String url) throws Exception {
 		return Drawable.createFromStream(getRequest(url), null);
 	}
 
-	public static Bitmap getBitmapFromUrl(String url) throws Exception {
-		byte[] bytes = getBytesFromUrl(url);
-		return byteToBitmap(bytes);
-	}
+	
 
-	public static Bitmap getRoundBitmapFromUrl(String url, int pixels)
-			throws Exception {
-		byte[] bytes = getBytesFromUrl(url);
-		Bitmap bitmap = byteToBitmap(bytes);
-		return toRoundCorner(bitmap, pixels);
-	}
+	
 
-	public static Drawable getRoundDrawableFromUrl(String url, int pixels)
+	static Drawable getRoundDrawableFromUrl(String url, int pixels)
 			throws Exception {
 		byte[] bytes = getBytesFromUrl(url);
 		BitmapDrawable bitmapDrawable = (BitmapDrawable) byteToDrawable(bytes);
 		return toRoundCorner(bitmapDrawable, pixels);
 	}
 
-	public static byte[] getBytesFromUrl(String url) throws Exception {
+	private static byte[] getBytesFromUrl(String url) throws Exception {
 		return readInputStream(getRequest(url));
 	}
 
-	public static Bitmap byteToBitmap(byte[] byteArray) {
+	private static Bitmap byteToBitmap(byte[] byteArray) {
 		if (byteArray.length != 0) {
 			return BitmapFactory
 					.decodeByteArray(byteArray, 0, byteArray.length);
@@ -99,30 +78,9 @@ public class ImageUtil {
 		}
 	}
 
-	public static Drawable byteToDrawable(byte[] byteArray) {
+	private static Drawable byteToDrawable(byte[] byteArray) {
 		ByteArrayInputStream ins = new ByteArrayInputStream(byteArray);
 		return Drawable.createFromStream(ins, null);
-	}
-
-	public static byte[] Bitmap2Bytes(Bitmap bm) {
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		bm.compress(Bitmap.CompressFormat.PNG, 0, baos);
-		return baos.toByteArray();
-	}
-
-	public static Bitmap drawableToBitmap(Drawable drawable) {
-
-		Bitmap bitmap = Bitmap
-				.createBitmap(
-						drawable.getIntrinsicWidth(),
-						drawable.getIntrinsicHeight(),
-						drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888
-								: Bitmap.Config.RGB_565);
-		Canvas canvas = new Canvas(bitmap);
-		drawable.setBounds(0, 0, drawable.getIntrinsicWidth(),
-				drawable.getIntrinsicHeight());
-		drawable.draw(canvas);
-		return bitmap;
 	}
 
 	/**
@@ -132,7 +90,7 @@ public class ImageUtil {
 	 *            传入的图片
 	 * @return 去色后的图片
 	 */
-	public static Bitmap toGrayscale(Bitmap bmpOriginal) {
+	private static Bitmap toGrayscale(Bitmap bmpOriginal) {
 		int width, height;
 		height = bmpOriginal.getHeight();
 		width = bmpOriginal.getWidth();
@@ -150,19 +108,6 @@ public class ImageUtil {
 	}
 
 	/**
-	 * 去色同时加圆角
-	 * 
-	 * @param bmpOriginal
-	 *            原图
-	 * @param pixels
-	 *            圆角弧度
-	 * @return 修改后的图片
-	 */
-	public static Bitmap toGrayscale(Bitmap bmpOriginal, int pixels) {
-		return toRoundCorner(toGrayscale(bmpOriginal), pixels);
-	}
-
-	/**
 	 * 把图片变成圆角
 	 * 
 	 * @param bitmap
@@ -171,7 +116,7 @@ public class ImageUtil {
 	 *            圆角的弧度
 	 * @return 圆角图片
 	 */
-	public static Bitmap toRoundCorner(Bitmap bitmap, int pixels) {
+	private static Bitmap toRoundCorner(Bitmap bitmap, int pixels) {
 
 		Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
 				bitmap.getHeight(), Config.ARGB_8888);
@@ -201,7 +146,8 @@ public class ImageUtil {
 	 * @param pixels
 	 * @return
 	 */
-	public static BitmapDrawable toRoundCorner(BitmapDrawable bitmapDrawable,
+	@SuppressWarnings("deprecation")
+	private static BitmapDrawable toRoundCorner(BitmapDrawable bitmapDrawable,
 			int pixels) {
 		Bitmap bitmap = bitmapDrawable.getBitmap();
 		bitmapDrawable = new BitmapDrawable(toRoundCorner(bitmap, pixels));

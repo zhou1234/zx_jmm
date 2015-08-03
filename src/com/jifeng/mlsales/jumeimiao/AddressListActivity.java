@@ -43,7 +43,7 @@ public class AddressListActivity extends Activity {
 	private Intent mIntent;
 	private MyGridViewAdapter mAdapter;
 	private GridView mGridView;
-	LoadingDialog dialog;
+	private LoadingDialog dialog;
 	private ShrefUtil mShrefUtil;
 	private List<JSONObject> mJsonObjects;
 	private TextView tv_no;
@@ -391,26 +391,22 @@ public class AddressListActivity extends Activity {
 		}
 	}
 
-	class AppItem {
-		TextView AppText_name;
-		TextView AppText_phone;
-		TextView AppText_address;
-		RelativeLayout AppLayout_bianji;
-		RelativeLayout AppLayout_delete;
-		ImageView AppImg_moren;
+	private class AppItem {
+		private TextView AppText_name;
+		private TextView AppText_phone;
+		private TextView AppText_address;
+		private RelativeLayout AppLayout_bianji;
+		private RelativeLayout AppLayout_delete;
+		private ImageView AppImg_moren;
 	}
 
-	class ItemClick implements OnClickListener {
-		AppItem appItem;
-		int position;
-		String flag;
-		JSONObject mArray;
+	private class ItemClick implements OnClickListener {
+		private String flag;
+		private JSONObject mArray;
 
 		// .getString("Id").toString()
-		public ItemClick(AppItem appItem, int position, String flag,
+		private ItemClick(AppItem appItem, int position, String flag,
 				JSONObject mArray) {
-			this.appItem = appItem;
-			this.position = position;
 			this.flag = flag;
 			this.mArray = mArray;
 		}

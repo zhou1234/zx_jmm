@@ -20,7 +20,6 @@ import com.umeng.analytics.MobclickAgent;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.http.SslError;
@@ -213,7 +212,7 @@ public class GoodsDetailActivity extends Activity {
 		});
 	}
 
-	class MyWebChromeClient extends WebChromeClient {
+	private class MyWebChromeClient extends WebChromeClient {
 
 		@Override
 		public void onCloseWindow(WebView window) {
@@ -312,7 +311,7 @@ public class GoodsDetailActivity extends Activity {
 			finish();
 			break;
 		case R.id.goodslist_share:// 分享
-			share(shareTitle, "这个不错哦!快来看看吧", shareUrl, shareImg);
+			share(shareTitle, "美喵家居，中国最大的家居生活特卖商城。正品精选，便宜到落泪，好用到心碎，幸福感加倍", shareUrl, shareImg);
 			break;
 		case R.id.input_shoppingcar:
 		case R.id.btn_inputcar_num:

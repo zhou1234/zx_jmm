@@ -33,7 +33,7 @@
                 android:id="@+id/tv_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="#ff5e1e"
+                android:background="@color/tab_select"
                 android:paddingLeft="3dp"
                 android:paddingRight="3dp"
                 android:text="30元"

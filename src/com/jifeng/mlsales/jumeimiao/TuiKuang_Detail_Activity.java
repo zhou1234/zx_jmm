@@ -7,7 +7,6 @@ import com.jifeng.mlsales.R;
 import com.umeng.analytics.MobclickAgent;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 

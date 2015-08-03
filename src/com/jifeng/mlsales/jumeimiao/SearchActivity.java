@@ -14,14 +14,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.ab.view.pullview.AbPullToRefreshView;
 import com.ab.view.pullview.AbPullToRefreshView.OnFooterLoadListener;
 import com.ab.view.pullview.AbPullToRefreshView.OnHeaderRefreshListener;
-import com.jifeng.adapter.MyGoodsListAdapter;
-import com.jifeng.adapter.MyGoodsListAdapter1;
 import com.jifeng.adapter.MyGoodsListAdapter2;
 import com.jifeng.mlsales.FBApplication;
 import com.jifeng.mlsales.R;
@@ -38,7 +38,7 @@ public class SearchActivity extends Activity implements
 	private MyGoodsListAdapter2 mAdapter;
 	private AbPullToRefreshView pullToRefreshView;
 	private ListView lv_search;
-	int pageNo = 1;
+	private int pageNo = 1;
 	private List<JSONObject> listData;
 
 	private String content = "";
@@ -66,6 +66,30 @@ public class SearchActivity extends Activity implements
 
 		pullToRefreshView.setOnHeaderRefreshListener(this);
 		pullToRefreshView.setOnFooterLoadListener(this);
+
+		lv_search.setOnScrollListener(new OnScrollListener() {
+
+			@Override
+			public void onScrollStateChanged(AbsListView arg0, int arg1) {
+
+			}
+
+			@Override
+			public void onScroll(AbsListView arg0, int arg1, int arg2, int arg3) {
+				if ((arg1 + arg2) == listData.size() -2) {
+					new Handler().postDelayed(new Runnable() {
+
+						@Override
+						public void run() {
+							pageNo++;
+							getAddData(String.valueOf(pageNo));
+
+						}
+					}, 0);
+
+				}
+			}
+		});
 	}
 
 	// //xml注册点击事件的实现
@@ -81,7 +105,7 @@ public class SearchActivity extends Activity implements
 
 	private void getData(String pageNo) {
 		String url = AllStaticMessage.URL_Search + content + "&pageNum="
-				+ pageNo;// "23401"
+				+ pageNo+"&pageSize=20";// "23401"
 
 		HttpUtil.get(url, SearchActivity.this, dialog,
 				new JsonHttpResponseHandler() {
@@ -109,9 +133,9 @@ public class SearchActivity extends Activity implements
 										listData.add(array.getJSONObject(i));
 									}
 
-									mAdapter = new MyGoodsListAdapter2(listData,
-											SearchActivity.this, "", width,
-											height);
+									mAdapter = new MyGoodsListAdapter2(
+											listData, SearchActivity.this, "",
+											width, height);
 									lv_search.setAdapter(mAdapter);
 								}
 							} else {
@@ -124,7 +148,70 @@ public class SearchActivity extends Activity implements
 							e.printStackTrace();
 						}
 						pullToRefreshView.onHeaderRefreshFinish();
-						pullToRefreshView.onFooterLoadFinish();
+						if (dialog != null) {
+							dialog.stop();
+						}
+					}
+
+					@Override
+					public void onStart() {
+						super.onStart();
+						// 请求开始
+					}
+
+					@Override
+					public void onFinish() {
+						super.onFinish();
+						// 请求结束
+					}
+
+					@Override
+					public void onFailure(int statusCode, Header[] headers,
+							Throwable throwable, JSONObject errorResponse) {
+						super.onFailure(statusCode, headers, throwable,
+								errorResponse);
+						// 错误返回JSONObject
+						if (dialog != null) {
+							dialog.stop();
+						}
+					}
+				});
+	}
+
+	private void getAddData(String pageNo) {
+		String url = AllStaticMessage.URL_Search + content + "&pageNum="
+				+ pageNo + "&pageSize=10";// "23401"
+
+		HttpUtil.get(url, SearchActivity.this, dialog,
+				new JsonHttpResponseHandler() {
+					@Override
+					public void onSuccess(int statusCode, Header[] headers,
+							JSONObject response) {
+						super.onSuccess(statusCode, headers, response);
+						// 成功返回JSONObject
+						try {
+							if (response.getString("Status").equals("true")) {
+
+								JSONArray array = response
+										.getJSONArray("Results");
+
+								if (array != null && array.length() > 0) {
+									for (int i = 0; i < array.length(); i++) {
+										listData.add(array.getJSONObject(i));
+									}
+									if (mAdapter != null) {
+										mAdapter.notifyDataSetChanged();
+									}
+								}
+							} else {
+								// Toast.makeText(
+								// SearchActivity.this,
+								// response.getString("Results")
+								// .toString(), 0).show();
+							}
+						} catch (JSONException e) {
+							e.printStackTrace();
+						}
 						if (dialog != null) {
 							dialog.stop();
 						}
@@ -174,16 +261,7 @@ public class SearchActivity extends Activity implements
 
 	@Override
 	public void onFooterLoad(AbPullToRefreshView view) {
-		new Handler().postDelayed(new Runnable() {
-
-			@Override
-			public void run() {
-				// 上拉加载更多
-				pageNo++;
-				getData(String.valueOf(pageNo));
-
-			}
-		}, 200);
+		pullToRefreshView.onFooterLoadFinish();
 
 	}
 

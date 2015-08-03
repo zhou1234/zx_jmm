@@ -24,6 +24,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -152,23 +154,40 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 		listView_tuiJian = (ListView) tuijianView
 				.findViewById(R.id.listView_tuiJian);
 
+		listView_tuiJian.setOnScrollListener(new OnScrollListener() {
+
+			@Override
+			public void onScrollStateChanged(AbsListView arg0, int arg1) {
+
+			}
+
+			@Override
+			public void onScroll(AbsListView arg0, int arg1, int arg2, int arg3) {
+				if ((arg1 + arg2) == mData.size() - 2) {
+					new Handler().postDelayed(new Runnable() {
+
+						@Override
+						public void run() {
+							tuijian_num++;
+							getListTuiJianDataNum(listView_tuiJian, tuijian_num
+									+ "");
+						}
+					}, 0);
+				}
+
+			}
+		});
+
 		mPullRefreshView = (AbPullToRefreshView) tuijianView
 				.findViewById(R.id.mPullRefreshView);
 		mPullRefreshView.setOnFooterLoadListener(new OnFooterLoadListener() {
 
 			@Override
 			public void onFooterLoad(AbPullToRefreshView view) {
-				new Handler().postDelayed(new Runnable() {
-
-					@Override
-					public void run() {
-						tuijian_num++;
-						getListTuiJianDataNum(listView_tuiJian, tuijian_num
-								+ "");
-					}
-				}, 800);
+				mPullRefreshView.onFooterLoadFinish();
 			}
 		});
+
 		mPullRefreshView
 				.setOnHeaderRefreshListener(new OnHeaderRefreshListener() {
 
@@ -190,7 +209,29 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 		View guanzhuView = getLayoutInflater().inflate(R.layout.guan_zhu, null);
 		listView_guanZhu = (ListView) guanzhuView
 				.findViewById(R.id.listView_guanZhu);
+		listView_guanZhu.setOnScrollListener(new OnScrollListener() {
 
+			@Override
+			public void onScrollStateChanged(AbsListView arg0, int arg1) {
+
+			}
+
+			@Override
+			public void onScroll(AbsListView arg0, int arg1, int arg2, int arg3) {
+				if ((arg1 + arg2) == mDataGanZhu.size() - 2) {
+					new Handler().postDelayed(new Runnable() {
+
+						@Override
+						public void run() {
+							guanzhu_num++;
+							getListGuanZhuDataNum(listView_tuiJian, guanzhu_num
+									+ "");
+						}
+					}, 0);
+
+				}
+			}
+		});
 		tv_wuGuanzhu = (TextView) guanzhuView.findViewById(R.id.tv_wuGuanzhu);
 		mPullRefreshView_guanzhu = (AbPullToRefreshView) guanzhuView
 				.findViewById(R.id.mPullRefreshView_guanzhu);
@@ -200,16 +241,7 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 
 					@Override
 					public void onFooterLoad(AbPullToRefreshView view) {
-						new Handler().postDelayed(new Runnable() {
-
-							@Override
-							public void run() {
-								guanzhu_num++;
-								getListGuanZhuDataNum(listView_tuiJian,
-										guanzhu_num + "");
-							}
-						}, 800);
-
+						mPullRefreshView_guanzhu.onFooterLoadFinish();
 					}
 				});
 		mPullRefreshView_guanzhu
@@ -269,7 +301,7 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 		listView_guanZhu.addHeaderView(heardView);
 	}
 
-	class MyOnClickListener implements View.OnClickListener {
+	private class MyOnClickListener implements View.OnClickListener {
 
 		@Override
 		public void onClick(View arg0) {
@@ -401,7 +433,7 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 		};
 	};
 
-	class MyListViewAdapter extends BaseAdapter {
+	private class MyListViewAdapter extends BaseAdapter {
 
 		@Override
 		public int getCount() {
@@ -472,25 +504,24 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 						+ "赞");
 				holder.tv_pingLun.setText(mData.get(arg0).getString(
 						"ReviewCount"));
-				// String flag_zanString =
-				// mData.get(arg0).getString("ZanStatus");
-				// if (flag_zanString.equals("1")) {
-				// map.put(arg0, true);
-				// } else {
-				// map.put(arg0, false);
-				// }
+				String flag_zanString = mData.get(arg0).getString("ZanStatus");
+				if (flag_zanString.equals("1")) {
+					map.put(arg0, true);
+				} else {
+					map.put(arg0, false);
+				}
 				if (map.get(arg0)) {
 					holder.iv_zan.setImageResource(R.drawable.img_zuan);
 				} else {
 					holder.iv_zan.setImageResource(R.drawable.img_zuan1);
 				}
-				// String flag_guanzhuString = mData.get(arg0).getString(
-				// "ConcernStatus");
-				// if (flag_guanzhuString.equals("1")) {
-				// map_guanzhu.put(arg0, true);
-				// } else {
-				// map_guanzhu.put(arg0, false);
-				// }
+				String flag_guanzhuString = mData.get(arg0).getString(
+						"ConcernStatus");
+				if (flag_guanzhuString.equals("1")) {
+					map_guanzhu.put(arg0, true);
+				} else {
+					map_guanzhu.put(arg0, false);
+				}
 
 				if (map_guanzhu.get(arg0)) {
 					holder.bt_guanZhu.setBackground(getResources().getDrawable(
@@ -563,6 +594,11 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 											.setTextColor(getResources()
 													.getColor(
 															R.color.text_color));
+									JSONObject jsonObject = new JSONObject();
+									jsonObject = mData.get(cont);
+
+									jsonObject.put("ConcernStatus", 1);
+									mData.set(cont, jsonObject);
 									flag_guanZhu = true;
 									map_guanzhu.put(cont, true);
 								} else {
@@ -634,6 +670,7 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 											.getString("SomePraiseCount"));
 									i++;
 									jsonObject.put("SomePraiseCount", i + "");
+									jsonObject.put("ZanStatus", 1);
 									mData.set(cont, jsonObject);
 									// flag_zan = true;
 									holder.tv_zan.setText(i + "赞");
@@ -649,6 +686,7 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 											.getString("SomePraiseCount"));
 									j--;
 									jsonObject.put("SomePraiseCount", j + "");
+									jsonObject.put("ZanStatus", 0);
 									mData.set(cont, jsonObject);
 									// flag_zan = true;
 									holder.tv_zan.setText(j + "赞");
@@ -789,7 +827,7 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 				});
 	}
 
-	class MyListViewGuanZhuAdapter extends BaseAdapter {
+	private class MyListViewGuanZhuAdapter extends BaseAdapter {
 
 		@Override
 		public int getCount() {
@@ -863,7 +901,13 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 						+ "赞");
 				holder.tv_pingLun.setText(mDataGanZhu.get(arg0).getString(
 						"ReviewCount"));
-
+				String flag_zanString = mDataGanZhu.get(arg0).getString(
+						"ZanStatus");
+				if (flag_zanString.equals("1")) {
+					map_guanzhu_zan.put(arg0, true);
+				} else {
+					map_guanzhu_zan.put(arg0, false);
+				}
 				if (map_guanzhu_zan.get(arg0)) {
 					holder.iv_zan.setImageResource(R.drawable.img_zuan);
 				} else {
@@ -1020,6 +1064,7 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 											.getString("SomePraiseCount"));
 									i++;
 									jsonObject.put("SomePraiseCount", i + "");
+									jsonObject.put("ZanStatus", 1);
 									mDataGanZhu.set(cont, jsonObject);
 									// flag_guanzhu_zan = true;
 									holder.tv_zan.setText(i + "赞");
@@ -1035,6 +1080,7 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 											.getString("SomePraiseCount"));
 									j--;
 									jsonObject.put("SomePraiseCount", j + "");
+									jsonObject.put("ZanStatus", 0);
 									mDataGanZhu.set(cont, jsonObject);
 									// flag_guanzhu_zan = true;
 									holder.tv_zan.setText(j + "赞");
@@ -1099,11 +1145,11 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 		}
 	}
 
-	class Holder {
-		ImageView iv_name, iv_zan, iv_pingLun, iv_fengXiang;
-		TextView tv_name, tv_content, tv_zan, tv_pingLun;
-		Button bt_guanZhu;
-		TagsView tagsView;
+	private class Holder {
+		private ImageView iv_name, iv_zan, iv_pingLun, iv_fengXiang;
+		private TextView tv_name, tv_content, tv_zan, tv_pingLun;
+		private Button bt_guanZhu;
+		private TagsView tagsView;
 
 	}
 
@@ -1160,7 +1206,7 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 	 */
 	private void getListTuiJianData(final ListView listView) {
 		String url = AllStaticMessage.URL_BaskOrderList + "&UserId="
-				+ AllStaticMessage.User_Id;
+				+ AllStaticMessage.User_Id+"&pageSize=10";
 
 		HttpUtil.get(url, MeiMiaoQuanActivity.this, null,
 				new JsonHttpResponseHandler() {
@@ -1223,7 +1269,7 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 	 */
 	private void getListTuiJianDataNum(final ListView listView, String num) {
 		String url = AllStaticMessage.URL_BaskOrderList + "&UserId="
-				+ AllStaticMessage.User_Id + "&pageNum=" + num;
+				+ AllStaticMessage.User_Id + "&pageNum=" + num+"&pageSize=5";
 
 		HttpUtil.get(url, MeiMiaoQuanActivity.this, null,
 				new JsonHttpResponseHandler() {
@@ -1247,12 +1293,11 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 									map_guanzhu.put(j, false);
 								}
 							} else {
-								Toast.makeText(
-										MeiMiaoQuanActivity.this,
-										response.getString("Results")
-												.toString(), 0).show();
+//								Toast.makeText(
+//										MeiMiaoQuanActivity.this,
+//										response.getString("Results")
+//												.toString(), 0).show();
 							}
-							mPullRefreshView.onFooterLoadFinish();
 							if (dialog != null) {
 								dialog.stop();
 							}
@@ -1287,7 +1332,7 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 	 */
 	private void getListGuanZhuData(final ListView listView) {
 		String url = AllStaticMessage.URL_GuanZhuList + "&UserId="
-				+ AllStaticMessage.User_Id;
+				+ AllStaticMessage.User_Id+"&pageSize=10";
 
 		HttpUtil.get(url, MeiMiaoQuanActivity.this, null,
 				new JsonHttpResponseHandler() {
@@ -1388,7 +1433,7 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 	 */
 	private void getListGuanZhuDataNum(final ListView listView, String num) {
 		String url = AllStaticMessage.URL_GuanZhuList + "&UserId="
-				+ AllStaticMessage.User_Id + "&pageNum=" + num;
+				+ AllStaticMessage.User_Id + "&pageNum=" + num+"&pageSize=5";
 
 		HttpUtil.get(url, MeiMiaoQuanActivity.this, null,
 				new JsonHttpResponseHandler() {
@@ -1416,12 +1461,11 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 									map_guanzhu_guanzhu.put(j, false);
 								}
 							} else {
-								Toast.makeText(
-										MeiMiaoQuanActivity.this,
-										response.getString("Results")
-												.toString(), 0).show();
+//								Toast.makeText(
+//										MeiMiaoQuanActivity.this,
+//										response.getString("Results")
+//												.toString(), 0).show();
 							}
-							mPullRefreshView_guanzhu.onFooterLoadFinish();
 							if (dialog != null) {
 								dialog.stop();
 							}
@@ -1546,7 +1590,7 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 		}
 	}
 
-	class MyAdapter extends PagerAdapter {
+	private class MyAdapter extends PagerAdapter {
 
 		@Override
 		public int getCount() {
@@ -1598,7 +1642,7 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 		}
 	}
 
-	public class MyPicAdapter extends PagerAdapter {
+	private class MyPicAdapter extends PagerAdapter {
 
 		@Override
 		public int getCount() {
@@ -1648,7 +1692,7 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 		}
 	}
 
-	class MyListener implements OnPageChangeListener {
+	private class MyListener implements OnPageChangeListener {
 
 		// 当滑动状态改变时调用
 		@Override

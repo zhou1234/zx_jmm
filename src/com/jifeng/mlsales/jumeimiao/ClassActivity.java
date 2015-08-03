@@ -238,7 +238,7 @@ public class ClassActivity extends Activity {
 				});
 	}
 
-	class MyAdapter extends BaseAdapter {
+	private class MyAdapter extends BaseAdapter {
 
 		@Override
 		public int getCount() {
@@ -310,9 +310,9 @@ public class ClassActivity extends Activity {
 
 	}
 
-	class Holder {
-		TextView tv_myGridViewTitle;
-		My_GridView my_gridView;
+	private class Holder {
+		private TextView tv_myGridViewTitle;
+		private My_GridView my_gridView;
 
 	}
 }

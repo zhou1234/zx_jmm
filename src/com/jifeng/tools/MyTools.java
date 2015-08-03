@@ -51,7 +51,7 @@ import android.widget.TextView;
 
 @TargetApi(Build.VERSION_CODES.ECLAIR_MR1)
 public class MyTools {
-	public static AsyncImageLoader image = new AsyncImageLoader();
+	private static AsyncImageLoader image = new AsyncImageLoader();
 
 	/**
 	 * 根据手机的分辨率从 dp 的单位 转成为 px(像素)
@@ -159,7 +159,7 @@ public class MyTools {
 	/**
 	 * 设置头像
 	 ***/
-	public static Bitmap compressImage(Bitmap image) {
+	private static Bitmap compressImage(Bitmap image) {
 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		image.compress(Bitmap.CompressFormat.JPEG, 100, baos);// 质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
@@ -174,7 +174,7 @@ public class MyTools {
 		return bitmap;
 	}
 
-	public static String getFileName(String IMAGE_FILE_NAME) {
+	private static String getFileName(String IMAGE_FILE_NAME) {
 		String saveDir = Environment.getExternalStorageDirectory()
 				+ "/JuMeiMiao/pic";
 		File dir = new File(saveDir);
@@ -183,36 +183,6 @@ public class MyTools {
 		}
 		String fileName = saveDir + "/" + IMAGE_FILE_NAME;
 		return fileName;
-	}
-
-	public static File saveMyBitmap(Bitmap mBitmap, String IMAGE_FILE_NAME) {
-		mBitmap = compressImage(mBitmap);
-		String filename = getFileName(IMAGE_FILE_NAME);
-		File f = new File(filename);
-		try {
-			f.createNewFile();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		FileOutputStream fOut = null;
-		try {
-			fOut = new FileOutputStream(f);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fOut);
-		try {
-			fOut.flush();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		try {
-			fOut.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return f;
 	}
 
 	// 头像圆形
@@ -301,26 +271,7 @@ public class MyTools {
 		// textView.setTextSize(15);//设置字体大小
 	}
 
-	// 动弹设置listview的高度，可以嵌套在listview，scrollview中
-	public static void setListViewHeightBasedOnChildren(ListView listView) {
-		ListAdapter listAdapter = listView.getAdapter();
-		if (listAdapter == null) {
-			// pre-condition
-			return;
-		}
-
-		int totalHeight = 0;
-		for (int i = 0; i < listAdapter.getCount(); i++) {
-			View listItem = listAdapter.getView(i, null, listView);
-			listItem.measure(0, 0);
-			totalHeight += listItem.getMeasuredHeight();
-		}
-
-		ViewGroup.LayoutParams params = listView.getLayoutParams();
-		params.height = totalHeight
-				+ (listView.getDividerHeight() * (listAdapter.getCount() - 1));
-		listView.setLayoutParams(params);
-	}
+	
 
 	// 绑定图片
 	public static void downImg(String imgurl, ImageView mImageView) {
@@ -391,106 +342,9 @@ public class MyTools {
 		}
 	}
 
-	public static void getHightNew(RelativeLayout layout, int width,
-			int height, Context mContext) {
-		LinearLayout.LayoutParams linearParams = (LinearLayout.LayoutParams) layout
-				.getLayoutParams(); // 取控件mLayout当前的布局参数
+	
 
-		if (width == 800 && height == 1280) {
-			linearParams.height = MyTools.dip2px(mContext, 160);// 手机
-			layout.setLayoutParams(linearParams); // 使设置好的布局参数应用到控件
-		} else if (width == 480 && height == 800) {
-			linearParams.height = MyTools.dip2px(mContext, 130);
-			layout.setLayoutParams(linearParams);
-		} else if (width == 480 && height == 854) {
-			linearParams.height = MyTools.dip2px(mContext, 136);
-			layout.setLayoutParams(linearParams);
-		} else if (width == 800 && height == 1232) {
-			linearParams.height = MyTools.dip2px(mContext, 290);// 平板
-			layout.setLayoutParams(linearParams); // 使设置好的布局参数应用到控件
-		} else if (width == 720 && height == 1280) {
-			linearParams.height = MyTools.dip2px(mContext, 145);
-			layout.setLayoutParams(linearParams);
-		} else if (width == 640 && height == 960) {
-			linearParams.height = MyTools.dip2px(mContext, 130);
-			layout.setLayoutParams(linearParams);
-		} else if (width == 1600 && height == 2560) {
-			linearParams.height = MyTools.dip2px(mContext, 275);
-			layout.setLayoutParams(linearParams);
-		} else if (width == 1080 && height == 1776) {
-			linearParams.height = MyTools.dip2px(mContext, 145);
-			layout.setLayoutParams(linearParams);
-		} else if (width == 1080 && height == 1812) {
-			linearParams.height = MyTools.dip2px(mContext, 145);
-			layout.setLayoutParams(linearParams);
-		} else if (width == 1080 && height == 1920) {
-			linearParams.height = MyTools.dip2px(mContext, 146);
-			layout.setLayoutParams(linearParams);
-		} else if (width == 1440 && height == 2392) {
-			linearParams.height = MyTools.dip2px(mContext, 170);
-			layout.setLayoutParams(linearParams);
-		} else if (width == 768 && height == 1184) {
-			linearParams.height = MyTools.dip2px(mContext, 155);
-			layout.setLayoutParams(linearParams);
-		} else if (width == 1440 && height == 2560) {
-			linearParams.height = MyTools.dip2px(mContext, 185);
-			layout.setLayoutParams(linearParams);
-		} else if (width == 1200 && height == 1824) {
-			linearParams.height = MyTools.dip2px(mContext, 185);
-			layout.setLayoutParams(linearParams);
-		}
-	}
-
-	// 动态设置控件高度(长)
-	public static void setHeardHight(LinearLayout layout, int width,
-			int height, Context mContext) {
-		LinearLayout.LayoutParams linearParams = (LinearLayout.LayoutParams) layout
-				.getLayoutParams(); // 取控件mLayout当前的布局参数
-
-		if (width == 800 && height == 1280) {
-			linearParams.height = MyTools.dip2px(mContext, 170);// 手机
-			layout.setLayoutParams(linearParams); // 使设置好的布局参数应用到控件
-		} else if (width == 480 && height == 800) {
-			linearParams.height = MyTools.dip2px(mContext, 140);
-			layout.setLayoutParams(linearParams);
-		} else if (width == 480 && height == 854) {
-			linearParams.height = MyTools.dip2px(mContext, 146);
-			layout.setLayoutParams(linearParams);
-		} else if (width == 800 && height == 1232) {
-			linearParams.height = MyTools.dip2px(mContext, 300);// 平板
-			layout.setLayoutParams(linearParams); // 使设置好的布局参数应用到控件
-		} else if (width == 720 && height == 1280) {
-			linearParams.height = MyTools.dip2px(mContext, 155);
-			layout.setLayoutParams(linearParams);
-		} else if (width == 640 && height == 960) {
-			linearParams.height = MyTools.dip2px(mContext, 140);
-			layout.setLayoutParams(linearParams);
-		} else if (width == 1600 && height == 2560) {
-			linearParams.height = MyTools.dip2px(mContext, 285);
-			layout.setLayoutParams(linearParams);
-		} else if (width == 1080 && height == 1776) {
-			linearParams.height = MyTools.dip2px(mContext, 155);
-			layout.setLayoutParams(linearParams);
-		} else if (width == 1080 && height == 1812) {
-			linearParams.height = MyTools.dip2px(mContext, 165);
-			layout.setLayoutParams(linearParams);
-		} else if (width == 1080 && height == 1920) {
-			linearParams.height = MyTools.dip2px(mContext, 156);
-			layout.setLayoutParams(linearParams);
-		} else if (width == 1440 && height == 2392) {
-			linearParams.height = MyTools.dip2px(mContext, 180);
-			layout.setLayoutParams(linearParams);
-		} else if (width == 768 && height == 1184) {
-			linearParams.height = MyTools.dip2px(mContext, 165);
-			layout.setLayoutParams(linearParams);
-		} else if (width == 1440 && height == 2560) {
-			linearParams.height = MyTools.dip2px(mContext, 195);
-			layout.setLayoutParams(linearParams);
-		} else if (width == 1200 && height == 1824) {
-			linearParams.height = MyTools.dip2px(mContext, 195);
-			layout.setLayoutParams(linearParams);
-		}
-	}
+	
 
 	/**
 	 * 得到自定义的progressDialog
@@ -666,10 +520,10 @@ public class MyTools {
 		params.height = width - 80;
 		imageView.setLayoutParams(params);
 
-//		LayoutParams params1 = relativeLayout.getLayoutParams();
-//		params1.width = width - 60;
-//		params1.height = width - 60;
-//		relativeLayout.setLayoutParams(params1);
+		// LayoutParams params1 = relativeLayout.getLayoutParams();
+		// params1.width = width - 60;
+		// params1.height = width - 60;
+		// relativeLayout.setLayoutParams(params1);
 	}
 
 	// /**

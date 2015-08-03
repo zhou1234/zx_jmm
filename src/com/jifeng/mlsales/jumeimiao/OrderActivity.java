@@ -19,6 +19,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridView;
@@ -51,8 +53,8 @@ public class OrderActivity extends Activity implements OnHeaderRefreshListener,
 	private List<JSONObject> mListData;
 	private LoadingDialog dialog;
 	private LinearLayout mLayout;// 加载更多
-//	private int pageno = 1;
-//	private String AllPage = "1";
+	// private int pageno = 1;
+	// private String AllPage = "1";
 
 	private AbPullToRefreshView mAbPullToRefreshView = null;
 	private int num = 1;
@@ -102,6 +104,27 @@ public class OrderActivity extends Activity implements OnHeaderRefreshListener,
 		mAbPullToRefreshView = (AbPullToRefreshView) findViewById(R.id.mPullRefreshView);
 		mAbPullToRefreshView.setOnHeaderRefreshListener(this);
 		mAbPullToRefreshView.setOnFooterLoadListener(this);
+
+		mGridView.setOnScrollListener(new OnScrollListener() {
+
+			@Override
+			public void onScrollStateChanged(AbsListView arg0, int arg1) {
+
+			}
+
+			@Override
+			public void onScroll(AbsListView arg0, int arg1, int arg2, int arg3) {
+				if ((arg1 + arg2) == mListData.size() - 2) {
+					new Handler().postDelayed(new Runnable() {
+						@Override
+						public void run() {
+							num++;
+							getData(num + "");
+						}
+					}, 0);
+				}
+			}
+		});
 	}
 
 	// //xml注册点击事件的实现
@@ -148,10 +171,11 @@ public class OrderActivity extends Activity implements OnHeaderRefreshListener,
 		// AllStaticMessage.User_Id
 		// + "&orderState=0" + "&page=" + page;
 		String url = AllStaticMessage.URL_Order + AllStaticMessage.User_Id
-				+ "&orderState=0" + "&pageNum=1";
+				+ "&orderState=0" + "&pageNum=1" + "&pageSize=10";
 		HttpUtil.get(url, OrderActivity.this, dialog,
 				new JsonHttpResponseHandler() {
-					@SuppressLint("ShowToast") @Override
+					@SuppressLint("ShowToast")
+					@Override
 					public void onSuccess(int statusCode, Header[] headers,
 							JSONObject response) {
 						super.onSuccess(statusCode, headers, response);
@@ -233,10 +257,11 @@ public class OrderActivity extends Activity implements OnHeaderRefreshListener,
 	private void getData(String num) {
 
 		String url = AllStaticMessage.URL_Order + AllStaticMessage.User_Id
-				+ "&orderState=0" + "&pageNum=" + num;
+				+ "&orderState=0" + "&pageNum=" + num + "&pageSize=5";
 		HttpUtil.get(url, OrderActivity.this, dialog,
 				new JsonHttpResponseHandler() {
-					@SuppressLint("ShowToast") @Override
+					@SuppressLint("ShowToast")
+					@Override
 					public void onSuccess(int statusCode, Header[] headers,
 							JSONObject response) {
 						super.onSuccess(statusCode, headers, response);
@@ -256,15 +281,14 @@ public class OrderActivity extends Activity implements OnHeaderRefreshListener,
 									}
 								}
 							} else {
-								Toast.makeText(
-										OrderActivity.this,
-										response.getString("Results")
-												.toString(), 500).show();
+								// Toast.makeText(
+								// OrderActivity.this,
+								// response.getString("Results")
+								// .toString(), 500).show();
 							}
 						} catch (JSONException e) {
 							e.printStackTrace();
 						}
-						mAbPullToRefreshView.onFooterLoadFinish();
 					}
 
 					@Override
@@ -497,13 +521,7 @@ public class OrderActivity extends Activity implements OnHeaderRefreshListener,
 	 */
 	@Override
 	public void onFooterLoad(AbPullToRefreshView view) {
-		new Handler().postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				num++;
-				getData(num + "");
-			}
-		}, 500);
+		mAbPullToRefreshView.onFooterLoadFinish();
 	}
 
 	/**

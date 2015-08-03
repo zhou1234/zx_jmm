@@ -15,9 +15,9 @@ import android.util.Log;
  
 public class DBManager {
     private final int BUFFER_SIZE = 1024;
-    public static final String DB_NAME = "city.db";//
-    public static final String PACKAGE_NAME = "com.jifeng.mlsales";
-    public static final String DB_PATH = "/data"
+    private static final String DB_NAME = "city.db";//
+    private static final String PACKAGE_NAME = "com.jifeng.mlsales";
+    private static final String DB_PATH = "/data"
             + Environment.getDataDirectory().getAbsolutePath() + "/"+ PACKAGE_NAME;
     private SQLiteDatabase database;
     private Context context;

@@ -42,7 +42,6 @@ import com.jifeng.mlsales.photo.PathManager;
 import com.jifeng.url.AllStaticMessage;
 
 @SuppressLint("NewApi")
-// 默认的相机为横平，所以Activity设置为横屏，拍出的照片才正确
 public class ActivityCapture extends Activity implements View.OnClickListener,
 		CaptureSensorsObserver.RefocuseListener {
 	private ImageView bnToggleCamera;
@@ -61,11 +60,10 @@ public class ActivityCapture extends Activity implements View.OnClickListener,
 	private int frontCameraId;
 	private boolean _isCapturing;
 
-	CaptureOrientationEventListener _orientationEventListener;
+	private CaptureOrientationEventListener _orientationEventListener;
 	private int _rotation;
 
-	public static final int kPhotoMaxSaveSideLen = 1600;
-	public static final String kPhotoPath = "photo_path";
+	private static final int kPhotoMaxSaveSideLen = 1600;
 
 	// private ShutterCallback _shutterCallback = new ShutterCallback() {
 	// @Override
@@ -73,7 +71,7 @@ public class ActivityCapture extends Activity implements View.OnClickListener,
 	// }
 	// };
 
-	final static String TAG = "capture";
+	private final static String TAG = "capture";
 	private static final int PICK_IMAGE_ACTIVITY_REQUEST_CODE = 200;
 	private LinearLayout ll_flash;
 	private ImageView iv_bitmap, iv_false, iv_flash;
@@ -84,7 +82,12 @@ public class ActivityCapture extends Activity implements View.OnClickListener,
 		public void handleMessage(Message msg) {
 			Bitmap bitmap = BitmapFactory.decodeFile(path);
 			Bitmap bitmap2 = BitmapUtil.extractMiniThumb(bitmap, 60, 60);
-			iv_bitmap.setImageBitmap(bitmap2);
+			if (bitmap2 != null) {
+				iv_bitmap.setImageBitmap(bitmap2);
+			} else {
+				iv_bitmap.setImageResource(R.drawable.loading_22);
+			}
+
 		};
 	};
 
@@ -140,7 +143,7 @@ public class ActivityCapture extends Activity implements View.OnClickListener,
 		}
 	}
 
-	protected void getViews() {
+	private void getViews() {
 		bnToggleCamera = (ImageView) findViewById(R.id.bnToggleCamera);
 		bnCapture = (ImageView) findViewById(R.id.bnCapture);
 		framelayoutPreview = (FrameLayout) findViewById(R.id.cameraPreview);
@@ -155,13 +158,7 @@ public class ActivityCapture extends Activity implements View.OnClickListener,
 		iv_false.setOnClickListener(this);
 		iv_flash.setOnClickListener(this);
 	}
-
-	protected void initViews() {
-		// bnCapture.setRotation(-90);
-		// bnToggleCamera.setRotation(-90);
-	}
-
-	protected void setListeners() {
+	private void setListeners() {
 		bnToggleCamera.setOnClickListener(this);
 		bnCapture.setOnClickListener(this);
 		observer.setRefocuseListener(this);
@@ -453,13 +450,13 @@ public class ActivityCapture extends Activity implements View.OnClickListener,
 	/**
 	 * A basic Camera preview class
 	 */
-	public class CameraPreview extends SurfaceView implements
+	private class CameraPreview extends SurfaceView implements
 			SurfaceHolder.Callback {
 		private SurfaceHolder mHolder;
 		private Camera mCamera;
 
 		@SuppressWarnings("deprecation")
-		public CameraPreview(Context context, Camera camera) {
+		private CameraPreview(Context context, Camera camera) {
 			super(context);
 			mCamera = camera;
 
@@ -794,7 +791,7 @@ public class ActivityCapture extends Activity implements View.OnClickListener,
 		}
 	}
 
-	public String getRealPathFromURI(Uri contentUri) {
+	private String getRealPathFromURI(Uri contentUri) {
 		try {
 			String[] proj = { MediaStore.Images.Media.DATA };
 			@SuppressWarnings("deprecation")

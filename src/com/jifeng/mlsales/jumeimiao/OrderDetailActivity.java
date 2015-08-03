@@ -606,23 +606,21 @@ public class OrderDetailActivity extends Activity {
 
 	}
 
-	class AppItem {
-		TextView AppText_name;
-		TextView AppText_comefrom;
-		TextView AppText_size;
-		TextView AppText_num;
-		TextView AppText_price;
-		ImageView AppImg;
-		Button AppBtn_TuiHuo, AppBtn_Wuliu, AppBtn_ok_shouhuo;
+	private class AppItem {
+		private TextView AppText_name;
+		private TextView AppText_comefrom;
+		private TextView AppText_size;
+		private TextView AppText_num;
+		private TextView AppText_price;
+		private ImageView AppImg;
+		private Button AppBtn_TuiHuo, AppBtn_Wuliu, AppBtn_ok_shouhuo;
 	}
 
-	class onItemClick implements OnClickListener {
-		AppItem appItem;
+	private class onItemClick implements OnClickListener {
 		JSONObject jsonObject;
-		String flag;
+		private String flag;
 
-		public onItemClick(AppItem appIte, JSONObject positio, String flag) {
-			this.appItem = appIte;
+		private onItemClick(AppItem appIte, JSONObject positio, String flag) {
 			this.jsonObject = positio;
 			this.flag = flag;
 		}

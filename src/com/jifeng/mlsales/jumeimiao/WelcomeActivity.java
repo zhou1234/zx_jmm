@@ -37,8 +37,8 @@ public class WelcomeActivity extends Activity implements OnPageChangeListener,
 		context = this;
 		intent = new Intent(WelcomeActivity.this, TabHostActivity.class);
 		((FBApplication) getApplication()).addActivity(this);
-		images = new int[] { R.drawable.welcome_01, R.drawable.welcome_02,
-				R.drawable.welcome_03 };
+		images = new int[] { R.drawable.loading_22, R.drawable.loading_22,
+				R.drawable.loading_22 };
 		initView();
 	}
 
@@ -106,10 +106,10 @@ public class WelcomeActivity extends Activity implements OnPageChangeListener,
 		}
 	}
 
-	public class BasePagerAdapter extends PagerAdapter {
+	private class BasePagerAdapter extends PagerAdapter {
 		private List<View> views = new ArrayList<View>();
 
-		public BasePagerAdapter(List<View> views) {
+		private BasePagerAdapter(List<View> views) {
 			this.views = views;
 		}
 

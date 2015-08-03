@@ -25,14 +25,14 @@ import android.widget.ImageView;
 
 public class ImageLoader {
 
-	MemoryCache memoryCache = new MemoryCache();
-	FileCache fileCache;
+	private MemoryCache memoryCache = new MemoryCache();
+	private FileCache fileCache;
 	private Map<ImageView, String> imageViews = Collections
 			.synchronizedMap(new WeakHashMap<ImageView, String>());
 	// 线程池
-	ExecutorService executorService;
+	private ExecutorService executorService;
 	// 当进入listview时默认的图片，可换成你自己的默认图片
-	final int stub_id;
+	private final int stub_id;
 
 	public ImageLoader(Context context, String flag) {
 		fileCache = new FileCache(context);
@@ -138,10 +138,9 @@ public class ImageLoader {
 		}
 	}
 
-	class PhotosLoader implements Runnable {
-		PhotoToLoad photoToLoad;
-
-		PhotosLoader(PhotoToLoad photoToLoad) {
+	private class PhotosLoader implements Runnable {
+		private PhotoToLoad photoToLoad;
+		private PhotosLoader(PhotoToLoad photoToLoad) {
 			this.photoToLoad = photoToLoad;
 		}
 
@@ -166,7 +165,7 @@ public class ImageLoader {
 	 * @param photoToLoad
 	 * @return
 	 */
-	boolean imageViewReused(PhotoToLoad photoToLoad) {
+	private boolean imageViewReused(PhotoToLoad photoToLoad) {
 		String tag = imageViews.get(photoToLoad.imageView);
 		if (tag == null || !tag.equals(photoToLoad.url))
 			return true;
@@ -174,11 +173,11 @@ public class ImageLoader {
 	}
 
 	// 用于在UI线程中更新界面
-	class BitmapDisplayer implements Runnable {
-		Bitmap bitmap;
-		PhotoToLoad photoToLoad;
+	private class BitmapDisplayer implements Runnable {
+		private Bitmap bitmap;
+		private PhotoToLoad photoToLoad;
 
-		public BitmapDisplayer(Bitmap b, PhotoToLoad p) {
+		private BitmapDisplayer(Bitmap b, PhotoToLoad p) {
 			bitmap = b;
 			photoToLoad = p;
 		}
@@ -193,13 +192,7 @@ public class ImageLoader {
 		}
 	}
 
-	public void clearCache() {
-		memoryCache.clear();
-		fileCache.clear();
-
-	}
-
-	public static void CopyStream(InputStream is, OutputStream os) {
+	private static void CopyStream(InputStream is, OutputStream os) {
 		final int buffer_size = 1024;
 		try {
 			byte[] bytes = new byte[buffer_size];

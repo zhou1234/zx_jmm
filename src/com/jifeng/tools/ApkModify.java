@@ -35,7 +35,7 @@ import android.widget.Toast;
 @SuppressLint({ "HandlerLeak", "ShowToast" })
 public class ApkModify {
 	private Context context;
-	RequestQueue request;
+	private RequestQueue request;
 	private String path;
 	private String code = "";
 	private Handler mhandler = null;
@@ -62,7 +62,7 @@ public class ApkModify {
 		mhandler.sendMessage(message);
 	}
 
-	protected void showUpdataDialog() {
+	private void showUpdataDialog() {
 		final UpdateDialog alertDialog = new UpdateDialog(context);
 		// alertDialog
 		// .setTitle("1.修复订单显示空白问题。\n2.优化了用户体验，更多活动上新，抢购更快速。\n3.修复各种bug，app运行更流畅。");
@@ -112,7 +112,7 @@ public class ApkModify {
 	/*
 	 * 从服务器中下载APK
 	 */
-	protected void downLoadApk() {
+	private void downLoadApk() {
 		final ProgressDialog pd; // 进度条对话框
 		pd = new ProgressDialog(context);
 		pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
@@ -140,7 +140,7 @@ public class ApkModify {
 	}
 
 	// 安装apk
-	protected void installApk(File file) {
+	private void installApk(File file) {
 		Intent intent = new Intent();
 		// 执行动作
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -164,7 +164,7 @@ public class ApkModify {
 		return packInfo.versionName;
 	}
 
-	public static File getFileFromServer(String path, ProgressDialog pd)
+	private static File getFileFromServer(String path, ProgressDialog pd)
 			throws Exception {
 		// 如果相等的话表示当前的sdcard挂载在手机上并且是可用的
 		if (Environment.getExternalStorageState().equals(
@@ -222,11 +222,13 @@ public class ApkModify {
 											.toString();
 									code = response.getString("versionName")
 											.toString();
-									char c = code.charAt(code.length() - 1);
-									char d = getVersionName().charAt(
-											getVersionName().length() - 1);
+//									char c = code.charAt(code.length() - 1);
+//									char d = getVersionName().charAt(
+//											getVersionName().length() - 1);
+									int code1=Integer.parseInt(getVersionName().replace(".", ""));
+									int codeNew=Integer.parseInt(code.replace(".",""));
 									if (response.getString("versionName")
-											.equals(getVersionName()) || c < d) {
+											.equals(getVersionName()) || codeNew < code1) {
 										if (mhandler != null) {
 											sendMsg();
 										} else {
@@ -273,7 +275,7 @@ public class ApkModify {
 		}
 	}
 
-	Handler handler = new Handler() {
+	private Handler handler = new Handler() {
 
 		@Override
 		public void handleMessage(Message msg) {

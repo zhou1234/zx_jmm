@@ -26,7 +26,7 @@ import android.widget.Toast;
 
 public class TuiKuangActivity extends Activity {
 	private String OrderId, GoodsId, price;
-	int themeCheckedId = -1;
+	private int themeCheckedId = -1;
 	private Button mButton;
 	private EditText mEditText;
 	private LoadingDialog dialog;

@@ -30,7 +30,7 @@ import android.widget.Toast;
 public class FindActivity extends Activity {
 	private LoadingDialog dialog;
 	private Intent mIntent;
-	WebView mWebView;
+	private WebView mWebView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

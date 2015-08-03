@@ -219,7 +219,7 @@ public class CommentActivity extends Activity implements OnClickListener {
 				});
 	}
 
-	class myListViewAdapter extends BaseAdapter {
+	private class myListViewAdapter extends BaseAdapter {
 
 		@Override
 		public int getCount() {
@@ -269,8 +269,15 @@ public class CommentActivity extends Activity implements OnClickListener {
 
 				holder.tv_name.setText(mData.get(arg0).getString("NickName"));
 				holder.tv_time.setText(mData.get(arg0).getString("ReviewTime"));
-				holder.tv_commmet.setText(unicodeToString(mData.get(arg0)
-						.getString("Content")));
+				String comment = null;
+				try {
+					comment = unicodeToString(mData.get(arg0).getString(
+							"Content"));
+				} catch (Exception e) {
+					comment = mData.get(arg0).getString("Content");
+				}
+
+				holder.tv_commmet.setText(comment);
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
@@ -278,11 +285,11 @@ public class CommentActivity extends Activity implements OnClickListener {
 		}
 	}
 
-	class Holder {
-		ImageView iv_user;
-		TextView tv_name;
-		TextView tv_time;
-		TextView tv_commmet;
+	private class Holder {
+		private ImageView iv_user;
+		private TextView tv_name;
+		private TextView tv_time;
+		private TextView tv_commmet;
 	}
 
 	@SuppressLint("NewApi")
@@ -329,7 +336,7 @@ public class CommentActivity extends Activity implements OnClickListener {
 	 * @return String 每个unicode之间无分隔符
 	 * @throws Exception
 	 */
-	public static String strToUnicode(String strText) throws Exception {
+	private static String strToUnicode(String strText) throws Exception {
 		char c;
 		StringBuilder str = new StringBuilder();
 		int intAsc;
@@ -354,7 +361,7 @@ public class CommentActivity extends Activity implements OnClickListener {
 	 *            hex 16进制值字符串 （一个unicode为2byte）
 	 * @return String 全角字符串
 	 */
-	public static String unicodeToString(String hex) {
+	private static String unicodeToString(String hex) {
 		int t = hex.length() / 6;
 		StringBuilder str = new StringBuilder();
 		for (int i = 0; i < t; i++) {

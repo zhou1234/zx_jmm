@@ -11,7 +11,6 @@ import org.json.JSONObject;
 //import com.jifeng.image.ImageLoader; 
 import com.jifeng.mlsales.R;
 import com.jifeng.mlsales.jumeimiao.PinPaiZhuangChangActivity;
-import com.jifeng.mlsales.jumeimiao.SaveActivity;
 import com.jifeng.myview.LoadingDialog;
 import com.jifeng.tools.MyTools;
 import com.jifeng.url.AllStaticMessage;
@@ -20,6 +19,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog; 
 import android.app.AlertDialog.Builder;
 import android.content.Context;
@@ -39,19 +39,19 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 public class MySaveAdapter extends BaseAdapter {
-	Context mContext;
-	AppItem appItem;
-	int height, width;
-	Intent mIntent;
-	List<JSONObject> mJsonArray=new ArrayList<JSONObject>(); 
-	LoadingDialog dialog;
+	private Context mContext;
+	private AppItem appItem;
+	private int height, width;
+	private Intent mIntent;
+	private List<JSONObject> mJsonArray=new ArrayList<JSONObject>(); 
+	private LoadingDialog dialog;
 	// 用来控制蒙版的选中状况
-	public HashMap<Integer, Boolean> isSelected; 
-	Handler handler;
+	private HashMap<Integer, Boolean> isSelected; 
+	private Handler handler;
 	public int potion;
-	DisplayImageOptions options;
+	private DisplayImageOptions options;
  
-	public MySaveAdapter(Context context, int height, int width,List<JSONObject> array,Handler handler) {
+	@SuppressLint("UseSparseArrays") public MySaveAdapter(Context context, int height, int width,List<JSONObject> array,Handler handler) {
 		this.mContext = context;
 		this.height = height;
 		this.width = width;
@@ -133,7 +133,7 @@ public class MySaveAdapter extends BaseAdapter {
 		});
 		return convertView;
 	}
-	public void getHigh(RelativeLayout AppmLayout){
+	private void getHigh(RelativeLayout AppmLayout){
 		RelativeLayout.LayoutParams linearParams = (RelativeLayout.LayoutParams) AppmLayout
 				.getLayoutParams(); // 取控件mLayout当前的布局参数
 		
@@ -178,12 +178,10 @@ public class MySaveAdapter extends BaseAdapter {
 	}
 
 	
-	class ItemClick  implements OnClickListener{
-		AppItem appItem; 
+	private class ItemClick  implements OnClickListener{
 		JSONObject object;  
-		int position;
-		public ItemClick(AppItem appItem,JSONObject object,int position){ 
-			this.appItem=appItem;
+		private int position;
+		private ItemClick(AppItem appItem,JSONObject object,int position){ 
 			this.object=object;
 			this.position=position;
 		}
@@ -263,10 +261,4 @@ class AppItem {
 	RelativeLayout AppmLayout;
 	RelativeLayout mAppLayout_Meng;
 }
-
-
-
-
-
-
 

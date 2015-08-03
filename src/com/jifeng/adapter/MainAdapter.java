@@ -3,9 +3,7 @@ package com.jifeng.adapter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.json.JSONException;
@@ -17,18 +15,14 @@ import com.jifeng.tools.MyTools;
 import com.jifeng.url.AllStaticMessage;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -78,7 +72,7 @@ public class MainAdapter extends BaseAdapter {
 		if (convertView == null) {
 			View v = LayoutInflater.from(mContext).inflate(
 					R.layout.item_main_listview, null);
-		  	appItem = new MainAppItem();
+			appItem = new MainAppItem();
 			appItem.AppBtn_time = (Button) v.findViewById(R.id.btn_time);
 			appItem.AppBtn_youhuiquan = (TextView) v
 					.findViewById(R.id.btn_youhuiquan);
@@ -86,23 +80,22 @@ public class MainAdapter extends BaseAdapter {
 					.findViewById(R.id.btn_activity_name);
 			appItem.AppImg = (ImageView) v.findViewById(R.id.img_main_tou);
 			MyTools.setWidthAndHeight(appItem.AppImg, width);
-			
+
 			appItem.AppText_dazhe = (TextView) v.findViewById(R.id.text_dazhe);
-			appItem.AppmLayout = (RelativeLayout) v
-					.findViewById(R.id.save_gridview_liner);
+
 			appItem.AppmLayout_Quan = (RelativeLayout) v
 					.findViewById(R.id.rel_quan);
-			appItem.AppTv_time=(TextView) v.findViewById(R.id.tv_time);
+			appItem.AppTv_time = (TextView) v.findViewById(R.id.tv_time);
 			v.setTag(appItem);
 			convertView = v;
 		} else {
 			appItem = (MainAppItem) convertView.getTag();
 		}
 
-		//MyTools.getHight(appItem.AppmLayout, width, height, mContext);
+		// MyTools.getHight(appItem.AppmLayout, width, height, mContext);
 		try {
 			setTime(mListData.get(position).getString("EndTime").toString(),
-					appItem.AppBtn_time,appItem.AppTv_time);
+					appItem.AppBtn_time, appItem.AppTv_time);
 
 			if (mListData.get(position).getString("DesGuide").toString()
 					.equals("")) {
@@ -122,9 +115,10 @@ public class MainAdapter extends BaseAdapter {
 
 			if (imgurl != null) {
 				ImageLoader.getInstance().displayImage(imgurl, appItem.AppImg,
-				options);
-//				ImageLoader.getInstance().displayImage(imgurl, appItem.AppImg,
-//						options, ImageLoadingListenerImpl);
+						options);
+				// ImageLoader.getInstance().displayImage(imgurl,
+				// appItem.AppImg,
+				// options, ImageLoadingListenerImpl);
 			}
 
 			appItem.AppImg.setOnClickListener(new onMainItemClick(appItem,
@@ -136,28 +130,29 @@ public class MainAdapter extends BaseAdapter {
 		return convertView;
 	}
 
-	// 监听图片异步加载
-	public static class ImageLoadingListenerImpl extends
-			SimpleImageLoadingListener {
+	// // 监听图片异步加载
+	// public static class ImageLoadingListenerImpl extends
+	// SimpleImageLoadingListener {
+	//
+	// public static final List<String> displayedImages = Collections
+	// .synchronizedList(new LinkedList<String>());
+	//
+	// @Override
+	// public void onLoadingComplete(String imageUri, View view, Bitmap bitmap)
+	// {
+	// if (bitmap != null) {
+	// ImageView imageView = (ImageView) view;
+	// boolean isFirstDisplay = !displayedImages.contains(imageUri);
+	// if (isFirstDisplay) {
+	// // 图片的淡入效果
+	// FadeInBitmapDisplayer.animate(imageView, 1 * 1000);
+	// displayedImages.add(imageUri);
+	// }
+	// }
+	// }
+	// }
 
-		public static final List<String> displayedImages = Collections
-				.synchronizedList(new LinkedList<String>());
-
-		@Override
-		public void onLoadingComplete(String imageUri, View view, Bitmap bitmap) {
-			if (bitmap != null) {
-				ImageView imageView = (ImageView) view;
-				boolean isFirstDisplay = !displayedImages.contains(imageUri);
-				if (isFirstDisplay) {
-					// 图片的淡入效果
-					FadeInBitmapDisplayer.animate(imageView, 1 * 1000);
-					displayedImages.add(imageUri);
-				}
-			}
-		}  
-	}
-
-	private void setTime(String endtime, Button btn,TextView tv_time) {
+	private void setTime(String endtime, Button btn, TextView tv_time) {
 		int date = MyTools.creayTime(endtime, MyTools.getTime());
 		if (date > 0) {
 			btn.setText("仅剩" + String.valueOf(date) + "天");
@@ -199,26 +194,24 @@ public class MainAdapter extends BaseAdapter {
 		return between;
 	}
 
-	class MainAppItem {
-		ImageView AppImg;
-		Button AppBtn_time;
-		TextView AppBtn_youhuiquan;
-		Button AppBtn_name;
-		TextView AppText_dazhe;
-		RelativeLayout AppmLayout;// 控制图片显示高度
+	private class MainAppItem {
+		private ImageView AppImg;
+		private Button AppBtn_time;
+		private TextView AppBtn_youhuiquan;
+		private Button AppBtn_name;
+		private TextView AppText_dazhe;
 		RelativeLayout AppmLayout_Quan;
-		TextView AppTv_time;
+		private TextView AppTv_time;
 	}
 
-	class onMainItemClick implements OnClickListener {
-		MainAppItem appItem;
-		JSONObject jsonObject;
-		Intent mIntent;
-		Context mContext;
+	private class onMainItemClick implements OnClickListener {
 
-		public onMainItemClick(MainAppItem appIte, JSONObject paywa,
+		private JSONObject jsonObject;
+		private Intent mIntent;
+		private Context mContext;
+
+		private onMainItemClick(MainAppItem appIte, JSONObject paywa,
 				Context context) {
-			this.appItem = appIte;
 			this.jsonObject = paywa;
 			this.mContext = context;
 		}

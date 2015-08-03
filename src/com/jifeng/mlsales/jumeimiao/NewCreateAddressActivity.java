@@ -64,7 +64,7 @@ public class NewCreateAddressActivity extends Activity implements
 	private List<MyListItem> listProvice, listCity, listDistrict;
 	private Button mBtn_Provice, mBtn_City, mBtn_District;
 	private View mView;
-	//private AlertDialog alertDialog;
+	// private AlertDialog alertDialog;
 	private boolean firstIn = true;
 
 	private PopupWindow popupWindow;
@@ -194,7 +194,7 @@ public class NewCreateAddressActivity extends Activity implements
 
 		case R.id.create_address_city:
 
-		case R.id.create_address_country:  
+		case R.id.create_address_country:
 			registerListen();
 			popupWindowShow();
 			// if (firstIn) {
@@ -365,7 +365,7 @@ public class NewCreateAddressActivity extends Activity implements
 				});
 	}
 
-	public void initSpinner1() {
+	private void initSpinner1() {
 		dbm_province = new DBManager(this);
 		dbm_province.openDatabase();
 		db_province = dbm_province.getDatabase();
@@ -376,13 +376,13 @@ public class NewCreateAddressActivity extends Activity implements
 		try {
 			String sql = "select * from T_Province";
 			Cursor cursor = db_province.rawQuery(sql, null);
-			//startManagingCursor(cursor);
+			// startManagingCursor(cursor);
 			cursor.moveToFirst();
 			while (!cursor.isLast()) {
 				String code = cursor
 						.getString(cursor.getColumnIndex("ProSort"));
-				//String name =
-				//cursor.getString(cursor.getColumnIndex("ProName"));
+				// String name =
+				// cursor.getString(cursor.getColumnIndex("ProName"));
 				byte bytes[] = cursor.getBlob(0);
 				String name = new String(bytes, "UTF-8");
 				MyListItem myListItem = new MyListItem();
@@ -419,7 +419,7 @@ public class NewCreateAddressActivity extends Activity implements
 	/**
 	 * 根据当前的省，更新市WheelView的信息
 	 */
-	public void initSpinner2(String pcode) {
+	private void initSpinner2(String pcode) {
 		dbm_city = new DBManager(this);
 		dbm_city.openDatabase();
 		db_city = dbm_city.getDatabase();
@@ -477,7 +477,7 @@ public class NewCreateAddressActivity extends Activity implements
 	/**
 	 * 根据当前的市，更新县WheelView的信息
 	 */
-	public void initSpinner3(String pcode) {
+	private void initSpinner3(String pcode) {
 		dbm_district = new DBManager(this);
 		dbm_district.openDatabase();
 		db_district = dbm_district.getDatabase();

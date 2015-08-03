@@ -19,7 +19,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
 public class FBApplication extends Application {
-	protected static FBApplication instance;
+	private static FBApplication instance;
 	private List<Activity> activities = new ArrayList<Activity>();
 
 	public void addActivity(Activity activity) {
@@ -56,7 +56,7 @@ public class FBApplication extends Application {
 		}
 	};
 
-	public void restartApp() {
+	private void restartApp() {
 		Intent intent = new Intent(instance, TabHostActivity.class); // //跳转到的页面，可以是登陆页或主页
 
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -67,7 +67,7 @@ public class FBApplication extends Application {
 	}
 
 	@SuppressLint("NewApi")
-	public static void initImageLoader(Context context) {
+	private static void initImageLoader(Context context) {
 		// File cacheDir = StorageUtils.getCacheDirectory(context);
 		ImageLoaderConfiguration.Builder config = new ImageLoaderConfiguration.Builder(
 				context);

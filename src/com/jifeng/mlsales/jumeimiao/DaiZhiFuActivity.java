@@ -38,14 +38,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class DaiZhiFuActivity extends Activity {
 	private Intent mIntent;
 	private GridView mGridView;
 	private MyGridViewAdapter mAdapter;
 	private TextView mText_Title;
-	String orderState;// 1 待付款 2待发货
+	private String orderState;// 1 待付款 2待发货
 	private List<JSONObject> mData;
 	private LoadingDialog dialog;
 
@@ -339,21 +338,19 @@ public class DaiZhiFuActivity extends Activity {
 		}
 	}
 
-	class AppItem {
-		RelativeLayout AppmLayout;
-		TextView AppText_time;
-		TextView AppText_status;
-		TextView AppText_price;
-		ImageView AppImg, AppImg_zhifu;
-		My_GridView my_GridView;
+	private class AppItem {
+		private RelativeLayout AppmLayout;
+		private TextView AppText_time;
+		private TextView AppText_status;
+		private TextView AppText_price;
+		private ImageView AppImg, AppImg_zhifu;
+		private My_GridView my_GridView;
 	}
 
-	class onItemClick implements OnClickListener {
-		AppItem appItem;
+	private class onItemClick implements OnClickListener {
 		JSONObject jsonObject;
 
-		public onItemClick(AppItem appIte, JSONObject paywa) {
-			this.appItem = appIte;
+		private onItemClick(AppItem appIte, JSONObject paywa) {
 			this.jsonObject = paywa;
 		}
 
@@ -378,11 +375,11 @@ public class DaiZhiFuActivity extends Activity {
 
 	}
 
-	class MyGalleryAdapter extends BaseAdapter {
-		DisplayImageOptions options;
-		List<JSONObject> mListData;
+	private class MyGalleryAdapter extends BaseAdapter {
+		private DisplayImageOptions options;
+		private List<JSONObject> mListData;
 
-		public MyGalleryAdapter(List<JSONObject> mListData) {
+		private MyGalleryAdapter(List<JSONObject> mListData) {
 			options = MyTools.createOptionsOther(R.drawable.img);
 			this.mListData = mListData;
 		}
@@ -433,72 +430,5 @@ public class DaiZhiFuActivity extends Activity {
 	protected void onPause() {
 		super.onPause();
 		MobclickAgent.onPause(this);
-	}
-
-	private void getDataImage(String orderId, final AppItem appItem) {
-		String url = AllStaticMessage.URL_Order_Deatil
-				+ AllStaticMessage.User_Id + "&orderId=" + orderId;
-		HttpUtil.get(url, DaiZhiFuActivity.this, dialog,
-				new JsonHttpResponseHandler() {
-					@Override
-					public void onSuccess(int statusCode, Header[] headers,
-							JSONObject response) {
-						super.onSuccess(statusCode, headers, response);
-						// 成功返回JSONObject
-						try {
-							if (response.getString("Status").equals("true")) {
-								JSONArray mArray = response
-										.getJSONArray("Results");
-								if (mListData != null) {
-									mListData.clear();
-								}
-								if (mArray.length() > 0) {
-									for (int i = 0; i < mArray.length(); i++) {
-										mListData.add(mArray.getJSONObject(i));
-									}
-									appItem.my_GridView.setNumColumns(mListData
-											.size());
-									// appItem.my_GridView
-									// .setSelector(new ColorDrawable(
-									// Color.TRANSPARENT));
-									gAdapter = new MyGalleryAdapter(mListData);
-									appItem.my_GridView.setAdapter(gAdapter);
-
-								} else {
-									Toast.makeText(
-											DaiZhiFuActivity.this,
-											response.getString("Results")
-													.toString(), 500).show();
-								}
-							}
-						} catch (JSONException e) {
-							e.printStackTrace();
-						}
-
-					}
-
-					@Override
-					public void onStart() {
-						super.onStart();
-						// 请求开始
-					}
-
-					@Override
-					public void onFinish() {
-						super.onFinish();
-						// 请求结束
-					}
-
-					@Override
-					public void onFailure(int statusCode, Header[] headers,
-							Throwable throwable, JSONObject errorResponse) {
-						super.onFailure(statusCode, headers, throwable,
-								errorResponse);
-						// 错误返回JSONObject
-						if (dialog != null) {
-							dialog.stop();
-						}
-					}
-				});
 	}
 }

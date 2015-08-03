@@ -9,59 +9,15 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-
-import com.jifeng.url.AllStaticMessage; 
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.Message;
-import android.widget.ImageView;
-
 public class DownPic {
 	
-	public static void downImg(String url,ImageView faceImage) {
-		DefaultHttpClient httpclient = new DefaultHttpClient();
-
-		HttpGet httpget = new HttpGet(url);
-
-		try {
-			//httpget.setHeader("Cookie", Constans.key_name + "="+ Constans.key_value);
-			HttpResponse resp = httpclient.execute(httpget);
-			// 判断是否正确执行
-			if (HttpStatus.SC_OK == resp.getStatusLine().getStatusCode()) {
-				// 将返回内容转换为bitmap
-				HttpEntity entity = resp.getEntity();
-				InputStream in = entity.getContent();
-				Bitmap bitmap = BitmapFactory.decodeStream(in);
-				//AllStaticMessage.mBitmap = bitmap;
-				faceImage.setImageBitmap(MyTools.getRoundedCornerBitmap(bitmap));
-				// HttpUtil.saveImg(bitmap);
-				// handler.sendEmptyMessage(0x01);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			//setTitle(e.getMessage());
-		} finally {
-			httpclient.getConnectionManager().shutdown();
-		}
-	}
 	
-	// 下载图片
-	public static void downloadLy(String url) throws Exception {
-		Bitmap bitmap1 = null;
-		byte[] data1 = getImage(url);
-		if (data1 != null) {
-			bitmap1 = BitmapFactory.decodeByteArray(data1, 0, data1.length);// bitmap
-			saveImg(bitmap1);
-		}
-
-	}
+	
+	
 	// 下载图片
 		public static void downloadLy1(String url) throws Exception {
 			final Handler handler = new Handler() {
@@ -95,7 +51,7 @@ public class DownPic {
 
 		}
 
-	public static byte[] getImage(String path) throws Exception {
+	private static byte[] getImage(String path) throws Exception {
 		URL url = new URL(path);
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		conn.setConnectTimeout(5 * 1000);
@@ -107,7 +63,7 @@ public class DownPic {
 		return null;
 	}
 
-	public static byte[] readStream(InputStream inStream) throws Exception {
+	private static byte[] readStream(InputStream inStream) throws Exception {
 		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
 		byte[] buffer = new byte[1024];
 		int len = 0;
@@ -120,7 +76,7 @@ public class DownPic {
 	}
 
 	//
-	public static void saveImg(Bitmap bitmap) {
+	private static void saveImg(Bitmap bitmap) {
 		if (bitmap != null) {
 			FileOutputStream fos = null;
 			try {
@@ -141,10 +97,8 @@ public class DownPic {
 				}
 
 			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 

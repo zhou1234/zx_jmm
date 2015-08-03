@@ -34,7 +34,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:text="每日精选"
-                android:textSize="16sp" />
+                android:textSize="@dimen/title_siae" />
         </RelativeLayout>
 
         <ImageView

@@ -3,8 +3,6 @@ package com.jifeng.tools;
 import java.io.File;
 import java.math.BigDecimal;
 
-import com.jifeng.mlsales.jumeimiao.SettingActivity;
-
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -20,7 +18,7 @@ public class DataCleanManager {
 	 * 
 	 * @param context
 	 */
-	public static void cleanInternalCache(Context context) {
+	private static void cleanInternalCache(Context context) {
 		deleteFilesByDirectory(context.getCacheDir());
 	}
 
@@ -30,7 +28,7 @@ public class DataCleanManager {
 	 * @param context
 	 */
 	@SuppressLint("SdCardPath")
-	public static void cleanDatabases(Context context) {
+	private static void cleanDatabases(Context context) {
 		deleteFilesByDirectory(new File("/data/data/"
 				+ context.getPackageName() + "/databases"));
 	}
@@ -41,7 +39,7 @@ public class DataCleanManager {
 	 * @param context
 	 */
 	@SuppressLint("SdCardPath")
-	public static void cleanSharedPreference(Context context) {
+	private static void cleanSharedPreference(Context context) {
 		deleteFilesByDirectory(new File("/data/data/"
 				+ context.getPackageName() + "/shared_prefs"));
 	}
@@ -61,7 +59,7 @@ public class DataCleanManager {
 	 * 
 	 * @param context
 	 */
-	public static void cleanFiles(Context context) {
+	private static void cleanFiles(Context context) {
 		deleteFilesByDirectory(context.getFilesDir());
 	}
 
@@ -70,7 +68,7 @@ public class DataCleanManager {
 	 * 
 	 * @param context
 	 */
-	public static void cleanExternalCache(Context context) {
+	private static void cleanExternalCache(Context context) {
 		if (Environment.getExternalStorageState().equals(
 				Environment.MEDIA_MOUNTED)) {
 			deleteFilesByDirectory(context.getExternalCacheDir());
@@ -84,7 +82,7 @@ public class DataCleanManager {
 	 */
 	@TargetApi(Build.VERSION_CODES.FROYO)
 	@SuppressLint("NewApi")
-	public static void cleanCustomCache(String filePath) {
+	private static void cleanCustomCache(String filePath) {
 		deleteFilesByDirectory(new File(filePath));
 	}
 

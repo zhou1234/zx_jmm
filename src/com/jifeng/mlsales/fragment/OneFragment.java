@@ -30,7 +30,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -133,6 +132,7 @@ public class OneFragment extends BaseFragment implements
 			public void onClick(View arg0) {
 				startActivity(new Intent(getActivity(), RegisterActivity.class));
 				popupWindow.dismiss();
+				AllStaticMessage.guideRegister = true;
 			}
 		});
 		MyTools.setImageViewWandH(rl_guide, guideImageView, width);
@@ -145,7 +145,7 @@ public class OneFragment extends BaseFragment implements
 
 		final View rootView = inflater.inflate(
 				R.layout.loading_item_second_one, container, false);
-		if (AllStaticMessage.guideString) {
+		if (AllStaticMessage.guide) {
 			new Handler().postDelayed(new Runnable() {
 
 				@Override
@@ -153,7 +153,7 @@ public class OneFragment extends BaseFragment implements
 					popupWindow.showAtLocation(
 							rootView.findViewById(R.id.guide), Gravity.CENTER,
 							0, 0);
-					AllStaticMessage.guideString = false;
+					AllStaticMessage.guide = false;
 				}
 			}, 100);
 		}
@@ -596,7 +596,7 @@ public class OneFragment extends BaseFragment implements
 		}
 	}
 
-	public class MyPicAdapter extends PagerAdapter {
+	private class MyPicAdapter extends PagerAdapter {
 
 		@Override
 		public int getCount() {
@@ -699,13 +699,8 @@ public class OneFragment extends BaseFragment implements
 
 	@Override
 	public void onFooterLoad(AbPullToRefreshView view) {
-		new Handler().postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				mAbPullToRefreshView.onFooterLoadFinish();
-				Toast.makeText(getActivity(), "没有更多了", 0).show();
-			}
-		}, 1000);
+
+		mAbPullToRefreshView.onFooterLoadFinish();
 
 	}
 
@@ -730,7 +725,7 @@ public class OneFragment extends BaseFragment implements
 
 	}
 
-	class myOnClickListener implements OnClickListener {
+	private class myOnClickListener implements OnClickListener {
 
 		@Override
 		public void onClick(View arg0) {
@@ -769,14 +764,14 @@ public class OneFragment extends BaseFragment implements
 			}
 
 		}
-	}   
+	}
 
 	private void startIntnt(int i) {
 		try {
 			Intent intent;
 			String flag = mDataImg.get(i).getString("SpecialType");
 			String id = mDataImg.get(i).getString("SpecialId");
-			String title=mDataImg.get(i).getString("BannerName");
+			String title = mDataImg.get(i).getString("BannerName");
 			if (flag.equals("1")) {
 				intent = new Intent(getActivity(), GoodsListActivity.class);
 				intent.putExtra("active", "1");

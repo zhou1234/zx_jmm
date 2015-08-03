@@ -58,21 +58,20 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
-@SuppressWarnings("deprecation")
-public class MainActivity extends Activity {
-	Button button;// 最新
-	ViewPager mViewPager;
-	LoadingDialog dialog;
-	Button[] mBtn;
-	String[] classion;
+@SuppressWarnings("deprecation")public class MainActivity extends Activity {
+	private Button button;// 最新
+	private ViewPager mViewPager;
+	private LoadingDialog dialog;
+	private Button[] mBtn;
+	private String[] classion;
 	private List<View> vList = new ArrayList<View>();
 	// 屏幕的高度
-	int height, width;
+	private int height, width;
 	private ImageView img_wenzi;
-	LinearLayout mLayout;
-	JSONArray mArray;
+	private LinearLayout mLayout;
+	private JSONArray mArray;
 	private LinearLayout mLinearLayout;
-	public Handler handler = new Handler() {
+	private Handler handler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
 			super.handleMessage(msg);
@@ -96,7 +95,7 @@ public class MainActivity extends Activity {
 		}
 	};
 	private int num = -1;
-	RelativeLayout mRelativeLayout;
+	private RelativeLayout mRelativeLayout;
 	private List<List<JSONObject>> mData;
 	private MainAdapter[] adapter;
 	private PullToRefreshScrollView[] mPullScrollView;
@@ -110,7 +109,7 @@ public class MainActivity extends Activity {
 	private ImageView[] mImageViews;
 	// 放小圆点的数组
 	private ImageView[] imgs;
-	JSONArray mArray_ad;
+	private JSONArray mArray_ad;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -211,10 +210,10 @@ public class MainActivity extends Activity {
 		});
 	}
 
-	class ItemClick implements View.OnClickListener {
-		int id;
+	private class ItemClick implements View.OnClickListener {
+		private int id;
 
-		public ItemClick(int num) {
+		private ItemClick(int num) {
 			this.id = num;
 		}
 
@@ -540,7 +539,7 @@ public class MainActivity extends Activity {
 		}
 	}
 
-	public class MyPicAdapter extends PagerAdapter {
+	private class MyPicAdapter extends PagerAdapter {
 
 		@Override
 		public int getCount() {

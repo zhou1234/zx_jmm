@@ -219,7 +219,7 @@ public class ClassActivityNew extends Activity implements OnClickListener {
 				});
 	}
 
-	class MyAdapter extends BaseAdapter {
+	private class MyAdapter extends BaseAdapter {
 		private int selectItem = 0;
 
 		public void setSelectItem(int selectItem) {
@@ -273,8 +273,8 @@ public class ClassActivityNew extends Activity implements OnClickListener {
 		}
 	}
 
-	class ListViewHolder {
-		TextView tv_name;
+	private class ListViewHolder {
+		private TextView tv_name;
 	}
 
 	@Override

@@ -1,39 +1,22 @@
 package com.jifeng.mlsales.jumeimiao;
 
-import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
-import java.net.Inet4Address;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Random;
 
 import org.apache.http.Header;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.utils.URLEncodedUtils;
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.xmlpull.v1.XmlPullParser;
 
 import cn.sharesdk.framework.ShareSDK;
 
 import com.alipay.sdk.app.PayTask;
 import com.jifeng.mlsales.FBApplication;
 import com.jifeng.mlsales.R;
-import com.jifeng.mlsales.wxapi.MD5;
-import com.jifeng.mlsales.wxapi.Util;
-import com.jifeng.mlsales.wxapi.WXPayEntryActivity;
 import com.jifeng.myview.LoadingDialog;
-import com.jifeng.tools.MyTools;
 import com.jifeng.tools.TasckActivity;
 import com.jifeng.url.AllStaticMessage;
 import com.jifeng.url.HttpUtil;
@@ -48,16 +31,10 @@ import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.umeng.analytics.MobclickAgent;
 
 import android.app.Activity;
-import android.app.Dialog;
-import android.app.ProgressDialog;
-import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
-import android.util.Log;
-import android.util.Xml;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -293,7 +270,7 @@ public class MyPayActivity extends Activity {
 	 * call alipay sdk pay. 调用SDK支付
 	 * 
 	 */
-	public void tijiao(final String orderNum, String allPrice) {
+	private void tijiao(final String orderNum, String allPrice) {
 		String orderInfo = getOrderInfo(orderNum, allPrice);
 		String sign = sign(orderInfo);
 		try {
@@ -330,41 +307,6 @@ public class MyPayActivity extends Activity {
 
 		Thread payThread = new Thread(payRunnable);
 		payThread.start();
-	}
-
-	/**
-	 * check whether the device has authentication alipay account.
-	 * 查询终端设备是否存在支付宝认证账户
-	 * 
-	 */
-	public void check(View v) {
-		Runnable checkRunnable = new Runnable() {
-
-			@Override
-			public void run() {
-				PayTask payTask = new PayTask(MyPayActivity.this);
-				boolean isExist = payTask.checkAccountIfExist();
-
-				Message msg = new Message();
-				msg.what = SDK_CHECK_FLAG;
-				msg.obj = isExist;
-				mHandler.sendMessage(msg);
-			}
-		};
-
-		Thread checkThread = new Thread(checkRunnable);
-		checkThread.start();
-
-	}
-
-	/**
-	 * get the sdk version. 获取SDK版本号
-	 * 
-	 */
-	public void getSDKVersion() {
-		PayTask payTask = new PayTask(this);
-		String version = payTask.getVersion();
-		Toast.makeText(this, version, Toast.LENGTH_SHORT).show();
 	}
 
 	private String getOrderInfo(String orderNum, String allPrice) {
@@ -436,7 +378,7 @@ public class MyPayActivity extends Activity {
 	 * @param content
 	 *            待签名订单信息
 	 */
-	public String sign(String content) {
+	private String sign(String content) {
 		return SignUtils.sign(content, Keys.PRIVATE);
 	}
 

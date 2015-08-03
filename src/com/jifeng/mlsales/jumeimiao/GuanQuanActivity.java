@@ -27,9 +27,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -277,15 +275,15 @@ public class GuanQuanActivity extends Activity implements OnClickListener {
 		}
 	}
 
-	class AppItem {
+	private class AppItem {
 		// TextView AppText_name;
-		TextView AppText_time;
-		TextView AppText_money;
-		TextView AppText_classsion;
-		TextView AppText_rule;
+		private TextView AppText_time;
+		private TextView AppText_money;
+		private TextView AppText_classsion;
+		private TextView AppText_rule;
 		// TextView AppText_pinpai;
 		// ImageView AppImg;
-		CheckBox AppCheck;
+		private CheckBox AppCheck;
 	}
 
 	@Override

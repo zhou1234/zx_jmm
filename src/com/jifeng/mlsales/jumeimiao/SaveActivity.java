@@ -16,9 +16,7 @@ import com.jifeng.mlsales.FBApplication;
 //import com.jifeng.image.ImageLoader;
 import com.jifeng.mlsales.R;
 import com.jifeng.myview.LoadingDialog;
-import com.jifeng.tools.AutoLoadListener;
 import com.jifeng.tools.MyTools;
-import com.jifeng.tools.AutoLoadListener.AutoLoadCallBack;
 import com.jifeng.url.AllStaticMessage;
 import com.jifeng.url.HttpUtil;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -27,12 +25,9 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.umeng.analytics.MobclickAgent;
 
 import android.app.Activity;
-import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.DataSetObserver;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
@@ -52,7 +47,6 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -61,16 +55,13 @@ public class SaveActivity extends Activity {
 	private GridView mGridView_1, mGridView_2;
 	private MyGridViewAdapter mAdapter;
 	private Button mButton_1, mButton_2;
-	private boolean showFlag = false;
 	// 屏幕的高度
 	private int height, width;
-	public List<JSONObject> mListData_1, mListData_2;
+	private List<JSONObject> mListData_1, mListData_2;
 	private LoadingDialog dialog;
-	private boolean firstFlag = true;
-	public MySaveAdapter adapter;
+	private MySaveAdapter adapter;
 	private LinearLayout mLayout;
 	private int pagegoods = 1, pagebrand = 1;
-	private String AllPage_goods = "1", allPage_brand = "1";
 	private boolean goodsOrbrand = true;
 	private Button mBtn_Bianji;
 
@@ -166,7 +157,6 @@ public class SaveActivity extends Activity {
 				Toast.makeText(SaveActivity.this, "请先完成编辑", 500).show();
 				return;
 			}
-			showFlag = false;
 			// mGridView_1.setVisibility(View.VISIBLE);
 			// mGridView_2.setVisibility(View.GONE);
 			setView(1);
@@ -590,12 +580,12 @@ public class SaveActivity extends Activity {
 	}
 
 	class AppItem {
-		TextView AppText_name;
-		TextView AppText_price_now;
-		TextView AppText_price_old;
-		Button mBtn_time, mBtn_zhekou, mBtn_Delete;
-		ImageView mImage;
-		RelativeLayout mAppLayout, mAppLayout_Tou;
+		private TextView AppText_name;
+		private TextView AppText_price_now;
+		private TextView AppText_price_old;
+		private Button mBtn_time, mBtn_zhekou, mBtn_Delete;
+		private ImageView mImage;
+		private RelativeLayout mAppLayout, mAppLayout_Tou;
 	}
 
 	class ItemClick implements OnClickListener {

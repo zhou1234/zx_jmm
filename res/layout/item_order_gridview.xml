@@ -136,7 +136,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dip"
                     android:text="￥1234.00"
-                    android:textColor="@color/text_zhifu_price"
+                    android:textColor="@color/tab_select"
                     android:textSize="14sp" />
             </LinearLayout>
         </LinearLayout>
