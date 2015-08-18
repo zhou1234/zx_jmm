@@ -47,6 +47,7 @@ import cn.sharesdk.sina.weibo.SinaWeibo;
 import cn.sharesdk.wechat.friends.Wechat;
 import cn.sharesdk.wechat.moments.WechatMoments;
 
+import com.ab.image.AbImageLoader;
 import com.ab.view.pullview.AbPullToRefreshView;
 import com.ab.view.pullview.AbPullToRefreshView.OnFooterLoadListener;
 import com.ab.view.pullview.AbPullToRefreshView.OnHeaderRefreshListener;
@@ -69,7 +70,7 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 	private ImageView iv_photo;
 	private LinearLayout ll_tuiJian, ll_guanZhu;
 	private TextView tv_tuiJian, tv_guanZhu;
-	private ImageView iv_tuiJian, iv_guanZhu;
+	private ImageView iv_tuiJian, iv_guanZhu, iv_left, iv_right;
 	private int width, height;
 	private ViewPager viewPager;
 	private List<View> list;
@@ -78,7 +79,7 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 	private ImageView[] imgs;
 	private ImageView[] mImageViews;
 	private JSONArray mArray_ad;
-
+	private JSONArray mArray;
 	private boolean flag_guanZhu, flag_zan, flag_guanZhu_guanZhu,
 			flag_guanzhu_zan;
 
@@ -100,14 +101,17 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 	private LinearLayout layout_dian;
 	private My_ViewPager my_ViewPager;
 
-	private DisplayImageOptions options;
-	private DisplayImageOptions option;
+	private DisplayImageOptions optionBottom;
 
 	private View heardView;
 
 	private MyListViewGuanZhuAdapter guanZhuAdapter;
 	private MyListViewAdapter tuijianadapter;
 	private int tuijian_num = 1, guanzhu_num = 1;
+
+	// 图片下载类
+	private AbImageLoader mAbImageLoader = null;
+	private AbImageLoader mAbImageLoaderTag = null;
 
 	@SuppressWarnings("deprecation")
 	@Override
@@ -122,8 +126,16 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 		dialog.loading();
 		tuijianadapter = new MyListViewAdapter();
 		guanZhuAdapter = new MyListViewGuanZhuAdapter();
-		options = MyTools.createOptions(R.drawable.my_icon);
-		option = MyTools.createOptions(R.drawable.img);
+		// option = MyTools.createOptions(R.drawable.img);
+		mAbImageLoaderTag = AbImageLoader.newInstance(this);
+		mAbImageLoaderTag.setLoadingImage(R.drawable.img);
+		mAbImageLoaderTag.setErrorImage(R.drawable.img);
+		mAbImageLoaderTag.setEmptyImage(R.drawable.img);
+		optionBottom = MyTools.createOptions(R.drawable.loading_01);
+		mAbImageLoader = AbImageLoader.newInstance(this);
+		mAbImageLoader.setLoadingImage(R.drawable.my_icon);
+		mAbImageLoader.setErrorImage(R.drawable.my_icon);
+		mAbImageLoader.setEmptyImage(R.drawable.my_icon);
 		init();
 
 	}
@@ -163,7 +175,7 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 
 			@Override
 			public void onScroll(AbsListView arg0, int arg1, int arg2, int arg3) {
-				if ((arg1 + arg2) == mData.size() - 2) {
+				if ((arg1 + arg2) == mData.size()) {
 					new Handler().postDelayed(new Runnable() {
 
 						@Override
@@ -218,7 +230,7 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 
 			@Override
 			public void onScroll(AbsListView arg0, int arg1, int arg2, int arg3) {
-				if ((arg1 + arg2) == mDataGanZhu.size() - 2) {
+				if ((arg1 + arg2) == mDataGanZhu.size()) {
 					new Handler().postDelayed(new Runnable() {
 
 						@Override
@@ -277,7 +289,8 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 
 					@Override
 					public void run() {
-						getImgUrl(layout_dian, my_ViewPager);
+						// getImgUrl(layout_dian, my_ViewPager);
+						// getImagesData();
 						getListTuiJianData(listView_tuiJian);
 						flag_tuijian = true;
 					}
@@ -494,8 +507,9 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 				String userImage = mData.get(arg0).getString("Photo");
 
 				if (!userImage.equals("") && userImage != null) {
-					ImageLoader.getInstance().displayImage(userImage,
-							holder.iv_name, options);
+					mAbImageLoader.display(holder.iv_name, userImage);
+					// ImageLoader.getInstance().displayImage(userImage,
+					// holder.iv_name, option);
 				}
 				holder.tv_name.setText(mData.get(arg0).getString("NickName"));
 				holder.tv_content.setText(mData.get(arg0).getString("Content"));
@@ -562,8 +576,8 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 
 				holder.tagsView.setTagInfoModels(tagInfoModels);
 				if (!tageViewUrl.equals("") && tageViewUrl != null) {
-					ImageLoader.getInstance().displayImage(tageViewUrl,
-							holder.tagsView.getImageView(), option);
+					mAbImageLoaderTag.display(holder.tagsView.getImageView(),
+							tageViewUrl);
 				}
 
 				holder.bt_guanZhu.setOnClickListener(new OnClickListener() {
@@ -705,23 +719,16 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 
 					@Override
 					public void onClick(View arg0) {
-						if (AllStaticMessage.Login_Flag.equals("")) {// LoginFlag
-							Intent mIntent = new Intent(
-									MeiMiaoQuanActivity.this,
-									LoginActivity.class);
-							startActivity(mIntent);
-						} else {
-							try {
-								Intent intent = new Intent(
-										MeiMiaoQuanActivity.this,
-										CommentActivity.class);
-								intent.putExtra("id", mData.get(cont)
-										.getString("Id"));
-								startActivity(intent);
-							} catch (JSONException e) {
-								e.printStackTrace();
-							}
 
+						try {
+							Intent intent = new Intent(
+									MeiMiaoQuanActivity.this,
+									CommentActivity.class);
+							intent.putExtra("id",
+									mData.get(cont).getString("Id"));
+							startActivity(intent);
+						} catch (JSONException e) {
+							e.printStackTrace();
 						}
 
 					}
@@ -747,6 +754,9 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 				});
 			} catch (JSONException e) {
 				e.printStackTrace();
+			}
+			if (cont == 9) {
+				dialog.stop();
 			}
 			return arg1;
 		}
@@ -889,8 +899,7 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 				String userImage = mDataGanZhu.get(arg0).getString("Photo");
 
 				if (!userImage.equals("") && userImage != null) {
-					ImageLoader.getInstance().displayImage(userImage,
-							holder.iv_name, options);
+					mAbImageLoader.display(holder.iv_name, userImage);
 				}
 				holder.tv_name.setText(mDataGanZhu.get(arg0).getString(
 						"NickName"));
@@ -960,8 +969,8 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 
 				holder.tagsView.setTagInfoModels(tagInfoModels);
 				if (!tageViewUrl.equals("") && tageViewUrl != null) {
-					ImageLoader.getInstance().displayImage(tageViewUrl,
-							holder.tagsView.getImageView(), option);
+					mAbImageLoaderTag.display(holder.tagsView.getImageView(),
+							tageViewUrl);
 				}
 
 				holder.bt_guanZhu.setOnClickListener(new OnClickListener() {
@@ -1099,25 +1108,17 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 
 					@Override
 					public void onClick(View arg0) {
-						if (AllStaticMessage.Login_Flag.equals("")) {// LoginFlag
-							Intent mIntent = new Intent(
+
+						try {
+							Intent intent = new Intent(
 									MeiMiaoQuanActivity.this,
-									LoginActivity.class);
-							startActivity(mIntent);
-						} else {
-							try {
-								Intent intent = new Intent(
-										MeiMiaoQuanActivity.this,
-										CommentActivity.class);
-								intent.putExtra("id", mDataGanZhu.get(cont)
-										.getString("Id"));
-								startActivity(intent);
-							} catch (JSONException e) {
-								e.printStackTrace();
-							}
-
+									CommentActivity.class);
+							intent.putExtra("id", mDataGanZhu.get(cont)
+									.getString("Id"));
+							startActivity(intent);
+						} catch (JSONException e) {
+							e.printStackTrace();
 						}
-
 					}
 				});
 				holder.iv_fengXiang.setOnClickListener(new OnClickListener() {
@@ -1166,7 +1167,48 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 		my_ViewPager = (My_ViewPager) headerView
 				.findViewById(R.id.pic_viewPager);
 		layout_dian = (LinearLayout) headerView.findViewById(R.id.yuandian);
+		iv_left = (ImageView) headerView.findViewById(R.id.iv_left);
+		iv_right = (ImageView) headerView.findViewById(R.id.iv_right);
+		MyTools.setImagesWidthAndHeight(iv_left, iv_right, (width - 30) / 2);
+		getImgUrl(layout_dian, my_ViewPager);
+		getImagesData();
+		iv_left.setOnClickListener(new OnClickListener() {
 
+			@Override
+			public void onClick(View arg0) {
+				try {
+					if (mArray != null) {
+						Intent intent = new Intent(MeiMiaoQuanActivity.this,
+								GoodsListActivity.class);
+						intent.putExtra("active", "1");
+						intent.putExtra("activeId", mArray.getJSONObject(0)
+								.getString("SpecialId"));
+						startActivity(intent);
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+
+			}
+		});
+		iv_right.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				try {
+					if (mArray != null) {
+						Intent intent = new Intent(MeiMiaoQuanActivity.this,
+								GoodsListActivity.class);
+						intent.putExtra("active", "1");
+						intent.putExtra("activeId", mArray.getJSONObject(1)
+								.getString("SpecialId"));
+						startActivity(intent);
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+		});
 		my_ViewPager.setOnPageChangeListener(new OnPageChangeListener() {
 
 			@Override
@@ -1199,6 +1241,53 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 		});
 	}
 
+	private void getImagesData() {
+		String url = AllStaticMessage.URL_BannerListBottom;
+
+		HttpUtil.get(url, MeiMiaoQuanActivity.this, null,
+				new JsonHttpResponseHandler() {
+					@SuppressLint("UseSparseArrays")
+					@Override
+					public void onSuccess(int statusCode, Header[] headers,
+							JSONObject response) {
+						super.onSuccess(statusCode, headers, response);
+						try {
+							if (response.getString("Status").equals("true")) {
+								mArray = response.getJSONArray("Results");
+								String leftUrl = mArray.getJSONObject(0)
+										.getString("BannerPic");
+								String rightUrl = mArray.getJSONObject(1)
+										.getString("BannerPic");
+								ImageLoader.getInstance().displayImage(leftUrl,
+										iv_left, optionBottom);
+								ImageLoader.getInstance().displayImage(
+										rightUrl, iv_right, optionBottom);
+							}
+
+						} catch (JSONException e) {
+							e.printStackTrace();
+						}
+					}
+
+					@Override
+					public void onFailure(int statusCode, Header[] headers,
+							Throwable throwable, JSONObject errorResponse) {
+						super.onFailure(statusCode, headers, throwable,
+								errorResponse);
+					}
+
+					@Override
+					public void onStart() {
+						super.onStart();
+					}
+
+					@Override
+					public void onFinish() {
+						super.onFinish();
+					}
+				});
+	}
+
 	/**
 	 * 晒单列表
 	 * 
@@ -1206,7 +1295,7 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 	 */
 	private void getListTuiJianData(final ListView listView) {
 		String url = AllStaticMessage.URL_BaskOrderList + "&UserId="
-				+ AllStaticMessage.User_Id+"&pageSize=10";
+				+ AllStaticMessage.User_Id + "&pageSize=10";
 
 		HttpUtil.get(url, MeiMiaoQuanActivity.this, null,
 				new JsonHttpResponseHandler() {
@@ -1269,7 +1358,7 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 	 */
 	private void getListTuiJianDataNum(final ListView listView, String num) {
 		String url = AllStaticMessage.URL_BaskOrderList + "&UserId="
-				+ AllStaticMessage.User_Id + "&pageNum=" + num+"&pageSize=5";
+				+ AllStaticMessage.User_Id + "&pageNum=" + num + "&pageSize=5";
 
 		HttpUtil.get(url, MeiMiaoQuanActivity.this, null,
 				new JsonHttpResponseHandler() {
@@ -1293,14 +1382,14 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 									map_guanzhu.put(j, false);
 								}
 							} else {
-//								Toast.makeText(
-//										MeiMiaoQuanActivity.this,
-//										response.getString("Results")
-//												.toString(), 0).show();
+								// Toast.makeText(
+								// MeiMiaoQuanActivity.this,
+								// response.getString("Results")
+								// .toString(), 0).show();
 							}
-							if (dialog != null) {
-								dialog.stop();
-							}
+							// if (dialog != null) {
+							// dialog.stop();
+							// }
 						} catch (JSONException e) {
 							e.printStackTrace();
 						}
@@ -1332,7 +1421,7 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 	 */
 	private void getListGuanZhuData(final ListView listView) {
 		String url = AllStaticMessage.URL_GuanZhuList + "&UserId="
-				+ AllStaticMessage.User_Id+"&pageSize=10";
+				+ AllStaticMessage.User_Id + "&pageSize=10";
 
 		HttpUtil.get(url, MeiMiaoQuanActivity.this, null,
 				new JsonHttpResponseHandler() {
@@ -1433,7 +1522,7 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 	 */
 	private void getListGuanZhuDataNum(final ListView listView, String num) {
 		String url = AllStaticMessage.URL_GuanZhuList + "&UserId="
-				+ AllStaticMessage.User_Id + "&pageNum=" + num+"&pageSize=5";
+				+ AllStaticMessage.User_Id + "&pageNum=" + num + "&pageSize=5";
 
 		HttpUtil.get(url, MeiMiaoQuanActivity.this, null,
 				new JsonHttpResponseHandler() {
@@ -1461,14 +1550,14 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 									map_guanzhu_guanzhu.put(j, false);
 								}
 							} else {
-//								Toast.makeText(
-//										MeiMiaoQuanActivity.this,
-//										response.getString("Results")
-//												.toString(), 0).show();
+								// Toast.makeText(
+								// MeiMiaoQuanActivity.this,
+								// response.getString("Results")
+								// .toString(), 0).show();
 							}
-							if (dialog != null) {
-								dialog.stop();
-							}
+							// if (dialog != null) {
+							// dialog.stop();
+							// }
 						} catch (JSONException e) {
 							e.printStackTrace();
 						}
@@ -1495,7 +1584,6 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 
 	private void getImgUrl(final LinearLayout layout_dian,
 			final My_ViewPager my_ViewPager) {
-		dialog.loading();
 		String url = AllStaticMessage.URL_BannerList;
 		HttpUtil.get(url, MeiMiaoQuanActivity.this, null,
 				new JsonHttpResponseHandler() {
@@ -1723,7 +1811,8 @@ public class MeiMiaoQuanActivity extends Activity implements OnClickListener {
 
 						@Override
 						public void run() {
-							getImgUrl(layout_dian, my_ViewPager);
+							// getImgUrl(layout_dian, my_ViewPager);
+							// getImagesData();
 							getListTuiJianData(listView_tuiJian);
 							flag_tuijian = true;
 						}

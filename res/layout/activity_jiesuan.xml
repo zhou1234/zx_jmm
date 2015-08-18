@@ -32,21 +32,23 @@
             android:textSize="@dimen/title_siae" />
     </RelativeLayout>
 
+    <ImageView
+        android:id="@+id/iv_xian"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rel_tou"
+        android:background="@drawable/logo_xian" />
+
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/rel_button"
-        android:layout_below="@+id/rel_tou" >
+        android:layout_below="@+id/iv_xian" >
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
-
-            <ImageView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/logo_xian" />
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -417,7 +419,7 @@
                         android:layout_centerVertical="true"
                         android:layout_margin="15dip"
                         android:text="0元秒运费"
-                        android:textColor="@color/text_color"
+                        android:textColor="@color/textcolor"
                         android:textSize="16sp" />
 
                     <TextView
@@ -428,7 +430,7 @@
                         android:layout_centerVertical="true"
                         android:layout_margin="15dip"
                         android:text="待计算"
-                        android:textColor="@color/text_color"
+                        android:textColor="@color/textcolor"
                         android:textSize="16sp" />
                 </RelativeLayout>
 
@@ -452,7 +454,7 @@
                         android:layout_centerVertical="true"
                         android:layout_margin="15dip"
                         android:text="官方代金券"
-                        android:textColor="@color/text_color"
+                        android:textColor="@color/textcolor"
                         android:textSize="16sp" />
 
                     <TextView
@@ -460,9 +462,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
                         android:layout_toLeftOf="@+id/iv_jianTou"
                         android:text="未使用"
-                        android:layout_marginRight="10dp"
                         android:textColor="#ff0000"
                         android:textSize="16sp" />
 
@@ -475,12 +477,92 @@
                         android:layout_marginRight="15dp"
                         android:src="@drawable/red_jiantou" />
                 </RelativeLayout>
-            </LinearLayout>
 
-            <ImageView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/logo_xian" />
+                <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dip"
+                    android:layout_marginRight="8dip"
+                    android:background="@drawable/logo_xian" />
+
+                <RelativeLayout
+                    android:id="@+id/jiesuan_dui_huan_quan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:onClick="doclick" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:layout_margin="15dip"
+                        android:text="兑换券"
+                        android:textColor="@color/textcolor"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/jiesuan_duihuanquan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
+                        android:layout_toLeftOf="@+id/iv_jian_tou"
+                        android:text="未使用"
+                        android:textColor="#ff0000"
+                        android:textSize="16sp"
+                        android:visibility="gone" />
+
+                    <ImageView
+                        android:id="@+id/iv_jian_tou"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="15dp"
+                        android:scaleX="0.8"
+                        android:scaleY="0.6"
+                        android:src="@drawable/img_down" />
+                </RelativeLayout>
+
+                <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dip"
+                    android:layout_marginRight="8dip"
+                    android:background="@drawable/logo_xian" />
+
+                <LinearLayout
+                    android:id="@+id/ll_jiesuan_dui_huan_quan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:visibility="invisible" >
+
+                    <EditText
+                        android:id="@+id/et_dui_huan_ma"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/et_shape"
+                        android:hint="请输入兑换码"
+                        android:padding="10dp"
+                        android:textColor="@color/textcolor"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tv_ok"
+                        android:layout_width="80dp"
+                        android:layout_height="40dp"
+                        android:background="@color/tab_select"
+                        android:gravity="center"
+                        android:text="立即兑换"
+                        android:textColor="@color/white" />
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 

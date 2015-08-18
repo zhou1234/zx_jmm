@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:text="我的"
+            android:text="个人中心"
             android:textSize="@dimen/title_siae" />
     </RelativeLayout>
 
@@ -43,15 +43,16 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="120dp"
                 android:background="@drawable/img_my_bg"
+                android:gravity="center"
                 android:onClick="doclick"
                 android:orientation="horizontal" >
 
                 <LinearLayout
                     android:id="@+id/rel_top"
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
+                    android:layout_height="match_parent"
                     android:onClick="doclick"
                     android:orientation="horizontal"
                     android:visibility="visible" >
@@ -180,9 +181,9 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
                             android:layout_centerInParent="true"
-                            android:layout_margin="20dp"
                             android:scaleX="0.8"
                             android:scaleY="0.8"
+                            android:layout_marginRight="20dp"
                             android:src="@drawable/img_jiantou_right" />
                     </RelativeLayout>
                 </LinearLayout>

@@ -1,5 +1,7 @@
 package com.jifeng.url;
 
+import java.util.List;
+
 import org.json.JSONObject;
 
 public class AllStaticMessage {
@@ -17,11 +19,15 @@ public class AllStaticMessage {
 
 	public static boolean user_flag = false;
 	public static boolean isShare = false;
-
+	// 渠道名
 	public static String qudaoString = "";
+
 	public static boolean guide = false;
 	public static boolean guideRegister = false;
 	public static boolean Register = false;
+
+	// 标签
+	public static List<JSONObject> jsonObjectsTag = null;
 
 	/**
 	 * 发布晒单后，返回的数据
@@ -41,7 +47,8 @@ public class AllStaticMessage {
 	public static final String APP_ID = "wx4625de2e23841ec2";// wx4625de2e23841ec2
 
 	// APP_ID 对应的支付密钥
-	public static final String APP_KEY = "2bd6854b72bc11bed0fee951d2d001e3";// 2bd6854b72bc11bed0fee951d2d001e3
+	// public static final String APP_KEY =
+	// "2bd6854b72bc11bed0fee951d2d001e3";// 2bd6854b72bc11bed0fee951d2d001e3
 
 	// APP_MCH 微信官方的partnerId
 	public static final String APP_MCH = "1230268701";// 1230268701
@@ -65,7 +72,6 @@ public class AllStaticMessage {
 	public static int Car_num = 0;
 	// 购物车图标变化
 	public static boolean ShoppingCar = false;
-
 	// loading标志
 	public static boolean LoadingShowFlag = true;
 
@@ -133,8 +139,6 @@ public class AllStaticMessage {
 	public static String URL_GBase = "http://www.jumeimiao.com";
 	//public static String URL_GBase = "http://192.168.2.120:8010";
 
-	// public static String URL_GBase = "http://wwwpre.jumeimiao.com";
-	// public static String URL_GBase = "http://192.168.2.134:8010";
 	public static String URL_Base = URL_GBase + "/api";
 	// 分类
 	public static String class_url = URL_Base + "/p.ashx?m=category";
@@ -155,10 +159,13 @@ public class AllStaticMessage {
 	// 获取验证码
 	public static String URL_GetCode = URL_Base
 			+ "/u.ashx?a=gfeng&m=getSafetyCode&tel=";// &getType= 1重置 2注册
+	// 获取验证码
+		public static String URL_GetCodeNew = URL_Base
+				+ "/u.ashx?m=sendPhoneCode&tel=";// &getType= 1重置 2注册
 
 	// 注册
 	public static String URL_Register = URL_Base
-			+ "/u.ashx?a=gfeng&m=register&mobile=";// 18888888888&password=123456&sex=1&safetycode=123456
+			+ "/u.ashx?a=gfeng&m=registerNew&mobile=";// 18888888888&password=123456&sex=1&safetycode=123456
 
 	// 获取个人资料
 	public static String URL_Get_person_msg = URL_Base
@@ -211,10 +218,10 @@ public class AllStaticMessage {
 
 	public static String URL_Goods_detail_share = URL_GBase
 			+ "/wx_wap/productdetail-wx.html?a=";// pid=";//1&id=";
-	//活动分享连接
+	// 活动分享连接
 	public static String URL_Goods_list_share = URL_GBase
-			+ "/wx_wap/productlist.html?id=";//&activeName=;
-	
+			+ "/wx_wap/productlist.html?id=";// &activeName=;
+
 	// 品牌专店
 	public static String URL_PinPai = URL_Base
 			+ "/p.ashx?m=getBrandProduct&id=";// 12&pageNum=1";
@@ -235,9 +242,18 @@ public class AllStaticMessage {
 	public static String URL_BannerList = URL_Base
 			+ "/u.ashx?m=BannerList&Position=1";
 
+	/**
+	 * 晒图顶部轮播图片下面的两张图片
+	 */
+	public static String URL_BannerListBottom = URL_Base
+			+ "/u.ashx?m=BannerList&Position=3";
+
 	public static String URL_FirstBannerList = URL_Base
 			+ "/u.ashx?m=BannerList&Position=2";
-
+	/**
+	 * 标签列表
+	 */
+	public static String URL_TagsList = URL_Base + "/u.ashx?m=GetContainerTag";
 	/**
 	 * 赞
 	 */
@@ -290,7 +306,12 @@ public class AllStaticMessage {
 	// 优惠券列表new
 	public static String URL_Quan_list_New = URL_Base
 			+ "/u.ashx?m=customerConuponList&status=";// &status=0未使用 1已使用 2已过期
-
+	// 检查兑换资格
+	public static String URL_CheckExchange = URL_Base
+			+ "/u.ashx?m=CheckExchange&UserId=";
+	// 兑换码
+	public static String URL_DuiHuanMA = URL_Base
+			+ "/u.ashx?m=ExchangeActivate&UserId=";
 	// 购物车
 	public static String URL_ShoppingCar = URL_GBase + "/wap/car.html?";
 	// 添加购物车

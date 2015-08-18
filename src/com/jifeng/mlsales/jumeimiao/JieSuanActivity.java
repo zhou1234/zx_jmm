@@ -39,13 +39,19 @@ import com.umeng.analytics.MobclickAgent;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,9 +59,12 @@ import android.widget.Toast;
 @SuppressLint("ShowToast")
 public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 	private Intent mIntent;
-	private TextView mText_Name, mText_Phone, mText_Address, mText_Time;
+	private TextView mText_Name, mText_Phone, mText_Address, mText_Time, tv_ok;
 	private RelativeLayout mLayout_1, mLayout_2;
-	private ImageView mImage_zhifubao, mImage_weixin;
+	private ImageView mImage_zhifubao, mImage_weixin, iv_jian_tou;
+	private LinearLayout ll_jiesuan_dui_huan_quan;
+	private RelativeLayout rl_jiesuan_dui_huan_quan;
+	private EditText et_dui_huan_ma;
 	// private Button mBtn_BianJi;
 	// private ShrefUtil mShrefUtil;
 	private String addressId = null, payWay = null, orderAmount = null,
@@ -92,6 +101,9 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 	private JSONArray array = new JSONArray();
 	private String guanQuanText;
 
+	private boolean flag_duihuanquan;
+	private boolean flag;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -102,6 +114,7 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 		dialog.loading();
 		mJsonObjects = new ArrayList<JSONObject>();
 		findView();
+		checkExchange();
 		initDatas();
 		aboutWX();
 		tasckActivity = new TasckActivity();
@@ -142,7 +155,6 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 	private void aboutWX() {
 		api = WXAPIFactory.createWXAPI(JieSuanActivity.this,
 				AllStaticMessage.APP_ID); // App_Id
-
 		// sb=new StringBuffer();
 	}
 
@@ -161,13 +173,33 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 		mTextView_AllPrice = (TextView) findViewById(R.id.jiesuan_all_price);
 		// / mBtn_BianJi=(Button) findViewById(R.id.jiesuan_bianji);
 		mText_guanfang = (TextView) findViewById(R.id.jiesuan_youhuiquan);
+		ll_jiesuan_dui_huan_quan = (LinearLayout) findViewById(R.id.ll_jiesuan_dui_huan_quan);
+		rl_jiesuan_dui_huan_quan = (RelativeLayout) findViewById(R.id.jiesuan_dui_huan_quan);
+		iv_jian_tou = (ImageView) findViewById(R.id.iv_jian_tou);
+		et_dui_huan_ma = (EditText) findViewById(R.id.et_dui_huan_ma);
+		tv_ok = (TextView) findViewById(R.id.tv_ok);
+		tv_ok.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				if (!flag) {
+					String code = et_dui_huan_ma.getText().toString()
+							.replace(" ", "");
+					if (code.equals("") || code == null) {
+						Toast.makeText(JieSuanActivity.this, "请输入兑换码", 0)
+								.show();
+					} else {
+						tijiaoDuiHuanMa(code);
+					}
+				}
+			}
+		});
 
 		payWay = "支付宝支付";
 		mImage_zhifubao.setImageDrawable(getResources().getDrawable(
 				R.drawable.register_select_2));
 		mImage_weixin.setImageDrawable(getResources().getDrawable(
 				R.drawable.register_select_1));
-
 	}
 
 	/*
@@ -413,7 +445,6 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 			} else {
 				Toast.makeText(JieSuanActivity.this, "暂无代金券可使用", 0).show();
 			}
-
 			break;
 		case R.id.jiesuan_zhifubao_select:
 			payWay = "支付宝支付";
@@ -448,9 +479,34 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 					.replace("￥", "");
 			tijiaoOrder();
 			break;
+		case R.id.jiesuan_dui_huan_quan:
+			flag_duihuanquan = !flag_duihuanquan;
+			if (flag_duihuanquan) {
+				iv_jian_tou.setImageResource(R.drawable.img_up);
+				ll_jiesuan_dui_huan_quan.setVisibility(View.VISIBLE);
+			} else {
+				iv_jian_tou.setImageResource(R.drawable.img_down);
+				ll_jiesuan_dui_huan_quan.setVisibility(View.GONE);
+			}
+			break;
+
 		default:
 			break;
 		}
+	}
+
+	@Override
+	public boolean dispatchKeyEvent(KeyEvent event) {
+		if (event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+			/* 隐藏软键盘 */
+			InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+			if (inputMethodManager.isActive()) {
+				inputMethodManager.hideSoftInputFromWindow(JieSuanActivity.this
+						.getCurrentFocus().getWindowToken(), 0);
+			}
+			return true;
+		}
+		return super.dispatchKeyEvent(event);
 	}
 
 	@Override
@@ -556,6 +612,123 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 		// }
 	}
 
+	/**
+	 * 检查兑换资格
+	 */
+	private void checkExchange() {
+		String url = AllStaticMessage.URL_CheckExchange
+				+ AllStaticMessage.User_Id;
+		HttpUtil.get(url, JieSuanActivity.this, dialog,
+				new JsonHttpResponseHandler() {
+					@Override
+					public void onSuccess(int statusCode, Header[] headers,
+							JSONObject response) {
+						super.onSuccess(statusCode, headers, response);
+						// 成功返回JSONObject
+						try {
+							if (response.getString("Status").toString()
+									.equals("true")) {
+
+								rl_jiesuan_dui_huan_quan
+										.setVisibility(View.VISIBLE);
+							} else {
+								rl_jiesuan_dui_huan_quan
+										.setVisibility(View.GONE);
+							}
+
+						} catch (JSONException e) {
+							e.printStackTrace();
+						}
+					}
+
+					@Override
+					public void onStart() {
+						super.onStart();
+						// 请求开始
+					}
+
+					@Override
+					public void onFinish() {
+						super.onFinish();
+						// 请求结束
+					}
+
+					@Override
+					public void onFailure(int statusCode, Header[] headers,
+							Throwable throwable, JSONObject errorResponse) {
+						super.onFailure(statusCode, headers, throwable,
+								errorResponse);
+						// 错误返回JSONObject
+					}
+				});
+
+	}
+
+	// 提交兑换码
+	private void tijiaoDuiHuanMa(String code) {
+		dialog.loading();
+		String url = AllStaticMessage.URL_DuiHuanMA + AllStaticMessage.User_Id
+				+ "&exchangeCode=" + code;
+		HttpUtil.get(url, JieSuanActivity.this, dialog,
+				new JsonHttpResponseHandler() {
+					@SuppressLint("ResourceAsColor")
+					@Override
+					public void onSuccess(int statusCode, Header[] headers,
+							JSONObject response) {
+						super.onSuccess(statusCode, headers, response);
+						// 成功返回JSONObject
+						try {
+							if (response.getString("Status").toString()
+									.equals("true")) {
+								mTextView_AllPrice.setText(mTextView_YunFei
+										.getText().toString());
+								mTextView_GoodsPrice.setText("￥0");
+
+								tv_ok.setText("兑换成功");
+								tv_ok.setBackgroundColor(R.color.text_color);
+								flag = true;
+								et_dui_huan_ma.setFocusable(false);
+							} else {
+								Toast.makeText(
+										JieSuanActivity.this,
+										response.getString("Results")
+												.toString(), 0).show();
+							}
+
+						} catch (JSONException e) {
+							e.printStackTrace();
+						}
+
+					}
+
+					@Override
+					public void onStart() {
+						super.onStart();
+						// 请求开始
+					}
+
+					@Override
+					public void onFinish() {
+						super.onFinish();
+						// 请求结束
+						if (dialog != null) {
+							dialog.stop();
+						}
+					}
+
+					@Override
+					public void onFailure(int statusCode, Header[] headers,
+							Throwable throwable, JSONObject errorResponse) {
+						super.onFailure(statusCode, headers, throwable,
+								errorResponse);
+						// 错误返回JSONObject
+						if (dialog != null) {
+							dialog.stop();
+						}
+					}
+				});
+	}
+
 	// 订单提交
 	private void tijiaoOrder() {
 		dialog.loading();
@@ -563,7 +736,8 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 				+ "&tel=" + "&addressId=" + addressId + "&payMessage="
 				+ "&payWay=" + payWay + "&orderAmount=" + orderAmount
 				+ "&goodsAmount=" + goodsAmount + "&couponId="
-				+ AllStaticMessage.guanquanid;
+				+ AllStaticMessage.guanquanid + "&exchangeCode="
+				+ et_dui_huan_ma.getText().toString().trim();
 		// Log.i("11111", url);
 		HttpUtil.get(url, JieSuanActivity.this, dialog,
 				new JsonHttpResponseHandler() {
@@ -586,53 +760,66 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 												.getJSONObject(0)
 												.getString("Message")
 												.toString(), 500).show();
-								if (getIntent().getStringExtra("flag").equals(
-										"yes")) {
-									AllStaticMessage.MyPayBack = true;
+								if (response.getJSONArray("Results")
+										.getJSONObject(0).getString("Amount")
+										.toString().equals("0.0")) {
+									AllStaticMessage.Back_to_ZhangHu = true;
+									Intent mIntent = new Intent(
+											JieSuanActivity.this,
+											TabHostActivity.class);
+									startActivity(mIntent);
 								} else {
-									AllStaticMessage.MyPayBack = false;
-								}
-								AllStaticMessage.Back_to_ZhangHu = true;
+									if (getIntent().getStringExtra("flag")
+											.equals("yes")) {
+										AllStaticMessage.MyPayBack = true;
+									} else {
+										AllStaticMessage.MyPayBack = false;
+									}
+									AllStaticMessage.Back_to_ZhangHu = true;
 
-								if (payWay.equals("支付宝支付")) {
-									// tijiao(response.getJSONArray("Results")
-									// .getJSONObject(0)
-									// .getString("OrderId"),
-									// response.getJSONArray("Results")
-									// .getJSONObject(0)
-									// .getString("Amount"));
-									zfb_order = response
-											.getJSONArray("Results")
-											.getJSONObject(0)
-											.getString("OrderId").toString();
-									String zfb_allprice = response
-											.getJSONArray("Results")
-											.getJSONObject(0)
-											.getString("Amount").toString();
-									AllStaticMessage.zfb_Order = zfb_order;
-									tijiao(zfb_order, zfb_allprice);
-
-								} else {
-									boolean isPaySupported = api
-											.getWXAppSupportAPI() >= Build.PAY_SUPPORTED_SDK_INT;
-									if (isPaySupported) {
-										// 微信支付 进行操作
-										wx_order = response
+									if (payWay.equals("支付宝支付")) {
+										tijiao(response.getJSONArray("Results")
+												.getJSONObject(0)
+												.getString("OrderId"),
+												response.getJSONArray("Results")
+														.getJSONObject(0)
+														.getString("Amount"));
+										zfb_order = response
 												.getJSONArray("Results")
 												.getJSONObject(0)
 												.getString("OrderId")
 												.toString();
-										String allprice = response
+										String zfb_allprice = response
 												.getJSONArray("Results")
 												.getJSONObject(0)
 												.getString("Amount").toString();
-										AllStaticMessage.WxOrder = wx_order;
-										weixinPay(allprice,
-												AllStaticMessage.WxOrder);// 调用微信支付
+										AllStaticMessage.zfb_Order = zfb_order;
+										tijiao(zfb_order, zfb_allprice);
+
 									} else {
-										Toast.makeText(JieSuanActivity.this,
-												"对不起,您的微信版本过低,不支持微信付款",
-												Toast.LENGTH_SHORT).show();
+										boolean isPaySupported = api
+												.getWXAppSupportAPI() >= Build.PAY_SUPPORTED_SDK_INT;
+										if (isPaySupported) {
+											// 微信支付 进行操作
+											wx_order = response
+													.getJSONArray("Results")
+													.getJSONObject(0)
+													.getString("OrderId")
+													.toString();
+											String allprice = response
+													.getJSONArray("Results")
+													.getJSONObject(0)
+													.getString("Amount")
+													.toString();
+											AllStaticMessage.WxOrder = wx_order;
+											weixinPay(allprice,
+													AllStaticMessage.WxOrder);// 调用微信支付
+										} else {
+											Toast.makeText(
+													JieSuanActivity.this,
+													"对不起,您的微信版本过低,不支持微信付款",
+													Toast.LENGTH_SHORT).show();
+										}
 									}
 								}
 							} else {
@@ -651,6 +838,7 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 									startActivity(intent);
 									JieSuanActivity.this.finish();
 								}
+
 							}
 						} catch (JSONException e) {
 							e.printStackTrace();
@@ -718,7 +906,6 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 								// }
 								getData(response.getString("GoodsMoney")
 										.toString());
-
 							} else {
 								Toast.makeText(
 										JieSuanActivity.this,
@@ -848,7 +1035,6 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 				mHandler.sendMessage(msg);
 			}
 		};
-
 		Thread payThread = new Thread(payRunnable);
 		payThread.start();
 	}
@@ -933,7 +1119,6 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 	public String getSignType() {
 		return "sign_type=\"RSA\"";
 	}
-
 	/**
 	 * 微信操作
 	 */

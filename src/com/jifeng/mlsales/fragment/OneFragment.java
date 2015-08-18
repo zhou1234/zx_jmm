@@ -99,7 +99,6 @@ public class OneFragment extends BaseFragment implements
 		mDataImg = new ArrayList<JSONObject>();
 		dialog = new LoadingDialog(getActivity());
 		createPopupWindow();
-
 	}
 
 	private void createPopupWindow() {
@@ -414,26 +413,25 @@ public class OneFragment extends BaseFragment implements
 		});
 		isPrepared = true;
 		lazyLoad();
-
 		return rootView;
 	}
 
 	private void setImageViewWindthAndHeight() {
 		LayoutParams left_top_Params = iv_left_top.getLayoutParams();
-		float w = (float) 499 / (width / 3 * 2);
+		float w = (float) 500 / (width / 3 * 2);
 		left_top_Params.width = width / 3 * 2;
 		left_top_Params.height = (int) (178 / w);
 		iv_left_top.setLayoutParams(left_top_Params);
 
 		LayoutParams left_bottom_Params = iv_left_bottom.getLayoutParams();
-		float w1 = (float) 244 / (width / 3);
+		float w1 = (float) 250 / (width / 3);
 		left_bottom_Params.width = width / 3;
 		left_bottom_Params.height = (int) (178 / w1);
 		iv_left_bottom.setLayoutParams(left_bottom_Params);
 
 		LayoutParams left_bottom_right_Params = iv_left_bottom_right
 				.getLayoutParams();
-		float w2 = (float) 244 / (width / 3);
+		float w2 = (float) 250 / (width / 3);
 		left_bottom_right_Params.width = width / 3;
 		left_bottom_right_Params.height = (int) (178 / w2);
 		iv_left_bottom_right.setLayoutParams(left_bottom_right_Params);

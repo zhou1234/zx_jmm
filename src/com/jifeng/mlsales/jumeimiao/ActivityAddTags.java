@@ -2,6 +2,7 @@ package com.jifeng.mlsales.jumeimiao;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.text.Editable;
 import android.text.Selection;
 import android.text.TextWatcher;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -17,12 +19,12 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -126,13 +128,10 @@ public class ActivityAddTags extends Activity implements View.OnClickListener,
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
-
 				break;
-
 			default:
 				break;
 			}
-
 		};
 	};
 
@@ -298,10 +297,14 @@ public class ActivityAddTags extends Activity implements View.OnClickListener,
 				object = new JSONObject();
 				TagInfoModel infoModel = new TagInfoModel();
 				infoModel.tag_name = tagView.getData().bname;
+				// infoModel.x = (tagView.getData().leftMargin * 1.0f)
+				// / (width * 1.0f);
+				// infoModel.y = (tagView.getData().topMargin * 1.0f)
+				// / (height * 1.0f);
 				infoModel.x = (tagView.getData().leftMargin * 1.0f)
-						/ (width * 1.0f);
-				infoModel.y = (tagView.getData().topMargin * 1.0f)
-						/ (height * 1.0f);
+						- (width * 1.0f) / 2;
+				infoModel.y = (height * 1.0f) / 2
+						- (tagView.getData().topMargin * 1.0f);
 				object.put("x", infoModel.x + "");
 				object.put("y", infoModel.y + "");
 				object.put("name", infoModel.tag_name);
@@ -509,7 +512,7 @@ public class ActivityAddTags extends Activity implements View.OnClickListener,
 	private void addTagView() {
 		TagInfo tagInfo = new TagInfo();
 		tagInfo.bid = 2L;
-		tagInfo.bname = "µã»÷Í¼Æ¬,×Ô¶¨Òå±êÇ©";
+		tagInfo.bname = "µã»÷Í¼Æ¬,Ìí¼Ó±êÇ©";
 		tagInfo.direct = TagInfo.Direction.Left;
 		tagInfo.pic_x = 50;
 		tagInfo.pic_y = 50;
@@ -669,5 +672,20 @@ public class ActivityAddTags extends Activity implements View.OnClickListener,
 
 			}
 		}
+	}
+
+	@Override
+	public boolean dispatchKeyEvent(KeyEvent event) {
+		if (event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+			/* Òþ²ØÈí¼üÅÌ */
+			InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+			if (inputMethodManager.isActive()) {
+				inputMethodManager.hideSoftInputFromWindow(ActivityAddTags.this
+						.getCurrentFocus().getWindowToken(), 0);
+			}
+
+			return true;
+		}
+		return super.dispatchKeyEvent(event);
 	}
 }

@@ -129,7 +129,7 @@ public class FindActivity extends Activity {
 					mIntent.putExtra("imgurl", "");
 					startActivity(mIntent);
 				} else {
-					// view.loadUrl(url);
+					view.loadUrl(url);
 				}
 				return true;
 			}

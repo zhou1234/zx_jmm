@@ -24,6 +24,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -266,18 +267,19 @@ public class CommentActivity extends Activity implements OnClickListener {
 					ImageLoader.getInstance().displayImage(imageUrl,
 							holder.iv_user, options);
 				}
-
 				holder.tv_name.setText(mData.get(arg0).getString("NickName"));
 				holder.tv_time.setText(mData.get(arg0).getString("ReviewTime"));
-				String comment = null;
-				try {
-					comment = unicodeToString(mData.get(arg0).getString(
-							"Content"));
-				} catch (Exception e) {
-					comment = mData.get(arg0).getString("Content");
-				}
-
-				holder.tv_commmet.setText(comment);
+				// String comment = null;
+				// try {
+				// comment = unicodeToString(mData.get(arg0)
+				// .getString("Content").toString().replace(" ", "")
+				// .trim());
+				// } catch (Exception e) {
+				// comment = mData.get(arg0).getString("Content").toString()
+				// .replace(" ", "").trim();
+				// }
+				holder.tv_commmet.setText(mData.get(arg0).getString("Content")
+						.toString().replace(" ", "").trim());
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
@@ -305,23 +307,29 @@ public class CommentActivity extends Activity implements OnClickListener {
 			}
 			break;
 		case R.id.tv_send:
-			String content = et_comment.getText().toString().trim();
-			String str = null;
-			if (!content.equals("") && content != null) {
-				try {
-					str = strToUnicode(content);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				sendComment(str);
+			if (AllStaticMessage.Login_Flag.equals("")) {// LoginFlag
+				Intent mIntent = new Intent(CommentActivity.this,
+						LoginActivity.class);
+				startActivity(mIntent);
 			} else {
-				Toast.makeText(CommentActivity.this, "忘记写评论了哦!",
-						Toast.LENGTH_SHORT).show();
+				String content = et_comment.getText().toString().trim();
+				// String str = null;
+				if (!content.equals("") && content != null) {
+					// try {
+					// str = strToUnicode(content);
+					// } catch (Exception e) {
+					// e.printStackTrace();
+					// }
+					sendComment(content);
+				} else {
+					Toast.makeText(CommentActivity.this, "忘记写评论了哦!",
+							Toast.LENGTH_SHORT).show();
+				}
+				InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+				imm.showSoftInput(et_comment, InputMethodManager.SHOW_FORCED);
+				imm.hideSoftInputFromWindow(et_comment.getWindowToken(), 0); // 强制隐藏键
+				et_comment.setText("");
 			}
-			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-			imm.showSoftInput(et_comment, InputMethodManager.SHOW_FORCED);
-			imm.hideSoftInputFromWindow(et_comment.getWindowToken(), 0); // 强制隐藏键
-			et_comment.setText("");
 			break;
 		default:
 			break;
@@ -361,22 +369,27 @@ public class CommentActivity extends Activity implements OnClickListener {
 	 *            hex 16进制值字符串 （一个unicode为2byte）
 	 * @return String 全角字符串
 	 */
-	private static String unicodeToString(String hex) {
-		int t = hex.length() / 6;
+	private static String unicodeToString(String h) {
 		StringBuilder str = new StringBuilder();
-		for (int i = 0; i < t; i++) {
-			String s = hex.substring(i * 6, (i + 1) * 6);
-			// 高位需要补上00再转
-			String s1 = s.substring(2, 4) + "00";
-			// 低位直接转
-			String s2 = s.substring(4);
-			// 将16进制的string转为int
-			int n = Integer.valueOf(s1, 16) + Integer.valueOf(s2, 16);
-			// 将int转换为字符
-			char[] chars = Character.toChars(n);
-			str.append(new String(chars));
+		if (!h.contains("E")) {
+			str.append(h);
+		} else {
+			String string = h.replace("E", "\\");
+			int t = string.length() / 6;
+			for (int i = 0; i < t; i++) {
+				String s = string.substring(i * 6, (i + 1) * 6);
+				// 高位需要补上00再转
+				String s1 = s.substring(2, 4) + "00";
+				// 低位直接转
+				String s2 = s.substring(4);
+				// 将16进制的string转为int
+				int n = Integer.valueOf(s1, 16) + Integer.valueOf(s2, 16);
+				// 将int转换为字符
+				char[] chars = Character.toChars(n);
+				str.append(new String(chars));
+			}
 		}
-		return str.toString().replace("E", "\\");
+		return str.toString();
 	}
 
 	@Override
@@ -396,4 +409,18 @@ public class CommentActivity extends Activity implements OnClickListener {
 		super.onDestroy();
 	}
 
+	@Override
+	public boolean dispatchKeyEvent(KeyEvent event) {
+		if (event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+			/* 隐藏软键盘 */
+			InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+			if (inputMethodManager.isActive()) {
+				inputMethodManager.hideSoftInputFromWindow(CommentActivity.this
+						.getCurrentFocus().getWindowToken(), 0);
+			}
+
+			return true;
+		}
+		return super.dispatchKeyEvent(event);
+	}
 }

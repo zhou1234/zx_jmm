@@ -10,8 +10,8 @@
         android:layout_height="50dp"
         android:layout_alignParentTop="true"
         android:background="@drawable/t_bg"
-        android:visibility="gone"
-        android:gravity="center" >
+        android:gravity="center"
+        android:visibility="gone" >
 
         <TextView
             android:id="@+id/textView1"
@@ -23,8 +23,9 @@
 
     <com.edmodo.cropper.CropImageView
         android:id="@+id/cropImageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/ll_bottom"
         android:layout_centerInParent="true" >
     </com.edmodo.cropper.CropImageView>
 
@@ -32,8 +33,7 @@
         android:id="@+id/ll_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        >
+        android:layout_alignParentBottom="true" >
 
         <LinearLayout
             android:id="@+id/ll_false"
@@ -46,18 +46,17 @@
                 android:id="@+id/iv_false"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:visibility="gone"
-                android:background="@drawable/false_bg" />
+                android:background="@drawable/false_bg"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/tv_false"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20dp"
                 android:layout_margin="20dp"
+                android:text="取消"
                 android:textColor="@color/text_color"
-                android:text="取消" />
-
+                android:textSize="20dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -71,18 +70,17 @@
                 android:id="@+id/iv_ok"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:visibility="gone"
-                android:background="@drawable/true_bg" />
+                android:background="@drawable/true_bg"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/tv_ok"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/tab_select"
                 android:layout_marginRight="20dp"
-                android:textSize="20dp"
-                android:text="选取" />
-
+                android:text="选取"
+                android:textColor="@color/tab_select"
+                android:textSize="20dp" />
         </LinearLayout>
     </LinearLayout>
 

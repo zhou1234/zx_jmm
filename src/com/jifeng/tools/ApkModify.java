@@ -49,7 +49,6 @@ public class ApkModify {
 		this.mhandler = handler;
 		this.context = context;
 		request = Volley.newRequestQueue(context);
-
 	}
 
 	/*
@@ -124,7 +123,6 @@ public class ApkModify {
 			@Override
 			public void run() {
 				try {
-
 					File file = getFileFromServer(path, pd);
 					sleep(3000);
 					installApk(file);
@@ -222,13 +220,14 @@ public class ApkModify {
 											.toString();
 									code = response.getString("versionName")
 											.toString();
-//									char c = code.charAt(code.length() - 1);
-//									char d = getVersionName().charAt(
-//											getVersionName().length() - 1);
-									int code1=Integer.parseInt(getVersionName().replace(".", ""));
-									int codeNew=Integer.parseInt(code.replace(".",""));
+									int code1 = Integer
+											.parseInt(getVersionName().replace(
+													".", ""));
+									int codeNew = Integer.parseInt(code
+											.replace(".", ""));
 									if (response.getString("versionName")
-											.equals(getVersionName()) || codeNew < code1) {
+											.equals(getVersionName())
+											|| codeNew < code1) {
 										if (mhandler != null) {
 											sendMsg();
 										} else {
@@ -251,7 +250,6 @@ public class ApkModify {
 										// 1000).show();
 										// }
 									}
-
 								}
 							} catch (Exception e) {
 								// ´ý´¦Àí

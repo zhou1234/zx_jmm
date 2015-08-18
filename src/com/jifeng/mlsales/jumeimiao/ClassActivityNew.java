@@ -21,11 +21,14 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -296,5 +299,20 @@ public class ClassActivityNew extends Activity implements OnClickListener {
 		default:
 			break;
 		}
+	}
+	@Override
+	public boolean dispatchKeyEvent(KeyEvent event) {
+		if (event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+			/* Òþ²ØÈí¼üÅÌ */
+			InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+			if (inputMethodManager.isActive()) {
+				inputMethodManager.hideSoftInputFromWindow(
+						ClassActivityNew.this.getCurrentFocus()
+								.getWindowToken(), 0);
+			}
+
+			return true;
+		}
+		return super.dispatchKeyEvent(event);
 	}
 }

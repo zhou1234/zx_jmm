@@ -58,9 +58,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dip"
-            android:background="@null"
+            android:background="@drawable/et_login_shape"
             android:hint="请输入优惠券上的激活码"
             android:singleLine="true"
+            android:padding="8dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="10dp"
             android:textColor="@color/textcolor"
             android:textSize="16sp" />
     </LinearLayout>

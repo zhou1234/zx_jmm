@@ -3,9 +3,6 @@ package com.jifeng.tools;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -102,7 +99,6 @@ public class MyTools {
 			Pattern p = Pattern
 					.compile("^((13[0-9])|(15[^4,\\D])|(17[0-9])|(18[0-9]))\\d{8}$");// |(14[0-9])
 			Matcher m = p.matcher(mobiles);
-
 			return m.matches();
 		} else {
 			return false;
@@ -271,8 +267,6 @@ public class MyTools {
 		// textView.setTextSize(15);//设置字体大小
 	}
 
-	
-
 	// 绑定图片
 	public static void downImg(String imgurl, ImageView mImageView) {
 		Drawable cachedImage = image.loadDrawable(imgurl, mImageView,
@@ -341,10 +335,6 @@ public class MyTools {
 			layout.setLayoutParams(linearParams);
 		}
 	}
-
-	
-
-	
 
 	/**
 	 * 得到自定义的progressDialog
@@ -526,6 +516,20 @@ public class MyTools {
 		// relativeLayout.setLayoutParams(params1);
 	}
 
+	public static void setImagesWidthAndHeight(ImageView imageView1,
+			ImageView imageView2, int width) {
+		LayoutParams params1 = imageView1.getLayoutParams();
+		float w1 = (float) 352 / width;
+		params1.width = width;
+		params1.height = (int) (164 / w1);
+		imageView1.setLayoutParams(params1);
+
+		LayoutParams params2 = imageView1.getLayoutParams();
+		float w2 = (float) 352 / width;
+		params2.width = width;
+		params2.height = (int) (164 / w2);
+		imageView2.setLayoutParams(params2);
+	}
 	// /**
 	// * Layout动画
 	// *

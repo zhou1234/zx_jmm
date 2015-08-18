@@ -1,6 +1,10 @@
 package com.jifeng.mlsales.jumeimiao;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.http.Header;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -87,7 +91,7 @@ public class TabHostActivity extends TabActivity implements
 		sp = getSharedPreferences(AllStaticMessage.SPNE, 0);
 
 		login();
-
+		getTagsData();
 		Context context = getApplicationContext();
 		XGPushManager.registerPush(context);
 
@@ -124,9 +128,9 @@ public class TabHostActivity extends TabActivity implements
 		} else if (AllStaticMessage.Back_to_Classion) {
 			AllStaticMessage.Back_to_Classion = false;
 			nextView(mTabHost.getCurrentTab(), 1);
-			// } else if (AllStaticMessage.Back_to_Find) {
-			// AllStaticMessage.Back_to_Find = false;
-			// nextView(mTabHost.getCurrentTab(), 2);
+//		} else if (AllStaticMessage.Back_to_Find) {
+//			AllStaticMessage.Back_to_Find = false;
+//			nextView(mTabHost.getCurrentTab(), 2);
 		} else if (AllStaticMessage.Back_to_ZhangHu) {
 			if (AllStaticMessage.guideRegister) {
 				guideDoLogin(mShrefUtil.readString("user_name"),
@@ -645,7 +649,7 @@ public class TabHostActivity extends TabActivity implements
 								editor.commit();
 								AllStaticMessage.Back_to_ZhangHu = false;
 								AllStaticMessage.guideRegister = false;
-								AllStaticMessage.Register=false;
+								AllStaticMessage.Register = false;
 								nextView(mTabHost.getCurrentTab(), 4);
 							} else {
 								Toast.makeText(
@@ -685,6 +689,54 @@ public class TabHostActivity extends TabActivity implements
 						if (dialog != null) {
 							dialog.stop();
 						}
+					}
+				});
+	}
+
+	private void getTagsData() {
+		String url = AllStaticMessage.URL_TagsList;
+		HttpUtil.get(url, TabHostActivity.this, dialog,
+				new JsonHttpResponseHandler() {
+					@Override
+					public void onSuccess(int statusCode, Header[] headers,
+							JSONObject response) {
+						super.onSuccess(statusCode, headers, response);
+						// 成功返回JSONObject
+						try {
+							if (response.getString("Status").toString()
+									.equals("true")) {
+								JSONArray array = response
+										.getJSONArray("Results");
+								List<JSONObject> jsonObjects = new ArrayList<JSONObject>();
+								for (int i = 0; i < array.length(); i++) {
+									jsonObjects.add(array.getJSONObject(i));
+								}
+								AllStaticMessage.jsonObjectsTag = jsonObjects;
+							}
+						} catch (JSONException e) {
+							e.printStackTrace();
+						}
+
+					}
+
+					@Override
+					public void onStart() {
+						super.onStart();
+						// 请求开始
+					}
+
+					@Override
+					public void onFinish() {
+						super.onFinish();
+						// 请求结束
+					}
+
+					@Override
+					public void onFailure(int statusCode, Header[] headers,
+							Throwable throwable, JSONObject errorResponse) {
+						super.onFailure(statusCode, headers, throwable,
+								errorResponse);
+
 					}
 				});
 	}

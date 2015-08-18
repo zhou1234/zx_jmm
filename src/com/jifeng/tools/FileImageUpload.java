@@ -20,6 +20,7 @@ public class FileImageUpload {
 	private static String boundary = "*****";
 
 	// 普通字符串数据
+	@SuppressWarnings("deprecation")
 	private static void writeStringParams(Map<String, String> params,
 			DataOutputStream ds) throws Exception {
 		Set<String> keySet = params.keySet();
@@ -35,6 +36,7 @@ public class FileImageUpload {
 	}
 
 	// 文件数据
+	@SuppressWarnings("deprecation")
 	private static void writeFileParams(Map<String, File> params,
 			DataOutputStream ds) throws Exception {
 		Set<String> keySet = params.keySet();

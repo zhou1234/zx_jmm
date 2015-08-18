@@ -32,6 +32,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 @SuppressLint("ShowToast")
@@ -137,7 +138,9 @@ public class RegisterActivity extends Activity {
 				Toast.makeText(this, "抱歉,请输入正确的手机号码", 500).show();
 				return;
 			}
-			getCode(phone_1);
+			if (mButton.getText().toString().trim().equals("获取验证码")) {
+				getCode(phone_1);
+			}
 			break;
 		case R.id.register_btn_ok:
 			final String phone = mEdit_Phone.getText().toString()
@@ -146,10 +149,10 @@ public class RegisterActivity extends Activity {
 					.replace(" ", "").trim();
 
 			// final String psd_2 = mEdit_Psd_2.getText().toString().trim();
-			final String code = "111";// mEdit_Code.getText().toString().trim();
+			final String code = mEdit_Code.getText().toString().trim();// 111
 			// 图片验证
-			final String txt_code = m_code.getText().toString()
-					.replace(" ", "").trim();
+			// final String txt_code = m_code.getText().toString()
+			// .replace(" ", "").trim();
 			if (phone == null || phone.equals("")) {
 				Toast.makeText(this, "请输入手机号码", 500).show();
 				return;
@@ -159,20 +162,21 @@ public class RegisterActivity extends Activity {
 				return;
 			}
 
-			if (txt_code == null || txt_code.equals("")) {
-				Toast.makeText(this, "请输入验证码", 500).show();
+			// if (txt_code == null || txt_code.equals("")) {
+			// Toast.makeText(this, "请输入验证码", 500).show();
+			// return;
+			// }
+			//
+			// if (!txt_code.equals(imgcode)) {
+			// Toast.makeText(this, "请输入正确验证码", 500).show();
+			// return;
+			// }
+
+			if (code == null || code.equals("")) {
+				Toast.makeText(this, "请输入短信验证码", 500).show();
 				return;
 			}
 
-			if (!txt_code.equals(imgcode)) {
-				Toast.makeText(this, "请输入正确验证码", 500).show();
-				return;
-			}
-
-			/*
-			 * if (code == null || code.equals("")) { Toast.makeText(this,
-			 * "请输入短信验证", 500).show(); return; }
-			 */
 			if (psd_1 == null || psd_1.equals("")) {
 				Toast.makeText(this, "请输入密码", 500).show();
 				return;
@@ -233,8 +237,9 @@ public class RegisterActivity extends Activity {
 	// 获取短信验证码
 	private void getCode(String phone) {
 		dialog.loading();
-		HttpUtil.get(AllStaticMessage.URL_GetCode + phone + "&getType=2",
-				RegisterActivity.this, dialog, new JsonHttpResponseHandler() {
+		String urlString = AllStaticMessage.URL_GetCodeNew + phone;
+		HttpUtil.get(urlString, RegisterActivity.this, dialog,
+				new JsonHttpResponseHandler() {
 					@Override
 					public void onSuccess(int statusCode, Header[] headers,
 							JSONObject response) {
@@ -308,9 +313,9 @@ public class RegisterActivity extends Activity {
 										500).show();
 								mShrefUtil.write("user_name", phone);
 								mShrefUtil.write("user_psd", psd);
-//								RegisterActivity.this.setResult(RESULT_OK);
-//								RegisterActivity.this.finish();
-								AllStaticMessage.Register=true;
+								// RegisterActivity.this.setResult(RESULT_OK);
+								// RegisterActivity.this.finish();
+								AllStaticMessage.Register = true;
 								AllStaticMessage.Back_to_ZhangHu = true;
 								startActivity(new Intent(RegisterActivity.this,
 										TabHostActivity.class));
@@ -349,8 +354,7 @@ public class RegisterActivity extends Activity {
 					}
 				});
 	}
-
-	//
+	@SuppressLint("HandlerLeak")
 	private Handler timeHandler = new Handler() {
 		public void handleMessage(Message msg) {
 			String message = "";
@@ -360,11 +364,10 @@ public class RegisterActivity extends Activity {
 				message = String.valueOf(msg.what);
 			}
 			if (message.equals("120")) {
-				mButton.setText("获取短信验证");
+				mButton.setText("获取验证码");
 			} else {
 				mButton.setText(message + "秒");
 			}
-
 		}
 	};
 
