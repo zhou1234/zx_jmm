@@ -43,7 +43,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dip"
-        android:background="@drawable/setting_first_bg"
+        android:background="@color/white"
         android:orientation="vertical" >
 
         <RelativeLayout
@@ -154,11 +154,17 @@
                 android:textSize="16sp" />
         </RelativeLayout>
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:background="@drawable/logo_xian" />
+
         <RelativeLayout
             android:id="@+id/setting_rel_banbengengxin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/setting_second_bg"
+            android:background="@drawable/myself_click_bg"
             android:onClick="doclick" >
 
             <ImageView

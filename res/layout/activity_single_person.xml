@@ -60,8 +60,8 @@
                 android:layout_marginBottom="9dip"
                 android:layout_marginLeft="15dip"
                 android:layout_marginTop="9dip"
-                android:scaleY="0.7"
                 android:scaleX="0.8"
+                android:scaleY="0.7"
                 android:src="@drawable/single_person_nicheng" />
 
             <ImageView
@@ -108,8 +108,8 @@
                 android:layout_marginBottom="9dip"
                 android:layout_marginLeft="15dip"
                 android:layout_marginTop="9dip"
-                android:scaleY="0.7"
                 android:scaleX="0.8"
+                android:scaleY="0.7"
                 android:src="@drawable/single_person_modifypsd" />
 
             <ImageView
@@ -139,18 +139,12 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dip"
             android:background="@drawable/logo_xian" />
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dip"
-            android:background="@drawable/logo_xian" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="15dip"
+        android:layout_marginTop="20dip"
         android:gravity="center"
         android:orientation="vertical" >
 
@@ -158,10 +152,11 @@
             android:id="@+id/single_person_tuichu"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/address_delete_bg"
+            android:background="@color/white"
             android:onClick="doclick"
             android:text="退出登录"
-            android:textColor="@color/white"
+            android:padding="10dp"
+            android:textColor="@color/tab_select"
             android:textSize="16sp" />
 
         <TextView
@@ -173,7 +168,8 @@
             android:maxEms="8"
             android:text="V1.0"
             android:textColor="@color/text_color"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:visibility="gone" />
     </LinearLayout>
 
 </LinearLayout>

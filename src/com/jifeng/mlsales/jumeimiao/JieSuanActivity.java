@@ -125,31 +125,7 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 	protected void onDestroy() {
 		ShareSDK.stopSDK(this);
 		super.onDestroy();
-		// dialog = null;
-		// mIntent = null;
-		// mText_Name = null;
-		// mText_Phone = null;
-		// mText_Address = null;
-		// mText_Time = null;
-		// mLayout_1 = null;
-		// mLayout_2 = null;
-		// mImage_zhifubao = null;
-		// mImage_weixin = null;
-		// // private Button mBtn_BianJi=null;
-		// mShrefUtil = null;
-		// addressId = null;
-		// payWay = null;
-		// orderAmount = null;
-		// goodsAmount = null;
-		// mTextView_GoodsPrice = null;
-		// mTextView_YunFei = null;
-		// mTextView_AllPrice = null;
-		// api = null;
-		// tasckActivity.popActivity(JieSuanActivity.this);
-		// tasckActivity = null;
-		// setContentView(R.layout.view_null);
-		// this.finish();
-		// System.gc();
+
 	}
 
 	private void aboutWX() {
@@ -247,7 +223,7 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 	 */
 	private void initDatas() {
 		String url = AllStaticMessage.URL_Get_AddressList
-				+ AllStaticMessage.User_Id;// AllStaticMessage.User_Id
+				+ AllStaticMessage.User_Id;
 		HttpUtil.get(url, JieSuanActivity.this, dialog,
 				new JsonHttpResponseHandler() {
 
@@ -446,6 +422,7 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 				Toast.makeText(JieSuanActivity.this, "暂无代金券可使用", 0).show();
 			}
 			break;
+		case R.id.rl_zhifubao:
 		case R.id.jiesuan_zhifubao_select:
 			payWay = "支付宝支付";
 			mImage_zhifubao.setImageDrawable(getResources().getDrawable(
@@ -453,6 +430,7 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 			mImage_weixin.setImageDrawable(getResources().getDrawable(
 					R.drawable.register_select_1));
 			break;
+		case R.id.rl_weixin:
 		case R.id.jiesuan_weixin_select:
 			aboutWX();
 			payWay = "微信支付";
@@ -1119,6 +1097,7 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 	public String getSignType() {
 		return "sign_type=\"RSA\"";
 	}
+
 	/**
 	 * 微信操作
 	 */

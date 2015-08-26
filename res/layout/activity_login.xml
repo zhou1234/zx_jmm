@@ -133,7 +133,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
-                        android:background="@drawable/address_delete_bg"
+                        android:background="@drawable/bt_ok"
                         android:onClick="doclick"
                         android:text="登录"
                         android:textColor="@color/white"

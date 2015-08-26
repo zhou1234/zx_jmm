@@ -36,6 +36,7 @@ public class MyQuanActivity extends Activity implements OnClickListener {
 	private MyListViewAdapter mAdapter;
 	private LoadingDialog dialog;
 	private Button mBtn_wei, mBtn_yi, mBtn_guoqi;
+	private ImageView iv_wei, iv_yi, iv_guoqi;
 	private JSONArray array;
 	private ImageView iv_no;
 	private TextView tv_no, tv_addQuan;
@@ -77,6 +78,9 @@ public class MyQuanActivity extends Activity implements OnClickListener {
 		mBtn_wei = (Button) findViewById(R.id.rel_quan_no);
 		mBtn_yi = (Button) findViewById(R.id.rel_quan_yes);
 		mBtn_guoqi = (Button) findViewById(R.id.rel_quan_last);
+		iv_wei = (ImageView) findViewById(R.id.iv_quan_no);
+		iv_yi = (ImageView) findViewById(R.id.iv_quan_yes);
+		iv_guoqi = (ImageView) findViewById(R.id.iv_quan_last);
 
 		iv_no = (ImageView) findViewById(R.id.iv_no);
 		tv_no = (TextView) findViewById(R.id.tv_no);
@@ -87,33 +91,37 @@ public class MyQuanActivity extends Activity implements OnClickListener {
 	// 其他实现
 	@SuppressWarnings("deprecation")
 	private void setView(int i) {
-		mBtn_wei.setTextColor(getResources().getColor(R.color.white));
-		mBtn_yi.setTextColor(getResources().getColor(R.color.white));
-		mBtn_guoqi.setTextColor(getResources().getColor(R.color.white));
-		mBtn_wei.setBackgroundDrawable(getResources().getDrawable(
-				R.drawable.fadain_touming));
-		mBtn_yi.setBackgroundDrawable(getResources().getDrawable(
-				R.drawable.fadain_touming));
-		mBtn_guoqi.setBackgroundDrawable(getResources().getDrawable(
-				R.drawable.fadain_touming));
+		mBtn_wei.setTextColor(getResources().getColor(R.color.textcolor));
+		mBtn_yi.setTextColor(getResources().getColor(R.color.textcolor));
+		mBtn_guoqi.setTextColor(getResources().getColor(R.color.textcolor));
+		iv_wei.setVisibility(View.INVISIBLE);
+		iv_yi.setVisibility(View.INVISIBLE);
+		iv_guoqi.setVisibility(View.INVISIBLE);
+//		mBtn_wei.setBackgroundDrawable(getResources().getDrawable(
+//				R.drawable.fadain_touming));
+//		mBtn_yi.setBackgroundDrawable(getResources().getDrawable(
+//				R.drawable.fadain_touming));
+//		mBtn_guoqi.setBackgroundDrawable(getResources().getDrawable(
+//				R.drawable.fadain_touming));
 		switch (i) {
 		case 0:
-			mBtn_wei.setTextColor(getResources().getColor(
-					R.color.tab_select));
-			mBtn_wei.setBackgroundDrawable(getResources().getDrawable(
-					R.drawable.fadain_zuo));
+			mBtn_wei.setTextColor(getResources().getColor(R.color.tab_select));
+//			mBtn_wei.setBackgroundDrawable(getResources().getDrawable(
+//					R.drawable.fadain_zuo));
+			iv_wei.setVisibility(View.VISIBLE);
 			break;
 		case 1:
-			mBtn_yi.setTextColor(getResources()
-					.getColor(R.color.tab_select));
-			mBtn_yi.setBackgroundDrawable(getResources().getDrawable(
-					R.drawable.fadain_middle));
+			mBtn_yi.setTextColor(getResources().getColor(R.color.tab_select));
+//			mBtn_yi.setBackgroundDrawable(getResources().getDrawable(
+//					R.drawable.fadain_middle));
+			iv_yi.setVisibility(View.VISIBLE);
 			break;
 		case 2:
-			mBtn_guoqi.setTextColor(getResources().getColor(
-					R.color.tab_select));
-			mBtn_guoqi.setBackgroundDrawable(getResources().getDrawable(
-					R.drawable.fadain_you));
+			mBtn_guoqi
+					.setTextColor(getResources().getColor(R.color.tab_select));
+//			mBtn_guoqi.setBackgroundDrawable(getResources().getDrawable(
+//					R.drawable.fadain_you));
+			iv_guoqi.setVisibility(View.VISIBLE);
 			break;
 		default:
 			break;
@@ -330,10 +338,8 @@ public class MyQuanActivity extends Activity implements OnClickListener {
 			// appItem.AppText_name.setText(mArray.getJSONObject(position).getString("CouponName").toString());
 
 			// } catch (JSONException e) {
-			// // TODO Auto-generated catch block
 			// e.printStackTrace();
 			// }
-
 			return convertView;
 		}
 

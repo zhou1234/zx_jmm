@@ -70,8 +70,8 @@ public class ApkModify {
 			public void onClick(View arg0) {
 				if (mhandler != null) {
 					sendMsg();
-					alertDialog.dismiss();
 				}
+				alertDialog.dismiss();
 			}
 		});
 		alertDialog.setNegativeButton1("确定", new View.OnClickListener() {
@@ -203,16 +203,13 @@ public class ApkModify {
 	 * 从服务器获取xml解析并进行比对版本号
 	 */
 	public class CheckVersionTask implements Runnable {
-
 		public void run() {
-
 			JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
 					Request.Method.GET, AllStaticMessage.URL_Modify_Apk, null,
 					new Response.Listener<JSONObject>() {
 						@Override
 						public void onResponse(JSONObject response) {
 							try {
-
 								// Log.i("11111",ss);
 								if (response != null) {
 									// 从资源文件获取服务器 地址
@@ -286,14 +283,14 @@ public class ApkModify {
 			case 1:
 				// 服务器超时
 				Toast.makeText(context.getApplicationContext(), "获取服务器更新信息失败",
-						1).show();
+						0).show();
 				if (mhandler != null) {
 					sendMsg();
 				}
 				break;
 			case 2:
 				// 下载apk失败
-				Toast.makeText(context.getApplicationContext(), "下载新版本失败", 1)
+				Toast.makeText(context.getApplicationContext(), "下载新版本失败", 0)
 						.show();
 				if (mhandler != null) {
 					sendMsg();

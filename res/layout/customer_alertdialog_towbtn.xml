@@ -53,7 +53,7 @@
             android:layout_weight="1"
             android:background="#ffffff"
             android:gravity="center"
-            android:text="确定"
+            android:text="确定"  
             android:textColor="#666666"
             android:textSize="16sp" />
     </LinearLayout>

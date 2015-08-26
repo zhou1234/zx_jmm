@@ -15,7 +15,7 @@
       <color name="text_zhifu_price">#ec6000</color>
      <color name="text_zhifubao_zhifu">#002014</color>
     
-    <item name="transparent" type="drawable">#00000000</item> 
+    <item name="transparent" type="drawable">#ffffff</item> 
     
     <!-- 扫码 -->
     <color name="result_view">#b0000000</color>

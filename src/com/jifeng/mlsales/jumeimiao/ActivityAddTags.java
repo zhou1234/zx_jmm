@@ -297,14 +297,14 @@ public class ActivityAddTags extends Activity implements View.OnClickListener,
 				object = new JSONObject();
 				TagInfoModel infoModel = new TagInfoModel();
 				infoModel.tag_name = tagView.getData().bname;
-				// infoModel.x = (tagView.getData().leftMargin * 1.0f)
-				// / (width * 1.0f);
-				// infoModel.y = (tagView.getData().topMargin * 1.0f)
-				// / (height * 1.0f);
 				infoModel.x = (tagView.getData().leftMargin * 1.0f)
-						- (width * 1.0f) / 2;
-				infoModel.y = (height * 1.0f) / 2
-						- (tagView.getData().topMargin * 1.0f);
+						/ (width * 1.0f);
+				infoModel.y = (tagView.getData().topMargin * 1.0f)
+						/ (height * 1.0f);
+				// infoModel.x = (tagView.getData().leftMargin * 1.0f)
+				// - (width * 1.0f) / 2;
+				// infoModel.y = (height * 1.0f) / 2
+				// - (tagView.getData().topMargin * 1.0f);
 				object.put("x", infoModel.x + "");
 				object.put("y", infoModel.y + "");
 				object.put("name", infoModel.tag_name);

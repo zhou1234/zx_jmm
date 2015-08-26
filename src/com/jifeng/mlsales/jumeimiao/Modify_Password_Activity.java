@@ -9,26 +9,26 @@ import cn.sharesdk.framework.ShareSDK;
 import com.jifeng.mlsales.FBApplication;
 import com.jifeng.mlsales.R;
 import com.jifeng.myview.LoadingDialog;
-import com.jifeng.tools.MyTools;
 import com.jifeng.url.AllStaticMessage;
 import com.jifeng.url.HttpUtil;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.umeng.analytics.MobclickAgent;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class Modify_Password_Activity extends Activity {
 	private EditText mEdit_psd_old, mEdit_psd_new_1, mEdit_psd_new_2;
 	private LoadingDialog dialog;
+	private TextView tv_userName;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,23 +36,13 @@ public class Modify_Password_Activity extends Activity {
 		setContentView(R.layout.activity_modify_password);
 		((FBApplication) getApplication()).addActivity(this);
 		dialog = new LoadingDialog(this);
-		initData();
 		findView();
-
 	}
 
 	@Override
 	protected void onDestroy() {
-		// TODO Auto-generated method stub
 		ShareSDK.stopSDK(this);
-		setContentView(R.layout.view_null);
 		super.onDestroy();
-		mEdit_psd_old = null;
-		mEdit_psd_new_1 = null;
-		mEdit_psd_new_2 = null;
-		dialog = null;
-		this.finish();
-		System.gc();
 	}
 
 	// 查找控件
@@ -60,17 +50,17 @@ public class Modify_Password_Activity extends Activity {
 		mEdit_psd_old = (EditText) findViewById(R.id.modify_edt_password_old);
 		mEdit_psd_new_1 = (EditText) findViewById(R.id.modify_edt_password_new_1);
 		mEdit_psd_new_2 = (EditText) findViewById(R.id.modify_edt_password_new_2);
-	}
-
-	/*
-	 * 初始化数据
-	 */
-	private void initData() {
-
+		tv_userName=(TextView) findViewById(R.id.tv_userName);
+		if (AllStaticMessage.User_NickName == null
+				|| AllStaticMessage.User_NickName.equals("")) {
+			tv_userName.setText("您的帐号名为: "+AllStaticMessage.User_Name);
+		} else {
+			tv_userName.setText("您的帐号名为: "+AllStaticMessage.User_NickName);
+		}
 	}
 
 	// xml注册点击事件的实现
-	public void doclick(View view) {
+	@SuppressLint("ShowToast") public void doclick(View view) {
 		switch (view.getId()) {
 		case R.id.modify_psd_back:// 返回
 			finish();
@@ -110,7 +100,6 @@ public class Modify_Password_Activity extends Activity {
 					@Override
 					public void onSuccess(int statusCode, Header[] headers,
 							JSONObject response) {
-						// TODO Auto-generated method stub
 						super.onSuccess(statusCode, headers, response);
 						// 成功返回JSONObject
 						try {
@@ -125,7 +114,6 @@ public class Modify_Password_Activity extends Activity {
 												.toString(), 500).show();
 							}
 						} catch (JSONException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 						dialog.stop();
@@ -146,7 +134,6 @@ public class Modify_Password_Activity extends Activity {
 					@Override
 					public void onFailure(int statusCode, Header[] headers,
 							Throwable throwable, JSONObject errorResponse) {
-						// TODO Auto-generated method stub
 						super.onFailure(statusCode, headers, throwable,
 								errorResponse);
 						// 错误返回JSONObject
@@ -154,6 +141,7 @@ public class Modify_Password_Activity extends Activity {
 					}
 				});
 	}
+
 	@Override
 	public boolean dispatchKeyEvent(KeyEvent event) {
 		if (event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
@@ -169,6 +157,7 @@ public class Modify_Password_Activity extends Activity {
 		}
 		return super.dispatchKeyEvent(event);
 	}
+
 	@Override
 	protected void onResume() {
 		super.onResume();

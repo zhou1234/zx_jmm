@@ -20,17 +20,14 @@ public class ProgressImageView extends ImageView {
 
 	public ProgressImageView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		// TODO Auto-generated constructor stub
 	}
 
 	public ProgressImageView(Context context) {
 		super(context);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	protected void onAttachedToWindow() {
-		// TODO Auto-generated method stub
 		super.onAttachedToWindow();
 		Drawable draw = this.getDrawable();
 		if (draw instanceof AnimationDrawable) {

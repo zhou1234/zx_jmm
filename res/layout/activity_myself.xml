@@ -181,9 +181,9 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
                             android:layout_centerInParent="true"
+                            android:layout_marginRight="20dp"
                             android:scaleX="0.8"
                             android:scaleY="0.8"
-                            android:layout_marginRight="20dp"
                             android:src="@drawable/img_jiantou_right" />
                     </RelativeLayout>
                 </LinearLayout>
@@ -304,6 +304,12 @@
                     android:layout_marginTop="5dip"
                     android:background="@drawable/myself_thread_bg"
                     android:orientation="vertical" >
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="1dip"
+                        android:background="@drawable/logo_xian" />
 
                     <RelativeLayout
                         android:id="@+id/rel_myalldindan"
@@ -494,6 +500,12 @@
                             android:textColor="@color/textcolor"
                             android:textSize="@dimen/title_siae" />
                     </RelativeLayout>
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="1dip"
+                        android:background="@drawable/logo_xian" />
                 </LinearLayout>
 
                 <LinearLayout

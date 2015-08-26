@@ -252,8 +252,10 @@
                     android:background="@drawable/logo_xian" />
 
                 <RelativeLayout
+                    android:id="@+id/rl_zhifubao"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:onClick="doclick"
                     android:layout_weight="1" >
 
                     <ImageView
@@ -295,8 +297,10 @@
                     android:background="@drawable/logo_xian" />
 
                 <RelativeLayout
+                    android:id="@+id/rl_weixin"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:onClick="doclick"
                     android:layout_weight="1" >
 
                     <ImageView

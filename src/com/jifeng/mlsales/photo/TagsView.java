@@ -208,16 +208,16 @@ public class TagsView extends FrameLayout implements TagView.TagViewListener {
 			}
 			int leftMargin = 0;
 			int topMargin = 0;
-			leftMargin =(int) (width/2+model.x);
-			topMargin = (int) (height/2-model.y);
-			
-//			if (model.x > 1.0) {
-//				leftMargin = (int) (model.x / 640.0f * width);
-//				topMargin = (int) (model.y / 640.0f * height);
-//			} else {
-//				leftMargin = (int) (model.x * width);
-//				topMargin = (int) (model.y * height);
-//			}
+			// leftMargin =(int) (width/2+model.x);
+			// topMargin = (int) (height/2-model.y);
+
+			if (model.x > 1.0) {
+				leftMargin = (int) (model.x / 640.0f * width);
+				topMargin = (int) (model.y / 640.0f * height);
+			} else {
+				leftMargin = (int) (model.x * width);
+				topMargin = (int) (model.y * height);
+			}
 			tagInfo.leftMargin = leftMargin;
 			tagInfo.topMargin = topMargin;
 			TagView tagView = new TagViewLeft(TagsView.this.getContext(), null);

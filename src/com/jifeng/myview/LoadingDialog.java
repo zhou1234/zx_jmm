@@ -22,17 +22,14 @@ public class LoadingDialog extends Dialog{
 
 	public LoadingDialog(Context context) {
 		this(context, R.style.CustomDialog);
-		// TODO Auto-generated constructor stub
 	}
 
 	public LoadingDialog(Context context, int theme) {
 		super(context, R.style.CustomDialog);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.all_dialog);
 		iv = (ImageView) findViewById(R.id.loadingImageView);
@@ -45,7 +42,6 @@ public class LoadingDialog extends Dialog{
 	 */
 	@Override
 	public void show() {
-		
 		super.show();
 	}
 
@@ -65,7 +61,6 @@ public class LoadingDialog extends Dialog{
 	}
 
 	public void stop() {
-		// TODO Auto-generated method stub
 		if (this != null && this.isShowing()) {
 			this.dismiss();
 		}

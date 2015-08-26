@@ -43,8 +43,6 @@
     <ImageView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dip"
-        android:layout_marginRight="8dip"
         android:background="@drawable/logo_xian" />
 
     <RelativeLayout
@@ -113,7 +111,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dip"
                     android:text="未支付订单"
-                    android:textColor="@color/text_zhifu_status"
+                    android:textColor="@color/textcolor"
                     android:textSize="14sp" />
             </LinearLayout>
 

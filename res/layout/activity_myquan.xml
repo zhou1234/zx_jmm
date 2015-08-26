@@ -8,7 +8,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/tab_bg"
         android:orientation="vertical" >
 
         <RelativeLayout
@@ -46,45 +45,97 @@
                 android:textSize="@dimen/title_siae" />
         </RelativeLayout>
 
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/logo_xian" />
+
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dip"
-            android:background="@drawable/fadian_bg"
+            android:layout_height="35dp"
+            android:gravity="center"
+            android:background="@color/white"
             android:orientation="horizontal" >
 
-            <Button
-                android:id="@+id/rel_quan_no"
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:layout_weight="1"
-                android:background="@drawable/fadain_zuo"
-                android:onClick="doclick"
-                android:text="未使用"
-                android:textColor="@color/tab_select"
-                android:textSize="16sp" />
+            <!-- android:background="@drawable/fadian_bg" -->
 
-            <Button
-                android:id="@+id/rel_quan_yes"
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/fadain_touming"
-                android:onClick="doclick"
-                android:text="已使用"
-                android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:gravity="center"
+                android:orientation="vertical" >
 
-            <Button
-                android:id="@+id/rel_quan_last"
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
+                <Button
+                    android:id="@+id/rel_quan_no"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:background="@null"
+                    android:onClick="doclick"
+                    android:text="未使用"
+                    android:textColor="@color/tab_select" />
+
+                <ImageView
+                    android:id="@+id/iv_quan_no"
+                    android:layout_width="60dp"
+                    android:layout_height="2dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/main_ok_select_ok" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/fadain_touming"
-                android:onClick="doclick"
-                android:text="已过期"
-                android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:gravity="center"
+                android:orientation="vertical" >
+
+                <Button
+                    android:id="@+id/rel_quan_yes"
+                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:background="@null"
+                    android:onClick="doclick"
+                    android:text="已使用"
+                    android:textColor="@color/textcolor" />
+
+                <ImageView
+                    android:id="@+id/iv_quan_yes"
+                    android:layout_width="60dp"
+                    android:layout_height="2dp"
+                    android:scaleType="fitXY"
+                     android:visibility="invisible"
+                    android:src="@drawable/main_ok_select_ok" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical" >
+
+                <Button
+                    android:id="@+id/rel_quan_last"
+                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:background="@null"
+                    android:onClick="doclick"
+                    android:text="已过期"
+                    android:textColor="@color/textcolor" />
+
+                <ImageView
+                    android:id="@+id/iv_quan_last"
+                    android:layout_width="60dp"
+                    android:layout_height="2dp"
+                    android:scaleType="fitXY"
+                    android:visibility="invisible"
+                    android:src="@drawable/main_ok_select_ok" />
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 
