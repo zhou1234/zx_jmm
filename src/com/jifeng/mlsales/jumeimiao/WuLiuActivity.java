@@ -74,7 +74,6 @@ public class WuLiuActivity extends Activity {
 				} else {
 					view.loadUrl(url);
 				}
-
 				return true;
 			}
 		});

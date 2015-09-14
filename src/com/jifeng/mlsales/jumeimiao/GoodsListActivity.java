@@ -33,6 +33,7 @@ import com.jifeng.url.HttpUtil;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.tencent.mm.sdk.constants.ConstantsAPI.WXApp;
 import com.umeng.analytics.MobclickAgent;
 
 import android.annotation.SuppressLint;
@@ -134,6 +135,7 @@ public class GoodsListActivity extends Activity implements
 		}
 		tasckActivity = new TasckActivity();
 		tasckActivity.pushActivity(GoodsListActivity.this);
+		
 	}
 
 	private void getActiveDetial(String activeId) {

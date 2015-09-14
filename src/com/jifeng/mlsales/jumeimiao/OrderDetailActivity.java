@@ -568,7 +568,6 @@ public class OrderDetailActivity extends Activity {
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
-			// appItem.AppImg
 			convertView.setOnClickListener(new View.OnClickListener() {
 
 				@Override
@@ -597,13 +596,11 @@ public class OrderDetailActivity extends Activity {
 					} catch (JSONException e) {
 						e.printStackTrace();
 					}
-
 				}
 			});
 
 			return convertView;
 		}
-
 	}
 
 	private class AppItem {

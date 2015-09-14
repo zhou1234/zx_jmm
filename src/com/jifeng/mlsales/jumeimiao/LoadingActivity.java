@@ -82,7 +82,7 @@ public class LoadingActivity extends Activity {
 
 		dialog = new LoadingDialog(this);
 		mShrefUtil = new ShrefUtil(this, "data");
-
+		
 		if (MyTools.checkNetWorkStatus(LoadingActivity.this)) {
 			ApkModify apkModify = new ApkModify(this, handler);
 			apkModify.new CheckVersionTask().run();

@@ -756,12 +756,6 @@ public class JieSuanActivity extends Activity implements IWXAPIEventHandler {
 									AllStaticMessage.Back_to_ZhangHu = true;
 
 									if (payWay.equals("Ö§¸¶±¦Ö§¸¶")) {
-										tijiao(response.getJSONArray("Results")
-												.getJSONObject(0)
-												.getString("OrderId"),
-												response.getJSONArray("Results")
-														.getJSONObject(0)
-														.getString("Amount"));
 										zfb_order = response
 												.getJSONArray("Results")
 												.getJSONObject(0)

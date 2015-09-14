@@ -98,7 +98,7 @@ public class OneFragment extends BaseFragment implements
 		mData = new ArrayList<JSONObject>();
 		mDataImg = new ArrayList<JSONObject>();
 		dialog = new LoadingDialog(getActivity());
-		createPopupWindow();
+		//createPopupWindow();
 	}
 
 	private void createPopupWindow() {
@@ -144,18 +144,18 @@ public class OneFragment extends BaseFragment implements
 
 		final View rootView = inflater.inflate(
 				R.layout.loading_item_second_one, container, false);
-		if (AllStaticMessage.guide) {
-			new Handler().postDelayed(new Runnable() {
-
-				@Override
-				public void run() {
-					popupWindow.showAtLocation(
-							rootView.findViewById(R.id.guide), Gravity.CENTER,
-							0, 0);
-					AllStaticMessage.guide = false;
-				}
-			}, 100);
-		}
+//		if (AllStaticMessage.guide) {
+//			new Handler().postDelayed(new Runnable() {
+//
+//				@Override
+//				public void run() {
+//					popupWindow.showAtLocation(
+//							rootView.findViewById(R.id.guide), Gravity.CENTER,
+//							0, 0);
+//					AllStaticMessage.guide = false;
+//				}
+//			}, 100);
+//		}
 		mAbPullToRefreshView = (AbPullToRefreshView) rootView
 				.findViewById(R.id.mPullRefreshView);
 		mListView = (ListView) rootView.findViewById(R.id.main_first_list);
